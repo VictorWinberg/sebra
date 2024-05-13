@@ -32,7 +32,7 @@ jobs:
           pnpm install
           pnpm build
         env:
-          VITE_PUBLIC_URL: "/project-x"
+          VITE_APP_BASE_NAME: "/project-x"
 
       - name: Github Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4.5.0
