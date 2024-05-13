@@ -1,0 +1,43 @@
+name: Deploy to Github Pages
+on:
+  push:
+    branches:
+      - master
+      - feature/gh-pages-deploy
+
+jobs:
+  deploy_to_gh:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20.x]
+
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v4
+
+      - name: Install pnpm ❤️️
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
+      - name: Use Node.js ${{ matrix.node-version }} ❤️️
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "pnpm"
+
+      - name: Install and Build Frontend 🔧
+        run: |
+          pnpm install
+          pnpm build
+        env:
+          VITE_PUBLIC_URL: "/project-x"
+
+      - name: Github Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4.5.0
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: build
+          CLEAN: true
