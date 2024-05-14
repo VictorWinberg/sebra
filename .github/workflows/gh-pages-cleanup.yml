@@ -1,7 +1,7 @@
 name: Cleanup Preview on Github Pages
 on:
   pull_request:
-    types: [opened, synchronize, reopened, closed] #TODO: should only be closed
+    types: [closed]
     branches:
       - main
 
@@ -11,7 +11,7 @@ permissions:
   contents: write
 
 jobs:
-  deploy:
+  cleanup:
     runs-on: ubuntu-latest
     concurrency: ci-${{ github.ref }}
 
