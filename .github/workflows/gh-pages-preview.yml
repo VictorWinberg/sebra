@@ -53,4 +53,4 @@ jobs:
           header: test-env
           append: true
           message: |
-            See [Preview](https://VictorWinberg.github.io/project-x/${{ github.head_ref }})
+            See the preview at https://victorwinberg.github.io/project-x/${{ github.head_ref }}
