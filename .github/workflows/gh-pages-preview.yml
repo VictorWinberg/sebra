@@ -22,16 +22,36 @@ jobs:
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@v4
-        with:
-          fetch-depth: '0'
-          ref: ${{ github.head_ref }}
 
-      - name: Echo github information
+      - name: Install pnpm ❤️️
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
+      - name: Use Node.js ${{ matrix.node-version }} ❤️️
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+
+      - name: Install and Build Frontend 🔧
         run: |
-          echo "GITHUB_REPOSITORY: $GITHUB_REPOSITORY"
-          echo "GITHUB_SHA: $GITHUB_SHA"
-          echo "GITHUB_REF: $GITHUB_REF"
-          echo "GITHUB_HEAD_REF: $GITHUB_HEAD_REF"
-          echo "github ref: ${{ github.ref }}"
-          echo "github head ref: ${{ github.head_ref }}"
-          echo "github sha: ${{ github.sha }}"
+          pnpm install
+          pnpm build
+        env:
+          VITE_BASE_URL: '/project-x/${{ github.head_ref }}'
+
+      - name: Github Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4.5.0
+        with:
+          BRANCH: gh-pages
+          FOLDER: dist
+          CLEAN: true
+          TARGET-FOLDER: ${{ github.head_ref }}
+
+      - uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: test-env
+          append: true
+          message: |
+            See [Preview](https://VictorWinberg.github.io/project-x/${{ github.head_ref }})
