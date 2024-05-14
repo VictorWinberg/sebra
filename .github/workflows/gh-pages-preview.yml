@@ -51,6 +51,5 @@ jobs:
       - uses: marocchino/sticky-pull-request-comment@v2
         with:
           header: test-env
-          append: true
           message: |
             See the preview at https://victorwinberg.github.io/project-x/${{ github.head_ref }}
