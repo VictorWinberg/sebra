@@ -1,1 +1,0 @@
-import{j as s,M as e,T as a}from"./index-CpoL6C2y.js";const t=()=>s.jsx(e,{title:"Modules",children:s.jsx(a,{variant:"body2",children:"Welcome to the Modules. This is a sample page."})});export{t as default};
