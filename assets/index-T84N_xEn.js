@@ -1,0 +1,1 @@
+import{j as a,M as i,T as t}from"./index-CFSmtadV.js";const o=()=>a.jsx(i,{title:"Organization",children:a.jsx(t,{variant:"body2",children:"Welcome to the Organization. This is a sample page."})});export{o as default};
