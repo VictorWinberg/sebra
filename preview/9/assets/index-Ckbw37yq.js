@@ -1,0 +1,1 @@
+import{j as a,M as s,T as o}from"./index-CV9H4OP6.js";const e=()=>a.jsx(s,{title:"Dashboard",children:a.jsx(o,{variant:"body2",children:"Welcome to the dashboard. This is a sample page."})});export{e as default};
