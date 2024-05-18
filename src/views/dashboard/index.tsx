@@ -46,7 +46,7 @@ const DashboardWrapper = () => {
                   to={item.url === currentTab.url ? defaultTab.url : item.url}
                   color="primary"
                   variant={item.url === pathname ? 'filled' : 'outlined'}
-                  sx={{ borderColor: theme.palette.grey[200], px: 1 }}
+                  sx={{ borderColor: theme.palette.grey[200], p: 1 }}
                   clickable
                 />
               ))}
@@ -54,7 +54,7 @@ const DashboardWrapper = () => {
           </PerfectScrollbar>
         </Grid>
       </Grid>
-      <Divider sx={{ my: 2 }} />
+      <Divider sx={{ my: 1 }} />
       <Outlet />
     </>
   );
