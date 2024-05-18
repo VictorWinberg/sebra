@@ -46,7 +46,7 @@ const DashboardWrapper = () => {
                   to={item.url === currentTab.url ? defaultTab.url : item.url}
                   color="primary"
                   variant={item.url === pathname ? 'filled' : 'outlined'}
-                  sx={{ borderColor: theme.palette.grey[200], p: 1 }}
+                  sx={{ borderColor: theme.palette.grey[200], px: 2, my: 2 }}
                   clickable
                 />
               ))}
