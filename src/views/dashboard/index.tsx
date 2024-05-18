@@ -37,19 +37,19 @@ const DashboardWrapper = () => {
         </Grid>
         <Grid item sm="auto">
           <Box sx={{ display: 'flex', gap: 2 }}>
-              {tabItems.map((item) => (
-                <Chip
-                  key={item.id}
-                  component={Link}
-                  label={item.title}
-                  to={item.url === currentTab.url ? defaultTab.url : item.url}
-                  color="primary"
-                  variant={item.url === pathname ? 'filled' : 'outlined'}
-                  sx={{ borderColor: theme.palette.grey[200], px: 2, my: 2 }}
-                  clickable
-                />
-              ))}
-            </Box>
+            {tabItems.map((item) => (
+              <Chip
+                key={item.id}
+                component={Link}
+                label={item.title}
+                to={item.url === currentTab.url ? defaultTab.url : item.url}
+                color="primary"
+                variant={item.url === pathname ? 'filled' : 'outlined'}
+                sx={{ borderColor: theme.palette.grey[200], px: 2, my: 2 }}
+                clickable
+              />
+            ))}
+          </Box>
         </Grid>
       </Grid>
       <Divider sx={{ my: 1 }} />
