@@ -36,7 +36,7 @@ const DashboardWrapper = () => {
           </Typography>
         </Grid>
         <Grid item sm="auto">
-          <PerfectScrollbar style={{ width: '100%', maxWidth: 'calc(100vw - 52px - 32px)', overflowX: 'hidden' }}>
+          <Box sx={{ width: '100%', maxWidth: 'calc(100vw - 52px - 32px)', overflowX: 'auto' }}>
             <Box sx={{ display: 'flex', gap: 2 }}>
               {tabItems.map((item) => (
                 <Chip
@@ -51,7 +51,7 @@ const DashboardWrapper = () => {
                 />
               ))}
             </Box>
-          </PerfectScrollbar>
+          </Box>
         </Grid>
       </Grid>
       <Divider sx={{ my: 1 }} />
