@@ -36,8 +36,7 @@ const DashboardWrapper = () => {
           </Typography>
         </Grid>
         <Grid item sm="auto">
-          <Box sx={{ width: '100%', maxWidth: 'calc(100vw - 52px - 32px)', overflowX: 'auto' }}>
-            <Box sx={{ display: 'flex', gap: 2 }}>
+          <Box sx={{ display: 'flex', gap: 2 }}>
               {tabItems.map((item) => (
                 <Chip
                   key={item.id}
@@ -51,7 +50,6 @@ const DashboardWrapper = () => {
                 />
               ))}
             </Box>
-          </Box>
         </Grid>
       </Grid>
       <Divider sx={{ my: 1 }} />
