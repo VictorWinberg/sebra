@@ -3,8 +3,8 @@ import { Box, Divider } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 
 const columns: GridColDef[] = [
-  { field: 'name', headerName: 'Uppdragsnamn', width: 160 },
-  { field: 'company', headerName: 'Bolag', width: 160 },
+  { field: 'name', headerName: 'Uppdragsnamn' },
+  { field: 'company', headerName: 'Bolag' },
   { field: 'email', headerName: 'Email' },
   {
     field: 'responsible',
