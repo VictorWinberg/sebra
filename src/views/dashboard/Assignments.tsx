@@ -46,6 +46,7 @@ const Assignments = () => (
       rows={rows}
       columns={columns}
       autoPageSize
+      autosizeOnMount
       density="compact"
       sx={{
         mx: -1,
