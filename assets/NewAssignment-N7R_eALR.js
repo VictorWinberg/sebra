@@ -1,0 +1,1 @@
+import{j as t,T as e}from"./index-DA9wpNxo.js";const n=()=>t.jsxs(t.Fragment,{children:[t.jsx(e,{variant:"h3",gutterBottom:!0,children:"NewAssignment"}),t.jsx(e,{variant:"body1",children:"Hello, this is the NewAssignment page."})]});export{n as default};
