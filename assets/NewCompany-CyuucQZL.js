@@ -1,0 +1,1 @@
+import{j as t,T as e}from"./index-BuNFZI2p.js";const o=()=>t.jsxs(t.Fragment,{children:[t.jsx(e,{variant:"h3",gutterBottom:!0,children:"NewCompany"}),t.jsx(e,{variant:"body1",children:"Hello, this is the NewCompany page."})]});export{o as default};
