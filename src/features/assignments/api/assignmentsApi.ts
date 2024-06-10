@@ -73,6 +73,6 @@ export const updateAssignment = async (assignment: Partial<Assignment>) => {
   );
 };
 
-export const deleteAssignment = async (assignmentId: number) => {
+export const deleteAssignment = async ({ assignmentId }: { assignmentId: number }) => {
   await deleteParameterizedQuery<Assignment>('assignments', { assignmentId });
 };

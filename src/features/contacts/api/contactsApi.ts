@@ -65,6 +65,6 @@ export const updateContact = async (contact: Partial<Contact>) => {
   );
 };
 
-export const deleteContact = async (contactId: number) => {
+export const deleteContact = async ({ contactId }: { contactId: number }) => {
   await deleteParameterizedQuery<Contact>('contacts', { contactId });
 };
