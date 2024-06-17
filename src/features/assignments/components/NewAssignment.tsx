@@ -1,21 +1,23 @@
 import { Link, useNavigate } from 'react-router-dom';
 
 // material-ui
-import { Grid, TextField, Button, Box, Autocomplete, Stack } from '@mui/material';
+import { Autocomplete, Box, Button, Grid, Stack, TextField } from '@mui/material';
 import Typography from '@mui/material/Typography';
 
 // third party
 import { Controller, useForm } from 'react-hook-form';
 
 // project imports
+import ContentTabs from '@/ui-component/ContentTabs';
 import { useContacts } from '@/features/contacts/hooks/useContactsQueries';
 import { Assignment } from '../api/assignmentsApi';
 import { useCreateAssignment } from '../hooks/useAssignmentsMutations';
+import DataTable from '@/ui-component/DataTable';
 
 // ==============================|| NEW ASSIGNMENT PAGE ||============================== //
 
 const NewAssignment = () => {
-  const { data: contacts = [] } = useContacts();
+  const { data: contacts = [], isLoading: contactsIsLoading } = useContacts();
   const { mutate: createAssignment } = useCreateAssignment();
   const navigate = useNavigate();
   const { register, control, handleSubmit } = useForm<Partial<Assignment>>();
@@ -76,6 +78,32 @@ const NewAssignment = () => {
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField fullWidth label="Arvode" margin="none" type="number" {...register('fee')} />
+          </Grid>
+
+          <Grid item xs={12}>
+            <ContentTabs
+              tabs={[
+                { label: 'Interaktioner', content: <>Interaktioner...</> },
+                { label: 'Dokument', content: <>Dokument...</> },
+                {
+                  label: 'Intressenter',
+                  content: (
+                    <DataTable
+                      rows={contacts}
+                      getRowId={(row) => row.contactId}
+                      loading={contactsIsLoading}
+                      columns={[
+                        { field: 'firstName', headerName: 'Förnamn', editable: true },
+                        { field: 'lastName', headerName: 'Efternamn', editable: true },
+                        { field: 'companyName', headerName: 'Bolag' }
+                      ]}
+                    />
+                  )
+                },
+                { label: 'Moduler', content: <>Moduler...</> }
+              ]}
+              selected={2}
+            />
           </Grid>
         </Grid>
 
