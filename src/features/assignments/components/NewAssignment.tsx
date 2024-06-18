@@ -8,11 +8,12 @@ import Typography from '@mui/material/Typography';
 import { Controller, useForm } from 'react-hook-form';
 
 // project imports
-import ContentTabs from '@/ui-component/ContentTabs';
 import { useContacts } from '@/features/contacts/hooks/useContactsQueries';
+import ContentTabs from '@/ui-component/ContentTabs';
+import DataTable from '@/ui-component/DataTable';
+import FlexGrow, { sxFlex } from '@/ui-component/extended/FlexGrow';
 import { Assignment } from '../api/assignmentsApi';
 import { useCreateAssignment } from '../hooks/useAssignmentsMutations';
-import DataTable from '@/ui-component/DataTable';
 
 // ==============================|| NEW ASSIGNMENT PAGE ||============================== //
 
@@ -36,7 +37,7 @@ const NewAssignment = () => {
         Lägg till uppdrag
       </Typography>
       <Box sx={{ my: 1 }} />
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} style={{ ...sxFlex }}>
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6}>
             <TextField fullWidth label="Uppdragsnamn" type="text" margin="none" {...register('assignmentName')} />
@@ -79,33 +80,35 @@ const NewAssignment = () => {
           <Grid item xs={12} sm={6}>
             <TextField fullWidth label="Arvode" margin="none" type="number" {...register('fee')} />
           </Grid>
-
-          <Grid item xs={12}>
-            <ContentTabs
-              tabs={[
-                { label: 'Interaktioner', content: <>Interaktioner...</> },
-                { label: 'Dokument', content: <>Dokument...</> },
-                {
-                  label: 'Intressenter',
-                  content: (
-                    <DataTable
-                      rows={contacts}
-                      getRowId={(row) => row.contactId}
-                      loading={contactsIsLoading}
-                      columns={[
-                        { field: 'firstName', headerName: 'Förnamn', editable: true },
-                        { field: 'lastName', headerName: 'Efternamn', editable: true },
-                        { field: 'companyName', headerName: 'Bolag' }
-                      ]}
-                    />
-                  )
-                },
-                { label: 'Moduler', content: <>Moduler...</> }
-              ]}
-              selected={2}
-            />
-          </Grid>
         </Grid>
+
+        <Box sx={{ my: 1 }} />
+
+        <FlexGrow>
+          <ContentTabs
+            tabs={[
+              { label: 'Interaktioner', content: <>Interaktioner...</> },
+              { label: 'Dokument', content: <>Dokument...</> },
+              {
+                label: 'Intressenter',
+                content: (
+                  <DataTable
+                    data={contacts}
+                    getRowId={(row) => `${row.contactId}`}
+                    state={{ isLoading: contactsIsLoading }}
+                    columns={[
+                      { accessorKey: 'firstName', header: 'Förnamn' },
+                      { accessorKey: 'lastName', header: 'Efternamn' },
+                      { accessorKey: 'companyName', header: 'Bolag' }
+                    ]}
+                  />
+                )
+              },
+              { label: 'Moduler', content: <>Moduler...</> }
+            ]}
+            selected={2}
+          />
+        </FlexGrow>
 
         <Stack spacing={2} direction="row" sx={{ mt: 3 }}>
           <Button size="large" type="submit" variant="contained" color="primary">

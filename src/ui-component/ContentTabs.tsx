@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 // material-ui
-import { Box, Divider, IconButton, Tab, Tabs, Typography } from '@mui/material';
+import { Divider, IconButton, Tab, Tabs } from '@mui/material';
 
 // assets
 import { Close } from '@mui/icons-material';
@@ -16,8 +16,16 @@ interface ContentTabsProps {
 }
 
 const ContentTabs = (props: ContentTabsProps) => {
-  const [selected, setSelected] = useState(props.selected ?? 0);
-  const [tabs, setTabs] = useState((props.tabs ?? []).map((tab, index) => ({ ...tab, index })));
+  const [selected, setSelected] = useState(0);
+  const [tabs, setTabs] = useState<(Tab & { index: number })[]>([]);
+
+  useEffect(() => {
+    setTabs((props.tabs ?? []).map((tab, index) => ({ ...tab, index })));
+  }, [props.tabs]);
+
+  useEffect(() => {
+    setSelected(props.selected ?? 0);
+  }, [props.selected]);
 
   const handleClick = (_event: React.SyntheticEvent, newKey: number) => {
     setSelected(newKey);
@@ -72,11 +80,7 @@ const ContentTabs = (props: ContentTabsProps) => {
         ))}
       </Tabs>
       <Divider />
-      {tabs.map((tab) => (
-        <TabPanel key={tab.index} index={tab.index} value={selected}>
-          {tab.content}
-        </TabPanel>
-      ))}
+      {tabs.find((tab) => tab.index === selected)?.content}
     </>
   );
 };
@@ -86,27 +90,5 @@ const a11yProps = (index: number) => ({
   'aria-controls': `content-tabpanel-${index}`,
   tabIndex: 0
 });
-
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
-}
-const TabPanel = (props: TabPanelProps) => {
-  const { children, index, value, ...other } = props;
-
-  return (
-    <Typography
-      component="div"
-      role="tabpanel"
-      hidden={value !== index}
-      id={`content-tabpanel-${index}`}
-      aria-labelledby={`content-tab-${index}`}
-      {...other}
-    >
-      {value === index && <Box sx={{ px: 1 }}>{children}</Box>}
-    </Typography>
-  );
-};
 
 export default ContentTabs;
