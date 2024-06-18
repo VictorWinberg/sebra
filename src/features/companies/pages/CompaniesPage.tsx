@@ -32,18 +32,6 @@ const CompaniesPage = () => {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
-      <Box>
-        <Button
-          component={Link}
-          to="new"
-          variant="outlined"
-          size="small"
-          startIcon={<Add />}
-          sx={{ textTransform: 'none' }}
-        >
-          Lägg till bolag
-        </Button>
-      </Box>
       <DataTable<DataType>
         data={data}
         columns={columns}
@@ -52,6 +40,18 @@ const CompaniesPage = () => {
         onCreate={(row) => createCompany(row)}
         onUpdate={(row) => updateCompany(row)}
         onDelete={(row) => deleteCompany(row)}
+        renderTopToolbarCustomActions={() => (
+          <Button
+            component={Link}
+            to="new"
+            variant="outlined"
+            size="small"
+            startIcon={<Add />}
+            sx={{ textTransform: 'none' }}
+          >
+            Lägg till bolag
+          </Button>
+        )}
       />
     </Box>
   );

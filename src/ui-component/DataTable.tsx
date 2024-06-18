@@ -14,6 +14,7 @@ import { MRT_Localization_SV } from 'material-react-table/locales/sv';
 import PopupState, { bindPopover, bindTrigger } from 'material-ui-popup-state';
 
 // assets
+import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
@@ -133,8 +134,7 @@ const RowActions = <T extends MRT_RowData>(props: DataTableProps<T>) => {
 
 const CustomActions = <T extends MRT_RowData>() => {
   return ({ table }: { table: MRT_TableInstance<T> }) => (
-    <Button
-      variant="contained"
+    <IconButton
       onClick={() => {
         table.setCreatingRow(true); //simplest way to open the create row modal with no default values
 
@@ -146,7 +146,7 @@ const CustomActions = <T extends MRT_RowData>() => {
         // );
       }}
     >
-      Create New
-    </Button>
+      <AddIcon />
+    </IconButton>
   );
 };

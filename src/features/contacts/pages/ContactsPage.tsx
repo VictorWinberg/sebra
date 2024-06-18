@@ -33,18 +33,6 @@ const ContactsPage = () => {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
-      <Box>
-        <Button
-          component={Link}
-          to="new"
-          variant="outlined"
-          size="small"
-          startIcon={<Add />}
-          sx={{ textTransform: 'none' }}
-        >
-          Lägg till kontakt
-        </Button>
-      </Box>
       <DataTable<DataType>
         data={data}
         columns={columns}
@@ -53,6 +41,18 @@ const ContactsPage = () => {
         onCreate={(row) => createContact(row)}
         onUpdate={(row) => updateContact(row)}
         onDelete={(row) => deleteContact(row)}
+        renderTopToolbarCustomActions={() => (
+          <Button
+            component={Link}
+            to="new"
+            variant="outlined"
+            size="small"
+            startIcon={<Add />}
+            sx={{ textTransform: 'none' }}
+          >
+            Lägg till kontakt
+          </Button>
+        )}
       />
     </Box>
   );

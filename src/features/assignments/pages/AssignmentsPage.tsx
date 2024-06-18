@@ -49,18 +49,6 @@ const AssignmentsPage = () => {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
-      <Box>
-        <Button
-          component={Link}
-          to="new"
-          variant="outlined"
-          size="small"
-          startIcon={<Add />}
-          sx={{ textTransform: 'none' }}
-        >
-          Lägg till uppdrag
-        </Button>
-      </Box>
       <DataTable<DataType>
         data={data}
         columns={columns}
@@ -69,6 +57,18 @@ const AssignmentsPage = () => {
         onCreate={(row) => createAssignment(row)}
         onUpdate={(row) => updateAssignment(row)}
         onDelete={(row) => deleteAssignment(row)}
+        renderTopToolbarCustomActions={() => (
+          <Button
+            component={Link}
+            to="new"
+            variant="outlined"
+            size="small"
+            startIcon={<Add />}
+            sx={{ textTransform: 'none' }}
+          >
+            Lägg till uppdrag
+          </Button>
+        )}
       />
     </Box>
   );
