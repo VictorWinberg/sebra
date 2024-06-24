@@ -5,6 +5,10 @@ on:
       - 'main'
       - 'feat/bump-version'
 
+# Sets the GITHUB_TOKEN permissions to allow deployment to GitHub Pages
+permissions:
+  contents: write
+
 jobs:
   bump-version:
     name: 'Bump Version on master'
@@ -22,8 +26,6 @@ jobs:
         uses: 'phips28/gh-action-bump-version@master'
         with:
           tag-prefix: 'v'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: 'cat package.json'
         run: cat ./package.json
