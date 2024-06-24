@@ -1,9 +1,9 @@
 name: 'Bump Version'
 on:
-  push:
+  pull_request:
+    types: [opened, synchronize, reopened] # TODO: Only opened!
     branches:
-      - 'main'
-      - 'feat/bump-version'
+      - main
 
 # Sets the GITHUB_TOKEN permissions to allow deployment to GitHub Pages
 permissions:
