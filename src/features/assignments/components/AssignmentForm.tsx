@@ -31,7 +31,7 @@ const AssignmentForm = ({ onSubmit = () => {}, onChange, formProps, children, ..
   return (
     <Box {...rest}>
       <form onSubmit={handleSubmit(onSubmit)} style={{ ...sxFlex }}>
-        <Grid container spacing={3}>
+        <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
             <TextField fullWidth label="Uppdragsnamn" type="text" margin="none" {...register('assignmentName')} />
           </Grid>

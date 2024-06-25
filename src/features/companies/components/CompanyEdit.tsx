@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 // material-ui
 import { Box, Button, Stack } from '@mui/material';
@@ -10,30 +10,38 @@ import Typography from '@mui/material/Typography';
 import ContentTabs from '@/ui-component/ContentTabs';
 import FlexGrow from '@/ui-component/extended/FlexGrow';
 import { Company } from '../api/companiesApi';
-import { useCreateCompany } from '../hooks/useCompaniesMutations';
+import { useCreateCompany, useUpdateCompany } from '../hooks/useCompaniesMutations';
+import { useCompany } from '../hooks/useCompaniesQueries';
 import CompanyForm from './CompanyForm';
 
-// ==============================|| NEW COMPANY PAGE ||============================== //
+// ==============================|| COMPANY EDIT PAGE ||============================== //
 
-const NewCompany = () => {
+const CompanyEdit = () => {
+  const params = useParams();
+  const { data: company, isLoading } = useCompany(Number(params.id));
   const { mutate: createCompany } = useCreateCompany();
+  const { mutate: updateCompany } = useUpdateCompany();
   const navigate = useNavigate();
 
   const handleSubmit = (data: Partial<Company>) => {
-    createCompany(data, {
-      onSuccess: () => {
-        navigate('..');
-      }
-    });
+    if (company) {
+      updateCompany(data);
+    } else {
+      createCompany(data, {
+        onSuccess: () => navigate('..')
+      });
+    }
   };
+
+  if (isLoading) return;
 
   return (
     <>
       <Typography variant="h4" color="primary">
-        Lägg till företag
+        {company ? 'Redigera företag' : 'Lägg till företag'}
       </Typography>
       <Box sx={{ my: 1 }} />
-      <CompanyForm onSubmit={handleSubmit}>
+      <CompanyForm formProps={{ values: company }} onSubmit={handleSubmit}>
         <Box sx={{ my: 1 }} />
 
         <FlexGrow>
@@ -52,8 +60,8 @@ const NewCompany = () => {
           <Button size="large" type="submit" variant="contained" color="primary">
             Spara
           </Button>
-          <Button component={Link} size="large" variant="outlined" color="primary" to="..">
-            Avbryt
+          <Button size="large" variant="outlined" color="primary" onClick={() => navigate(-1)}>
+            Tillbaka
           </Button>
         </Stack>
       </CompanyForm>
@@ -61,4 +69,4 @@ const NewCompany = () => {
   );
 };
 
-export default NewCompany;
+export default CompanyEdit;

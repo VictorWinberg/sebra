@@ -1,7 +1,7 @@
-import { Link } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 
 // material-ui
-import { Button, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import { Button, DialogActions, DialogContent, DialogTitle, Link } from '@mui/material';
 import { MRT_ColumnDef, MRT_EditActionButtons } from 'material-react-table';
 
 // project imports
@@ -19,10 +19,18 @@ import { Add } from '@mui/icons-material';
 
 type DataType = Awaited<ReturnType<typeof fetchContacts>>[number];
 const columns: MRT_ColumnDef<DataType>[] = [
-  { accessorKey: 'contactName', header: 'Namn' },
-  { accessorKey: 'jobTitle', header: 'Befattning' },
-  { accessorKey: 'companyName', header: 'Bolag', enableEditing: false },
+  {
+    accessorKey: 'contactName',
+    header: 'Namn',
+    Cell: ({ cell, row }) => (
+      <Link component={RouterLink} to={`./${row.original.contactId}`}>
+        {cell.getValue<string>()}
+      </Link>
+    )
+  },
   { accessorKey: 'email', header: 'Email' },
+  { accessorKey: 'jobTitle', header: 'Jobbtitel' },
+  { accessorKey: 'company.companyName', header: 'Företagsnamn', enableEditing: false },
   { accessorKey: 'phone', header: 'Telefonnummer' },
   { accessorKey: 'updatedAt', header: 'Senast uppdaterad', enableEditing: false }
 ];
@@ -45,7 +53,7 @@ const ContactsPage = () => {
         onDelete={(row) => deleteContact(row)}
         renderTopToolbarCustomActions={() => (
           <Button
-            component={Link}
+            component={RouterLink}
             to="new"
             variant="outlined"
             size="small"

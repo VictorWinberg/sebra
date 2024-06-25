@@ -27,7 +27,7 @@ const CompanyForm = ({ onSubmit = () => {}, onChange, formProps, children, ...re
   return (
     <Box {...rest}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Grid container spacing={3}>
+        <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
             <TextField fullWidth label="Bolagsnamn" type="text" margin="none" {...register('companyName')} />
           </Grid>

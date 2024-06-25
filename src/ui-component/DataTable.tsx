@@ -79,10 +79,29 @@ const DataTable = <T extends Record<string, unknown>>({
     muiTableContainerProps: {
       sx: { ...sxFlex, height: '300px' }
     },
-    muiTableBodyRowProps: ({ row, table }) => ({
+    muiTableBodyCellProps: ({ row, column, table }) => ({
       onDoubleClick: () => {
         setEditDisplayMode('row');
         table.setEditingRow(table.getState().editingRow === row ? null : row);
+
+        queueMicrotask(() => {
+          const field = table.refs.editInputRefs.current[column.id];
+          field?.focus();
+        });
+      },
+      onKeyDown: (event) => {
+        if (event.key === 'Escape') {
+          table.setEditingRow(null);
+        }
+
+        if (event.key === 'Enter') {
+          table.options.onEditingRowSave?.({
+            exitEditingMode: () => table.setEditingRow(null),
+            row,
+            table,
+            values: row?._valuesCache
+          });
+        }
       }
     }),
     ...props

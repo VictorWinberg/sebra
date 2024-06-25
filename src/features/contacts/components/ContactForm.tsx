@@ -27,12 +27,10 @@ const ContactForm = ({ onSubmit = () => {}, onChange, formProps, children, ...re
     onChange?.(watchedFields);
   }, [onChange, watchedFields]);
 
-  console.log(formProps, companies);
-
   return (
     <Box {...rest}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Grid container spacing={3}>
+        <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
             <TextField fullWidth label="Namn" type="text" margin="none" {...register('contactName')} />
           </Grid>

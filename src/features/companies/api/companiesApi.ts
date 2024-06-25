@@ -1,4 +1,10 @@
-import { deleteParameterizedQuery, query, insertParameterizedQuery, updateParameterizedQuery } from '@/api/DummyDB';
+import {
+  deleteParameterizedQuery,
+  query,
+  insertParameterizedQuery,
+  updateParameterizedQuery,
+  selectParameterizedQuery
+} from '@/api/DummyDB';
 import { pick } from '@/utils';
 
 export type Company = {
@@ -14,9 +20,11 @@ export type Company = {
 };
 
 export const fetchCompanies = async () => {
-  return await query<Company>(`
-    SELECT * FROM companies
-  `);
+  return await query<Company>(`SELECT * FROM companies`);
+};
+
+export const fetchCompany = async (companyId: number) => {
+  return await selectParameterizedQuery<Company>('companies', { companyId });
 };
 
 export const createCompany = async (company: Partial<Company>) => {

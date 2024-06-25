@@ -16,3 +16,7 @@ export const pick = <T extends Record<string, unknown>, K extends keyof T>(obj: 
     {} as Partial<Pick<T, K>>
   ) as Pick<T, K>;
 };
+
+export const toMap = <T>(array: T[], key: keyof T) => {
+  return new Map(array.map((item) => [item[key], item]));
+};
