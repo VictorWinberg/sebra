@@ -9,11 +9,11 @@ import { Navigate } from 'react-router-dom';
 const DashboardWrapper = Loadable(lazy(() => import('@/features/dashboard/components/DashboardWrapper')));
 const DashboardPage = Loadable(lazy(() => import('@/features/dashboard/pages/DashboardPage')));
 const AssignmentsPage = Loadable(lazy(() => import('@/features/assignments/pages/AssignmentsPage')));
-const NewAssignment = Loadable(lazy(() => import('@/features/assignments/components/NewAssignment')));
+const AssignmentEdit = Loadable(lazy(() => import('@/features/assignments/components/AssignmentEdit')));
 const ContactsPage = Loadable(lazy(() => import('@/features/contacts/pages/ContactsPage')));
-const NewContact = Loadable(lazy(() => import('@/features/contacts/components/NewContact')));
+const ContactEdit = Loadable(lazy(() => import('@/features/contacts/components/ContactEdit')));
 const CompaniesPage = Loadable(lazy(() => import('@/features/companies/pages/CompaniesPage')));
-const NewCompany = Loadable(lazy(() => import('@/features/companies/components/NewCompany')));
+const CompanyEdit = Loadable(lazy(() => import('@/features/companies/components/CompanyEdit')));
 const Seeking = Loadable(lazy(() => import('@/dummy-views/seeking/Seeking')));
 const NewSeeking = Loadable(lazy(() => import('@/dummy-views/seeking/NewSeeking')));
 const Reports = Loadable(lazy(() => import('@/dummy-views/reports/Reports')));
@@ -63,8 +63,8 @@ const MainRoutes = {
               element: <AssignmentsPage />
             },
             {
-              path: 'new',
-              element: <NewAssignment />
+              path: ':id',
+              element: <AssignmentEdit />
             }
           ]
         },
@@ -76,8 +76,8 @@ const MainRoutes = {
               element: <ContactsPage />
             },
             {
-              path: 'new',
-              element: <NewContact />
+              path: ':id',
+              element: <ContactEdit />
             }
           ]
         },
@@ -89,8 +89,8 @@ const MainRoutes = {
               element: <CompaniesPage />
             },
             {
-              path: 'new',
-              element: <NewCompany />
+              path: ':id',
+              element: <CompanyEdit />
             }
           ]
         },

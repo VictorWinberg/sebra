@@ -1,7 +1,7 @@
-import { Link } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 
 // material-ui
-import { Button, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import { Button, DialogActions, DialogContent, DialogTitle, Link } from '@mui/material';
 import { MRT_ColumnDef, MRT_EditActionButtons } from 'material-react-table';
 
 // project imports
@@ -19,7 +19,15 @@ import { Add } from '@mui/icons-material';
 
 type DataType = Awaited<ReturnType<typeof fetchCompanies>>[number];
 const columns: MRT_ColumnDef<DataType>[] = [
-  { accessorKey: 'companyName', header: 'Bolagsnamn' },
+  {
+    accessorKey: 'companyName',
+    header: 'Företagsnamn',
+    Cell: ({ cell, row }) => (
+      <Link component={RouterLink} to={`./${row.original.companyId}`}>
+        {cell.getValue<string>()}
+      </Link>
+    )
+  },
   { accessorKey: 'address', header: 'Address' },
   { accessorKey: 'industry', header: 'Industri' },
   { accessorKey: 'website', header: 'Website' },
@@ -44,7 +52,7 @@ const CompaniesPage = () => {
         onDelete={(row) => deleteCompany(row)}
         renderTopToolbarCustomActions={() => (
           <Button
-            component={Link}
+            component={RouterLink}
             to="new"
             variant="outlined"
             size="small"

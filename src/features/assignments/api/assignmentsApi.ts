@@ -1,5 +1,13 @@
-import { deleteParameterizedQuery, insertParameterizedQuery, query, updateParameterizedQuery } from '@/api/DummyDB';
-import { pick } from '@/utils';
+import {
+  deleteParameterizedQuery,
+  insertParameterizedQuery,
+  query,
+  selectParameterizedQuery,
+  updateParameterizedQuery
+} from '@/api/DummyDB';
+import { Company } from '@/features/companies/api/companiesApi';
+import { Contact } from '@/features/contacts/api/contactsApi';
+import { pick, toMap } from '@/utils';
 
 export type Assignment = {
   assignmentId: number;
@@ -15,31 +23,14 @@ export type Assignment = {
 };
 
 export const fetchAssignments = async () => {
-  const data = await query<
-    Assignment & {
-      responsiblePersonName: string;
-      responsiblePersonEmail: string;
-      responsibleCompanyName: string;
-      externalContactPersonName: string;
-      externalContactPersonEmail: string;
-      externalCompanyName: string;
-    }
-  >(`
-    SELECT
-      assignments.*,
-      (rp.contact_name) AS responsible_person_name,
-      rp.email AS responsible_person_email,
-      rc.company_name AS responsible_company_name,
-      (ecp.contact_name) AS external_contact_person_name,
-      ecp.email AS external_contact_person_email,
-      ec.company_name AS external_company_name
-    FROM assignments
-    LEFT JOIN contacts rp ON responsible_person_id = rp.contact_id
-    LEFT JOIN contacts ecp ON external_contact_person_id = ecp.contact_id
-    LEFT JOIN companies rc ON rp.company_id = rc.company_id
-    LEFT JOIN companies ec ON ecp.company_id = ec.company_id
-  `);
-  return data;
+  const assignments = await query<Assignment>(`SELECT * FROM assignments`);
+  const contacts = toMap(await query<Contact>(`SELECT * FROM contacts`), 'contactId');
+  const companies = toMap(await query<Company>(`SELECT * FROM companies`), 'companyId');
+  return assignments.map(transformAssignment(contacts, companies));
+};
+
+export const fetchAssignment = async (assignmentId: number) => {
+  return await selectParameterizedQuery<Assignment>('assignments', { assignmentId });
 };
 
 export const createAssignment = async (assignment: Partial<Assignment>) => {
@@ -76,3 +67,28 @@ export const updateAssignment = async (assignment: Partial<Assignment>) => {
 export const deleteAssignment = async ({ assignmentId }: Pick<Assignment, 'assignmentId'>) => {
   await deleteParameterizedQuery<Assignment>('assignments', { assignmentId });
 };
+
+function transformAssignment(
+  contacts: Map<string | number, Contact>,
+  companies: Map<string | number, Company>
+): (
+  value: Assignment,
+  index: number,
+  array: Assignment[]
+) => Assignment & {
+  responsiblePerson: (Contact & { company: Company | undefined }) | undefined;
+  externalContactPerson: (Contact & { company: Company | undefined }) | undefined;
+} {
+  return (assignment) => {
+    const responsiblePerson = contacts.get(assignment.responsiblePersonId);
+    const responsiblePersonCompany = responsiblePerson && companies.get(responsiblePerson.companyId);
+    const externalContactPerson = contacts.get(assignment.externalContactPersonId);
+    const externalContactPersonCompany = externalContactPerson && companies.get(externalContactPerson.companyId);
+
+    return {
+      ...assignment,
+      responsiblePerson: { ...responsiblePerson!, company: responsiblePersonCompany },
+      externalContactPerson: { ...externalContactPerson!, company: externalContactPersonCompany }
+    };
+  };
+}

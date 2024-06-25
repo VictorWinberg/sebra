@@ -53,14 +53,26 @@ export function query<T extends Record<string, unknown>>(sql: string): T[] {
   return camelcaseKeys(result, { deep: true }) as T[];
 }
 
-const executeQuery = (queryText: string, params: Record<string, SqlValue>) => {
+const executeQuery = <T extends Record<string, SqlValue>>(queryText: string, params: Record<string, SqlValue>): T => {
   const stmt = db.prepare(queryText);
-  stmt.run(params);
+  const result = stmt.getAsObject(params);
   stmt.free(); // Free the memory used by the statement
   save();
+  return camelcaseKeys(result, { deep: true }) as T;
 };
 
-export const insertParameterizedQuery = <T extends Record<string, SqlValue>>(table: string, data: Partial<T>) => {
+export const selectParameterizedQuery = <T extends Record<string, SqlValue>>(table: string, where: Partial<T>): T => {
+  const whereClause = generateWhereClause(where);
+
+  const queryText = `
+    SELECT * FROM ${table}
+    WHERE ${whereClause};
+  `;
+  const params = mapParams(where);
+  return executeQuery<T>(queryText, params);
+};
+
+export const insertParameterizedQuery = <T extends Record<string, SqlValue>>(table: string, data: Partial<T>): T => {
   const columns = generateColumns(data);
   const placeholders = generatePlaceholders(data);
 
@@ -69,14 +81,14 @@ export const insertParameterizedQuery = <T extends Record<string, SqlValue>>(tab
     VALUES (${placeholders});
   `;
   const params = mapParams(data);
-  executeQuery(queryText, params);
+  return executeQuery<T>(queryText, params);
 };
 
 export const updateParameterizedQuery = <T extends Record<string, SqlValue>>(
   table: string,
   data: Partial<T>,
   where: Partial<T>
-) => {
+): T => {
   const setClause = generateSetClause(data);
   const whereClause = generateWhereClause(where);
 
@@ -89,10 +101,10 @@ export const updateParameterizedQuery = <T extends Record<string, SqlValue>>(
     ...mapParams(data),
     ...mapParams(where)
   };
-  executeQuery(queryText, params);
+  return executeQuery<T>(queryText, params);
 };
 
-export const deleteParameterizedQuery = <T extends Record<string, SqlValue>>(table: string, where: Partial<T>) => {
+export const deleteParameterizedQuery = <T extends Record<string, SqlValue>>(table: string, where: Partial<T>): T => {
   const whereClause = generateWhereClause(where);
 
   const queryText = `
@@ -100,7 +112,7 @@ export const deleteParameterizedQuery = <T extends Record<string, SqlValue>>(tab
     WHERE ${whereClause};
   `;
   const params = mapParams(where);
-  executeQuery(queryText, params);
+  return executeQuery<T>(queryText, params);
 };
 
 export function save() {

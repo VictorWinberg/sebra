@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 // material-ui
 import { Box, Button, Stack } from '@mui/material';
@@ -12,10 +12,13 @@ import FlexGrow from '@/ui-component/extended/FlexGrow';
 import { Contact } from '../api/contactsApi';
 import { useCreateContact } from '../hooks/useContactsMutations';
 import ContactForm from './ContactForm';
+import { useContact } from '../hooks/useContactsQueries';
 
-// ==============================|| NEW CONTACT PAGE ||============================== //
+// ==============================|| CONTACT EDIT PAGE ||============================== //
 
-const NewContact = () => {
+const ContactEdit = () => {
+  const params = useParams();
+  const { data: contact, isLoading } = useContact(Number(params.id));
   const { mutate: createContact } = useCreateContact();
   const navigate = useNavigate();
 
@@ -27,13 +30,15 @@ const NewContact = () => {
     });
   };
 
+  if (isLoading) return;
+
   return (
     <>
       <Typography variant="h4" color="primary">
-        Lägg till kontakt
+        {contact ? 'Redigera kontakt' : 'Lägg till kontakt'}
       </Typography>
       <Box sx={{ my: 1 }} />
-      <ContactForm onSubmit={handleSubmit}>
+      <ContactForm formProps={{ values: contact }} onSubmit={handleSubmit}>
         <Box sx={{ my: 1 }} />
 
         <FlexGrow>
@@ -49,8 +54,8 @@ const NewContact = () => {
           <Button size="large" type="submit" variant="contained" color="primary">
             Spara
           </Button>
-          <Button component={Link} size="large" variant="outlined" color="primary" to="..">
-            Avbryt
+          <Button size="large" variant="outlined" color="primary" onClick={() => navigate(-1)}>
+            Tillbaka
           </Button>
         </Stack>
       </ContactForm>
@@ -58,4 +63,4 @@ const NewContact = () => {
   );
 };
 
-export default NewContact;
+export default ContactEdit;

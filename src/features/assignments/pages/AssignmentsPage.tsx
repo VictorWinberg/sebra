@@ -1,7 +1,7 @@
-import { Link } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 
 // material-ui
-import { Button, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import { Button, DialogActions, DialogContent, DialogTitle, Link } from '@mui/material';
 import { MRT_ColumnDef, MRT_EditActionButtons } from 'material-react-table';
 
 // project imports
@@ -19,18 +19,36 @@ import { Add } from '@mui/icons-material';
 
 type DataType = Awaited<ReturnType<typeof fetchAssignments>>[number];
 const columns: MRT_ColumnDef<DataType>[] = [
-  { accessorKey: 'assignmentName', header: 'Uppdragsnamn' },
-  { accessorKey: 'responsibleCompanyName', header: 'Bolag', enableEditing: false },
-  { accessorKey: 'responsiblePersonEmail', header: 'Email', enableEditing: false },
   {
-    accessorKey: 'responsiblePersonName',
+    accessorKey: 'assignmentName',
+    header: 'Uppdragsnamn',
+    Cell: ({ cell, row }) => (
+      <Link component={RouterLink} to={`./${row.original.assignmentId}`}>
+        {cell.getValue<string>()}
+      </Link>
+    )
+  },
+  {
+    accessorKey: 'responsiblePerson.contactName',
     header: 'Ansvarig',
-    enableEditing: false
+    enableEditing: false,
+    Cell: ({ cell, row }) => (
+      <Link component={RouterLink} to={`../contacts/${row.original.responsiblePersonId}`}>
+        {cell.getValue<string>()}
+      </Link>
+    )
   },
   {
-    accessorKey: 'status',
-    header: 'Status'
+    accessorKey: 'externalContactPerson.contactName',
+    header: 'Extern',
+    enableEditing: false,
+    Cell: ({ cell, row }) => (
+      <Link component={RouterLink} to={`../contacts/${row.original.externalContactPersonId}`}>
+        {cell.getValue<string>()}
+      </Link>
+    )
   },
+  { accessorKey: 'status', header: 'Status' },
   {
     accessorKey: 'fee',
     header: 'Arvode',
@@ -62,7 +80,7 @@ const AssignmentsPage = () => {
         onDelete={(row) => deleteAssignment(row)}
         renderTopToolbarCustomActions={() => (
           <Button
-            component={Link}
+            component={RouterLink}
             to="new"
             variant="outlined"
             size="small"

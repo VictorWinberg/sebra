@@ -189,7 +189,7 @@ const ProfileSection = () => {
                         }}
                       >
                         <CardContent>
-                          <Grid container spacing={3} direction="column">
+                          <Grid container spacing={2} direction="column">
                             <Grid item>
                               <Grid item container alignItems="center" justifyContent="space-between">
                                 <Grid item>

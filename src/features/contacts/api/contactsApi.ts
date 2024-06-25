@@ -1,5 +1,12 @@
-import { deleteParameterizedQuery, query, insertParameterizedQuery, updateParameterizedQuery } from '@/api/DummyDB';
-import { pick } from '@/utils';
+import {
+  deleteParameterizedQuery,
+  query,
+  insertParameterizedQuery,
+  updateParameterizedQuery,
+  selectParameterizedQuery
+} from '@/api/DummyDB';
+import { Company } from '@/features/companies/api/companiesApi';
+import { pick, toMap } from '@/utils';
 
 export type Contact = {
   contactId: number;
@@ -17,17 +24,15 @@ export type Contact = {
 };
 
 export const fetchContacts = async () => {
-  return await query<
-    Contact & {
-      companyName: string;
-    }
-  >(`
-    SELECT
-      contacts.*,
-      c.company_name AS company_name
-    FROM contacts
-    LEFT JOIN companies c USING (company_id)
-`);
+  const contacts = await query<Contact>(`SELECT * FROM contacts`);
+  const companies = await query<Company>(`SELECT * FROM companies`);
+  const companyMap = toMap(companies, 'companyId');
+
+  return contacts.map((contact) => ({ ...contact, company: companyMap.get(contact.contactId) }));
+};
+
+export const fetchContact = async (contactId: number) => {
+  return await selectParameterizedQuery<Contact>('contacts', { contactId });
 };
 
 export const createContact = async (contact: Partial<Contact>) => {
