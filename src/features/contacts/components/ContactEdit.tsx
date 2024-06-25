@@ -10,9 +10,9 @@ import Typography from '@mui/material/Typography';
 import ContentTabs from '@/ui-component/ContentTabs';
 import FlexGrow from '@/ui-component/extended/FlexGrow';
 import { Contact } from '../api/contactsApi';
-import { useCreateContact } from '../hooks/useContactsMutations';
-import ContactForm from './ContactForm';
+import { useCreateContact, useUpdateContact } from '../hooks/useContactsMutations';
 import { useContact } from '../hooks/useContactsQueries';
+import ContactForm from './ContactForm';
 
 // ==============================|| CONTACT EDIT PAGE ||============================== //
 
@@ -20,14 +20,17 @@ const ContactEdit = () => {
   const params = useParams();
   const { data: contact, isLoading } = useContact(Number(params.id));
   const { mutate: createContact } = useCreateContact();
+  const { mutate: updateContact } = useUpdateContact();
   const navigate = useNavigate();
 
   const handleSubmit = (data: Partial<Contact>) => {
-    createContact(data, {
-      onSuccess: () => {
-        navigate('..');
-      }
-    });
+    if (contact) {
+      updateContact(data);
+    } else {
+      createContact(data, {
+        onSuccess: () => navigate('..')
+      });
+    }
   };
 
   if (isLoading) return;

@@ -10,9 +10,9 @@ import Typography from '@mui/material/Typography';
 import ContentTabs from '@/ui-component/ContentTabs';
 import FlexGrow from '@/ui-component/extended/FlexGrow';
 import { Company } from '../api/companiesApi';
-import { useCreateCompany } from '../hooks/useCompaniesMutations';
-import CompanyForm from './CompanyForm';
+import { useCreateCompany, useUpdateCompany } from '../hooks/useCompaniesMutations';
 import { useCompany } from '../hooks/useCompaniesQueries';
+import CompanyForm from './CompanyForm';
 
 // ==============================|| COMPANY EDIT PAGE ||============================== //
 
@@ -20,14 +20,17 @@ const CompanyEdit = () => {
   const params = useParams();
   const { data: company, isLoading } = useCompany(Number(params.id));
   const { mutate: createCompany } = useCreateCompany();
+  const { mutate: updateCompany } = useUpdateCompany();
   const navigate = useNavigate();
 
   const handleSubmit = (data: Partial<Company>) => {
-    createCompany(data, {
-      onSuccess: () => {
-        navigate('..');
-      }
-    });
+    if (company) {
+      updateCompany(data);
+    } else {
+      createCompany(data, {
+        onSuccess: () => navigate('..')
+      });
+    }
   };
 
   if (isLoading) return;
