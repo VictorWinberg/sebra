@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 // material-ui
-import { Autocomplete, Box, BoxProps, Grid, TextField } from '@mui/material';
+import { Autocomplete, BoxProps, Grid, TextField } from '@mui/material';
 
 // third party
 import { Controller, UseFormProps, useForm } from 'react-hook-form';
@@ -9,6 +9,7 @@ import { Controller, UseFormProps, useForm } from 'react-hook-form';
 // project imports
 import { useCompanies } from '@/features/companies/hooks/useCompaniesQueries';
 import { Contact } from '../api/contactsApi';
+import FlexGrow, { sxFlex } from '@/ui-component/extended/FlexGrow';
 
 // ==============================|| CONTACT FORM ||============================== //
 
@@ -28,8 +29,8 @@ const ContactForm = ({ onSubmit = () => {}, onChange, formProps, children, ...re
   }, [onChange, watchedFields]);
 
   return (
-    <Box {...rest}>
-      <form onSubmit={handleSubmit(onSubmit)}>
+    <FlexGrow {...rest}>
+      <form onSubmit={handleSubmit(onSubmit)} style={{ ...sxFlex }}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
             <TextField fullWidth label="Namn" type="text" margin="none" {...register('contactName')} />
@@ -73,7 +74,7 @@ const ContactForm = ({ onSubmit = () => {}, onChange, formProps, children, ...re
 
         {children}
       </form>
-    </Box>
+    </FlexGrow>
   );
 };
 

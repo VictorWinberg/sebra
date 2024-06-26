@@ -13,6 +13,7 @@ import {
 } from '@/utils';
 
 import schema from './schema.sql?raw';
+import triggers from './triggers.sql?raw';
 import seed from './seed.sql?raw';
 
 let SQL: SqlJsStatic;
@@ -24,7 +25,7 @@ async function init() {
     locateFile: (file) => `https://sql.js.org/dist/${file}`
   });
 
-  const schemaHash = hashCode(schema);
+  const schemaHash = hashCode(schema + triggers);
   const storedHash = localStorageGet<number>('schemaHash', undefined);
   const isSchemaChanged = schemaHash !== storedHash;
 
@@ -40,6 +41,7 @@ async function init() {
   db = new SQL.Database();
   db.run(schema);
   db.run(seed);
+  db.run(triggers);
 
   localStorageSet('schemaHash', schemaHash);
   save();
@@ -78,7 +80,8 @@ export const insertParameterizedQuery = <T extends Record<string, SqlValue>>(tab
 
   const queryText = `
     INSERT INTO ${table} (${columns})
-    VALUES (${placeholders});
+    VALUES (${placeholders})
+    RETURNING *;
   `;
   const params = mapParams(data);
   return executeQuery<T>(queryText, params);
@@ -95,7 +98,8 @@ export const updateParameterizedQuery = <T extends Record<string, SqlValue>>(
   const queryText = `
     UPDATE ${table}
     SET ${setClause}
-    WHERE ${whereClause};
+    WHERE ${whereClause}
+    RETURNING *;
   `;
   const params = {
     ...mapParams(data),
@@ -109,7 +113,8 @@ export const deleteParameterizedQuery = <T extends Record<string, SqlValue>>(tab
 
   const queryText = `
     DELETE FROM ${table}
-    WHERE ${whereClause};
+    WHERE ${whereClause}
+    RETURNING *;
   `;
   const params = mapParams(where);
   return executeQuery<T>(queryText, params);

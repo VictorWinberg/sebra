@@ -23,15 +23,21 @@ const columns: MRT_ColumnDef<DataType>[] = [
     accessorKey: 'companyName',
     header: 'Företagsnamn',
     Cell: ({ cell, row }) => (
-      <Link component={RouterLink} to={`./${row.original.companyId}`}>
+      <Link component={RouterLink} to={`/dashboard/companies/${row.original.companyId}`}>
         {cell.getValue<string>()}
       </Link>
     )
   },
   { accessorKey: 'address', header: 'Address' },
-  { accessorKey: 'industry', header: 'Industri' },
+  { accessorKey: 'industry', header: 'Industri', filterVariant: 'multi-select' },
   { accessorKey: 'website', header: 'Website' },
-  { accessorKey: 'updatedAt', header: 'Senast uppdaterad', enableEditing: false }
+  {
+    accessorFn: (row) => new Date(row.updatedAt),
+    header: 'Senast uppdaterad',
+    filterVariant: 'date-range',
+    enableEditing: false,
+    Cell: ({ cell }) => cell.getValue<Date>().toLocaleDateString('sv-SE')
+  }
 ];
 
 const CompaniesPage = () => {

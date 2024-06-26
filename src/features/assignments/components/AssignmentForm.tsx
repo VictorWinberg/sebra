@@ -1,14 +1,14 @@
 import { useEffect } from 'react';
 
 // material-ui
-import { Autocomplete, Box, BoxProps, Grid, TextField } from '@mui/material';
+import { Autocomplete, BoxProps, Grid, TextField } from '@mui/material';
 
 // third party
 import { Controller, UseFormProps, useForm } from 'react-hook-form';
 
 // project imports
 import { useContacts } from '@/features/contacts/hooks/useContactsQueries';
-import { sxFlex } from '@/ui-component/extended/FlexGrow';
+import FlexGrow, { sxFlex } from '@/ui-component/extended/FlexGrow';
 import { Assignment } from '../api/assignmentsApi';
 
 // ==============================|| ASSIGNMENT FORM ||============================== //
@@ -29,10 +29,10 @@ const AssignmentForm = ({ onSubmit = () => {}, onChange, formProps, children, ..
   }, [onChange, watchedFields]);
 
   return (
-    <Box {...rest}>
+    <FlexGrow {...rest}>
       <form onSubmit={handleSubmit(onSubmit)} style={{ ...sxFlex }}>
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12}>
             <TextField fullWidth label="Uppdragsnamn" type="text" margin="none" {...register('assignmentName')} />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -46,9 +46,23 @@ const AssignmentForm = ({ onSubmit = () => {}, onChange, formProps, children, ..
                   getOptionLabel={(option) => option.contactName}
                   value={contacts.find((contact) => contact.contactId === field.value) || null}
                   onChange={(_, value) => field.onChange(value ? value.contactId : undefined)}
-                  renderInput={(params) => (
-                    <TextField {...params} label="Uppdragsgivare" variant="outlined" fullWidth />
-                  )}
+                  renderInput={(params) => <TextField {...params} label="Ansvarig" variant="outlined" fullWidth />}
+                />
+              )}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Controller
+              name="externalContactPersonId"
+              control={control}
+              render={({ field }) => (
+                <Autocomplete
+                  options={contacts}
+                  getOptionKey={(option) => option.contactId}
+                  getOptionLabel={(option) => option.contactName}
+                  value={contacts.find((contact) => contact.contactId === field.value) || null}
+                  onChange={(_, value) => field.onChange(value ? value.contactId : undefined)}
+                  renderInput={(params) => <TextField {...params} label="Extern" variant="outlined" fullWidth />}
                 />
               )}
             />
@@ -78,7 +92,7 @@ const AssignmentForm = ({ onSubmit = () => {}, onChange, formProps, children, ..
 
         {children}
       </form>
-    </Box>
+    </FlexGrow>
   );
 };
 

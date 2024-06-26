@@ -23,35 +23,37 @@ const columns: MRT_ColumnDef<DataType>[] = [
     accessorKey: 'assignmentName',
     header: 'Uppdragsnamn',
     Cell: ({ cell, row }) => (
-      <Link component={RouterLink} to={`./${row.original.assignmentId}`}>
+      <Link component={RouterLink} to={`/dashboard/assignments/${row.original.assignmentId}`}>
         {cell.getValue<string>()}
       </Link>
     )
   },
   {
-    accessorKey: 'responsiblePerson.contactName',
+    accessorFn: (row) => row.responsiblePerson?.contactName,
     header: 'Ansvarig',
     enableEditing: false,
     Cell: ({ cell, row }) => (
-      <Link component={RouterLink} to={`../contacts/${row.original.responsiblePersonId}`}>
+      <Link component={RouterLink} to={`/dashboard/contacts/${row.original.responsiblePersonId}`}>
         {cell.getValue<string>()}
       </Link>
     )
   },
   {
-    accessorKey: 'externalContactPerson.contactName',
+    accessorFn: (row) => row.externalContactPerson?.contactName,
     header: 'Extern',
     enableEditing: false,
     Cell: ({ cell, row }) => (
-      <Link component={RouterLink} to={`../contacts/${row.original.externalContactPersonId}`}>
+      <Link component={RouterLink} to={`/dashboard/contacts/${row.original.externalContactPersonId}`}>
         {cell.getValue<string>()}
       </Link>
     )
   },
-  { accessorKey: 'status', header: 'Status' },
+  { accessorKey: 'type', header: 'Typ', filterVariant: 'multi-select' },
+  { accessorKey: 'status', header: 'Status', filterVariant: 'multi-select' },
   {
     accessorKey: 'fee',
     header: 'Arvode',
+    filterVariant: 'range-slider',
     Cell: ({ cell }) =>
       cell.getValue<number>().toLocaleString('sv-SE', {
         style: 'currency',
@@ -59,6 +61,13 @@ const columns: MRT_ColumnDef<DataType>[] = [
         minimumFractionDigits: 0,
         maximumFractionDigits: 0
       })
+  },
+  {
+    accessorFn: (row) => new Date(row.updatedAt),
+    header: 'Senast uppdaterad',
+    filterVariant: 'date-range',
+    enableEditing: false,
+    Cell: ({ cell }) => cell.getValue<Date>().toLocaleDateString('sv-SE')
   }
 ];
 

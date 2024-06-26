@@ -23,12 +23,13 @@ export type Contact = {
   updatedAt: string;
 };
 
-export const fetchContacts = async () => {
-  const contacts = await query<Contact>(`SELECT * FROM contacts`);
-  const companies = await query<Company>(`SELECT * FROM companies`);
-  const companyMap = toMap(companies, 'companyId');
+type ContactData = Contact & { company?: Company };
 
-  return contacts.map((contact) => ({ ...contact, company: companyMap.get(contact.contactId) }));
+export const fetchContacts = async (): Promise<ContactData[]> => {
+  const contacts = await query<Contact>(`SELECT * FROM contacts ORDER BY contact_name`);
+  const companies = toMap(await query<Company>(`SELECT * FROM companies`), 'companyId');
+
+  return contacts.map((contact) => ({ ...contact, company: companies.get(contact.companyId) }));
 };
 
 export const fetchContact = async (contactId: number) => {
@@ -36,7 +37,7 @@ export const fetchContact = async (contactId: number) => {
 };
 
 export const createContact = async (contact: Partial<Contact>) => {
-  await insertParameterizedQuery<Contact>(
+  return await insertParameterizedQuery<Contact>(
     'contacts',
     pick(contact, [
       'contactName',
@@ -53,7 +54,7 @@ export const createContact = async (contact: Partial<Contact>) => {
 };
 
 export const updateContact = async (contact: Partial<Contact>) => {
-  await updateParameterizedQuery<Contact>(
+  return await updateParameterizedQuery<Contact>(
     'contacts',
     pick(contact, [
       'contactName',
@@ -71,5 +72,5 @@ export const updateContact = async (contact: Partial<Contact>) => {
 };
 
 export const deleteContact = async ({ contactId }: Pick<Contact, 'contactId'>) => {
-  await deleteParameterizedQuery<Contact>('contacts', { contactId });
+  return await deleteParameterizedQuery<Contact>('contacts', { contactId });
 };

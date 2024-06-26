@@ -20,7 +20,7 @@ export type Company = {
 };
 
 export const fetchCompanies = async () => {
-  return await query<Company>(`SELECT * FROM companies`);
+  return await query<Company>(`SELECT * FROM companies ORDER BY company_name`);
 };
 
 export const fetchCompany = async (companyId: number) => {
@@ -28,14 +28,14 @@ export const fetchCompany = async (companyId: number) => {
 };
 
 export const createCompany = async (company: Partial<Company>) => {
-  await insertParameterizedQuery<Company>(
+  return await insertParameterizedQuery<Company>(
     'companies',
     pick(company, ['companyName', 'address', 'industry', 'phone', 'email', 'website'])
   );
 };
 
 export const updateCompany = async (company: Partial<Company>) => {
-  await updateParameterizedQuery<Company>(
+  return await updateParameterizedQuery<Company>(
     'companies',
     pick(company, ['companyName', 'address', 'industry', 'phone', 'email', 'website']),
     pick(company, ['companyId'])
@@ -43,5 +43,5 @@ export const updateCompany = async (company: Partial<Company>) => {
 };
 
 export const deleteCompany = async ({ companyId }: Pick<Company, 'companyId'>) => {
-  await deleteParameterizedQuery<Company>('companies', { companyId });
+  return await deleteParameterizedQuery<Company>('companies', { companyId });
 };
