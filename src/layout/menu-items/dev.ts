@@ -2,6 +2,7 @@
 import {
   IconBrandChrome,
   IconCode,
+  IconFile,
   IconHelp,
   IconKey,
   IconNote,
@@ -16,6 +17,7 @@ import { MenuItem } from '.';
 const icons = {
   IconBrandChrome,
   IconCode,
+  IconFile,
   IconHelp,
   IconKey,
   IconNote,
@@ -33,6 +35,22 @@ const dev: MenuItem = {
   type: 'collapse',
   icon: icons.IconCode,
   children: [
+    {
+      id: 'default',
+      title: 'Dev Page',
+      type: 'item',
+      url: '/dev/sample',
+      icon: icons.IconBrandChrome,
+      breadcrumbs: true
+    },
+    {
+      id: 'documents',
+      title: 'Documents',
+      type: 'item',
+      url: '/dev/documents',
+      icon: icons.IconFile,
+      breadcrumbs: true
+    },
     {
       id: 'util-typography',
       title: 'Typography',
@@ -56,14 +74,6 @@ const dev: MenuItem = {
       url: '/dev/util-shadow',
       icon: icons.IconShadow,
       breadcrumbs: false
-    },
-    {
-      id: 'default',
-      title: 'Dev Page',
-      type: 'item',
-      url: '/dev/sample',
-      icon: icons.IconBrandChrome,
-      breadcrumbs: true
     },
     {
       id: 'authentication',

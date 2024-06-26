@@ -12,6 +12,9 @@ export const useCreateCompany = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['companies'] });
       showSnackbar('Företag skapat!');
+    },
+    onError: () => {
+      showSnackbar('Ett fel uppstod när företaget skulle skapas.', 'error');
     }
   });
 };
@@ -25,6 +28,9 @@ export const useUpdateCompany = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['companies'] });
       showSnackbar('Företag uppdaterat!');
+    },
+    onError: () => {
+      showSnackbar('Ett fel uppstod när företaget skulle uppdateras.', 'error');
     }
   });
 };
@@ -38,6 +44,9 @@ export const useDeleteCompany = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['companies'] });
       showSnackbar('Företag borttaget!');
+    },
+    onError: () => {
+      showSnackbar('Ett fel uppstod när företaget skulle tas bort.', 'error');
     }
   });
 };
