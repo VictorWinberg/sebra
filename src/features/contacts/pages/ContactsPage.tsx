@@ -23,16 +23,27 @@ const columns: MRT_ColumnDef<DataType>[] = [
     accessorKey: 'contactName',
     header: 'Namn',
     Cell: ({ cell, row }) => (
-      <Link component={RouterLink} to={`./${row.original.contactId}`}>
+      <Link component={RouterLink} to={`/dashboard/contacts/${row.original.contactId}`}>
         {cell.getValue<string>()}
       </Link>
     )
   },
   { accessorKey: 'email', header: 'Email' },
   { accessorKey: 'jobTitle', header: 'Jobbtitel' },
-  { accessorKey: 'company.companyName', header: 'Företagsnamn', enableEditing: false },
+  {
+    accessorFn: (row) => row.company?.companyName,
+    header: 'Företagsnamn',
+    filterVariant: 'multi-select',
+    enableEditing: false
+  },
   { accessorKey: 'phone', header: 'Telefonnummer' },
-  { accessorKey: 'updatedAt', header: 'Senast uppdaterad', enableEditing: false }
+  {
+    accessorFn: (row) => new Date(row.updatedAt),
+    header: 'Senast uppdaterad',
+    filterVariant: 'date-range',
+    enableEditing: false,
+    Cell: ({ cell }) => cell.getValue<Date>().toLocaleDateString('sv-SE')
+  }
 ];
 
 const ContactsPage = () => {

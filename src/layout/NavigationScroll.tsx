@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 
 // ==============================|| NAVIGATION SCROLL TO TOP ||============================== //
+/* Not completely sure what this does /Victor */
 
 interface NavigationScrollProps {
   children: React.ReactNode;

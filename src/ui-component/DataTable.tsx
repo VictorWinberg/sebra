@@ -43,14 +43,19 @@ const DataTable = <T extends Record<string, unknown>>({
     createDisplayMode: 'modal', // ('modal', and 'custom' are also available)
     editDisplayMode, // ('modal', 'cell', 'table', and 'custom' are also available)
     layoutMode: 'grid',
-    enableEditing: true,
-    enableRowActions: true,
+    enableBottomToolbar: false,
     enableColumnActions: false,
-    enableStickyHeader: true,
-    enableColumnFilters: false,
-    enableHiding: false,
-    enableDensityToggle: false,
+    enableColumnFilters: true,
+    enableColumnResizing: true,
+    enableDensityToggle: true,
+    enableEditing: true,
+    enableFacetedValues: true,
     enableFullScreenToggle: false,
+    enableHiding: false,
+    enablePagination: false,
+    enableRowActions: true,
+    enableRowVirtualization: true,
+    enableStickyHeader: true,
     defaultColumn: {
       size: 120, // default 180
       minSize: 40, // default 40
@@ -78,6 +83,9 @@ const DataTable = <T extends Record<string, unknown>>({
     },
     muiTableContainerProps: {
       sx: { ...sxFlex, height: '300px' }
+    },
+    muiFilterTextFieldProps: {
+      sx: { minWidth: 0 }
     },
     muiTableBodyCellProps: ({ row, column, table }) => ({
       onDoubleClick: () => {

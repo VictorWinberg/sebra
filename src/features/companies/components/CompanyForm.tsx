@@ -1,13 +1,14 @@
 import { useEffect } from 'react';
 
 // material-ui
-import { Box, BoxProps, Grid, TextField } from '@mui/material';
+import { BoxProps, Grid, TextField } from '@mui/material';
 
 // third party
 import { UseFormProps, useForm } from 'react-hook-form';
 
 // project imports
 import { Company } from '../api/companiesApi';
+import FlexGrow, { sxFlex } from '@/ui-component/extended/FlexGrow';
 
 // ==============================|| COMPANY FORM ||============================== //
 interface CompanyFormProps extends Omit<BoxProps, 'onChange' | 'onSubmit'> {
@@ -25,8 +26,8 @@ const CompanyForm = ({ onSubmit = () => {}, onChange, formProps, children, ...re
   }, [onChange, watchedFields]);
 
   return (
-    <Box {...rest}>
-      <form onSubmit={handleSubmit(onSubmit)}>
+    <FlexGrow {...rest}>
+      <form onSubmit={handleSubmit(onSubmit)} style={{ ...sxFlex }}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
             <TextField fullWidth label="Bolagsnamn" type="text" margin="none" {...register('companyName')} />
@@ -50,7 +51,7 @@ const CompanyForm = ({ onSubmit = () => {}, onChange, formProps, children, ...re
 
         {children}
       </form>
-    </Box>
+    </FlexGrow>
   );
 };
 

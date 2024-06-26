@@ -22,8 +22,13 @@ export type Assignment = {
   updatedAt: string;
 };
 
-export const fetchAssignments = async () => {
-  const assignments = await query<Assignment>(`SELECT * FROM assignments`);
+type AssignmentData = Assignment & {
+  responsiblePerson: (Contact & { company: Company | undefined }) | undefined;
+  externalContactPerson: (Contact & { company: Company | undefined }) | undefined;
+};
+
+export const fetchAssignments = async (): Promise<AssignmentData[]> => {
+  const assignments = await query<Assignment>(`SELECT * FROM assignments ORDER BY assignment_name`);
   const contacts = toMap(await query<Contact>(`SELECT * FROM contacts`), 'contactId');
   const companies = toMap(await query<Company>(`SELECT * FROM companies`), 'companyId');
   return assignments.map(transformAssignment(contacts, companies));
@@ -34,7 +39,7 @@ export const fetchAssignment = async (assignmentId: number) => {
 };
 
 export const createAssignment = async (assignment: Partial<Assignment>) => {
-  await insertParameterizedQuery<Assignment>(
+  return await insertParameterizedQuery<Assignment>(
     'assignments',
     pick(assignment, [
       'assignmentName',
@@ -49,7 +54,7 @@ export const createAssignment = async (assignment: Partial<Assignment>) => {
 };
 
 export const updateAssignment = async (assignment: Partial<Assignment>) => {
-  await updateParameterizedQuery<Assignment>(
+  return await updateParameterizedQuery<Assignment>(
     'assignments',
     pick(assignment, [
       'assignmentName',
@@ -65,20 +70,13 @@ export const updateAssignment = async (assignment: Partial<Assignment>) => {
 };
 
 export const deleteAssignment = async ({ assignmentId }: Pick<Assignment, 'assignmentId'>) => {
-  await deleteParameterizedQuery<Assignment>('assignments', { assignmentId });
+  return await deleteParameterizedQuery<Assignment>('assignments', { assignmentId });
 };
 
 function transformAssignment(
   contacts: Map<string | number, Contact>,
   companies: Map<string | number, Company>
-): (
-  value: Assignment,
-  index: number,
-  array: Assignment[]
-) => Assignment & {
-  responsiblePerson: (Contact & { company: Company | undefined }) | undefined;
-  externalContactPerson: (Contact & { company: Company | undefined }) | undefined;
-} {
+): (value: Assignment, index: number, array: Assignment[]) => AssignmentData {
   return (assignment) => {
     const responsiblePerson = contacts.get(assignment.responsiblePersonId);
     const responsiblePersonCompany = responsiblePerson && companies.get(responsiblePerson.companyId);
@@ -87,8 +85,14 @@ function transformAssignment(
 
     return {
       ...assignment,
-      responsiblePerson: { ...responsiblePerson!, company: responsiblePersonCompany },
-      externalContactPerson: { ...externalContactPerson!, company: externalContactPersonCompany }
+      responsiblePerson: responsiblePerson && {
+        ...responsiblePerson,
+        company: responsiblePersonCompany
+      },
+      externalContactPerson: externalContactPerson && {
+        ...externalContactPerson,
+        company: externalContactPersonCompany
+      }
     };
   };
 }
