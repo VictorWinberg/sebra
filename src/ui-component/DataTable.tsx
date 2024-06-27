@@ -136,14 +136,8 @@ const RowActions = <T extends MRT_RowData>(props: DataTableProps<T>, custom: Cus
             </Tooltip>
             <Popover
               {...bindPopover(popupState)}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'center'
-              }}
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'center'
-              }}
+              anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+              transformOrigin={{ vertical: 'top', horizontal: 'center' }}
             >
               <Card>
                 <CardContent>

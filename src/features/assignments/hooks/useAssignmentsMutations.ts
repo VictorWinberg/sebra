@@ -12,6 +12,9 @@ export const useCreateAssignment = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['assignments'] });
       showSnackbar('Uppdrag skapat!');
+    },
+    onError: () => {
+      showSnackbar('Ett fel uppstod när uppgiften skulle skapas.', 'error');
     }
   });
 };
@@ -25,6 +28,9 @@ export const useUpdateAssignment = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['assignments'] });
       showSnackbar('Uppdrag uppdaterat!');
+    },
+    onError: () => {
+      showSnackbar('Ett fel uppstod när uppgiften skulle uppdateras.', 'error');
     }
   });
 };
@@ -38,6 +44,9 @@ export const useDeleteAssignment = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['assignments'] });
       showSnackbar('Uppdrag borttaget!');
+    },
+    onError: () => {
+      showSnackbar('Ett fel uppstod när uppgiften skulle tas bort.', 'error');
     }
   });
 };

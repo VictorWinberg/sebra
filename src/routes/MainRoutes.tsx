@@ -32,6 +32,7 @@ const Help = Loadable(lazy(() => import('@/dummy-views/help/Help')));
 
 // dev routing
 const DevPage = Loadable(lazy(() => import('@/features/dev/pages/DevPage')));
+const DocumentsPage = Loadable(lazy(() => import('@/features/dev/pages/DocumentsPage')));
 const TypographyPage = Loadable(lazy(() => import('@/features/dev/pages/TypographyPage')));
 const ColorPage = Loadable(lazy(() => import('@/features/dev/pages/ColorPage')));
 const ShadowPage = Loadable(lazy(() => import('@/features/dev/pages/ShadowPage')));
@@ -151,6 +152,10 @@ const MainRoutes = {
         {
           path: 'sample',
           element: <DevPage />
+        },
+        {
+          path: 'documents',
+          element: <DocumentsPage />
         },
         {
           path: 'util-typography',

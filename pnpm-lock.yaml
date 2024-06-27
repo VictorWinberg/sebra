@@ -56,6 +56,9 @@ dependencies:
   framer-motion:
     specifier: ^11.0.6
     version: 11.1.9(react-dom@18.3.1)(react@18.3.1)
+  idb:
+    specifier: ^8.0.0
+    version: 8.0.0
   material-react-table:
     specifier: ^2.13.0
     version: 2.13.0(@emotion/react@11.11.4)(@emotion/styled@11.11.5)(@mui/icons-material@5.15.17)(@mui/material@5.15.17)(@mui/x-date-pickers@7.7.1)(react-dom@18.3.1)(react@18.3.1)
@@ -3028,6 +3031,10 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
     dev: true
+
+  /idb@8.0.0:
+    resolution: {integrity: sha512-l//qvlAKGmQO31Qn7xdzagVPPaHTxXx199MhrAFuVBTPqydcPYBWjkrbv4Y0ktB+GmWOiwHl237UUOrLmQxLvw==}
+    dev: false
 
   /ignore@5.3.1:
     resolution: {integrity: sha512-5Fytz/IraMjqpwfd34ke28PTVMjZjJG2MPn5t7OE4eUCUNf8BAa7b5WUS9/Qvr6mwOQS7Mk6vdsMno5he+T8Xw==}

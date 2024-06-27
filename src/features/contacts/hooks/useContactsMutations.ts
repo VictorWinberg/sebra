@@ -12,6 +12,9 @@ export const useCreateContact = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['contacts'] });
       showSnackbar('Kontakt skapad!');
+    },
+    onError: () => {
+      showSnackbar('Ett fel uppstod när kontakten skulle skapas.', 'error');
     }
   });
 };
@@ -25,6 +28,9 @@ export const useUpdateContact = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['contacts'] });
       showSnackbar('Kontakt uppdaterad!');
+    },
+    onError: () => {
+      showSnackbar('Ett fel uppstod när kontakten skulle uppdateras.', 'error');
     }
   });
 };
@@ -38,6 +44,9 @@ export const useDeleteContact = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['contacts'] });
       showSnackbar('Kontakt borttagen!');
+    },
+    onError: () => {
+      showSnackbar('Ett fel uppstod när kontakten skulle tas bort.', 'error');
     }
   });
 };
