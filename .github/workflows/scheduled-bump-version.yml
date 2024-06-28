@@ -5,6 +5,11 @@ on:
     - cron: '0 0 * * *' # Runs every day at midnight UTC
   workflow_dispatch: # Allows manual triggering
 
+# Sets the GITHUB_TOKEN permissions to allow commits
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   bump-version:
     name: Bump Version on main if there are new commits
@@ -13,44 +18,64 @@ jobs:
       - name: Checkout 🛎️
         uses: actions/checkout@v4
         with:
+          fetch-depth: 0
           ref: main # Ensure we are checking out the main branch
-
-      - name: Fetch latest changes
-        run: git fetch --depth=1 origin main
 
       - name: Check if there are new commits
         id: check-commits
         run: |
-          num_changes=$(git log --pretty=format:'%h' ..origin/main | wc -l)
-          echo "has_changes=$num_changes" >> $GITHUB_STATE
+          last_bump=$(git rev-list -1 HEAD -- package.json)
+          num_changes=$(git log --pretty=format:'%h' $last_bump..origin/main | wc -l)
+          echo "last_bump=$last_bump" >> $GITHUB_ENV
+          echo "num_changes=$num_changes" >> $GITHUB_ENV
+          echo "Last bump was at commit $last_bump"
+          echo "There are $num_changes new commits"
 
       - name: Determine version bump
-        if: ${{ env.has_changes > 0 || github.event_name == 'workflow_dispatch' }}
+        if: ${{ env.num_changes > 0 || github.event_name == 'workflow_dispatch' }}
         id: determine-bump
         run: |
           MAJOR_KEYWORDS=("BREAKING CHANGE" "major")
           MINOR_KEYWORDS=("feat" "minor")
 
           # Check the commits between current HEAD and origin/main
-          commit_messages=$(git log --pretty=format:"%s" ..origin/main)
+          commit_messages=$(git log --pretty=format:"%s" ${{ env.last_bump }}..origin/main)
 
           if echo "$commit_messages" | grep -qE "$(IFS="|"; echo "${MAJOR_KEYWORDS[*]}")"; then
-            echo "bump=major" >> $GITHUB_STATE
+            echo "bump=major" >> $GITHUB_ENV
           elif echo "$commit_messages" | grep -qE "$(IFS="|"; echo "${MINOR_KEYWORDS[*]}")"; then
-            echo "bump=minor" >> $GITHUB_STATE
+            echo "bump=minor" >> $GITHUB_ENV
           else
-            echo "bump=patch" >> $GITHUB_STATE
+            echo "bump=patch" >> $GITHUB_ENV
           fi
 
       - name: Bump version and commit if there are changes
-        if: ${{ env.has_changes > 0 || github.event_name == 'workflow_dispatch' }}
+        if: env.num_changes > 0
         run: |
-          bump_type=$(cat $GITHUB_STATE | grep '^bump=' | cut -d= -f2)
-          npm version $bump_type
-          version=$(node -p "require('./package.json').version")
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
-          git commit -am "chore: bump version to $version"
-          git push origin main
+
+          bump_type=$(echo ${{ env.bump }} | cut -d'=' -f2)
+          npm version $bump_type
+          version=$(node -p "require('./package.json').version")
+          echo "version=$version" >> $GITHUB_ENV
+
+          git commit --amend -m "chore: bump version to $version"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create Pull Request
+        if: env.num_changes > 0
+        id: cpr
+        uses: peter-evans/create-pull-request@v6
+        with:
+          title: 'chore: bump version to ${{ env.version }}'
+          body: Bumps the version to ${{ env.version }}.
+          branch: version-bump
+
+      - name: Enable Pull Request Automerge
+        if: steps.cpr.outputs.pull-request-operation == 'created'
+        uses: peter-evans/enable-pull-request-automerge@v3
+        with:
+          pull-request-number: ${{ steps.cpr.outputs.pull-request-number }}
+          merge-method: squash
