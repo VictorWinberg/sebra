@@ -1,0 +1,56 @@
+name: Scheduled Version Bump
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Runs every day at midnight UTC
+  workflow_dispatch: # Allows manual triggering
+
+jobs:
+  bump-version:
+    name: Bump Version on main if there are new commits
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v4
+        with:
+          ref: main # Ensure we are checking out the main branch
+
+      - name: Fetch latest changes
+        run: git fetch --depth=1 origin main
+
+      - name: Check if there are new commits
+        id: check-commits
+        run: |
+          num_changes=$(git log --pretty=format:'%h' ..origin/main | wc -l)
+          echo "has_changes=$num_changes" >> $GITHUB_STATE
+
+      - name: Determine version bump
+        if: ${{ env.has_changes > 0 || github.event_name == 'workflow_dispatch' }}
+        id: determine-bump
+        run: |
+          MAJOR_KEYWORDS=("BREAKING CHANGE" "major")
+          MINOR_KEYWORDS=("feat" "minor")
+
+          # Check the commits between current HEAD and origin/main
+          commit_messages=$(git log --pretty=format:"%s" ..origin/main)
+
+          if echo "$commit_messages" | grep -qE "$(IFS="|"; echo "${MAJOR_KEYWORDS[*]}")"; then
+            echo "bump=major" >> $GITHUB_STATE
+          elif echo "$commit_messages" | grep -qE "$(IFS="|"; echo "${MINOR_KEYWORDS[*]}")"; then
+            echo "bump=minor" >> $GITHUB_STATE
+          else
+            echo "bump=patch" >> $GITHUB_STATE
+          fi
+
+      - name: Bump version and commit if there are changes
+        if: ${{ env.has_changes > 0 || github.event_name == 'workflow_dispatch' }}
+        run: |
+          bump_type=$(cat $GITHUB_STATE | grep '^bump=' | cut -d= -f2)
+          npm version $bump_type
+          version=$(node -p "require('./package.json').version")
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git commit -am "chore: bump version to $version"
+          git push origin main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
