@@ -4,9 +4,13 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Button, DialogActions, DialogContent, DialogTitle, Link } from '@mui/material';
 import { MRT_ColumnDef, MRT_EditActionButtons } from 'material-react-table';
 
+// third party
+import dayjs, { Dayjs } from 'dayjs';
+
 // project imports
 import DataTable from '@/ui-component/DataTable';
 import FlexGrow from '@/ui-component/extended/FlexGrow';
+import { toLocalTime } from '@/utils';
 import { fetchCompanies } from '../api/companiesApi';
 import CompanyForm from '../components/CompanyForm';
 import { useCreateCompany, useDeleteCompany, useUpdateCompany } from '../hooks/useCompaniesMutations';
@@ -32,11 +36,11 @@ const columns: MRT_ColumnDef<DataType>[] = [
   { accessorKey: 'industry', header: 'Industri', filterVariant: 'multi-select' },
   { accessorKey: 'website', header: 'Website' },
   {
-    accessorFn: (row) => new Date(row.updatedAt),
+    accessorFn: (row) => dayjs.utc(row.updatedAt),
     header: 'Senast uppdaterad',
     filterVariant: 'date-range',
     enableEditing: false,
-    Cell: ({ cell }) => cell.getValue<Date>().toLocaleDateString('sv-SE')
+    Cell: ({ cell }) => toLocalTime(cell.getValue<Dayjs>()).format('YYYY-MM-DD HH:mm')
   }
 ];
 

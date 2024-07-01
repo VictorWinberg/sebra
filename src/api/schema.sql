@@ -7,8 +7,8 @@ CREATE TABLE IF NOT EXISTS assignments (
     fee DECIMAL(10, 2),
     type VARCHAR(50),
     status VARCHAR(50),
-    created_at DATE,
-    updated_at DATE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (responsible_person_id) REFERENCES contacts(contact_id),
     FOREIGN KEY (external_contact_person_id) REFERENCES contacts(contact_id)
 );
@@ -23,8 +23,8 @@ CREATE TABLE IF NOT EXISTS contacts (
     address VARCHAR(255),
     notes TEXT,
     last_interaction_date DATE,
-    created_at DATE,
-    updated_at DATE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (company_id) REFERENCES companies(company_id)
 );
 
@@ -36,6 +36,6 @@ CREATE TABLE IF NOT EXISTS companies (
     phone VARCHAR(20),
     email VARCHAR(255),
     website VARCHAR(255),
-    created_at DATE,
-    updated_at DATE
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
