@@ -4,9 +4,13 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Button, DialogActions, DialogContent, DialogTitle, Link } from '@mui/material';
 import { MRT_ColumnDef, MRT_EditActionButtons } from 'material-react-table';
 
+// third party
+import dayjs, { Dayjs } from 'dayjs';
+
 // project imports
 import DataTable from '@/ui-component/DataTable';
 import FlexGrow from '@/ui-component/extended/FlexGrow';
+import { toLocalTime } from '@/utils';
 import { fetchContacts } from '../api/contactsApi';
 import ContactForm from '../components/ContactForm';
 import { useCreateContact, useDeleteContact, useUpdateContact } from '../hooks/useContactsMutations';
@@ -38,11 +42,11 @@ const columns: MRT_ColumnDef<DataType>[] = [
   },
   { accessorKey: 'phone', header: 'Telefonnummer' },
   {
-    accessorFn: (row) => new Date(row.updatedAt),
+    accessorFn: (row) => dayjs.utc(row.updatedAt),
     header: 'Senast uppdaterad',
     filterVariant: 'date-range',
     enableEditing: false,
-    Cell: ({ cell }) => cell.getValue<Date>().toLocaleDateString('sv-SE')
+    Cell: ({ cell }) => toLocalTime(cell.getValue<Dayjs>()).format('YYYY-MM-DD HH:mm')
   }
 ];
 

@@ -3,8 +3,7 @@ AFTER INSERT ON assignments
 FOR EACH ROW
 BEGIN
     UPDATE assignments
-    SET created_at = COALESCE(NEW.created_at, CURRENT_TIMESTAMP),
-        updated_at = COALESCE(NEW.updated_at, CURRENT_TIMESTAMP)
+    SET updated_at = COALESCE(NEW.updated_at, CURRENT_TIMESTAMP)
     WHERE assignment_id = NEW.assignment_id;
 END;
 
@@ -22,8 +21,7 @@ AFTER INSERT ON contacts
 FOR EACH ROW
 BEGIN
     UPDATE contacts
-    SET created_at = COALESCE(NEW.created_at, CURRENT_TIMESTAMP),
-        updated_at = COALESCE(NEW.updated_at, CURRENT_TIMESTAMP)
+    SET updated_at = COALESCE(NEW.updated_at, CURRENT_TIMESTAMP)
     WHERE contact_id = NEW.contact_id;
 END;
 
@@ -41,8 +39,7 @@ AFTER INSERT ON companies
 FOR EACH ROW
 BEGIN
     UPDATE companies
-    SET created_at = COALESCE(NEW.created_at, CURRENT_TIMESTAMP),
-        updated_at = COALESCE(NEW.updated_at, CURRENT_TIMESTAMP)
+    SET updated_at = COALESCE(NEW.updated_at, CURRENT_TIMESTAMP)
     WHERE company_id = NEW.company_id;
 END;
 
