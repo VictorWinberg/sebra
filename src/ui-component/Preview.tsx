@@ -3,9 +3,6 @@ import React, { useEffect, useRef, useState } from 'react';
 // material-ui
 import { Box } from '@mui/material';
 
-// project imports
-import useWindowDimension from '@/hooks/useWindowDimension';
-
 const SUPPORTED_FILE_TYPES = ['application/pdf', 'application/json', 'image/*', 'text/*', 'video/*', 'audio/*'];
 
 interface PreviewProps {
@@ -13,7 +10,6 @@ interface PreviewProps {
 }
 
 const Preview: React.FC<PreviewProps> = ({ file }) => {
-  const dimension = useWindowDimension();
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string>();
 
@@ -54,7 +50,7 @@ const Preview: React.FC<PreviewProps> = ({ file }) => {
 
   return (
     <Box sx={{ mx: -1, overflow: 'hidden' }}>
-      <Box key={previewUrl + dimension} sx={{ width: '100%', height: '500px', px: 1 }}>
+      <Box key={previewUrl} sx={{ width: '100%', height: '500px', px: 1 }}>
         <iframe
           ref={iframeRef}
           src={previewUrl}
