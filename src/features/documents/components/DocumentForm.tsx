@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 // material-ui
 import { BoxProps, Button, Grid, Stack, TextField } from '@mui/material';
@@ -31,6 +31,28 @@ const DocumentForm = ({ onSubmit = () => { }, onChange, formProps, children, ...
   } = useForm<Partial<FileDocument>>(formProps);
 
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const iframeRef = useRef<HTMLIFrameElement | null>(null);
+
+  const handleIframeLoad = () => {
+    if (iframeRef.current && iframeRef.current.contentWindow) {
+      const iframeWindow = iframeRef.current.contentWindow;
+      const iframeDocument = iframeWindow.document;
+      const contentHeight = iframeDocument.documentElement.scrollHeight;
+      const contentWidth = iframeDocument.documentElement.scrollWidth;
+
+      const iframeHeight = iframeRef.current.clientHeight;
+      const iframeWidth = iframeRef.current.clientWidth;
+
+      const scaleX = iframeWidth / contentWidth;
+      const scaleY = iframeHeight / contentHeight;
+      const scale = Math.min(scaleX, scaleY);
+
+      iframeDocument.body.style.transform = `scale(${scale})`;
+      iframeDocument.body.style.transformOrigin = 'top left';
+      iframeDocument.body.style.width = `${contentWidth}px`;
+      iframeDocument.body.style.height = `${contentHeight}px`;
+    }
+  };
 
   const fields = watch();
   useEffect(() => {
@@ -86,10 +108,17 @@ const DocumentForm = ({ onSubmit = () => { }, onChange, formProps, children, ...
           </Grid>
           <Grid item xs={12}>
             {previewUrl && (
-              <iframe
+              <Box
+                component="iframe"
+                ref={iframeRef}
                 src={previewUrl}
-                title="Preview"
-                style={{ width: '100%', height: '500px' }}
+                title="PDF Preview"
+                onLoad={handleIframeLoad}
+                style={{
+                  width: '100%',
+                  height: '500px',
+                  border: 'none'
+                }}
               />
             )}
           </Grid>
