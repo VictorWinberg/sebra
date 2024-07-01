@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 // material-ui
 import { BoxProps, Button, Grid, Stack, TextField } from '@mui/material';
@@ -21,7 +21,7 @@ interface DocumentFormProps extends Omit<BoxProps, 'onChange' | 'onSubmit'> {
   formProps?: UseFormProps<Partial<FileDocument>>;
 }
 
-const DocumentForm = ({ onSubmit = () => {}, onChange, formProps, children, ...rest }: DocumentFormProps) => {
+const DocumentForm = ({ onSubmit = () => { }, onChange, formProps, children, ...rest }: DocumentFormProps) => {
   const {
     control,
     handleSubmit,
@@ -86,13 +86,11 @@ const DocumentForm = ({ onSubmit = () => {}, onChange, formProps, children, ...r
           </Grid>
           <Grid item xs={12}>
             {previewUrl && (
-              <Box mt={2}>
-                <iframe
-                  src={previewUrl}
-                  title="Preview"
-                  style={{ width: '100%', height: '500px' }}
-                />
-              </Box>
+              <iframe
+                src={previewUrl}
+                title="Preview"
+                style={{ width: '100%', height: '500px' }}
+              />
             )}
           </Grid>
           <Grid item xs={12}>
