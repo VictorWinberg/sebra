@@ -53,14 +53,16 @@ const Preview: React.FC<PreviewProps> = ({ file }) => {
   }
 
   return (
-    <Box key={previewUrl + dimension} sx={{ width: '100%', height: '500px', px: 1, mx: -1 }}>
-      <iframe
-        ref={iframeRef}
-        src={previewUrl}
-        title="Preview"
-        onLoad={handleIframeLoad}
-        style={{ width: '100%', height: '500px', border: 'none' }}
-      />
+    <Box sx={{ mx: -1, overflow: 'hidden' }}>
+      <Box key={previewUrl + dimension} sx={{ width: '100%', height: '500px', px: 1 }}>
+        <iframe
+          ref={iframeRef}
+          src={previewUrl}
+          title="Preview"
+          onLoad={handleIframeLoad}
+          style={{ width: '100%', height: '500px', border: 'none' }}
+        />
+      </Box>
     </Box>
   );
 };
