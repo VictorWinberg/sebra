@@ -21,7 +21,13 @@ interface AssignmentFormProps extends Omit<BoxProps, 'onChange' | 'onSubmit'> {
 
 const AssignmentForm = ({ onSubmit = () => {}, onChange, formProps, children, ...rest }: AssignmentFormProps) => {
   const { data: contacts = [] } = useContacts();
-  const { register, control, handleSubmit, watch } = useForm<Partial<Assignment>>(formProps);
+  const {
+    register,
+    control,
+    handleSubmit,
+    watch,
+    formState: { errors }
+  } = useForm<Partial<Assignment>>(formProps);
 
   const watchedFields = watch();
   useEffect(() => {
@@ -33,7 +39,14 @@ const AssignmentForm = ({ onSubmit = () => {}, onChange, formProps, children, ..
       <form onSubmit={handleSubmit(onSubmit)} style={{ ...sxFlex }}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <TextField fullWidth label="Uppdragsnamn" type="text" margin="none" {...register('assignmentName')} />
+            <TextField
+              fullWidth
+              label="Uppdragsnamn"
+              type="text"
+              margin="none"
+              {...register('assignmentName', { required: true })}
+              error={!!errors.assignmentName}
+            />
           </Grid>
           <Grid item xs={12} sm={6}>
             <Controller

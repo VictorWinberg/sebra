@@ -6,10 +6,10 @@ export const useContacts = () => {
   return useQuery({ queryKey: ['contacts'], queryFn: fetchContacts });
 };
 
-export const useContact = (contactId: number) => {
+export const useContact = (contactId: number | undefined) => {
   return useQuery({
     queryKey: ['contact', contactId],
-    queryFn: () => fetchContact(contactId),
+    queryFn: () => fetchContact(contactId!),
     enabled: !!contactId
   });
 };

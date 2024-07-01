@@ -20,7 +20,7 @@ const AssignmentEdit = () => {
   const params = useParams();
   const navigate = useNavigate();
 
-  const { data: assignment, isLoading } = useAssignment(Number(params.id));
+  const { data: assignment, isLoading } = useAssignment(params.id === 'new' ? undefined : Number(params.id));
   const { mutate: createAssignment } = useCreateAssignment();
   const { mutate: updateAssignment } = useUpdateAssignment();
 
@@ -54,6 +54,7 @@ const AssignmentEdit = () => {
                 { label: 'Intressenter', content: <>Intressenter...</> },
                 { label: 'Moduler', content: <>Moduler...</> }
               ]}
+              selected={1}
             />
           </FlexGrow>
         )}

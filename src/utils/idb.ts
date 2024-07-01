@@ -1,32 +1,41 @@
 import { openDB } from 'idb';
+import { v4 as uuidv4 } from 'uuid';
 
-export interface Document {
-  name: string;
+export type FileDocument = {
+  documentId: string;
+  documentName: string;
   content: File;
-}
+};
 
-const dbPromise = openDB('DocumentsDB', 1, {
-  upgrade(db) {
-    db.createObjectStore('documents', { keyPath: 'name' });
+const dbPromise = openDB('DocumentsDB', 2, {
+  upgrade(db, oldVersion) {
+    if (oldVersion < 2) {
+      if (db.objectStoreNames.contains('documents')) {
+        db.deleteObjectStore('documents');
+      }
+
+      const store = db.createObjectStore('documents', { keyPath: 'documentId' });
+      store.createIndex('documentName', 'documentName', { unique: false });
+    }
   }
 });
 
-export const saveFileToIndexedDB = async (file: File): Promise<void> => {
-  const db = await dbPromise;
-  await db.put('documents', { name: file.name, content: file });
+export const getFileFromIndexedDB = async (documentId: string): Promise<FileDocument | undefined> => {
+  return (await dbPromise).get('documents', documentId);
 };
 
-export const getFileFromIndexedDB = async (fileName: string): Promise<Document | undefined> => {
-  const db = await dbPromise;
-  return db.get('documents', fileName);
+export const getAllFilesFromIndexedDB = async (): Promise<FileDocument[]> => {
+  return (await dbPromise).getAll('documents');
 };
 
-export const getAllFilesFromIndexedDB = async (): Promise<Document[]> => {
-  const db = await dbPromise;
-  return db.getAll('documents');
+export const saveFileToIndexedDB = async ({ documentName, content }: Partial<FileDocument>): Promise<IDBValidKey> => {
+  return (await dbPromise).put('documents', { documentId: uuidv4(), documentName, content });
 };
 
-export const deleteFileFromIndexedDB = async (fileName: string): Promise<void> => {
-  const db = await dbPromise;
-  await db.delete('documents', fileName);
+export const updateFileInIndexedDB = async (document: Partial<FileDocument>): Promise<IDBValidKey> => {
+  return (await dbPromise).put('documents', document);
+};
+
+export const deleteFileFromIndexedDB = async ({ documentId }: Pick<FileDocument, 'documentId'>): Promise<void> => {
+  return (await dbPromise).delete('documents', documentId);
 };

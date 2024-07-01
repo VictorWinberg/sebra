@@ -2,7 +2,6 @@
 import {
   IconBrandChrome,
   IconCode,
-  IconFile,
   IconHelp,
   IconKey,
   IconNote,
@@ -17,7 +16,6 @@ import { MenuItem } from '.';
 const icons = {
   IconBrandChrome,
   IconCode,
-  IconFile,
   IconHelp,
   IconKey,
   IconNote,
@@ -41,14 +39,6 @@ const dev: MenuItem = {
       type: 'item',
       url: '/dev/sample',
       icon: icons.IconBrandChrome,
-      breadcrumbs: true
-    },
-    {
-      id: 'documents',
-      title: 'Documents',
-      type: 'item',
-      url: '/dev/documents',
-      icon: icons.IconFile,
       breadcrumbs: true
     },
     {

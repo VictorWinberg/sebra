@@ -18,7 +18,12 @@ interface CompanyFormProps extends Omit<BoxProps, 'onChange' | 'onSubmit'> {
 }
 
 const CompanyForm = ({ onSubmit = () => {}, onChange, formProps, children, ...rest }: CompanyFormProps) => {
-  const { register, handleSubmit, watch } = useForm<Partial<Company>>(formProps);
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors }
+  } = useForm<Partial<Company>>(formProps);
 
   const watchedFields = watch();
   useEffect(() => {
@@ -30,7 +35,14 @@ const CompanyForm = ({ onSubmit = () => {}, onChange, formProps, children, ...re
       <form onSubmit={handleSubmit(onSubmit)} style={{ ...sxFlex }}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
-            <TextField fullWidth label="Bolagsnamn" type="text" margin="none" {...register('companyName')} />
+            <TextField
+              fullWidth
+              label="Bolagsnamn"
+              type="text"
+              margin="none"
+              {...register('companyName', { required: true })}
+              error={!!errors.companyName}
+            />
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField fullWidth label="Address" type="text" margin="none" {...register('address')} />

@@ -24,7 +24,7 @@ const CompanyEdit = () => {
   const params = useParams();
   const navigate = useNavigate();
 
-  const { data: company, isLoading } = useCompany(Number(params.id));
+  const { data: company, isLoading } = useCompany(params.id === 'new' ? undefined : Number(params.id));
   const { mutate: createCompany } = useCreateCompany();
   const { mutate: updateCompany } = useUpdateCompany();
 

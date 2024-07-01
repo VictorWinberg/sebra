@@ -22,7 +22,7 @@ const ContactEdit = () => {
   const params = useParams();
   const navigate = useNavigate();
 
-  const { data: contact, isLoading } = useContact(Number(params.id));
+  const { data: contact, isLoading } = useContact(params.id === 'new' ? undefined : Number(params.id));
   const { mutate: createContact } = useCreateContact();
   const { mutate: updateContact } = useUpdateContact();
 
