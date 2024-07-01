@@ -21,7 +21,13 @@ interface ContactFormProps extends Omit<BoxProps, 'onChange' | 'onSubmit'> {
 
 const ContactForm = ({ onSubmit = () => {}, onChange, formProps, children, ...rest }: ContactFormProps) => {
   const { data: companies = [] } = useCompanies();
-  const { register, control, handleSubmit, watch } = useForm<Partial<Contact>>(formProps);
+  const {
+    register,
+    control,
+    handleSubmit,
+    watch,
+    formState: { errors }
+  } = useForm<Partial<Contact>>(formProps);
 
   const watchedFields = watch();
   useEffect(() => {
@@ -33,7 +39,14 @@ const ContactForm = ({ onSubmit = () => {}, onChange, formProps, children, ...re
       <form onSubmit={handleSubmit(onSubmit)} style={{ ...sxFlex }}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
-            <TextField fullWidth label="Namn" type="text" margin="none" {...register('contactName')} />
+            <TextField
+              fullWidth
+              label="Namn"
+              type="text"
+              margin="none"
+              {...register('contactName', { required: true })}
+              error={!!errors.contactName}
+            />
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField fullWidth label="Email" type="text" margin="none" {...register('email')} />

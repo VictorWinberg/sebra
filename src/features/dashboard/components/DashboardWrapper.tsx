@@ -1,5 +1,5 @@
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { Chip, Box, Typography, Grid, useTheme } from '@mui/material';
+import { Chip, Box, Grid, useTheme } from '@mui/material';
 
 // third-party
 import PerfectScrollbar from 'react-perfect-scrollbar';
@@ -31,11 +31,6 @@ const DashboardWrapper = () => {
   return (
     <FlexGrow>
       <Grid container alignItems="flex-start" justifyContent="space-between">
-        <Grid item sm="auto">
-          <Typography variant="h3" lineHeight={1.5} gutterBottom>
-            {currentTab.title}
-          </Typography>
-        </Grid>
         <Grid item sm="auto">
           <PerfectScrollbar style={{ width: '100%', maxWidth: 'calc(100vw - 52px)', overflowX: 'hidden' }}>
             <Box sx={{ display: 'flex', gap: 2 }}>

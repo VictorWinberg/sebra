@@ -1,9 +1,9 @@
 // assets
-import { IconDashboard, IconMail, IconMessageCircle, IconUser, IconSettings } from '@tabler/icons-react';
+import { IconDashboard, IconFile, IconMail, IconMessageCircle, IconSettings, IconUser } from '@tabler/icons-react';
 import { MenuItem } from '.';
 
 // constant
-const icons = { IconDashboard, IconMail, IconMessageCircle, IconUser, IconSettings };
+const icons = { IconDashboard, IconFile, IconMail, IconMessageCircle, IconUser, IconSettings };
 
 // ==============================|| MAIN MENU ITEMS ||============================== //
 
@@ -18,7 +18,15 @@ const main: MenuItem = {
       type: 'item',
       url: '/dashboard',
       icon: icons.IconDashboard,
-      breadcrumbs: false
+      breadcrumbs: true
+    },
+    {
+      id: 'documents',
+      title: 'Documents',
+      type: 'item',
+      url: '/documents',
+      icon: icons.IconFile,
+      breadcrumbs: true
     },
     {
       id: 'mailing',
@@ -26,7 +34,7 @@ const main: MenuItem = {
       type: 'item',
       url: '/mailing',
       icon: icons.IconMail,
-      breadcrumbs: false
+      breadcrumbs: true
     },
     {
       id: 'results',
@@ -34,7 +42,7 @@ const main: MenuItem = {
       type: 'item',
       url: '/results',
       icon: icons.IconMessageCircle,
-      breadcrumbs: false
+      breadcrumbs: true
     },
     {
       id: 'organization',
@@ -42,7 +50,7 @@ const main: MenuItem = {
       type: 'item',
       url: '/organization',
       icon: icons.IconUser,
-      breadcrumbs: false
+      breadcrumbs: true
     },
     {
       id: 'modules',
@@ -50,7 +58,7 @@ const main: MenuItem = {
       type: 'item',
       url: '/modules',
       icon: icons.IconSettings,
-      breadcrumbs: false
+      breadcrumbs: true
     }
   ]
 };

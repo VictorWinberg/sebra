@@ -3,7 +3,6 @@ import { Link, useLocation } from 'react-router-dom';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
@@ -95,7 +94,7 @@ const Breadcrumbs = ({
   useEffect(() => {
     navigation?.items?.map((menu) => {
       if (menu.type && menu.type === 'group') {
-        if (menu?.url && menu.url === customLocation) {
+        if (menu?.url && customLocation.startsWith(menu.url)) {
           setMain(menu);
           setItem(menu);
         } else {
@@ -110,14 +109,14 @@ const Breadcrumbs = ({
   const getCollapse = (menu: MenuItem) => {
     if (!custom && menu.children) {
       menu.children.filter((collapse) => {
-        if (collapse.type && collapse.type === 'collapse') {
+        if (collapse.url && collapse.type === 'collapse') {
           getCollapse(collapse);
-          if (collapse.url === customLocation) {
+          if (customLocation.startsWith(collapse.url)) {
             setMain(collapse);
             setItem(collapse);
           }
-        } else if (collapse.type && collapse.type === 'item') {
-          if (customLocation === collapse.url) {
+        } else if (collapse.url && collapse.type === 'item') {
+          if (customLocation.startsWith(collapse.url)) {
             setMain(menu);
             setItem(collapse);
           }
@@ -156,34 +155,35 @@ const Breadcrumbs = ({
 
   if (!custom && main && main.type === 'collapse' && main.breadcrumbs === true) {
     breadcrumbContent = (
-      <Card sx={card === false ? { mb: 3, bgcolor: 'transparent', ...sx } : { mb: 3, bgcolor: 'background.default', ...sx }} {...others}>
-        <Box sx={{ p: 2, pl: card === false ? 0 : 2 }}>
-          <Grid
-            container
-            direction={rightAlign ? 'row' : 'column'}
-            justifyContent={rightAlign ? 'space-between' : 'flex-start'}
-            alignItems={rightAlign ? 'center' : 'flex-start'}
-            spacing={1}
-          >
-            {title && !titleBottom && <BTitle title={main.title} />}
-            <Grid item>
-              <MuiBreadcrumbs
-                aria-label="breadcrumb"
-                maxItems={maxItems || 8}
-                separator={separatorIcon}
-                sx={{ '& .MuiBreadcrumbs-separator': { width: 16, ml: 1.25, mr: 1.25 } }}
-              >
-                <Typography component={Link} to="/" color="textSecondary" variant="subtitle1" sx={linkSX}>
-                  {icons && <HomeTwoToneIcon style={iconSX} />}
-                  {icon && !icons && <HomeIcon style={{ ...iconSX, marginRight: 0 }} />}
-                  {(!icon || icons) && 'Dashboard'}
-                </Typography>
-                {mainContent}
-              </MuiBreadcrumbs>
-            </Grid>
-            {title && titleBottom && <BTitle title={main.title} />}
+      <Card
+        sx={card === false ? { mb: 3, bgcolor: 'transparent', ...sx } : { mb: 3, bgcolor: 'background.default', ...sx }}
+        {...others}
+      >
+        <Grid
+          container
+          direction={rightAlign ? 'row' : 'column'}
+          justifyContent={rightAlign ? 'space-between' : 'flex-start'}
+          alignItems={rightAlign ? 'center' : 'flex-start'}
+          spacing={1}
+        >
+          {title && !titleBottom && <BTitle title={main.title} />}
+          <Grid item>
+            <MuiBreadcrumbs
+              aria-label="breadcrumb"
+              maxItems={maxItems || 8}
+              separator={separatorIcon}
+              sx={{ '& .MuiBreadcrumbs-separator': { width: 16, ml: 1.25, mr: 1.25 } }}
+            >
+              <Typography component={Link} to="/" color="textSecondary" variant="subtitle1" sx={linkSX}>
+                {icons && <HomeTwoToneIcon style={iconSX} />}
+                {icon && !icons && <HomeIcon style={{ ...iconSX, marginRight: 0 }} />}
+                {(!icon || icons) && 'Dashboard'}
+              </Typography>
+              {mainContent}
+            </MuiBreadcrumbs>
           </Grid>
-        </Box>
+          {title && titleBottom && <BTitle title={main.title} />}
+        </Grid>
         {card === false && divider !== false && <Divider sx={{ mt: 2 }} />}
       </Card>
     );
@@ -249,20 +249,23 @@ const Breadcrumbs = ({
     // main
     if (item?.breadcrumbs !== false || custom) {
       breadcrumbContent = (
-        <Card sx={card === false ? { mb: 3, bgcolor: 'transparent', ...sx } : { mb: 3, bgcolor: 'background.default', ...sx }} {...others}>
-          <Box sx={{ p: 2, pl: card === false ? 0 : 2 }}>
-            <Grid
-              container
-              direction={rightAlign ? 'row' : 'column'}
-              justifyContent={rightAlign ? 'space-between' : 'flex-start'}
-              alignItems={rightAlign ? 'center' : 'flex-start'}
-              spacing={1}
-            >
-              {title && !titleBottom && <BTitle title={custom ? heading : item?.title} />}
-              <Grid item>{tempContent}</Grid>
-              {title && titleBottom && <BTitle title={custom ? heading : item?.title} />}
-            </Grid>
-          </Box>
+        <Card
+          sx={
+            card === false ? { mb: 3, bgcolor: 'transparent', ...sx } : { mb: 3, bgcolor: 'background.default', ...sx }
+          }
+          {...others}
+        >
+          <Grid
+            container
+            direction={rightAlign ? 'row' : 'column'}
+            justifyContent={rightAlign ? 'space-between' : 'flex-start'}
+            alignItems={rightAlign ? 'center' : 'flex-start'}
+            spacing={1}
+          >
+            {title && !titleBottom && <BTitle title={custom ? heading : item?.title} />}
+            <Grid item>{tempContent}</Grid>
+            {title && titleBottom && <BTitle title={custom ? heading : item?.title} />}
+          </Grid>
           {card === false && divider !== false && <Divider sx={{ mt: 2 }} />}
         </Card>
       );
