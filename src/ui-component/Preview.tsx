@@ -1,5 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
+
+// material-ui
 import { Box } from '@mui/material';
+
+// project imports
+import useWindowDimension from '@/hooks/useWindowDimension';
 
 const SUPPORTED_FILE_TYPES = ['application/pdf', 'application/json', 'image/*', 'text/*', 'video/*', 'audio/*'];
 
@@ -8,12 +13,15 @@ interface PreviewProps {
 }
 
 const Preview: React.FC<PreviewProps> = ({ file }) => {
+  const dimension = useWindowDimension();
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string>();
 
   useEffect(() => {
     if (file && SUPPORTED_FILE_TYPES.some((type) => file.type.match(type))) {
       setPreviewUrl(URL.createObjectURL(file));
+    } else {
+      setPreviewUrl(undefined);
     }
   }, [file]);
 
@@ -45,25 +53,13 @@ const Preview: React.FC<PreviewProps> = ({ file }) => {
   }
 
   return (
-    <Box
-      key={previewUrl}
-      sx={{
-        width: '100%',
-        height: '500px',
-        px: 1,
-        mx: -1
-      }}
-    >
+    <Box key={previewUrl + dimension} sx={{ width: '100%', height: '500px', px: 1, mx: -1 }}>
       <iframe
         ref={iframeRef}
         src={previewUrl}
         title="Preview"
         onLoad={handleIframeLoad}
-        style={{
-          width: '100%',
-          height: '500px',
-          border: 'none'
-        }}
+        style={{ width: '100%', height: '500px', border: 'none' }}
       />
     </Box>
   );
