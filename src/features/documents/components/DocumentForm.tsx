@@ -30,6 +30,8 @@ const DocumentForm = ({ onSubmit = () => {}, onChange, formProps, children, ...r
     formState: { errors }
   } = useForm<Partial<FileDocument>>(formProps);
 
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+
   const fields = watch();
   useEffect(() => {
     onChange?.(fields);
@@ -38,6 +40,7 @@ const DocumentForm = ({ onSubmit = () => {}, onChange, formProps, children, ...r
   const handleFileChange = (data: File) => {
     setValue('documentName', data.name);
     setValue('content', data);
+    setPreviewUrl(URL.createObjectURL(data));
   };
 
   return (
@@ -80,6 +83,17 @@ const DocumentForm = ({ onSubmit = () => {}, onChange, formProps, children, ...r
                 />
               )}
             />
+          </Grid>
+          <Grid item xs={12}>
+            {previewUrl && (
+              <Box mt={2}>
+                <iframe
+                  src={previewUrl}
+                  title="Preview"
+                  style={{ width: '100%', height: '500px' }}
+                />
+              </Box>
+            )}
           </Grid>
           <Grid item xs={12}>
             <Stack spacing={2} direction="row">
