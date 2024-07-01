@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 
 // material-ui
-import { BoxProps, Button, Grid, Stack, TextField } from '@mui/material';
+import { Box, BoxProps, Button, Grid, Stack, TextField } from '@mui/material';
 
 // third party
 import { Controller, UseFormProps, useForm } from 'react-hook-form';
