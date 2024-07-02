@@ -12,8 +12,9 @@ interface FileSelectorProps extends Omit<ButtonProps, 'onChange'> {
 
 const FileSelector = ({ onChange, children, ...rest }: FileSelectorProps) => {
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
-      onChange?.(event.target.files[0]);
+    const file = event.target.files?.[0];
+    if (file) {
+      onChange?.(file);
     }
   };
 

@@ -8,6 +8,7 @@ import { Controller, UseFormProps, useForm } from 'react-hook-form';
 
 // project imports
 import FileSelector from '@/ui-component/FileSelecter';
+import Preview from '@/ui-component/Preview';
 import FlexGrow, { sxFlex } from '@/ui-component/extended/FlexGrow';
 import { FileDocument } from '@/utils';
 
@@ -80,6 +81,9 @@ const DocumentForm = ({ onSubmit = () => {}, onChange, formProps, children, ...r
                 />
               )}
             />
+          </Grid>
+          <Grid item xs={12}>
+            <Preview file={fields.content} />
           </Grid>
           <Grid item xs={12}>
             <Stack spacing={2} direction="row">
