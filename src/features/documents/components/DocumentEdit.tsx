@@ -16,7 +16,7 @@ import DataTable from '@/ui-component/DataTable';
 import FlexGrow from '@/ui-component/extended/FlexGrow';
 import { toMap } from '@/utils';
 import { DocumentRecord } from '../api/documentsApi';
-import { useDeleteDocument, useSaveDocument } from '../hooks/useDocumentsMutations';
+import { useDeleteDocument, useDeleteDocumentReference, useSaveDocument } from '../hooks/useDocumentsMutations';
 import { useDocument, useDocumentReferences } from '../hooks/useDocumentsQueries';
 import DocumentForm from './DocumentForm';
 import DeleteConfirm from '@/ui-component/DeleteConfirm';
@@ -32,13 +32,13 @@ const DocumentEdit = () => {
   const { mutate: saveDocument } = useSaveDocument();
   const { mutate: deleteDocument } = useDeleteDocument();
 
-  const { data: references = [], isLoading: referencesIsLoading } = useDocumentReferences(
-    params.id === 'new' ? undefined : { documentId: params.id }
-  );
   const { data: companies = [] } = useCompanies();
   const { data: contacts = [] } = useContacts();
   const { data: assignments = [] } = useAssignments();
-
+  const { data: references = [], isLoading: referencesIsLoading } = useDocumentReferences(
+    params.id === 'new' ? undefined : { documentId: params.id }
+  );
+  const { mutate: deleteDocumentReference } = useDeleteDocumentReference();
   const companyMap = useMemo(() => toMap(companies, 'companyId'), [companies]);
   const contactMap = useMemo(() => toMap(contacts, 'contactId'), [contacts]);
   const assignmentMap = useMemo(() => toMap(assignments, 'assignmentId'), [assignments]);
@@ -123,6 +123,7 @@ const DocumentEdit = () => {
                           Cell: ({ row }) => renderLink(row.original.entityType, row.original.entityId)
                         }
                       ]}
+                      onDelete={(row) => deleteDocumentReference(row)}
                     />
                   )
                 }
