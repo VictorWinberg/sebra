@@ -1,23 +1,29 @@
+// third party
 import { useQuery } from '@tanstack/react-query';
 
-import { DocumentRecord, fetchDocument, fetchDocumentReferences, fetchDocuments } from '../api/documentsApi';
+// project imports
+import { getAllFilesFromIndexedDB, getFileFromIndexedDB } from '@/utils/idb';
+import { DocumentReference, fetchDocumentReferences } from '../api/documentsApi';
 
-export const useDocuments = (where: Partial<DocumentRecord>) => {
-  return useQuery({ queryKey: ['documents', where], queryFn: () => fetchDocuments(where) });
+export const useDocuments = () => {
+  return useQuery({
+    queryKey: ['documents'],
+    queryFn: getAllFilesFromIndexedDB
+  });
 };
 
 export const useDocument = (documentId: string | undefined) => {
   return useQuery({
-    queryKey: ['document', documentId],
-    queryFn: () => fetchDocument(documentId!),
+    queryKey: ['documents', documentId],
+    queryFn: () => getFileFromIndexedDB(documentId!),
     enabled: !!documentId
   });
 };
 
-export const useDocumentReferences = (documentId: string | undefined) => {
+export const useDocumentReferences = (where: Partial<DocumentReference> | undefined) => {
   return useQuery({
-    queryKey: ['document_references', documentId],
-    queryFn: () => fetchDocumentReferences(documentId!),
-    enabled: !!documentId
+    queryKey: ['document_references', where],
+    queryFn: () => fetchDocumentReferences(where!),
+    enabled: where && Object.keys(where).length > 0
   });
 };

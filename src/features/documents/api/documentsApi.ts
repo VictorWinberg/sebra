@@ -1,14 +1,5 @@
 import { deleteQuery, insertQuery, selectAllQuery } from '@/api/DummyDB';
-import {
-  DocumentContent,
-  deleteFileFromIndexedDB,
-  getAllFilesFromIndexedDB,
-  getFileFromIndexedDB,
-  pick,
-  saveFileToIndexedDB,
-  toMap,
-  updateFileInIndexedDB
-} from '@/utils';
+import { DocumentContent, pick } from '@/utils';
 
 export type DocumentRecord = DocumentReference & DocumentContent;
 
@@ -18,35 +9,17 @@ export type DocumentReference = {
   entityId: string;
 };
 
-export const fetchDocuments = async (where: Partial<DocumentRecord>): Promise<DocumentRecord[]> => {
-  const files = await getAllFilesFromIndexedDB();
-  const fileMap = toMap(files, 'documentId');
-  const refs = await selectAllQuery<DocumentReference>('document_references', where);
-
-  return refs.map((ref) => ({ ...ref, ...fileMap.get(ref.documentId)! }));
+export const fetchDocumentReferences = async (where: Partial<DocumentReference>): Promise<DocumentReference[]> => {
+  return await selectAllQuery<DocumentReference>('document_references', where);
 };
 
-export const fetchDocument = async (documentId: string): Promise<DocumentContent | undefined> => {
-  return await getFileFromIndexedDB(documentId);
-};
-
-export const fetchDocumentReferences = async (documentId: string): Promise<DocumentReference[]> => {
-  return await selectAllQuery<DocumentReference>('document_references', { documentId });
-};
-
-export const createDocument = async (document: Omit<DocumentRecord, 'documentId'>) => {
-  const documentId = await saveFileToIndexedDB(document);
-  return await insertQuery<DocumentReference>(
+export const createDocumentReference = async (documentReference: DocumentReference) => {
+  await insertQuery<DocumentReference>(
     'document_references',
-    pick({ ...document, documentId }, ['documentId', 'entityType', 'entityId'])
+    pick(documentReference, ['documentId', 'entityType', 'entityId'])
   );
 };
 
-export const updateDocument = async (document: DocumentContent) => {
-  await updateFileInIndexedDB(document);
-};
-
-export const deleteDocument = async ({ documentId }: Pick<DocumentRecord, 'documentId'>) => {
-  await deleteFileFromIndexedDB({ documentId });
-  await deleteQuery<DocumentReference>('document_references', { documentId });
+export const deleteDocumentReference = async (where: Partial<DocumentReference>) => {
+  await deleteQuery<DocumentReference>('document_references', pick(where, ['documentId', 'entityType', 'entityId']));
 };

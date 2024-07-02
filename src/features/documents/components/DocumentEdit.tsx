@@ -16,7 +16,7 @@ import DataTable from '@/ui-component/DataTable';
 import FlexGrow from '@/ui-component/extended/FlexGrow';
 import { toMap } from '@/utils';
 import { DocumentRecord } from '../api/documentsApi';
-import { useCreateDocument, useUpdateDocument } from '../hooks/useDocumentsMutations';
+import { useSaveDocument } from '../hooks/useDocumentsMutations';
 import { useDocument, useDocumentReferences } from '../hooks/useDocumentsQueries';
 import DocumentForm from './DocumentForm';
 
@@ -27,11 +27,10 @@ const DocumentEdit = () => {
   const navigate = useNavigate();
 
   const { data: document, isLoading } = useDocument(params.id === 'new' ? undefined : params.id);
-  const { mutate: createDocument } = useCreateDocument();
-  const { mutate: updateDocument } = useUpdateDocument();
+  const { mutate: saveDocument } = useSaveDocument();
 
   const { data: references = [], isLoading: referencesIsLoading } = useDocumentReferences(
-    params.id === 'new' ? undefined : params.id
+    params.id === 'new' ? undefined : { documentId: params.id }
   );
   const { data: companies = [] } = useCompanies();
   const { data: contacts = [] } = useContacts();
@@ -42,13 +41,9 @@ const DocumentEdit = () => {
   const assignmentMap = useMemo(() => toMap(assignments, 'assignmentId'), [assignments]);
 
   const handleSubmit = (data: DocumentRecord) => {
-    if (document) {
-      updateDocument(data);
-    } else {
-      createDocument(data, {
-        onSuccess: (res) => navigate(`/documents/${res}`)
-      });
-    }
+    saveDocument(data, {
+      onSuccess: (res) => navigate(`/documents/${res}`)
+    });
   };
 
   if (isLoading) return;
@@ -115,11 +110,13 @@ const DocumentEdit = () => {
                         {
                           accessorKey: 'entityType',
                           header: 'Typ',
+                          enableEditing: false,
                           Cell: ({ row }) => renderType(row.original.entityType)
                         },
                         {
                           accessorKey: 'entityId',
                           header: 'Länk',
+                          enableEditing: false,
                           Cell: ({ row }) => renderLink(row.original.entityType, row.original.entityId)
                         }
                       ]}

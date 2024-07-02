@@ -33,15 +33,11 @@ export const getFileFromIndexedDB = async (documentId: string): Promise<Document
 };
 
 export const getAllFilesFromIndexedDB = async (): Promise<DocumentContent[]> => {
-  return (await dbPromise).getAll('documents');
+  return (await dbPromise).getAll('documents', undefined); // TODO: Do some filtering here
 };
 
-export const saveFileToIndexedDB = async (document: Omit<DocumentContent, 'documentId'>): Promise<string> => {
-  return (await dbPromise).put('documents', { ...document, documentId: uuidv4() });
-};
-
-export const updateFileInIndexedDB = async (document: DocumentContent): Promise<string> => {
-  return (await dbPromise).put('documents', document);
+export const saveFileToIndexedDB = async ({ documentId, ...document }: DocumentContent): Promise<string> => {
+  return (await dbPromise).put('documents', { ...document, documentId: documentId || uuidv4() });
 };
 
 export const deleteFileFromIndexedDB = async ({ documentId }: Pick<DocumentContent, 'documentId'>): Promise<void> => {

@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
 
 // material-ui
@@ -11,15 +12,15 @@ import dayjs, { Dayjs } from 'dayjs';
 // project imports
 import DocumentForm from '@/features/documents/components/DocumentForm';
 import {
-  useCreateDocument,
-  useDeleteDocument,
-  useUpdateDocument
+  useCreateDocumentReference,
+  useDeleteDocumentReference,
+  useSaveDocument
 } from '@/features/documents/hooks/useDocumentsMutations';
-import { useDocuments } from '@/features/documents/hooks/useDocumentsQueries';
+import { useDocumentReferences, useDocuments } from '@/features/documents/hooks/useDocumentsQueries';
 import ContentTabs from '@/ui-component/ContentTabs';
 import DataTable from '@/ui-component/DataTable';
 import FlexGrow from '@/ui-component/extended/FlexGrow';
-import { toLocalTime } from '@/utils';
+import { toLocalTime, toMap } from '@/utils';
 import { Assignment } from '../api/assignmentsApi';
 import { useCreateAssignment, useUpdateAssignment } from '../hooks/useAssignmentsMutations';
 import { useAssignment } from '../hooks/useAssignmentsQueries';
@@ -35,13 +36,21 @@ const AssignmentEdit = () => {
   const { mutate: createAssignment } = useCreateAssignment();
   const { mutate: updateAssignment } = useUpdateAssignment();
 
-  const { data: documents = [], isLoading: documentsIsLoading } = useDocuments({
+  const { data: files = [], isLoading: filesIsLoading } = useDocuments();
+  const { data: documentReferences = [], isLoading: documentsIsLoading } = useDocumentReferences({
     entityType: 'assignment',
     entityId: `${assignment?.assignmentId}`
   });
-  const { mutate: createDocument } = useCreateDocument();
-  const { mutate: updateDocument } = useUpdateDocument();
-  const { mutate: deleteDocument } = useDeleteDocument();
+
+  // TODO: Refactor to use a selector or similar
+  const documents = useMemo(() => {
+    const fileMap = toMap(files, 'documentId');
+    return documentReferences.map((ref) => ({ ...ref, ...fileMap.get(ref.documentId)! }));
+  }, [files, documentReferences]);
+
+  const { mutate: saveDocument } = useSaveDocument();
+  const { mutate: createDocumentReference } = useCreateDocumentReference();
+  const { mutate: deleteDocumentReference } = useDeleteDocumentReference();
 
   const handleSubmit = (data: Partial<Assignment>) => {
     if (assignment) {
@@ -75,7 +84,7 @@ const AssignmentEdit = () => {
                     <DataTable
                       data={documents}
                       getRowId={(row) => `${row.documentId}-${row.entityType}-${row.entityId}`}
-                      state={{ isLoading: documentsIsLoading }}
+                      state={{ isLoading: filesIsLoading || documentsIsLoading }}
                       columns={[
                         {
                           accessorKey: 'documentName',
@@ -86,9 +95,9 @@ const AssignmentEdit = () => {
                             </Link>
                           )
                         },
-                        { accessorKey: 'content.type', header: 'Filtyp' },
+                        { accessorFn: (row) => row.content?.type, header: 'Filtyp', enableEditing: false },
                         {
-                          accessorFn: (row) => dayjs(row.content.lastModified),
+                          accessorFn: (row) => dayjs(row.content?.lastModified),
                           header: 'Senast uppdaterad',
                           filterVariant: 'date-range',
                           enableEditing: false,
@@ -125,7 +134,7 @@ const AssignmentEdit = () => {
                           <DialogContent>
                             <DocumentForm
                               sx={{ mt: 1 }}
-                              formProps={{ values: row.original }}
+                              formProps={{ defaultValues: row.original }}
                               onChange={(values) => {
                                 //@ts-expect-error any
                                 row._valuesCache = values;
@@ -137,9 +146,13 @@ const AssignmentEdit = () => {
                           </DialogActions>
                         </>
                       )}
-                      onCreate={(row) => createDocument(row)}
-                      onUpdate={(row) => updateDocument(row)}
-                      onDelete={(row) => deleteDocument(row)}
+                      onCreate={(row) =>
+                        saveDocument(row, {
+                          onSuccess: (documentId) => createDocumentReference({ ...row, documentId })
+                        })
+                      }
+                      onUpdate={(row) => saveDocument(row)}
+                      onDelete={(row) => deleteDocumentReference(row)}
                     />
                   )
                 },

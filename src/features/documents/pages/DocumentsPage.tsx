@@ -8,11 +8,12 @@ import { MRT_ColumnDef, MRT_EditActionButtons } from 'material-react-table';
 import dayjs, { Dayjs } from 'dayjs';
 
 // project imports
-import { useDeleteFile, useFiles, useSaveFile, useUpdateFile } from '@/hooks/useFiles';
 import DataTable from '@/ui-component/DataTable';
 import FlexGrow from '@/ui-component/extended/FlexGrow';
 import { DocumentContent, toLocalTime } from '@/utils';
 import DocumentForm from '../components/DocumentForm';
+import { useDeleteDocument, useSaveDocument } from '../hooks/useDocumentsMutations';
+import { useDocuments } from '../hooks/useDocumentsQueries';
 
 // assets
 import { Add } from '@mui/icons-material';
@@ -40,10 +41,9 @@ const columns: MRT_ColumnDef<DocumentContent>[] = [
 ];
 
 const DocumentPage = () => {
-  const { data = [], isLoading } = useFiles();
-  const { mutate: saveFile } = useSaveFile();
-  const { mutate: updateFile } = useUpdateFile();
-  const { mutate: deleteFile } = useDeleteFile();
+  const { data = [], isLoading } = useDocuments();
+  const { mutate: saveDocument } = useSaveDocument();
+  const { mutate: deleteDocument } = useDeleteDocument();
 
   if (isLoading) return;
 
@@ -54,9 +54,9 @@ const DocumentPage = () => {
         columns={columns}
         getRowId={(row) => `${row.documentId}`}
         state={{ isLoading }}
-        onCreate={(row) => saveFile(row)}
-        onUpdate={(row) => updateFile(row)}
-        onDelete={(row) => deleteFile(row)}
+        onCreate={(row) => saveDocument(row)}
+        onUpdate={(row) => saveDocument(row)}
+        onDelete={(row) => deleteDocument(row)}
         renderTopToolbarCustomActions={() => (
           <Button
             component={RouterLink}

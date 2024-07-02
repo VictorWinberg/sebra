@@ -29,10 +29,10 @@ const AssignmentForm = ({ onSubmit = () => {}, onChange, formProps, children, ..
     formState: { errors }
   } = useForm<Partial<Assignment>>(formProps);
 
-  const watchedFields = watch();
+  const fields = watch();
   useEffect(() => {
-    onChange?.(watchedFields);
-  }, [onChange, watchedFields]);
+    onChange?.(fields);
+  }, [onChange, fields]);
 
   return (
     <FlexGrow {...rest}>
