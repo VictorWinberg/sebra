@@ -16,9 +16,11 @@ import DataTable from '@/ui-component/DataTable';
 import FlexGrow from '@/ui-component/extended/FlexGrow';
 import { toMap } from '@/utils';
 import { DocumentRecord } from '../api/documentsApi';
-import { useSaveDocument } from '../hooks/useDocumentsMutations';
+import { useDeleteDocument, useSaveDocument } from '../hooks/useDocumentsMutations';
 import { useDocument, useDocumentReferences } from '../hooks/useDocumentsQueries';
 import DocumentForm from './DocumentForm';
+import DeleteConfirm from '@/ui-component/DeleteConfirm';
+import { bindTrigger } from 'material-ui-popup-state';
 
 // ==============================|| DOCUMENT EDIT PAGE ||============================== //
 
@@ -28,6 +30,7 @@ const DocumentEdit = () => {
 
   const { data: document, isLoading } = useDocument(params.id === 'new' ? undefined : params.id);
   const { mutate: saveDocument } = useSaveDocument();
+  const { mutate: deleteDocument } = useDeleteDocument();
 
   const { data: references = [], isLoading: referencesIsLoading } = useDocumentReferences(
     params.id === 'new' ? undefined : { documentId: params.id }
@@ -128,12 +131,21 @@ const DocumentEdit = () => {
           </FlexGrow>
         )}
 
-        <Stack spacing={2} direction="row" sx={{ mt: 3 }}>
+        <Stack spacing={2} direction="row" sx={{ mt: 3, ml: 'auto' }}>
+          {document && (
+            <DeleteConfirm onClick={() => deleteDocument(document, { onSuccess: () => navigate('..') })}>
+              {(popupState) => (
+                <Button size="large" variant="outlined" color="error" {...bindTrigger(popupState)}>
+                  Ta bort
+                </Button>
+              )}
+            </DeleteConfirm>
+          )}
+          <Button size="large" variant="outlined" color="primary" onClick={() => navigate(-1)}>
+            Avbryt
+          </Button>
           <Button size="large" type="submit" variant="contained" color="primary">
             Spara
-          </Button>
-          <Button size="large" variant="outlined" color="primary" onClick={() => navigate(-1)}>
-            Tillbaka
           </Button>
         </Stack>
       </DocumentForm>

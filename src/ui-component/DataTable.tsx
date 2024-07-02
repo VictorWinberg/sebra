@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 // material-ui
-import { Box, Button, Card, CardActions, CardContent, IconButton, Popover, Tooltip, Typography } from '@mui/material';
+import { Box, IconButton, Tooltip } from '@mui/material';
 
 // third-party
 import {
@@ -13,7 +13,8 @@ import {
   type MRT_TableOptions
 } from 'material-react-table';
 import { MRT_Localization_SV } from 'material-react-table/locales/sv';
-import PopupState, { bindPopover, bindTrigger } from 'material-ui-popup-state';
+import { bindTrigger } from 'material-ui-popup-state';
+import DeleteConfirm from './DeleteConfirm';
 import { sxFlex } from './extended/FlexGrow';
 
 // assets
@@ -129,41 +130,21 @@ const RowActions = <T extends MRT_RowData>(props: DataTableProps<T>, custom: Cus
           <EditIcon />
         </IconButton>
       </Tooltip>
-      <PopupState variant="popover" popupId={`delete-popup-${row.id}`}>
+      <DeleteConfirm
+        id={row.id}
+        onClick={() => {
+          props.onDelete?.(row.original);
+          table.setEditingRow(null);
+        }}
+      >
         {(popupState) => (
-          <>
-            <Tooltip title="Delete">
-              <IconButton color="error" {...bindTrigger(popupState)}>
-                <DeleteIcon />
-              </IconButton>
-            </Tooltip>
-            <Popover
-              {...bindPopover(popupState)}
-              anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-              transformOrigin={{ vertical: 'top', horizontal: 'center' }}
-            >
-              <Card>
-                <CardContent>
-                  <Typography variant="body1">Är du säker på att du vill ta bort?</Typography>
-                </CardContent>
-                <CardActions>
-                  <Button fullWidth onClick={popupState.close} color="inherit" variant="outlined">
-                    Avbryt
-                  </Button>
-                  <Button
-                    fullWidth
-                    onClick={() => [props.onDelete?.(row.original), popupState.close()]}
-                    color="error"
-                    variant="contained"
-                  >
-                    Ta bort
-                  </Button>
-                </CardActions>
-              </Card>
-            </Popover>
-          </>
+          <Tooltip title="Delete">
+            <IconButton color="error" {...bindTrigger(popupState)}>
+              <DeleteIcon />
+            </IconButton>
+          </Tooltip>
         )}
-      </PopupState>
+      </DeleteConfirm>
     </Box>
   );
 };
