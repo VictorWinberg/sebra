@@ -3,20 +3,22 @@ import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
 // material-ui
 import { Box, Button, Link, Stack } from '@mui/material';
 import Typography from '@mui/material/Typography';
+import { bindTrigger } from 'material-ui-popup-state';
 
 // third party
 
 // project imports
+import { useAssignments } from '@/features/assignments/hooks/useAssignmentsQueries';
 import { useCreateContact, useDeleteContact, useUpdateContact } from '@/features/contacts/hooks/useContactsMutations';
 import { useContacts } from '@/features/contacts/hooks/useContactsQueries';
 import ContentTabs from '@/ui-component/ContentTabs';
 import DataTable from '@/ui-component/DataTable';
+import DeleteConfirm from '@/ui-component/DeleteConfirm';
 import FlexGrow from '@/ui-component/extended/FlexGrow';
 import { Company } from '../api/companiesApi';
-import { useCreateCompany, useUpdateCompany } from '../hooks/useCompaniesMutations';
+import { useCreateCompany, useDeleteCompany, useUpdateCompany } from '../hooks/useCompaniesMutations';
 import { useCompany } from '../hooks/useCompaniesQueries';
 import CompanyForm from './CompanyForm';
-import { useAssignments } from '@/features/assignments/hooks/useAssignmentsQueries';
 
 // ==============================|| COMPANY EDIT PAGE ||============================== //
 
@@ -27,6 +29,7 @@ const CompanyEdit = () => {
   const { data: company, isLoading } = useCompany(params.id === 'new' ? undefined : Number(params.id));
   const { mutate: createCompany } = useCreateCompany();
   const { mutate: updateCompany } = useUpdateCompany();
+  const { mutate: deleteCompany } = useDeleteCompany();
 
   const { data: contacts = [], isLoading: contactsIsLoading } = useContacts();
   const { data: assignments = [], isLoading: assignmentsIsLoading } = useAssignments();
@@ -153,12 +156,21 @@ const CompanyEdit = () => {
           </FlexGrow>
         )}
 
-        <Stack spacing={2} direction="row" sx={{ mt: 3 }}>
+        <Stack spacing={2} direction="row" sx={{ mt: 3, ml: 'auto' }}>
+          {company && (
+            <DeleteConfirm onClick={() => deleteCompany(company, { onSuccess: () => navigate('..') })}>
+              {(popupState) => (
+                <Button size="large" variant="outlined" color="error" {...bindTrigger(popupState)}>
+                  Ta bort
+                </Button>
+              )}
+            </DeleteConfirm>
+          )}
+          <Button size="large" variant="outlined" color="primary" onClick={() => navigate(-1)}>
+            Avbryt
+          </Button>
           <Button size="large" type="submit" variant="contained" color="primary">
             Spara
-          </Button>
-          <Button size="large" variant="outlined" color="primary" onClick={() => navigate(-1)}>
-            Tillbaka
           </Button>
         </Stack>
       </CompanyForm>

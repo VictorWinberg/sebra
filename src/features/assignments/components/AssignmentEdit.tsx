@@ -5,6 +5,7 @@ import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
 import { Box, Button, DialogActions, DialogContent, DialogTitle, Link, Stack } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { MRT_EditActionButtons } from 'material-react-table';
+import { bindTrigger } from 'material-ui-popup-state';
 
 // third party
 import dayjs, { Dayjs } from 'dayjs';
@@ -19,10 +20,11 @@ import {
 import { useDocumentReferences, useDocuments } from '@/features/documents/hooks/useDocumentsQueries';
 import ContentTabs from '@/ui-component/ContentTabs';
 import DataTable from '@/ui-component/DataTable';
+import DeleteConfirm from '@/ui-component/DeleteConfirm';
 import FlexGrow from '@/ui-component/extended/FlexGrow';
 import { toLocalTime, toMap } from '@/utils';
 import { Assignment } from '../api/assignmentsApi';
-import { useCreateAssignment, useUpdateAssignment } from '../hooks/useAssignmentsMutations';
+import { useCreateAssignment, useDeleteAssignment, useUpdateAssignment } from '../hooks/useAssignmentsMutations';
 import { useAssignment } from '../hooks/useAssignmentsQueries';
 import AssignmentForm from './AssignmentForm';
 
@@ -35,6 +37,7 @@ const AssignmentEdit = () => {
   const { data: assignment, isLoading } = useAssignment(params.id === 'new' ? undefined : Number(params.id));
   const { mutate: createAssignment } = useCreateAssignment();
   const { mutate: updateAssignment } = useUpdateAssignment();
+  const { mutate: deleteAssignment } = useDeleteAssignment();
 
   const { data: files = [], isLoading: filesIsLoading } = useDocuments();
   const { data: documentReferences = [], isLoading: documentsIsLoading } = useDocumentReferences({
@@ -164,12 +167,21 @@ const AssignmentEdit = () => {
           </FlexGrow>
         )}
 
-        <Stack spacing={2} direction="row" sx={{ mt: 3 }}>
+        <Stack spacing={2} direction="row" sx={{ mt: 3, ml: 'auto' }}>
+          {assignment && (
+            <DeleteConfirm onClick={() => deleteAssignment(assignment, { onSuccess: () => navigate('..') })}>
+              {(popupState) => (
+                <Button size="large" variant="outlined" color="error" {...bindTrigger(popupState)}>
+                  Ta bort
+                </Button>
+              )}
+            </DeleteConfirm>
+          )}
+          <Button size="large" variant="outlined" color="primary" onClick={() => navigate(-1)}>
+            Avbryt
+          </Button>
           <Button size="large" type="submit" variant="contained" color="primary">
             Spara
-          </Button>
-          <Button size="large" variant="outlined" color="primary" onClick={() => navigate(-1)}>
-            Tillbaka
           </Button>
         </Stack>
       </AssignmentForm>
