@@ -41,9 +41,9 @@ CREATE TABLE IF NOT EXISTS companies (
 );
 
 CREATE TABLE IF NOT EXISTS document_references (
-    document_id TEXT,
-    entity_type VARCHAR(50),
-    entity_id INTEGER,
+    document_id TEXT NOT NULL,
+    entity_type VARCHAR(50) NOT NULL,
+    entity_id INTEGER NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     UNIQUE(document_id, entity_type, entity_id),

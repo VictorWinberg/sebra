@@ -24,7 +24,7 @@ import EditIcon from '@mui/icons-material/Edit';
 
 interface DataTableProps<T extends Record<string, unknown>> extends MRT_TableOptions<T> {
   onCreate?: (row: T) => void;
-  onUpdate?: (row: T) => void;
+  onUpdate?: (row: T, prev: T) => void;
   onDelete?: (row: T) => void;
 }
 
@@ -75,7 +75,7 @@ const DataTable = <T extends Record<string, unknown>>({
       setEditDisplayMode(_editDisplayMode);
     },
     onEditingRowSave: async ({ row, values, table }) => {
-      await props.onUpdate?.({ ...row.original, ...values } as T);
+      await props.onUpdate?.({ ...row.original, ...values } as T, row.original);
       table.setEditingRow(null);
       setEditDisplayMode(_editDisplayMode);
     },

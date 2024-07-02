@@ -42,7 +42,7 @@ const AssignmentEdit = () => {
   const { data: files = [], isLoading: filesIsLoading } = useDocuments();
   const { data: documentReferences = [], isLoading: documentsIsLoading } = useDocumentReferences({
     entityType: 'assignment',
-    entityId: `${assignment?.assignmentId}`
+    entityId: assignment?.assignmentId
   });
 
   // TODO: Refactor to use a selector or similar
@@ -116,7 +116,7 @@ const AssignmentEdit = () => {
                             <DocumentForm
                               sx={{ mt: 1 }}
                               formProps={{
-                                defaultValues: { entityType: 'assignment', entityId: `${assignment.assignmentId}` }
+                                defaultValues: { entityType: 'assignment', entityId: assignment.assignmentId }
                               }}
                               onChange={(values) => {
                                 //@ts-expect-error any
