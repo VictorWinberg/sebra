@@ -8,18 +8,19 @@ import { MRT_ColumnDef, MRT_EditActionButtons } from 'material-react-table';
 import dayjs, { Dayjs } from 'dayjs';
 
 // project imports
-import { useDeleteFile, useFiles, useSaveFile, useUpdateFile } from '@/hooks/useFiles';
 import DataTable from '@/ui-component/DataTable';
 import FlexGrow from '@/ui-component/extended/FlexGrow';
-import { FileDocument, toLocalTime } from '@/utils';
+import { DocumentContent, toLocalTime } from '@/utils';
 import DocumentForm from '../components/DocumentForm';
+import { useDeleteDocument, useSaveDocument } from '../hooks/useDocumentsMutations';
+import { useDocuments } from '../hooks/useDocumentsQueries';
 
 // assets
 import { Add } from '@mui/icons-material';
 
 // ==============================|| DOCUMENTS PAGE ||============================== //
 
-const columns: MRT_ColumnDef<FileDocument>[] = [
+const columns: MRT_ColumnDef<DocumentContent>[] = [
   {
     accessorKey: 'documentName',
     header: 'Dokumentnamn',
@@ -40,23 +41,22 @@ const columns: MRT_ColumnDef<FileDocument>[] = [
 ];
 
 const DocumentPage = () => {
-  const { data = [], isLoading } = useFiles();
-  const { mutate: saveFile } = useSaveFile();
-  const { mutate: updateFile } = useUpdateFile();
-  const { mutate: deleteFile } = useDeleteFile();
+  const { data = [], isLoading } = useDocuments();
+  const { mutate: saveDocument } = useSaveDocument();
+  const { mutate: deleteDocument } = useDeleteDocument();
 
   if (isLoading) return;
 
   return (
     <FlexGrow>
-      <DataTable<FileDocument>
+      <DataTable<DocumentContent>
         data={data}
         columns={columns}
         getRowId={(row) => `${row.documentId}`}
         state={{ isLoading }}
-        onCreate={(row) => saveFile(row)}
-        onUpdate={(row) => updateFile(row)}
-        onDelete={(row) => deleteFile(row)}
+        onCreate={(row) => saveDocument(row)}
+        onUpdate={(row) => saveDocument(row)}
+        onDelete={(row) => deleteDocument(row)}
         renderTopToolbarCustomActions={() => (
           <Button
             component={RouterLink}
@@ -77,7 +77,7 @@ const DocumentPage = () => {
             <DialogContent>
               <DocumentForm
                 sx={{ mt: 1 }}
-                formProps={{ values: row.original }}
+                formProps={{ defaultValues: row.original }}
                 onChange={(values) => {
                   //@ts-expect-error any
                   row._valuesCache = values;

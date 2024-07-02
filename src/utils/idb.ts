@@ -1,13 +1,21 @@
-import { openDB } from 'idb';
+import { DBSchema, openDB } from 'idb';
 import { v4 as uuidv4 } from 'uuid';
 
-export type FileDocument = {
+export type DocumentContent = {
   documentId: string;
   documentName: string;
   content: File;
 };
 
-const dbPromise = openDB('DocumentsDB', 2, {
+interface DocumentsDB extends DBSchema {
+  documents: {
+    key: string;
+    value: DocumentContent;
+    indexes: { documentName: string };
+  };
+}
+
+const dbPromise = openDB<DocumentsDB>('DocumentsDB', 2, {
   upgrade(db, oldVersion) {
     if (oldVersion < 2) {
       if (db.objectStoreNames.contains('documents')) {
@@ -20,22 +28,18 @@ const dbPromise = openDB('DocumentsDB', 2, {
   }
 });
 
-export const getFileFromIndexedDB = async (documentId: string): Promise<FileDocument | undefined> => {
+export const getFileFromIndexedDB = async (documentId: string): Promise<DocumentContent | undefined> => {
   return (await dbPromise).get('documents', documentId);
 };
 
-export const getAllFilesFromIndexedDB = async (): Promise<FileDocument[]> => {
-  return (await dbPromise).getAll('documents');
+export const getAllFilesFromIndexedDB = async (): Promise<DocumentContent[]> => {
+  return (await dbPromise).getAll('documents', undefined); // TODO: Do some filtering here
 };
 
-export const saveFileToIndexedDB = async ({ documentName, content }: Partial<FileDocument>): Promise<IDBValidKey> => {
-  return (await dbPromise).put('documents', { documentId: uuidv4(), documentName, content });
+export const saveFileToIndexedDB = async ({ documentId, ...document }: DocumentContent): Promise<string> => {
+  return (await dbPromise).put('documents', { ...document, documentId: documentId || uuidv4() });
 };
 
-export const updateFileInIndexedDB = async (document: Partial<FileDocument>): Promise<IDBValidKey> => {
-  return (await dbPromise).put('documents', document);
-};
-
-export const deleteFileFromIndexedDB = async ({ documentId }: Pick<FileDocument, 'documentId'>): Promise<void> => {
+export const deleteFileFromIndexedDB = async ({ documentId }: Pick<DocumentContent, 'documentId'>): Promise<void> => {
   return (await dbPromise).delete('documents', documentId);
 };

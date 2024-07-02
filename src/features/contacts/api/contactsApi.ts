@@ -1,10 +1,4 @@
-import {
-  deleteParameterizedQuery,
-  query,
-  insertParameterizedQuery,
-  updateParameterizedQuery,
-  selectParameterizedQuery
-} from '@/api/DummyDB';
+import { deleteQuery, query, insertQuery, updateQuery, selectOneQuery } from '@/api/DummyDB';
 import { Company } from '@/features/companies/api/companiesApi';
 import { pick, toMap } from '@/utils';
 
@@ -33,11 +27,11 @@ export const fetchContacts = async (): Promise<ContactData[]> => {
 };
 
 export const fetchContact = async (contactId: number) => {
-  return await selectParameterizedQuery<Contact>('contacts', { contactId });
+  return await selectOneQuery<Contact>('contacts', { contactId });
 };
 
 export const createContact = async (contact: Partial<Contact>) => {
-  return await insertParameterizedQuery<Contact>(
+  return await insertQuery<Contact>(
     'contacts',
     pick(contact, [
       'contactName',
@@ -54,7 +48,7 @@ export const createContact = async (contact: Partial<Contact>) => {
 };
 
 export const updateContact = async (contact: Partial<Contact>) => {
-  return await updateParameterizedQuery<Contact>(
+  return await updateQuery<Contact>(
     'contacts',
     pick(contact, [
       'contactName',
@@ -72,5 +66,5 @@ export const updateContact = async (contact: Partial<Contact>) => {
 };
 
 export const deleteContact = async ({ contactId }: Pick<Contact, 'contactId'>) => {
-  return await deleteParameterizedQuery<Contact>('contacts', { contactId });
+  return await deleteQuery<Contact>('contacts', { contactId });
 };

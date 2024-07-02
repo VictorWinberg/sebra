@@ -46,7 +46,7 @@ const SnackbarProvider: FunctionComponent<PropsWithChildren> = ({ children }) =>
         onClose={handleClose}
         TransitionProps={{ onExited: handleExited }}
       >
-        <Alert sx={{ fontSize: '1rem' }} onClose={handleClose} severity={snackbar.severity}>
+        <Alert onClose={handleClose} severity={snackbar.severity}>
           {snackbar.message}
         </Alert>
       </Snackbar>

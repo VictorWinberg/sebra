@@ -22,7 +22,7 @@ const main: MenuItem = {
     },
     {
       id: 'documents',
-      title: 'Documents',
+      title: 'Dokument',
       type: 'item',
       url: '/documents',
       icon: icons.IconFile,

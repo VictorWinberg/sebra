@@ -115,6 +115,9 @@ const DataTable = <T extends Record<string, unknown>>({
     ...props
   });
 
+  // Can we do a better fix for this?
+  if (table.getState().isLoading) return null;
+
   return <MaterialReactTable table={table} />;
 };
 
@@ -141,7 +144,7 @@ const RowActions = <T extends MRT_RowData>(props: DataTableProps<T>, custom: Cus
             >
               <Card>
                 <CardContent>
-                  <Typography variant="body1">Är du säker på att du vill ta bort denna rad?</Typography>
+                  <Typography variant="body1">Är du säker på att du vill ta bort?</Typography>
                 </CardContent>
                 <CardActions>
                   <Button fullWidth onClick={popupState.close} color="inherit" variant="outlined">

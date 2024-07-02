@@ -1,10 +1,4 @@
-import {
-  deleteParameterizedQuery,
-  query,
-  insertParameterizedQuery,
-  updateParameterizedQuery,
-  selectParameterizedQuery
-} from '@/api/DummyDB';
+import { deleteQuery, query, insertQuery, updateQuery, selectOneQuery } from '@/api/DummyDB';
 import { pick } from '@/utils';
 
 export type Company = {
@@ -24,18 +18,18 @@ export const fetchCompanies = async () => {
 };
 
 export const fetchCompany = async (companyId: number) => {
-  return await selectParameterizedQuery<Company>('companies', { companyId });
+  return await selectOneQuery<Company>('companies', { companyId });
 };
 
 export const createCompany = async (company: Partial<Company>) => {
-  return await insertParameterizedQuery<Company>(
+  return await insertQuery<Company>(
     'companies',
     pick(company, ['companyName', 'address', 'industry', 'phone', 'email', 'website'])
   );
 };
 
 export const updateCompany = async (company: Partial<Company>) => {
-  return await updateParameterizedQuery<Company>(
+  return await updateQuery<Company>(
     'companies',
     pick(company, ['companyName', 'address', 'industry', 'phone', 'email', 'website']),
     pick(company, ['companyId'])
@@ -43,5 +37,5 @@ export const updateCompany = async (company: Partial<Company>) => {
 };
 
 export const deleteCompany = async ({ companyId }: Pick<Company, 'companyId'>) => {
-  return await deleteParameterizedQuery<Company>('companies', { companyId });
+  return await deleteQuery<Company>('companies', { companyId });
 };

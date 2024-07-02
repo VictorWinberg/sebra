@@ -25,10 +25,10 @@ const CompanyForm = ({ onSubmit = () => {}, onChange, formProps, children, ...re
     formState: { errors }
   } = useForm<Partial<Company>>(formProps);
 
-  const watchedFields = watch();
+  const fields = watch();
   useEffect(() => {
-    onChange?.(watchedFields);
-  }, [onChange, watchedFields]);
+    onChange?.(fields);
+  }, [onChange, fields]);
 
   return (
     <FlexGrow {...rest}>

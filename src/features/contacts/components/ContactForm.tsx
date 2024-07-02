@@ -29,10 +29,10 @@ const ContactForm = ({ onSubmit = () => {}, onChange, formProps, children, ...re
     formState: { errors }
   } = useForm<Partial<Contact>>(formProps);
 
-  const watchedFields = watch();
+  const fields = watch();
   useEffect(() => {
-    onChange?.(watchedFields);
-  }, [onChange, watchedFields]);
+    onChange?.(fields);
+  }, [onChange, fields]);
 
   return (
     <FlexGrow {...rest}>
