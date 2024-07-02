@@ -99,7 +99,14 @@ const AssignmentForm = ({ onSubmit = () => {}, onChange, formProps, children, ..
             <TextField fullWidth label="Typ" margin="none" type="text" {...register('type')} />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <TextField fullWidth label="Arvode" margin="none" type="number" {...register('fee')} />
+            <TextField
+              fullWidth
+              label="Arvode"
+              margin="none"
+              type="number"
+              {...register('fee')}
+              InputProps={{ endAdornment: 'SEK' }}
+            />
           </Grid>
         </Grid>
 

@@ -115,6 +115,9 @@ const DataTable = <T extends Record<string, unknown>>({
     ...props
   });
 
+  // Can we do a better fix for this?
+  if (table.getState().isLoading) return null;
+
   return <MaterialReactTable table={table} />;
 };
 

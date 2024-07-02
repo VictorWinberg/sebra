@@ -1,10 +1,4 @@
-import {
-  deleteParameterizedQuery,
-  insertParameterizedQuery,
-  query,
-  selectParameterizedQuery,
-  updateParameterizedQuery
-} from '@/api/DummyDB';
+import { deleteQuery, insertQuery, query, selectOneQuery, updateQuery } from '@/api/DummyDB';
 import { Company } from '@/features/companies/api/companiesApi';
 import { Contact } from '@/features/contacts/api/contactsApi';
 import { pick, toMap } from '@/utils';
@@ -35,11 +29,11 @@ export const fetchAssignments = async (): Promise<AssignmentData[]> => {
 };
 
 export const fetchAssignment = async (assignmentId: number) => {
-  return await selectParameterizedQuery<Assignment>('assignments', { assignmentId });
+  return await selectOneQuery<Assignment>('assignments', { assignmentId });
 };
 
 export const createAssignment = async (assignment: Partial<Assignment>) => {
-  return await insertParameterizedQuery<Assignment>(
+  return await insertQuery<Assignment>(
     'assignments',
     pick(assignment, [
       'assignmentName',
@@ -54,7 +48,7 @@ export const createAssignment = async (assignment: Partial<Assignment>) => {
 };
 
 export const updateAssignment = async (assignment: Partial<Assignment>) => {
-  return await updateParameterizedQuery<Assignment>(
+  return await updateQuery<Assignment>(
     'assignments',
     pick(assignment, [
       'assignmentName',
@@ -70,7 +64,7 @@ export const updateAssignment = async (assignment: Partial<Assignment>) => {
 };
 
 export const deleteAssignment = async ({ assignmentId }: Pick<Assignment, 'assignmentId'>) => {
-  return await deleteParameterizedQuery<Assignment>('assignments', { assignmentId });
+  return await deleteQuery<Assignment>('assignments', { assignmentId });
 };
 
 function transformAssignment(

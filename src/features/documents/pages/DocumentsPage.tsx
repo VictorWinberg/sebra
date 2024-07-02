@@ -11,7 +11,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import { useDeleteFile, useFiles, useSaveFile, useUpdateFile } from '@/hooks/useFiles';
 import DataTable from '@/ui-component/DataTable';
 import FlexGrow from '@/ui-component/extended/FlexGrow';
-import { FileDocument, toLocalTime } from '@/utils';
+import { DocumentContent, toLocalTime } from '@/utils';
 import DocumentForm from '../components/DocumentForm';
 
 // assets
@@ -19,7 +19,7 @@ import { Add } from '@mui/icons-material';
 
 // ==============================|| DOCUMENTS PAGE ||============================== //
 
-const columns: MRT_ColumnDef<FileDocument>[] = [
+const columns: MRT_ColumnDef<DocumentContent>[] = [
   {
     accessorKey: 'documentName',
     header: 'Dokumentnamn',
@@ -49,7 +49,7 @@ const DocumentPage = () => {
 
   return (
     <FlexGrow>
-      <DataTable<FileDocument>
+      <DataTable<DocumentContent>
         data={data}
         columns={columns}
         getRowId={(row) => `${row.documentId}`}
@@ -77,7 +77,7 @@ const DocumentPage = () => {
             <DialogContent>
               <DocumentForm
                 sx={{ mt: 1 }}
-                formProps={{ values: row.original }}
+                formProps={{ defaultValues: row.original }}
                 onChange={(values) => {
                   //@ts-expect-error any
                   row._valuesCache = values;

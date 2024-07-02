@@ -10,16 +10,16 @@ import { Controller, UseFormProps, useForm } from 'react-hook-form';
 import FileSelector from '@/ui-component/FileSelecter';
 import Preview from '@/ui-component/Preview';
 import FlexGrow, { sxFlex } from '@/ui-component/extended/FlexGrow';
-import { FileDocument } from '@/utils';
+import { DocumentRecord } from '../api/documentsApi';
 
 // assets
 import { CloudDownload } from '@mui/icons-material';
 
 // ==============================|| DOCUMENT FORM ||============================== //
 interface DocumentFormProps extends Omit<BoxProps, 'onChange' | 'onSubmit'> {
-  onSubmit?: (data: Partial<FileDocument>) => void;
-  onChange?: (data: Partial<FileDocument>) => void;
-  formProps?: UseFormProps<Partial<FileDocument>>;
+  onSubmit?: (data: DocumentRecord) => void;
+  onChange?: (data: DocumentRecord) => void;
+  formProps?: UseFormProps<DocumentRecord>;
 }
 
 const DocumentForm = ({ onSubmit = () => {}, onChange, formProps, children, ...rest }: DocumentFormProps) => {
@@ -29,7 +29,7 @@ const DocumentForm = ({ onSubmit = () => {}, onChange, formProps, children, ...r
     watch,
     setValue,
     formState: { errors }
-  } = useForm<Partial<FileDocument>>(formProps);
+  } = useForm<DocumentRecord>(formProps);
 
   const fields = watch();
   useEffect(() => {
