@@ -58,7 +58,7 @@ const Preview = ({ file }: PreviewProps) => {
         <img
           src={previewUrl}
           alt="Preview"
-          style={{ width: '100%', height: '100%', maxHeight: '500px', objectFit: 'cover' }}
+          style={{ width: '100%', height: '100%', maxHeight: '33vh', objectFit: 'cover' }}
         />
       );
     }
@@ -70,14 +70,14 @@ const Preview = ({ file }: PreviewProps) => {
         src={previewUrl}
         title="Preview"
         onLoad={handleIframeLoad}
-        style={{ width: '100%', height: '500px', border: 'none' }}
+        style={{ width: '100%', height: '33vh', border: 'none' }}
       />
     );
   };
 
   return (
     <Box sx={{ mx: -1, overflow: 'hidden' }}>
-      <Box key={previewUrl} sx={{ width: '100%', height: '500px', px: 1 }}>
+      <Box key={previewUrl} sx={{ width: '100%', height: '33vh', px: 1 }}>
         {renderPreview()}
       </Box>
     </Box>

@@ -2,8 +2,10 @@ import { useMemo } from 'react';
 import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
 
 // material-ui
-import { Box, Button, Link, Stack } from '@mui/material';
+import { Box, Button, DialogActions, DialogContent, DialogTitle, Link, Stack } from '@mui/material';
 import Typography from '@mui/material/Typography';
+import { MRT_EditActionButtons } from 'material-react-table';
+import { bindTrigger } from 'material-ui-popup-state';
 
 // third party
 
@@ -13,14 +15,20 @@ import { useCompanies } from '@/features/companies/hooks/useCompaniesQueries';
 import { useContacts } from '@/features/contacts/hooks/useContactsQueries';
 import ContentTabs from '@/ui-component/ContentTabs';
 import DataTable from '@/ui-component/DataTable';
+import DeleteConfirm from '@/ui-component/DeleteConfirm';
 import FlexGrow from '@/ui-component/extended/FlexGrow';
 import { toMap } from '@/utils';
 import { DocumentRecord } from '../api/documentsApi';
-import { useDeleteDocument, useDeleteDocumentReference, useSaveDocument } from '../hooks/useDocumentsMutations';
+import {
+  useCreateDocumentReference,
+  useDeleteDocument,
+  useDeleteDocumentReference,
+  useSaveDocument,
+  useUpdateDocumentReference
+} from '../hooks/useDocumentsMutations';
 import { useDocument, useDocumentReferences } from '../hooks/useDocumentsQueries';
 import DocumentForm from './DocumentForm';
-import DeleteConfirm from '@/ui-component/DeleteConfirm';
-import { bindTrigger } from 'material-ui-popup-state';
+import DocumentReferenceForm from './DocumentReferenceForm';
 
 // ==============================|| DOCUMENT EDIT PAGE ||============================== //
 
@@ -38,6 +46,8 @@ const DocumentEdit = () => {
   const { data: references = [], isLoading: referencesIsLoading } = useDocumentReferences(
     params.id === 'new' ? undefined : { documentId: params.id }
   );
+  const { mutate: createDocumentReference } = useCreateDocumentReference();
+  const { mutate: updateDocumentReference } = useUpdateDocumentReference();
   const { mutate: deleteDocumentReference } = useDeleteDocumentReference();
   const companyMap = useMemo(() => toMap(companies, 'companyId'), [companies]);
   const contactMap = useMemo(() => toMap(contacts, 'contactId'), [contacts]);
@@ -64,7 +74,7 @@ const DocumentEdit = () => {
     }
   };
 
-  const renderLink = (entityType: string, entityId: string) => {
+  const renderLink = (entityType: string, entityId: number) => {
     switch (entityType) {
       case 'company':
         return (
@@ -123,6 +133,48 @@ const DocumentEdit = () => {
                           Cell: ({ row }) => renderLink(row.original.entityType, row.original.entityId)
                         }
                       ]}
+                      renderCreateRowDialogContent={({ row, table }) => (
+                        <>
+                          <DialogTitle variant="h4" color="primary">
+                            Ny referens
+                          </DialogTitle>
+                          <DialogContent>
+                            <DocumentReferenceForm
+                              sx={{ mt: 1 }}
+                              formProps={{ defaultValues: { documentId: document.documentId } }}
+                              onChange={(values) => {
+                                //@ts-expect-error any
+                                row._valuesCache = values;
+                              }}
+                            />
+                          </DialogContent>
+                          <DialogActions>
+                            <MRT_EditActionButtons row={row} table={table} variant="text" />
+                          </DialogActions>
+                        </>
+                      )}
+                      renderEditRowDialogContent={({ row, table }) => (
+                        <>
+                          <DialogTitle variant="h4" color="primary">
+                            Redigera referens
+                          </DialogTitle>
+                          <DialogContent>
+                            <DocumentReferenceForm
+                              sx={{ mt: 1 }}
+                              formProps={{ defaultValues: row.original }}
+                              onChange={(values) => {
+                                //@ts-expect-error any
+                                row._valuesCache = values;
+                              }}
+                            />
+                          </DialogContent>
+                          <DialogActions>
+                            <MRT_EditActionButtons row={row} table={table} variant="text" />
+                          </DialogActions>
+                        </>
+                      )}
+                      onCreate={(row) => createDocumentReference(row)}
+                      onUpdate={(row, prev) => updateDocumentReference({ row, where: prev })}
                       onDelete={(row) => deleteDocumentReference(row)}
                     />
                   )

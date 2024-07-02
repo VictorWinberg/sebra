@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { useSnackbar } from '@/hooks/useSnackbar';
-import { createDocumentReference, deleteDocumentReference } from '../api/documentsApi';
+import { createDocumentReference, deleteDocumentReference, updateDocumentReference } from '../api/documentsApi';
 import { deleteFileFromIndexedDB, saveFileToIndexedDB } from '@/utils';
 
 export const useSaveDocument = () => {
@@ -50,6 +50,22 @@ export const useCreateDocumentReference = () => {
     },
     onError: () => {
       showSnackbar('Ett fel uppstod när dokumentet skulle skapas.', 'error');
+    }
+  });
+};
+
+export const useUpdateDocumentReference = () => {
+  const queryClient = useQueryClient();
+  const { showSnackbar } = useSnackbar();
+
+  return useMutation({
+    mutationFn: updateDocumentReference,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['document_references'] });
+      showSnackbar('Dokument uppdaterat!');
+    },
+    onError: () => {
+      showSnackbar('Ett fel uppstod när dokumentet skulle uppdateras.', 'error');
     }
   });
 };
