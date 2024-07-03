@@ -62,8 +62,9 @@ const CompanyEdit = () => {
           <FlexGrow>
             <ContentTabs
               tabs={[
-                { label: 'Interaktioner', content: <>Interaktioner...</> },
+                { id: 'interactions', label: 'Interaktioner', content: <>Interaktioner...</> },
                 {
+                  id: 'contacts',
                   label: 'Kontakter',
                   content: (
                     <DataTable
@@ -90,8 +91,9 @@ const CompanyEdit = () => {
                     />
                   )
                 },
-                { label: 'Söker', content: <>Söker...</> },
+                { id: 'seeking', label: 'Söker', content: <>Söker...</> },
                 {
+                  id: 'assignments',
                   label: 'Uppdrag',
                   content: (
                     <DataTable
@@ -149,9 +151,8 @@ const CompanyEdit = () => {
                     />
                   )
                 },
-                { label: 'KYC', content: <>KYC...</> }
+                { id: 'kyc', label: 'KYC', content: <>KYC...</> }
               ]}
-              selected={1}
             />
           </FlexGrow>
         )}

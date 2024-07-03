@@ -80,8 +80,9 @@ const AssignmentEdit = () => {
           <FlexGrow>
             <ContentTabs
               tabs={[
-                { label: 'Interaktioner', content: <>Interaktioner...</> },
+                { id: 'interactions', label: 'Interaktioner', content: <>Interaktioner...</> },
                 {
+                  id: 'documents',
                   label: 'Dokument',
                   content: (
                     <DataTable
@@ -115,6 +116,7 @@ const AssignmentEdit = () => {
                           <DialogContent>
                             <DocumentForm
                               sx={{ mt: 1 }}
+                              enableExistingDocuments
                               formProps={{
                                 defaultValues: { entityType: 'assignment', entityId: assignment.assignmentId }
                               }}
@@ -159,10 +161,9 @@ const AssignmentEdit = () => {
                     />
                   )
                 },
-                { label: 'Intressenter', content: <>Intressenter...</> },
-                { label: 'Moduler', content: <>Moduler...</> }
+                { id: 'stakeholders', label: 'Intressenter', content: <>Intressenter...</> },
+                { id: 'modules', label: 'Moduler', content: <>Moduler...</> }
               ]}
-              selected={1}
             />
           </FlexGrow>
         )}
