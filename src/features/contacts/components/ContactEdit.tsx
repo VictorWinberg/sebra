@@ -56,9 +56,10 @@ const ContactEdit = () => {
           <FlexGrow>
             <ContentTabs
               tabs={[
-                { label: 'Interaktioner', content: <>Interaktioner...</> },
-                { label: 'Söker', content: <>Söker...</> },
+                { id: 'interactions', label: 'Interaktioner', content: <>Interaktioner...</> },
+                { id: 'seeking', label: 'Söker', content: <>Söker...</> },
                 {
+                  id: 'assignments',
                   label: 'Uppdrag',
                   content: (
                     <DataTable
@@ -119,7 +120,6 @@ const ContactEdit = () => {
                   )
                 }
               ]}
-              selected={2}
             />
           </FlexGrow>
         )}

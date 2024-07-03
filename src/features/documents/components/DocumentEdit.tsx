@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
+import { Link as RouterLink, createSearchParams, useNavigate, useParams } from 'react-router-dom';
 
 // material-ui
 import { Box, Button, DialogActions, DialogContent, DialogTitle, Link, Stack } from '@mui/material';
@@ -90,7 +90,13 @@ const DocumentEdit = () => {
         );
       case 'assignment':
         return (
-          <Link component={RouterLink} to={`/dashboard/assignments/${entityId}`}>
+          <Link
+            component={RouterLink}
+            to={{
+              pathname: `/dashboard/assignments/${entityId}`,
+              search: `${createSearchParams({ tab: 'documents' })}`
+            }}
+          >
             {assignmentMap.get(entityId)?.assignmentName}
           </Link>
         );
@@ -113,6 +119,7 @@ const DocumentEdit = () => {
             <ContentTabs
               tabs={[
                 {
+                  id: 'references',
                   label: 'Referenser',
                   content: (
                     <DataTable

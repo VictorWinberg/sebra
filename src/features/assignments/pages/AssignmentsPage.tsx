@@ -1,4 +1,4 @@
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, createSearchParams } from 'react-router-dom';
 
 // material-ui
 import { Button, DialogActions, DialogContent, DialogTitle, Link } from '@mui/material';
@@ -37,7 +37,13 @@ const columns: MRT_ColumnDef<DataType>[] = [
     header: 'Ansvarig',
     enableEditing: false,
     Cell: ({ cell, row }) => (
-      <Link component={RouterLink} to={`/dashboard/contacts/${row.original.responsiblePersonId}`}>
+      <Link
+        component={RouterLink}
+        to={{
+          pathname: `/dashboard/contacts/${row.original.responsiblePersonId}`,
+          search: `${createSearchParams({ tab: 'assignments' })}`
+        }}
+      >
         {cell.getValue<string>()}
       </Link>
     )
@@ -47,7 +53,13 @@ const columns: MRT_ColumnDef<DataType>[] = [
     header: 'Extern',
     enableEditing: false,
     Cell: ({ cell, row }) => (
-      <Link component={RouterLink} to={`/dashboard/contacts/${row.original.externalContactPersonId}`}>
+      <Link
+        component={RouterLink}
+        to={{
+          pathname: `/dashboard/contacts/${row.original.externalContactPersonId}`,
+          search: `${createSearchParams({ tab: 'assignments' })}`
+        }}
+      >
         {cell.getValue<string>()}
       </Link>
     )

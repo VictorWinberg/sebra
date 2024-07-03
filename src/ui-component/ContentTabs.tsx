@@ -3,45 +3,43 @@ import { useEffect, useState } from 'react';
 // material-ui
 import { Divider, IconButton, Tab, Tabs } from '@mui/material';
 
+// project imports
+import { StringParam, useQueryParam } from '@/hooks/useQueryParam';
+
 // assets
 import { Close } from '@mui/icons-material';
 
 // ==============================|| CONTENT TABS ||============================== //
 
-type Tab = { label: string; content: React.ReactNode };
+type Tab = { id: string; label: string; content: React.ReactNode };
 
 interface ContentTabsProps {
-  tabs?: Tab[];
-  selected?: number;
+  tabs: Tab[];
 }
 
 const ContentTabs = (props: ContentTabsProps) => {
-  const [selected, setSelected] = useState(0);
-  const [tabs, setTabs] = useState<(Tab & { index: number })[]>([]);
+  const [tabs, setTabs] = useState<Tab[]>(props.tabs);
+  const [selected, setSelected] = useQueryParam('tab', StringParam, props.tabs[0].id);
 
   useEffect(() => {
-    setTabs((props.tabs ?? []).map((tab, index) => ({ ...tab, index })));
+    setTabs((prevTabs) => prevTabs.map((tab) => props.tabs.find((t) => t.id === tab.id) || tab));
   }, [props.tabs]);
 
-  useEffect(() => {
-    setSelected(props.selected ?? 0);
-  }, [props.selected]);
-
-  const handleClick = (_event: React.SyntheticEvent, newKey: number) => {
+  const handleClick = (_event: React.SyntheticEvent, newKey: string) => {
     setSelected(newKey);
   };
 
-  const handleRemove = (event: React.SyntheticEvent, removeKey: number) => {
+  const handleRemove = (event: React.SyntheticEvent, removeKey: string) => {
     event.stopPropagation();
 
     // Removing the current tab, set the key to the next/previous tab
     if (selected === removeKey) {
-      const removeIndex = tabs.findIndex((tab) => tab.index === removeKey);
-      const tab = tabs[removeIndex + 1] || tabs[removeIndex - 1];
-      setSelected(tab?.index || -1);
+      const removeIndex = tabs.findIndex((tab) => tab.id === removeKey);
+      const goToTab = tabs[removeIndex + 1] || tabs[removeIndex - 1];
+      setSelected(goToTab?.id ?? null);
     }
 
-    setTabs(tabs.filter((tab) => tab.index !== removeKey));
+    setTabs(tabs.filter((tab) => tab.id !== removeKey));
   };
 
   return (
@@ -49,8 +47,8 @@ const ContentTabs = (props: ContentTabsProps) => {
       <Tabs value={selected} onChange={handleClick} variant="scrollable">
         {tabs.map((tab) => (
           <Tab
-            key={tab.index}
-            value={tab.index}
+            key={tab.id}
+            value={tab.id}
             label={
               <span>
                 {tab.label}
@@ -61,7 +59,7 @@ const ContentTabs = (props: ContentTabsProps) => {
                     component="div"
                     tabIndex={-1}
                     size="small"
-                    onClick={(event) => handleRemove(event, tab.index)}
+                    onClick={(event) => handleRemove(event, tab.id)}
                     sx={{
                       position: 'absolute',
                       top: 0,
@@ -75,19 +73,19 @@ const ContentTabs = (props: ContentTabsProps) => {
                 )}
               </span>
             }
-            {...a11yProps(tab.index)}
+            {...a11yProps(tab.id)}
           />
         ))}
       </Tabs>
       <Divider />
-      {tabs.find((tab) => tab.index === selected)?.content}
+      {tabs.find((tab) => tab.id === selected)?.content}
     </>
   );
 };
 
-const a11yProps = (index: number) => ({
-  id: `content-tab-${index}`,
-  'aria-controls': `content-tabpanel-${index}`,
+const a11yProps = (id: string) => ({
+  id: `content-tab-${id}`,
+  'aria-controls': `content-tabpanel-${id}`,
   tabIndex: 0
 });
 

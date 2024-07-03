@@ -21,9 +21,17 @@ interface DocumentFormProps extends Omit<BoxProps, 'onChange' | 'onSubmit'> {
   onSubmit?: (data: DocumentRecord) => void;
   onChange?: (data: Partial<DocumentRecord>) => void;
   formProps?: UseFormProps<DocumentRecord>;
+  enableExistingDocuments?: boolean;
 }
 
-const DocumentForm = ({ onSubmit = () => {}, onChange, formProps, children, ...rest }: DocumentFormProps) => {
+const DocumentForm = ({
+  onSubmit = () => {},
+  onChange,
+  formProps,
+  enableExistingDocuments,
+  children,
+  ...rest
+}: DocumentFormProps) => {
   const { data: documents = [] } = useDocuments();
 
   const {
@@ -31,7 +39,7 @@ const DocumentForm = ({ onSubmit = () => {}, onChange, formProps, children, ...r
     handleSubmit,
     watch,
     setValue,
-    formState: { errors, defaultValues: { documentId } = {} }
+    formState: { errors }
   } = useForm<DocumentRecord>(formProps);
 
   const fields = watch();
@@ -98,7 +106,7 @@ const DocumentForm = ({ onSubmit = () => {}, onChange, formProps, children, ...r
               )}
             />
           </Grid>
-          {!documentId && (
+          {enableExistingDocuments && (
             <Grid item xs={12}>
               <Controller
                 name="documentId"
