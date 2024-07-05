@@ -32,7 +32,11 @@ const columns: MRT_ColumnDef<DataType>[] = [
       </Link>
     )
   },
-  { accessorKey: 'email', header: 'Email' },
+  {
+    accessorKey: 'email',
+    header: 'Email',
+    Cell: ({ cell }) => <Link href={`mailto:${cell.getValue<string>()}`}>{cell.getValue<string>()}</Link>
+  },
   { accessorKey: 'jobTitle', header: 'Jobbtitel' },
   {
     accessorFn: (row) => row.company?.companyName,
