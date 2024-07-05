@@ -49,3 +49,20 @@ CREATE TABLE IF NOT EXISTS document_references (
     UNIQUE(document_id, entity_type, entity_id),
     FOREIGN KEY (document_id) REFERENCES documents(document_id)
 );
+
+CREATE TABLE IF NOT EXISTS interactions (
+    interaction_id TEXT PRIMARY KEY,
+    interaction_date DATE NOT NULL,
+    interaction_type VARCHAR(50) NOT NULL,
+    notes TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS interaction_contacts (
+    interaction_id TEXT,
+    contact_id INTEGER,
+    PRIMARY KEY (interaction_id, contact_id),
+    FOREIGN KEY (interaction_id) REFERENCES interactions(interaction_id),
+    FOREIGN KEY (contact_id) REFERENCES contacts(contact_id)
+);

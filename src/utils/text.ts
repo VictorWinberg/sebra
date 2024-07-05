@@ -40,3 +40,24 @@ export function hashCode(str: string) {
   }
   return hash;
 }
+
+/**
+ * Pick a color based on a string
+ * @param {string} str - the string to pick a color for
+ * @returns {string} - the picked color
+ */
+export function pickColor(str: string) {
+  return `hsl(${hashCode(str) % 360}, 100%, 80%)`;
+}
+
+/**
+ * Generate an avatar for a string
+ * @param {string} name - the name to generate an avatar for
+ * @returns {object} - the avatar object
+ */
+export function stringAvatar(name: string) {
+  return {
+    sx: { bgcolor: pickColor(name) },
+    children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`
+  };
+}

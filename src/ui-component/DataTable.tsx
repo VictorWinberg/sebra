@@ -88,6 +88,10 @@ const DataTable = <T extends Record<string, unknown>>({
     muiFilterTextFieldProps: {
       sx: { minWidth: 0 }
     },
+    muiEditRowDialogProps: {
+      open: true,
+      maxWidth: 'md'
+    },
     muiTableBodyCellProps: ({ row, column, table }) => ({
       onDoubleClick: () => {
         setEditDisplayMode('row');

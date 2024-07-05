@@ -5,6 +5,7 @@ import { CssBaseline, StyledEngineProvider } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import 'dayjs/locale/sv';
 
 // project imports
 import NavigationScroll from '@/layout/NavigationScroll';
@@ -21,7 +22,7 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
     <QueryClientProvider client={queryClient}>
       <StoreProvider>
         <SnackbarProvider>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="sv">
             <StyledEngineProvider injectFirst>
               <ThemeProvider theme={theme()}>
                 <CssBaseline />
