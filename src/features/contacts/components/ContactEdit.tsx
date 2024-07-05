@@ -107,7 +107,7 @@ const ContactEdit = () => {
                         {
                           accessorKey: 'contacts',
                           header: 'Kontakter',
-                          minSize: 100,
+                          minSize: 200,
                           enableEditing: false,
                           Cell: ({ cell }) => (
                             <List disablePadding>
