@@ -51,8 +51,8 @@ init();
 
 type Params = Record<string, SqlValue>;
 
-export function query<T extends Record<string, unknown>>(sql: string): T[] {
-  const [res] = db.exec(sql);
+export function query<T extends Record<string, unknown>>(sql: string, params?: Partial<Params>): T[] {
+  const [res] = db.exec(sql, params && mapParams(params));
   const result = res.values.map((value) => res.columns.reduce((acc, col, i) => ({ ...acc, [col]: value[i] }), {} as T));
   return camelcaseKeys(result, { deep: true }) as T[];
 }
@@ -100,9 +100,21 @@ export const insertQuery = <T extends Params>(table: string, data: Partial<T>): 
   return executeQuery<T>(queryText, params)[0];
 };
 
+export const insertManyQuery = <T extends Params>(table: string, data: Partial<T>[]): T[] => {
+  const columns = generateColumns(data[0]);
+
+  const queryText = `
+    INSERT INTO ${table} (${columns})
+    VALUES ${data.map((item, index) => `(${generatePlaceholders(item, index)})`).join(', ')}
+    RETURNING *;
+  `;
+  const params = data.reduce((acc, item, index) => ({ ...acc, ...mapParams(item, index) }), {});
+  return executeQuery<T>(queryText, params);
+};
+
 export const updateQuery = <T extends Params>(table: string, data: Partial<T>, where: Partial<T>): T[] => {
-  const setClause = generateSetClause(data);
-  const whereClause = generateWhereClause(where);
+  const setClause = generateSetClause(data, 1);
+  const whereClause = generateWhereClause(where, 2);
 
   const queryText = `
     UPDATE ${table}
@@ -111,8 +123,8 @@ export const updateQuery = <T extends Params>(table: string, data: Partial<T>, w
     RETURNING *;
   `;
   const params = {
-    ...mapParams(data),
-    ...mapParams(where)
+    ...mapParams(data, 1),
+    ...mapParams(where, 2)
   };
   return executeQuery<T>(queryText, params);
 };

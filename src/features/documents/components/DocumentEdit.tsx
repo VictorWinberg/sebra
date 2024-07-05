@@ -44,7 +44,7 @@ const DocumentEdit = () => {
   const { data: contacts = [] } = useContacts();
   const { data: assignments = [] } = useAssignments();
   const { data: references = [], isLoading: referencesIsLoading } = useDocumentReferences(
-    params.id === 'new' ? undefined : { documentId: params.id }
+    params.id !== 'new' ? { documentId: params.id } : undefined
   );
   const { mutate: createDocumentReference } = useCreateDocumentReference();
   const { mutate: updateDocumentReference } = useUpdateDocumentReference();

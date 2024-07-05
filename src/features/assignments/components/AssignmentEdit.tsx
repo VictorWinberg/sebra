@@ -22,7 +22,7 @@ import ContentTabs from '@/ui-component/ContentTabs';
 import DataTable from '@/ui-component/DataTable';
 import DeleteConfirm from '@/ui-component/DeleteConfirm';
 import FlexGrow from '@/ui-component/extended/FlexGrow';
-import { toLocalTime, toMap } from '@/utils';
+import { formatDate, toLocalTime, toMap } from '@/utils';
 import { Assignment } from '../api/assignmentsApi';
 import { useCreateAssignment, useDeleteAssignment, useUpdateAssignment } from '../hooks/useAssignmentsMutations';
 import { useAssignment } from '../hooks/useAssignmentsQueries';
@@ -105,7 +105,7 @@ const AssignmentEdit = () => {
                           header: 'Senast uppdaterad',
                           filterVariant: 'date-range',
                           enableEditing: false,
-                          Cell: ({ cell }) => toLocalTime(cell.getValue<Dayjs>()).format('YYYY-MM-DD HH:mm')
+                          Cell: ({ cell }) => formatDate(toLocalTime(cell.getValue<Dayjs>()))
                         }
                       ]}
                       renderCreateRowDialogContent={({ row, table }) => (

@@ -10,7 +10,7 @@ import dayjs, { Dayjs } from 'dayjs';
 // project imports
 import DataTable from '@/ui-component/DataTable';
 import FlexGrow from '@/ui-component/extended/FlexGrow';
-import { DocumentContent, toLocalTime } from '@/utils';
+import { DocumentContent, formatDate, toLocalTime } from '@/utils';
 import DocumentForm from '../components/DocumentForm';
 import { useDeleteDocument, useSaveDocument } from '../hooks/useDocumentsMutations';
 import { useDocuments } from '../hooks/useDocumentsQueries';
@@ -36,7 +36,7 @@ const columns: MRT_ColumnDef<DocumentContent>[] = [
     header: 'Senast uppdaterad',
     filterVariant: 'date-range',
     enableEditing: false,
-    Cell: ({ cell }) => toLocalTime(cell.getValue<Dayjs>()).format('YYYY-MM-DD HH:mm')
+    Cell: ({ cell }) => formatDate(toLocalTime(cell.getValue<Dayjs>()))
   }
 ];
 

@@ -11,7 +11,7 @@ export const useCreateContact = () => {
     mutationFn: createContact,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['contacts'] });
-      showSnackbar('Kontakt skapad!');
+      showSnackbar('Kontakt skapat!');
     },
     onError: () => {
       showSnackbar('Ett fel uppstod när kontakten skulle skapas.', 'error');
@@ -27,7 +27,7 @@ export const useUpdateContact = () => {
     mutationFn: updateContact,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['contacts'] });
-      showSnackbar('Kontakt uppdaterad!');
+      showSnackbar('Kontakt uppdaterat!');
     },
     onError: () => {
       showSnackbar('Ett fel uppstod när kontakten skulle uppdateras.', 'error');
@@ -43,7 +43,7 @@ export const useDeleteContact = () => {
     mutationFn: deleteContact,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['contacts'] });
-      showSnackbar('Kontakt borttagen!');
+      showSnackbar('Kontakt borttaget!');
     },
     onError: () => {
       showSnackbar('Ett fel uppstod när kontakten skulle tas bort.', 'error');
