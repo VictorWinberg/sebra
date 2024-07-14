@@ -1,9 +1,7 @@
-import { CSSProperties } from 'react';
-
 import type { UniqueIdentifier } from '@dnd-kit/core';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { Card, CardContent, CardHeader, Chip } from '@mui/material';
+import { Card, CardContent, CardHeader, Chip, SxProps } from '@mui/material';
 
 import { ColumnId } from './KanbanBoard';
 
@@ -28,24 +26,20 @@ export interface TaskDragData {
 export function TaskCard({ task, isOverlay }: TaskCardProps) {
   const { setNodeRef, attributes, listeners, transform, transition, isDragging } = useSortable({
     id: task.id,
-    data: {
-      type: 'Task',
-      task
-    } satisfies TaskDragData,
-    attributes: {
-      roleDescription: 'Task'
-    }
+    data: { type: 'Task', task } satisfies TaskDragData,
+    attributes: { roleDescription: 'Task' }
   });
 
-  const style: CSSProperties = {
+  const sx: SxProps = {
     transition,
     transform: CSS.Translate.toString(transform),
     opacity: isOverlay ? 0.5 : isDragging ? 0.3 : 1,
-    border: isOverlay || isDragging ? '2px solid primary' : 'none'
+    border: isOverlay || isDragging ? '2px solid primary' : 'none',
+    flexShrink: 0
   };
 
   return (
-    <Card ref={setNodeRef} style={style}>
+    <Card ref={setNodeRef} sx={sx}>
       <CardHeader
         {...attributes}
         {...listeners}

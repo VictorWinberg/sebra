@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';
 import { styled } from '@mui/material/styles';
+import * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';
 
 const StyledRoot = styled(ScrollAreaPrimitive.Root)({
   position: 'relative',
@@ -11,7 +11,10 @@ const StyledRoot = styled(ScrollAreaPrimitive.Root)({
 const StyledViewport = styled(ScrollAreaPrimitive.Viewport)({
   height: '100%',
   width: '100%',
-  borderRadius: 'inherit'
+  borderRadius: 'inherit',
+  '& > div': {
+    height: '100%'
+  }
 });
 
 const ScrollArea = React.forwardRef<

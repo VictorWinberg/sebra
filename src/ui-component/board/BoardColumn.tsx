@@ -1,12 +1,20 @@
+import { CSSProperties, useMemo } from 'react';
+
+// material-ui
+import { Box, Card, CardContent, CardHeader, Grid, IconButton, SxProps } from '@mui/material';
+
+// third-party
 import { useDndContext, type UniqueIdentifier } from '@dnd-kit/core';
 import { SortableContext, useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { CSSProperties, useMemo } from 'react';
 
-import { Box, Card, CardContent, CardHeader, IconButton } from '@mui/material';
-import { Task, TaskCard } from './TaskCard';
-import { MoreVert } from '@mui/icons-material';
+// project imports
 import { ScrollArea, ScrollBar } from '@/ui-component/ScrollArea';
+import { Task, TaskCard } from './TaskCard';
+import FlexGrow, { sxFlex } from '../extended/FlexGrow';
+
+// assets
+import { MoreVert } from '@mui/icons-material';
 
 export interface Column {
   id: UniqueIdentifier;
@@ -31,71 +39,69 @@ export function BoardColumn({ column, tasks, isOverlay }: BoardColumnProps) {
 
   const { setNodeRef, attributes, listeners, transform, transition, isDragging } = useSortable({
     id: column.id,
-    data: { type: 'Column', column } satisfies ColumnDragData
+    data: { type: 'Column', column } satisfies ColumnDragData,
+    attributes: { roleDescription: 'Column' }
   });
 
-  const sx: CSSProperties = {
+  const sx: SxProps = {
+    display: 'flex',
+    flexDirection: 'column',
+    flexGrow: 1,
+    flexShrink: 0,
     transition,
     transform: CSS.Translate.toString(transform),
     opacity: isOverlay ? 0.5 : isDragging ? 0.3 : 1,
     border: isOverlay || isDragging ? '2px solid primary' : 'none',
-    height: '500px',
-    maxHeight: '500px',
-    width: '350px',
+    height: '100%',
+    maxHeight: '100%',
+    minWidth: '100px',
     maxWidth: '100%',
-    backgroundColor: 'primary.light',
-    display: 'flex',
-    flexDirection: 'column',
-    flexShrink: 0
+    bgcolor: 'primary.light'
   };
 
   return (
-    <Card ref={setNodeRef} sx={sx}>
-      <CardHeader
-        sx={{ borderBottom: '0.5px solid' }}
-        title={
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              width: '100%'
-            }}
-          >
-            <Box component="span">{column.title}</Box>
-            <IconButton
-              {...attributes}
-              {...listeners}
+    <Grid item xs={12} sm={6} md={4} lg={3} height="100%">
+      <Card ref={setNodeRef} sx={sx}>
+        <CardHeader
+          sx={{ borderBottom: '0.5px solid' }}
+          title={
+            <Box
               sx={{
-                padding: 1,
-                color: 'primary.main',
-                marginLeft: '-8px',
-                cursor: 'grab'
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                width: '100%'
               }}
             >
-              <MoreVert />
-            </IconButton>
-          </Box>
-        }
-      />
-      <ScrollArea>
-        <CardContent
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 2,
-            p: 2,
-            flexGrow: 1
-          }}
-        >
-          <SortableContext items={tasksIds}>
-            {tasks.map((task) => (
-              <TaskCard key={task.id} task={task} />
-            ))}
-          </SortableContext>
-        </CardContent>
-      </ScrollArea>
-    </Card>
+              <Box component="span">{column.title}</Box>
+              <IconButton
+                {...attributes}
+                {...listeners}
+                sx={{
+                  padding: 1,
+                  color: 'primary.main',
+                  cursor: 'grab'
+                }}
+              >
+                <MoreVert />
+              </IconButton>
+            </Box>
+          }
+        />
+        <ScrollArea style={{ ...sxFlex }}>
+          <FlexGrow sx={{ height: '100%' }}>
+            <CardContent sx={{ ...sxFlex, gap: 2, height: 0 }}>
+              <SortableContext items={tasksIds}>
+                {tasks.map((task) => (
+                  <TaskCard key={task.id} task={task} />
+                ))}
+              </SortableContext>
+              <Box sx={{ pb: 1 }} />
+            </CardContent>
+          </FlexGrow>
+        </ScrollArea>
+      </Card>
+    </Grid>
   );
 }
 
@@ -103,26 +109,17 @@ export function BoardContainer({ children }: { children: React.ReactNode }) {
   const dndContext = useDndContext();
 
   const style: CSSProperties = {
+    ...sxFlex,
     display: 'flex',
-    justifyContent: 'center',
-    paddingBottom: '16px',
     overflowX: 'auto',
     scrollSnapType: dndContext.active ? 'none' : 'x mandatory'
   };
 
   return (
     <ScrollArea style={style}>
-      <Box
-        sx={{
-          display: 'flex',
-          gap: 2,
-          alignItems: 'center',
-          flexDirection: 'row',
-          justifyContent: 'center'
-        }}
-      >
+      <Grid container spacing={2} wrap="nowrap" sx={{ height: '100%' }}>
         {children}
-      </Box>
+      </Grid>
       <ScrollBar orientation="horizontal" />
     </ScrollArea>
   );
