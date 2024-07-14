@@ -1,10 +1,14 @@
 // material-ui
-import Typography from '@mui/material/Typography';
+import { KanbanBoard } from '@/ui-component/board/KanbanBoard';
 
 // project imports
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
-const Leads = () => <Typography variant="body2">Welcome to the Leads. This is a sample page.</Typography>;
+const Leads = () => (
+  <>
+    <KanbanBoard />
+  </>
+);
 
 export default Leads;
