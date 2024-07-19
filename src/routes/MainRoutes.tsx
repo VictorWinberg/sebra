@@ -17,7 +17,7 @@ const CompanyEdit = Loadable(lazy(() => import('@/features/companies/components/
 const Seeking = Loadable(lazy(() => import('@/dummy-views/seeking/Seeking')));
 const NewSeeking = Loadable(lazy(() => import('@/dummy-views/seeking/NewSeeking')));
 const Reports = Loadable(lazy(() => import('@/dummy-views/reports/Reports')));
-const Leads = Loadable(lazy(() => import('@/dummy-views/leads/Leads')));
+const LeadsPage = Loadable(lazy(() => import('@/features/leads/pages/LeadsPage')));
 
 // main routing
 const DocumentsPage = Loadable(lazy(() => import('@/features/documents/pages/DocumentsPage')));
@@ -115,7 +115,7 @@ const MainRoutes = {
         },
         {
           path: 'leads',
-          element: <Leads />
+          element: <LeadsPage />
         }
       ]
     },

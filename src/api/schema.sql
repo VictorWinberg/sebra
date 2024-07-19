@@ -66,3 +66,18 @@ CREATE TABLE IF NOT EXISTS interaction_contacts (
     FOREIGN KEY (interaction_id) REFERENCES interactions(interaction_id),
     FOREIGN KEY (contact_id) REFERENCES contacts(contact_id)
 );
+
+CREATE TABLE IF NOT EXISTS leads (
+    lead_id TEXT,
+    lead_title VARCHAR(255),
+    stage VARCHAR(50),
+    rank INTEGER,
+    contact_id INTEGER,
+    company_id INTEGER,
+    assignment_id INTEGER,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (contact_id) REFERENCES contacts(contact_id),
+    FOREIGN KEY (company_id) REFERENCES companies(company_id),
+    FOREIGN KEY (assignment_id) REFERENCES assignments(assignment_id)
+);

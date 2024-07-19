@@ -11,6 +11,11 @@ export default function componentStyleOverrides<T>(theme: ThemeOptionProps): Com
         }
       }
     },
+    MuiLink: {
+      defaultProps: {
+        underline: 'none'
+      }
+    },
     MuiPaper: {
       defaultProps: {
         elevation: 0

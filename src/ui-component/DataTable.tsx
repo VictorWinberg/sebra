@@ -8,11 +8,9 @@ import {
   MRT_RowData,
   MRT_TableInstance,
   MaterialReactTable,
-  useMaterialReactTable,
   type MRT_Row,
   type MRT_TableOptions
 } from 'material-react-table';
-import { MRT_Localization_SV } from 'material-react-table/locales/sv';
 import { bindTrigger } from 'material-ui-popup-state';
 import DeleteConfirm from './DeleteConfirm';
 import { sxFlex } from './extended/FlexGrow';
@@ -21,12 +19,7 @@ import { sxFlex } from './extended/FlexGrow';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-
-interface DataTableProps<T extends Record<string, unknown>> extends MRT_TableOptions<T> {
-  onCreate?: (row: T) => void;
-  onUpdate?: (row: T, prev: T) => void;
-  onDelete?: (row: T) => void;
-}
+import { DataTableProps, useDataTable } from '@/hooks/useDataTable';
 
 interface CustomProps<T extends Record<string, unknown>> {
   editDisplayMode: MRT_TableOptions<T>['editDisplayMode'];
@@ -40,35 +33,7 @@ const DataTable = <T extends Record<string, unknown>>({
   const [editDisplayMode, setEditDisplayMode] = useState<MRT_TableOptions<T>['editDisplayMode']>(_editDisplayMode);
   const custom: CustomProps<T> = { editDisplayMode, setEditDisplayMode };
 
-  const table = useMaterialReactTable<T>({
-    createDisplayMode: 'modal', // ('modal', and 'custom' are also available)
-    editDisplayMode, // ('modal', 'cell', 'table', and 'custom' are also available)
-    layoutMode: 'grid',
-    enableBottomToolbar: false,
-    enableColumnActions: false,
-    enableColumnFilters: true,
-    enableColumnResizing: true,
-    enableDensityToggle: true,
-    enableEditing: true,
-    enableFacetedValues: true,
-    enableFullScreenToggle: false,
-    enableHiding: false,
-    enablePagination: false,
-    enableRowActions: true,
-    enableRowVirtualization: true,
-    enableStickyHeader: true,
-    defaultColumn: {
-      size: 120, // default 180
-      minSize: 40, // default 40
-      maxSize: 1000 // default 1000
-    },
-    displayColumnDefOptions: {
-      'mrt-row-actions': { minSize: 120, size: 120, maxSize: 120, grow: false }
-    },
-    localization: MRT_Localization_SV,
-    renderRowActions: RowActions<T>(props, custom),
-    positionActionsColumn: 'last',
-    renderTopToolbarCustomActions: CustomActions<T>(),
+  const table = useDataTable<T>({
     onCreatingRowSave: async ({ row, values, table }) => {
       await props.onCreate?.({ ...row.original, ...values } as T);
       table.setCreatingRow(null);
@@ -79,19 +44,14 @@ const DataTable = <T extends Record<string, unknown>>({
       table.setEditingRow(null);
       setEditDisplayMode(_editDisplayMode);
     },
-    muiTablePaperProps: {
-      sx: { ...sxFlex, mx: -1, boxShadow: 0 }
+    displayColumnDefOptions: {
+      'mrt-row-actions': { minSize: 120, size: 120, maxSize: 120, grow: false }
     },
-    muiTableContainerProps: {
-      sx: { ...sxFlex, height: '300px' }
-    },
-    muiFilterTextFieldProps: {
-      sx: { minWidth: 0 }
-    },
-    muiEditRowDialogProps: {
-      open: true,
-      maxWidth: 'md'
-    },
+    muiTablePaperProps: { sx: { ...sxFlex, mx: -1, boxShadow: 0 } },
+    muiTableContainerProps: { sx: { ...sxFlex, height: '300px' } },
+    positionActionsColumn: 'last',
+    renderRowActions: RowActions<T>(props, custom),
+    renderTopToolbarCustomActions: CustomActions<T>(),
     muiTableBodyCellProps: ({ row, column, table }) => ({
       onDoubleClick: () => {
         setEditDisplayMode('row');
