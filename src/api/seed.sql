@@ -372,7 +372,7 @@ VALUES
     ('1eaf1e0f-f1af-4b9e-bba7-6dc06bfe71c0', '2024-06-19', 'Möte', 'Slutlig projektgenomgång.'),
     ('95974cd8-77a6-4601-af97-d3d1da39c524', '2024-06-20', 'E-post', 'Skickat slutlig projektrapport.');
 
--- -- Seed the interaction_contacts table
+-- Seed the interaction_contacts table
 INSERT INTO interaction_contacts (interaction_id, contact_id)
 VALUES
     ('17b56a4a-7c4e-4a16-8562-931d2fb901a1', 1),
@@ -517,3 +517,11 @@ VALUES
     ('1eaf1e0f-f1af-4b9e-bba7-6dc06bfe71c0', 40),
     ('95974cd8-77a6-4601-af97-d3d1da39c524', 41),
     ('95974cd8-77a6-4601-af97-d3d1da39c524', 42);
+
+-- Seed data for leads table
+INSERT INTO leads (lead_id, lead_title, stage, rank, contact_id, company_id, assignment_id, created_at, updated_at)
+VALUES
+    ('9671c767-bc53-4bf3-8038-8233b2feb9bc', 'Diskussion om kommande projekt.', 'Pitch', 1, 1, 1, 1, '2024-06-01', '2024-06-01'),
+    ('7fba6602-b886-4466-8965-abd480e040ee', 'Erbjudande skickat, inväntar svar.', 'Affär', 2, 2, 2, 2, '2024-06-02', '2024-06-02'),
+    ('eae2675f-f2e1-4aa7-85a5-a9166d24a5ec', 'Intresse i tidigare möte.', 'Intresse', 3, 3, 3, 3, '2024-06-03', '2024-06-03'),
+    ('e360580c-9a61-4af5-8c87-b74abce818b9', 'Visat intresse för nya lösningar.', 'Intresse', 4, 4, 4, 4, '2024-06-04', '2024-06-04');

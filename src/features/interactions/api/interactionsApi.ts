@@ -55,8 +55,6 @@ export const createInteraction = async (interaction: Partial<InteractionRecord>)
 };
 
 export const updateInteraction = async (interaction: Partial<InteractionRecord>) => {
-  console.log(interaction);
-
   return await updateQuery<InteractionRecord>(
     'interactions',
     pick(interaction, ['interactionType', 'interactionDate', 'notes']),

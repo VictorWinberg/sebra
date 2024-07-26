@@ -7,6 +7,6 @@ export const sxFlex = {
   flexGrow: 1
 } as const;
 
-const FlexGrow = (props: BoxProps) => <Box sx={sxFlex} {...props} />;
+const FlexGrow = ({ sx, ...rest }: BoxProps) => <Box sx={{ ...sxFlex, ...sx }} {...rest} />;
 
 export default FlexGrow;

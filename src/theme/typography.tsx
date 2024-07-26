@@ -105,7 +105,7 @@ export default function themeTypography(theme: ThemeOptionProps): TypographyOpti
       minHeight: `calc(100vh - ${headerHeight + 2}px)`,
       flexGrow: 1,
       marginTop: `${headerHeight}px`,
-      padding: '40px'
+      padding: '40px 40px 10px 40px'
     },
     menuCaption: {
       fontSize: '0.875rem',

@@ -56,8 +56,10 @@ export function pickColor(str: string) {
  * @returns {object} - the avatar object
  */
 export function stringAvatar(name: string) {
+  const [firstName = '', lastName = ''] = name.split(' ');
+
   return {
     sx: { bgcolor: pickColor(name) },
-    children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`
+    children: `${firstName[0] ?? ''}${lastName[0] ?? ''}`
   };
 }

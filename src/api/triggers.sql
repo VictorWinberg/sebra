@@ -42,3 +42,20 @@ BEGIN
     SET updated_at = CURRENT_TIMESTAMP
     WHERE interaction_id = OLD.interaction_id;
 END;
+
+CREATE TRIGGER update_leads_updated_at
+AFTER UPDATE ON leads
+FOR EACH ROW
+BEGIN
+    UPDATE leads
+    SET updated_at = CASE
+            WHEN NEW.lead_title != OLD.lead_title
+                OR NEW.stage != OLD.stage
+                OR NEW.contact_id != OLD.contact_id
+                OR NEW.company_id != OLD.company_id
+                OR NEW.assignment_id != OLD.assignment_id
+            THEN CURRENT_TIMESTAMP
+            ELSE OLD.updated_at
+        END
+    WHERE lead_id = OLD.lead_id;
+END;

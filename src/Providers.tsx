@@ -5,13 +5,13 @@ import { CssBaseline, StyledEngineProvider } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import 'dayjs/locale/sv';
 
 // project imports
 import NavigationScroll from '@/layout/NavigationScroll';
 import StoreProvider from '@/store';
 import theme from '@/theme';
 import SnackbarProvider from '@/ui-component/SnackbarProvider';
+import './plugins/dayjs';
 
 // ==============================|| PROVIDERS ||============================== //
 
