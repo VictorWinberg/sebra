@@ -13,12 +13,12 @@ type Parser<T> = {
 
 export const FilterParam: Parser<MRT_ColumnFiltersState> = {
   parse: (value) => {
-    const parsed = queryString.parse(value, { arrayFormat: 'separator' });
+    const parsed = queryString.parse(value, { arrayFormat: 'bracket' });
     return Object.entries(parsed).map(([id, value]) => ({ id, value }));
   },
   serialize: (filters) => {
     const transformed = filters.reduce((acc, { id, value }) => ({ ...acc, [id]: value }), {});
-    return queryString.stringify(transformed, { arrayFormat: 'separator' });
+    return queryString.stringify(transformed, { arrayFormat: 'bracket' });
   }
 };
 
