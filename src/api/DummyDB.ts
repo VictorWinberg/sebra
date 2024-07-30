@@ -22,7 +22,7 @@ let db: Database;
 async function init() {
   SQL = await initSqlJs({
     // Required to load the wasm binary asynchronously. Of course, you can host it wherever you want
-    locateFile: (file) => `https://sql.js.org/dist/${file}`
+    locateFile: (file) => `/wasm/${file}`
   });
 
   const schemaHash = hashCode(schema + triggers);
