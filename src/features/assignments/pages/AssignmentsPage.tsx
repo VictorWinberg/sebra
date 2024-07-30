@@ -21,8 +21,8 @@ import { Add } from '@mui/icons-material';
 
 // ==============================|| ASSIGNMENTS PAGE ||============================== //
 
-type DataType = Awaited<ReturnType<typeof fetchAssignments>>[number];
-const columns: MRT_ColumnDef<DataType>[] = [
+export type DataType = Awaited<ReturnType<typeof fetchAssignments>>[number];
+export const columns: MRT_ColumnDef<DataType>[] = [
   {
     accessorKey: 'assignmentName',
     header: 'Uppdragsnamn',

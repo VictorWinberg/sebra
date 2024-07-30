@@ -21,8 +21,8 @@ import { Add } from '@mui/icons-material';
 
 // ==============================|| COMPANIES PAGE ||============================== //
 
-type DataType = Awaited<ReturnType<typeof fetchCompanies>>[number];
-const columns: MRT_ColumnDef<DataType>[] = [
+export type DataType = Awaited<ReturnType<typeof fetchCompanies>>[number];
+export const columns: MRT_ColumnDef<DataType>[] = [
   {
     accessorKey: 'companyName',
     header: 'Företagsnamn',
