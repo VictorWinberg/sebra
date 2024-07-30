@@ -2,21 +2,26 @@ import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 // material-ui
-import { useTheme } from '@mui/material/styles';
-import Collapse from '@mui/material/Collapse';
-import List from '@mui/material/List';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import Typography from '@mui/material/Typography';
+import {
+  Box,
+  Collapse,
+  List,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Typography,
+  useMediaQuery,
+  useTheme
+} from '@mui/material';
 
 // project imports
+import { MenuItem } from '@/layout/menu-items';
+import { useAppStore } from '@/store';
 import NavItem from './NavItem';
 
 // assets
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import { IconChevronDown, IconChevronUp } from '@tabler/icons-react';
-import { MenuItem } from '@/layout/menu-items';
 
 // ==============================|| SIDEBAR MENU LIST COLLAPSE ITEMS ||============================== //
 
@@ -28,6 +33,8 @@ interface NavCollapseProps {
 const NavCollapse = ({ menu, level }: NavCollapseProps) => {
   const theme = useTheme();
   const navigate = useNavigate();
+  const [state] = useAppStore();
+  const matchDownMd = useMediaQuery(theme.breakpoints.down('md'));
 
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<string | null>(null);
@@ -114,44 +121,31 @@ const NavCollapse = ({ menu, level }: NavCollapseProps) => {
         onClick={handleClick}
       >
         <ListItemIcon sx={{ my: 'auto', minWidth: !menu.icon ? 18 : 36 }}>{menuIcon}</ListItemIcon>
-        <ListItemText
-          primary={
-            <Typography variant={selected === menu.id ? 'h5' : 'body1'} color="inherit" sx={{ my: 'auto' }}>
-              {menu.title}
-            </Typography>
-          }
-          secondary={
-            menu.caption && (
-              <Typography variant="caption" sx={{ ...theme.typography.subMenuCaption }} display="block" gutterBottom>
-                {menu.caption}
+        <Collapse in={matchDownMd || state.opened} orientation="horizontal">
+          <ListItemText
+            primary={
+              <Typography variant={selected === menu.id ? 'h5' : 'body1'} color="inherit" sx={{ my: 'auto' }}>
+                {menu.title}
               </Typography>
-            )
-          }
+            }
+            secondary={
+              menu.caption && (
+                <Typography variant="caption" sx={{ ...theme.typography.subMenuCaption }} display="block" gutterBottom>
+                  {menu.caption}
+                </Typography>
+              )
+            }
+          />
+        </Collapse>
+        <Box
+          component={open ? IconChevronUp : IconChevronDown}
+          stroke={1.5}
+          size="1rem"
+          style={{ marginTop: 'auto', marginBottom: 'auto', marginLeft: 'auto' }}
         />
-        {open ? (
-          <IconChevronUp stroke={1.5} size="1rem" style={{ marginTop: 'auto', marginBottom: 'auto' }} />
-        ) : (
-          <IconChevronDown stroke={1.5} size="1rem" style={{ marginTop: 'auto', marginBottom: 'auto' }} />
-        )}
       </ListItemButton>
       <Collapse in={open} timeout="auto" unmountOnExit>
-        <List
-          component="div"
-          disablePadding
-          sx={{
-            position: 'relative',
-            '&:after': {
-              content: "''",
-              position: 'absolute',
-              left: '32px',
-              top: 0,
-              height: '100%',
-              width: '1px',
-              opacity: 1,
-              background: theme.palette.primary.light
-            }
-          }}
-        >
+        <List component="div" disablePadding>
           {menus}
         </List>
       </Collapse>

@@ -1,5 +1,5 @@
 // material-ui
-import Typography from '@mui/material/Typography';
+import { Typography } from '@mui/material';
 
 // project imports
 

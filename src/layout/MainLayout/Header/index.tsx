@@ -1,26 +1,22 @@
 // material-ui
-import { useTheme } from '@mui/material/styles';
-import Avatar from '@mui/material/Avatar';
-import Box from '@mui/material/Box';
-import ButtonBase from '@mui/material/ButtonBase';
+import { Avatar, Box, ButtonBase, useTheme } from '@mui/material';
 
 // project imports
+import { useAppStore } from '@/store';
+import { SET_MENU } from '@/store/actions';
 import LogoSection from '../LogoSection';
-import SearchSection from './SearchSection';
 import NotificationSection from './NotificationSection';
 import ProfileSection from './ProfileSection';
+import SearchSection from './SearchSection';
 
 // assets
 import { IconMenu2 } from '@tabler/icons-react';
 
 // ==============================|| MAIN NAVBAR / HEADER ||============================== //
 
-interface HeaderProps {
-  handleLeftDrawerToggle: () => void;
-}
-
-const Header = ({ handleLeftDrawerToggle }: HeaderProps) => {
+const Header = () => {
   const theme = useTheme();
+  const [state, dispatch] = useAppStore();
 
   return (
     <>
@@ -51,7 +47,7 @@ const Header = ({ handleLeftDrawerToggle }: HeaderProps) => {
                 color: theme.palette.primary.light
               }
             }}
-            onClick={handleLeftDrawerToggle}
+            onClick={() => dispatch({ type: SET_MENU, payload: !state.opened })}
             color="inherit"
           >
             <IconMenu2 stroke={1.5} size="1.3rem" />

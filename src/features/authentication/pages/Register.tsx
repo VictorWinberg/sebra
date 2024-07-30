@@ -1,12 +1,7 @@
 import { Link } from 'react-router-dom';
 
 // material-ui
-import { Theme } from '@mui/material';
-import Divider from '@mui/material/Divider';
-import Grid from '@mui/material/Grid';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
-import useMediaQuery from '@mui/material/useMediaQuery';
+import { Divider, Grid, Stack, Theme, Typography, useMediaQuery } from '@mui/material';
 
 // project imports
 import Logo from '@/ui-component/Logo';
