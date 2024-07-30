@@ -2,8 +2,6 @@ import { useState } from 'react';
 
 // material-ui
 import { Box, IconButton, Tooltip } from '@mui/material';
-
-// third-party
 import {
   MRT_RowData,
   MRT_TableInstance,
@@ -12,6 +10,10 @@ import {
   type MRT_TableOptions
 } from 'material-react-table';
 import { bindTrigger } from 'material-ui-popup-state';
+
+// third-party
+import { DataTableProps, useDataTable } from '@/hooks/useDataTable';
+import { FilterParam, useQueryParam } from '@/hooks/useQueryParam';
 import DeleteConfirm from './DeleteConfirm';
 import { sxFlex } from './extended/FlexGrow';
 
@@ -19,7 +21,6 @@ import { sxFlex } from './extended/FlexGrow';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { DataTableProps, useDataTable } from '@/hooks/useDataTable';
 
 interface CustomProps<T extends Record<string, unknown>> {
   editDisplayMode: MRT_TableOptions<T>['editDisplayMode'];
@@ -28,12 +29,19 @@ interface CustomProps<T extends Record<string, unknown>> {
 
 const DataTable = <T extends Record<string, unknown>>({
   editDisplayMode: _editDisplayMode = 'row',
+  state,
   ...props
 }: DataTableProps<T>) => {
+  const [columnFilters, setColumnFilters] = useQueryParam('filters', FilterParam, []);
   const [editDisplayMode, setEditDisplayMode] = useState<MRT_TableOptions<T>['editDisplayMode']>(_editDisplayMode);
   const custom: CustomProps<T> = { editDisplayMode, setEditDisplayMode };
 
   const table = useDataTable<T>({
+    state: {
+      columnFilters,
+      ...state
+    },
+    onColumnFiltersChange: setColumnFilters,
     onCreatingRowSave: async ({ row, values, table }) => {
       await props.onCreate?.({ ...row.original, ...values } as T);
       table.setCreatingRow(null);
@@ -80,8 +88,10 @@ const DataTable = <T extends Record<string, unknown>>({
     ...props
   });
 
+  const { isLoading } = table.getState();
+
   // Can we do a better fix for this?
-  if (table.getState().isLoading) return null;
+  if (isLoading) return null;
 
   return <MaterialReactTable table={table} />;
 };

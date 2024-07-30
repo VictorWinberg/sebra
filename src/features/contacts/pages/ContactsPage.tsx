@@ -46,6 +46,7 @@ const columns: MRT_ColumnDef<DataType>[] = [
   },
   { accessorKey: 'phone', header: 'Telefonnummer' },
   {
+    accessorKey: 'updatedAt',
     accessorFn: (row) => dayjs.utc(row.updatedAt),
     header: 'Senast uppdaterad',
     filterVariant: 'date-range',

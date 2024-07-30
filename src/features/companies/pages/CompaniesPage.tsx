@@ -36,6 +36,7 @@ const columns: MRT_ColumnDef<DataType>[] = [
   { accessorKey: 'industry', header: 'Industri', filterVariant: 'multi-select' },
   { accessorKey: 'website', header: 'Website' },
   {
+    accessorKey: 'updatedAt',
     accessorFn: (row) => dayjs.utc(row.updatedAt),
     header: 'Senast uppdaterad',
     filterVariant: 'date-range',
