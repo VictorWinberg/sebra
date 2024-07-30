@@ -1,44 +1,22 @@
 import { Link as RouterLink } from 'react-router-dom';
 
 // material-ui
-import { Button, DialogActions, DialogContent, DialogTitle, Link } from '@mui/material';
-import { MRT_ColumnDef, MRT_EditActionButtons } from 'material-react-table';
-
-// third party
-import dayjs, { Dayjs } from 'dayjs';
+import { Button, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import { MRT_EditActionButtons } from 'material-react-table';
 
 // project imports
 import DataTable from '@/ui-component/DataTable';
 import FlexGrow from '@/ui-component/extended/FlexGrow';
-import { DocumentContent, formatDate, toLocalTime } from '@/utils';
+import { DocumentContent } from '@/utils';
 import DocumentForm from '../components/DocumentForm';
+import { documentColumns } from '../config/DocumentConfig';
 import { useDeleteDocument, useSaveDocument } from '../hooks/useDocumentsMutations';
 import { useDocuments } from '../hooks/useDocumentsQueries';
 
 // assets
-import { Add } from '@mui/icons-material';
+import AddIcon from '@mui/icons-material/Add';
 
 // ==============================|| DOCUMENTS PAGE ||============================== //
-
-const columns: MRT_ColumnDef<DocumentContent>[] = [
-  {
-    accessorKey: 'documentName',
-    header: 'Dokumentnamn',
-    Cell: ({ cell, row }) => (
-      <Link component={RouterLink} to={`/documents/${row.original.documentId}`}>
-        {cell.getValue<string>()}
-      </Link>
-    )
-  },
-  { accessorKey: 'content.type', header: 'Filtyp' },
-  {
-    accessorFn: (row) => dayjs(row.content.lastModified),
-    header: 'Senast uppdaterad',
-    filterVariant: 'date-range',
-    enableEditing: false,
-    Cell: ({ cell }) => formatDate(toLocalTime(cell.getValue<Dayjs>()))
-  }
-];
 
 const DocumentPage = () => {
   const { data = [], isLoading } = useDocuments();
@@ -51,7 +29,7 @@ const DocumentPage = () => {
     <FlexGrow>
       <DataTable<DocumentContent>
         data={data}
-        columns={columns}
+        columns={documentColumns}
         getRowId={(row) => `${row.documentId}`}
         state={{ isLoading }}
         onCreate={(row) => saveDocument(row)}
@@ -63,7 +41,7 @@ const DocumentPage = () => {
             to="new"
             variant="outlined"
             size="small"
-            startIcon={<Add />}
+            startIcon={<AddIcon />}
             sx={{ textTransform: 'none' }}
           >
             Lägg till dokument

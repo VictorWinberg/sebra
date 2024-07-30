@@ -1,40 +1,50 @@
 import { useEffect } from 'react';
 
+// material-ui
 import { MaterialReactTable, MRT_ColumnDef } from 'material-react-table';
 
-import { useAssignments } from '@/features/assignments/hooks/useAssignmentsQueries';
-import { columns as assignmentColumns, DataType as AssignmentType } from '@/features/assignments/pages/AssignmentsPage';
-import { useCompanies } from '@/features/companies/hooks/useCompaniesQueries';
-import { columns as companyColumns, DataType as CompanyType } from '@/features/companies/pages/CompaniesPage';
-import { useDataTable } from '@/hooks/useDataTable';
-import { FilterParam, useQueryParam } from '@/hooks/useQueryParam';
+// third-party
 import { UseQueryResult } from '@tanstack/react-query';
 
-interface TypeMapping {
-  companies: CompanyType;
-  assignments: AssignmentType;
-}
+// project imports
+import { assignmentColumns, AssignmentData } from '@/features/assignments/config/AssignmentConfig';
+import { useAssignments } from '@/features/assignments/hooks/useAssignmentsQueries';
+import { companyColumns, CompanyData } from '@/features/companies/config/CompanyConfig';
+import { useCompanies } from '@/features/companies/hooks/useCompaniesQueries';
+import { contactColumns, ContactData } from '@/features/contacts/config/ContactConfig';
+import { useContacts } from '@/features/contacts/hooks/useContactsQueries';
+import { useDataTable } from '@/hooks/useDataTable';
+import { FilterParam, useQueryParam } from '@/hooks/useQueryParam';
 
-type ModuleTableConfig = { [K in keyof TypeMapping]: ModuleTableConfigItem<K> };
-type ModuleTableConfigItem<T extends keyof TypeMapping> = {
-  columns: MRT_ColumnDef<TypeMapping[T]>[];
-  useData: () => UseQueryResult<TypeMapping[T][], Error>;
+const MODULE_TABLE_CONFIG: ModuleTableConfig = {
+  companiesTable: { type: 'table', columns: companyColumns, useData: useCompanies },
+  assignmentsTable: { type: 'table', columns: assignmentColumns, useData: useAssignments },
+  contactsTable: { type: 'table', columns: contactColumns, useData: useContacts }
 };
 
-type ModuleTableProps<T extends keyof TypeMapping> = {
+export type ModuleTableConfig = { [K in keyof ModuleTableMapping]: ModuleTableConfigItem<K> };
+
+interface ModuleTableMapping {
+  companiesTable: { model: CompanyData };
+  assignmentsTable: { model: AssignmentData };
+  contactsTable: { model: ContactData };
+}
+
+interface ModuleTableConfigItem<T extends keyof ModuleTableMapping> {
+  type: 'table';
+  columns: MRT_ColumnDef<ModuleTableMapping[T]['model']>[];
+  useData: () => UseQueryResult<ModuleTableMapping[T]['model'][], Error>;
+}
+
+type ModuleTableProps<T extends keyof ModuleTableMapping> = {
   moduleType: T;
 };
 
-const ModuleTable = <T extends keyof TypeMapping>({ moduleType }: ModuleTableProps<T>) => {
-  const MODULE_TABLE_CONFIG: ModuleTableConfig = {
-    companies: { columns: companyColumns, useData: useCompanies },
-    assignments: { columns: assignmentColumns, useData: useAssignments }
-  };
-
+const ModuleTable = <T extends keyof ModuleTableMapping>({ moduleType }: ModuleTableProps<T>) => {
   const config = MODULE_TABLE_CONFIG[moduleType];
   const { columns, useData } = config;
 
-  const [columnFiltersParams, setColumnFiltersParams] = useQueryParam('filters', FilterParam);
+  const [columnFiltersParams, setColumnFiltersParams] = useQueryParam('filters', FilterParam, []);
 
   const { data = [] } = useData();
 

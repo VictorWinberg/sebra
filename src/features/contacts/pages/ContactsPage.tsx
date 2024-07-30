@@ -1,59 +1,21 @@
 import { Link as RouterLink } from 'react-router-dom';
 
 // material-ui
-import { Button, DialogActions, DialogContent, DialogTitle, Link } from '@mui/material';
-import { MRT_ColumnDef, MRT_EditActionButtons } from 'material-react-table';
-
-// third party
-import dayjs, { Dayjs } from 'dayjs';
+import { Button, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import { MRT_EditActionButtons } from 'material-react-table';
 
 // project imports
 import DataTable from '@/ui-component/DataTable';
 import FlexGrow from '@/ui-component/extended/FlexGrow';
-import { formatDate, toLocalTime } from '@/utils';
-import { fetchContacts } from '../api/contactsApi';
 import ContactForm from '../components/ContactForm';
+import { contactColumns, ContactData } from '../config/ContactConfig';
 import { useCreateContact, useDeleteContact, useUpdateContact } from '../hooks/useContactsMutations';
 import { useContacts } from '../hooks/useContactsQueries';
 
 // assets
-import { Add } from '@mui/icons-material';
+import AddIcon from '@mui/icons-material/Add';
 
 // ==============================|| CONTACTS PAGE ||============================== //
-
-type DataType = Awaited<ReturnType<typeof fetchContacts>>[number];
-const columns: MRT_ColumnDef<DataType>[] = [
-  {
-    accessorKey: 'contactName',
-    header: 'Namn',
-    Cell: ({ cell, row }) => (
-      <Link component={RouterLink} to={`/dashboard/contacts/${row.original.contactId}`}>
-        {cell.getValue<string>()}
-      </Link>
-    )
-  },
-  {
-    accessorKey: 'email',
-    header: 'Email',
-    Cell: ({ cell }) => <Link href={`mailto:${cell.getValue<string>()}`}>{cell.getValue<string>()}</Link>
-  },
-  { accessorKey: 'jobTitle', header: 'Jobbtitel' },
-  {
-    accessorFn: (row) => row.company?.companyName,
-    header: 'Företagsnamn',
-    filterVariant: 'multi-select',
-    enableEditing: false
-  },
-  { accessorKey: 'phone', header: 'Telefonnummer' },
-  {
-    accessorKey: 'updatedAt',
-    accessorFn: (row) => dayjs.utc(row.updatedAt),
-    header: 'Senast uppdaterad',
-    filterVariant: 'date-range',
-    enableEditing: false,
-    Cell: ({ cell }) => formatDate(toLocalTime(cell.getValue<Dayjs>()))
-  }
-];
 
 const ContactsPage = () => {
   const { data = [], isLoading } = useContacts();
@@ -63,9 +25,9 @@ const ContactsPage = () => {
 
   return (
     <FlexGrow>
-      <DataTable<DataType>
+      <DataTable<ContactData>
         data={data}
-        columns={columns}
+        columns={contactColumns}
         getRowId={(row) => `${row.contactId}`}
         state={{ isLoading }}
         onCreate={(row) => createContact(row)}
@@ -77,7 +39,7 @@ const ContactsPage = () => {
             to="new"
             variant="outlined"
             size="small"
-            startIcon={<Add />}
+            startIcon={<AddIcon />}
             sx={{ textTransform: 'none' }}
           >
             Lägg till kontakt
