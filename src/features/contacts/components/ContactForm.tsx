@@ -13,7 +13,7 @@ import FlexGrow, { sxFlex } from '@/ui-component/extended/FlexGrow';
 
 // ==============================|| CONTACT FORM ||============================== //
 
-interface ContactFormProps extends Omit<BoxProps, 'onChange' | 'onSubmit'> {
+export interface ContactFormProps extends Omit<BoxProps, 'onChange' | 'onSubmit'> {
   onSubmit?: (data: Partial<Contact>) => void;
   onChange?: (data: Partial<Contact>) => void;
   formProps?: UseFormProps<Partial<Contact>>;

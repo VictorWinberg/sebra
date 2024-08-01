@@ -1,66 +1,40 @@
-import { useEffect } from 'react';
-
 // material-ui
-import { MaterialReactTable, MRT_ColumnDef } from 'material-react-table';
+import { MaterialReactTable } from 'material-react-table';
 
 // third-party
 import { UseQueryResult } from '@tanstack/react-query';
 
 // project imports
-import { assignmentColumns, AssignmentData } from '@/features/assignments/config/AssignmentConfig';
-import { useAssignments } from '@/features/assignments/hooks/useAssignmentsQueries';
-import { companyColumns, CompanyData } from '@/features/companies/config/CompanyConfig';
-import { useCompanies } from '@/features/companies/hooks/useCompaniesQueries';
-import { contactColumns, ContactData } from '@/features/contacts/config/ContactConfig';
-import { useContacts } from '@/features/contacts/hooks/useContactsQueries';
-import { useDataTable } from '@/hooks/useDataTable';
+import { DataTableProps, useDataTable } from '@/hooks/useDataTable';
 import { FilterParam, useQueryParam } from '@/hooks/useQueryParam';
+import { AnyData, ModuleBaseConfigItem } from '../config/ModuleConfig';
 
-const MODULE_TABLE_CONFIG: ModuleTableConfig = {
-  companiesTable: { type: 'table', columns: companyColumns, useData: useCompanies },
-  assignmentsTable: { type: 'table', columns: assignmentColumns, useData: useAssignments },
-  contactsTable: { type: 'table', columns: contactColumns, useData: useContacts }
-};
-
-export type ModuleTableConfig = { [K in keyof ModuleTableMapping]: ModuleTableConfigItem<K> };
-
-interface ModuleTableMapping {
-  companiesTable: { model: CompanyData };
-  assignmentsTable: { model: AssignmentData };
-  contactsTable: { model: ContactData };
-}
-
-interface ModuleTableConfigItem<T extends keyof ModuleTableMapping> {
+export interface ModuleTableConfigItem<M extends AnyData, P extends DataTableProps<M>> extends ModuleBaseConfigItem {
   type: 'table';
-  columns: MRT_ColumnDef<ModuleTableMapping[T]['model']>[];
-  useData: () => UseQueryResult<ModuleTableMapping[T]['model'][], Error>;
+  useData: () => UseQueryResult<M[], Error>;
+  props: Omit<P, 'data'>;
 }
 
-type ModuleTableProps<T extends keyof ModuleTableMapping> = {
-  moduleType: T;
+type ModuleTableProps<M extends AnyData, P extends DataTableProps<M>> = {
+  selectedModule: ModuleTableConfigItem<M, P>;
 };
 
-const ModuleTable = <T extends keyof ModuleTableMapping>({ moduleType }: ModuleTableProps<T>) => {
-  const config = MODULE_TABLE_CONFIG[moduleType];
-  const { columns, useData } = config;
+const ModuleTable = <M extends AnyData, P extends DataTableProps<M>>({ selectedModule }: ModuleTableProps<M, P>) => {
+  const { useData, props } = selectedModule;
 
-  const [columnFiltersParams, setColumnFiltersParams] = useQueryParam('filters', FilterParam, []);
-
+  const [columnFilters, setColumnFilters] = useQueryParam('filters', FilterParam, []);
   const { data = [] } = useData();
 
   const table = useDataTable({
     data,
-    columns,
-    initialState: { columnFilters: columnFiltersParams ?? [] },
+    state: { columnFilters },
     enableEditing: false,
     enableRowActions: false,
     enableColumnResizing: false,
-    enableStickyHeader: false
+    enableStickyHeader: false,
+    onColumnFiltersChange: setColumnFilters,
+    ...props
   });
-
-  useEffect(() => {
-    setColumnFiltersParams(table.getState().columnFilters);
-  }, [table, setColumnFiltersParams]);
 
   return <MaterialReactTable table={table} />;
 };
