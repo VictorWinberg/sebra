@@ -13,7 +13,7 @@ import { bindTrigger } from 'material-ui-popup-state';
 
 // third-party
 import { DataTableProps, useDataTable } from '@/hooks/useDataTable';
-import { FilterParam, useQueryParam } from '@/hooks/useQueryParam';
+import { FilterParam, StringParam, useQueryParam } from '@/hooks/useQueryParam';
 import DeleteConfirm from './DeleteConfirm';
 import { sxFlex } from './extended/FlexGrow';
 
@@ -33,16 +33,16 @@ const DataTable = <T extends Record<string, unknown>>({
   ...props
 }: DataTableProps<T>) => {
   const [columnFilters, setColumnFilters] = useQueryParam('filters', FilterParam, []);
+  const [globalFilter, setGlobalFilter] = useQueryParam('search', StringParam, '');
   const [editDisplayMode, setEditDisplayMode] = useState<MRT_TableOptions<T>['editDisplayMode']>(_editDisplayMode);
   const custom: CustomProps<T> = { editDisplayMode, setEditDisplayMode };
 
   const table = useDataTable<T>({
     editDisplayMode,
-    state: {
-      columnFilters,
-      ...state
-    },
+    initialState: { showGlobalFilter: !!globalFilter },
+    state: { columnFilters, globalFilter, ...state },
     onColumnFiltersChange: setColumnFilters,
+    onGlobalFilterChange: setGlobalFilter,
     onCreatingRowSave: async ({ row, values, table }) => {
       await props.onCreate?.({ ...row.original, ...values } as T);
       table.setCreatingRow(null);

@@ -11,7 +11,8 @@ export interface ModuleFormConfigItem<M extends AnyData, P> extends ModuleBaseCo
   type: 'form';
   FormComponent: React.FC<FormProps<M>>;
   createMutation: () => UseMutationResult<M, Error, Partial<M>, unknown>;
-  props?: P;
+  props: P;
+  configProps?: P;
 }
 
 type FormProps<M> = {

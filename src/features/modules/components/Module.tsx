@@ -7,11 +7,11 @@ import { Box, Typography } from '@mui/material';
 import { StringParam, useQueryParam } from '@/hooks/useQueryParam';
 import ModuleForm from '../components/ModuleForm';
 import ModuleTable from '../components/ModuleTable';
-import { AnyData, ModuleConfigItem, modules } from '../config/ModuleConfig';
+import { AnyData, AnyProps, ModuleConfigItem, modules } from '../config/ModuleConfig';
 
 interface ModuleProps {
   title?: string | null;
-  selectedModule?: ModuleConfigItem<AnyData> | null;
+  selectedModule?: ModuleConfigItem<AnyData, AnyProps> | null;
 }
 
 const Module = (props: ModuleProps) => {

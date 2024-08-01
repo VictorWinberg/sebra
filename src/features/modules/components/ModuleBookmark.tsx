@@ -1,9 +1,14 @@
+import { useEffect, useState } from 'react';
+
+import { BASE_URL } from '@/config';
+
 interface ModuleBookmarkProps {
-  label?: string;
-  disabled?: boolean;
+  label: string;
+  height: number;
+  disabled: boolean;
 }
 
-const moduleBookmark = ({ label, disabled }: ModuleBookmarkProps) => `
+const moduleBookmark = (url: string, { label, height, disabled }: ModuleBookmarkProps) => `
 <a
   style="${disabled ? 'color: gray; cursor: default;' : 'color: #5969cf;'}"
   tabindex="${disabled ? '-1' : '0'}"
@@ -22,11 +27,10 @@ const moduleBookmark = ({ label, disabled }: ModuleBookmarkProps) => `
       document.body.appendChild(messageBox);
       function handleClick(event) {
         var iframe = document.createElement("iframe");
-        iframe.src = "https://victorwinberg.github.io/project-x/module" + window.location.search;
-        iframe.src = "http://localhost:3000/module" + window.location.search;
+        iframe.src = "${url}";
         iframe.scrolling = "no";
         iframe.style.width = "100%";
-        iframe.style.height = "400px";
+        iframe.style.height = "${height}px";
         iframe.style.border = "none";
         iframe.style.outline = "none";
         iframe.style.margin = "0";
@@ -56,7 +60,13 @@ const moduleBookmark = ({ label, disabled }: ModuleBookmarkProps) => `
 `;
 
 const ModuleBookmark = (props: ModuleBookmarkProps) => {
-  return <div dangerouslySetInnerHTML={{ __html: moduleBookmark(props) }} />;
+  const [url, setUrl] = useState('');
+
+  useEffect(() => {
+    setTimeout(() => setUrl(`${location.origin}${BASE_URL}module${location.search}`), 0);
+  }, [props]);
+
+  return <div dangerouslySetInnerHTML={{ __html: moduleBookmark(url, props) }} />;
 };
 
 export default ModuleBookmark;

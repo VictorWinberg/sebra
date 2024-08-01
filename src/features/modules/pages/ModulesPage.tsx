@@ -1,23 +1,38 @@
 import { useState } from 'react';
 
 // material-ui
-import { Box, Divider, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from '@mui/material';
+import {
+  Box,
+  Divider,
+  FormControl,
+  Grid,
+  InputAdornment,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField
+} from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select/SelectInput';
 
 // project imports
-import Bookmark from '../components/ModuleBookmark';
 import Module from '../components/Module';
-import { AnyData, ModuleConfigItem, modules } from '../config/ModuleConfig';
+import Bookmark from '../components/ModuleBookmark';
+import { AnyData, AnyProps, ModuleConfigItem, modules } from '../config/ModuleConfig';
 
 const ModulesPage = () => {
-  const [selectedModule, setSelectedModule] = useState<ModuleConfigItem<AnyData> | undefined>(() => {
+  const [selectedModule, setSelectedModule] = useState<ModuleConfigItem<AnyData, AnyProps> | undefined>(() => {
     const searchParams = new URLSearchParams(window.location.search);
-    return modules.find((module) => module.key === searchParams.get('module'));
+    const module = modules.find((module) => module.key === searchParams.get('module'));
+    if (module) module.props = { ...module.props, ...module.configProps };
+    return module;
   });
   const [title, setTitle] = useState<string | undefined>(selectedModule?.label);
+  const [height, setHeight] = useState<number>(500);
 
   const handleModuleChange = (event: SelectChangeEvent<string>) => {
     const module = modules.find((module) => module.key === event.target.value);
+    if (module) module.props = { ...module.props, ...module.configProps }; // Merge props with configProps
+    window.history.replaceState(null, '', window.location.pathname); // Remove all query params
     setSelectedModule(module);
     setTitle(module?.label);
   };
@@ -42,11 +57,13 @@ const ModulesPage = () => {
         </Grid>
         <Grid item sx={{ alignContent: 'center', textAlign: 'center' }}>
           <Box sx={{ width: 24, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <Bookmark label={selectedModule?.label} disabled={!selectedModule} />
+            <Bookmark label={selectedModule?.label ?? ''} height={height} disabled={!selectedModule} />
           </Box>
         </Grid>
+      </Grid>
 
-        <Grid item xs={12}>
+      <Grid container spacing={2}>
+        <Grid item xs={8}>
           <TextField
             fullWidth
             label="Titel"
@@ -55,11 +72,26 @@ const ModulesPage = () => {
             variant="outlined"
           />
         </Grid>
+        <Grid item xs={4}>
+          <TextField
+            fullWidth
+            label="Höjd"
+            type="number"
+            value={height}
+            onChange={(e) => setHeight(parseInt(e.target.value))}
+            variant="outlined"
+            InputProps={{
+              endAdornment: <InputAdornment position="end">px</InputAdornment>
+            }}
+          />
+        </Grid>
       </Grid>
 
       <Divider sx={{ my: 2 }} />
 
-      <Module title={title ?? null} selectedModule={selectedModule ?? null} />
+      <Box sx={{ height, border: '2px dashed', borderColor: 'primary.main', overflow: 'hidden' }}>
+        <Module title={title ?? null} selectedModule={selectedModule ?? null} />
+      </Box>
     </Box>
   );
 };

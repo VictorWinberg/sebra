@@ -16,6 +16,7 @@ import { ModuleTableConfigItem } from '../components/ModuleTable';
 import { Assignment } from '@/features/assignments/api/assignmentsApi';
 
 export type AnyData = object;
+export type AnyProps = object;
 
 export interface ModuleBaseConfigItem {
   key: string;
@@ -24,49 +25,55 @@ export interface ModuleBaseConfigItem {
 
 type ModuleFormConfig<M extends AnyData, P> = ModuleFormConfigItem<M, P>;
 type ModuleTableConfig<M extends AnyData> = ModuleTableConfigItem<M, DataTableProps<M>>;
-export type ModuleConfigItem<M extends AnyData, P = unknown> = ModuleFormConfig<M, P> | ModuleTableConfig<M>;
+export type ModuleConfigItem<M extends AnyData, P extends AnyProps> = ModuleFormConfig<M, P> | ModuleTableConfig<M>;
 
-export const modules: ModuleConfigItem<AnyData>[] = [
+export const modules: ModuleConfigItem<AnyData, AnyProps>[] = [
   {
     key: 'companyForm',
     label: 'Företagsformulär',
     type: 'form',
     FormComponent: CompanyForm,
-    createMutation: useCreateCompany
+    createMutation: useCreateCompany,
+    props: {}
   } satisfies ModuleFormConfigItem<CompanyData, CompanyFormProps>,
   {
     key: 'assignmentForm',
     label: 'Uppdragsformulär',
     type: 'form',
     FormComponent: AssignmentForm,
-    createMutation: useCreateAssignment
+    createMutation: useCreateAssignment,
+    props: {}
   } satisfies ModuleFormConfigItem<Assignment, AssignmentFormProps>,
   {
     key: 'contactForm',
     label: 'Kontaktpersonsformulär',
     type: 'form',
     FormComponent: ContactForm,
-    createMutation: useCreateContact
+    createMutation: useCreateContact,
+    props: {}
   } satisfies ModuleFormConfigItem<ContactData, ContactFormProps>,
   {
     key: 'companiesTable',
     label: 'Företagstabell',
     type: 'table',
     useData: useCompanies,
-    props: { columns: companyColumns }
+    props: { columns: companyColumns },
+    configProps: { enableTopToolbar: true, enableColumnFilters: true }
   } satisfies ModuleTableConfigItem<CompanyData, DataTableProps<CompanyData>>,
   {
     key: 'assignmentsTable',
     label: 'Uppdragstabell',
     type: 'table',
     useData: useAssignments,
-    props: { columns: assignmentColumns }
+    props: { columns: assignmentColumns },
+    configProps: { enableTopToolbar: true, enableColumnFilters: true }
   } satisfies ModuleTableConfigItem<AssignmentData, DataTableProps<AssignmentData>>,
   {
     key: 'contactsTable',
     label: 'Kontaktpersonstabell',
     type: 'table',
     useData: useContacts,
-    props: { columns: contactColumns }
+    props: { columns: contactColumns },
+    configProps: { enableTopToolbar: true, enableColumnFilters: true }
   } satisfies ModuleTableConfigItem<ContactData, DataTableProps<ContactData>>
-] as ModuleConfigItem<AnyData>[];
+] as ModuleConfigItem<AnyData, AnyProps>[];

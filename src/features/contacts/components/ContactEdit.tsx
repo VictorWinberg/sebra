@@ -40,7 +40,7 @@ const ContactEdit = () => {
       updateContact(data);
     } else {
       createContact(data, {
-        onSuccess: (res) => navigate(`/dashboard/contact/${res.contactId}`)
+        onSuccess: (res) => navigate(`/dashboard/contacts/${res.contactId}`)
       });
     }
   };
