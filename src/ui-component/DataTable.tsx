@@ -37,6 +37,7 @@ const DataTable = <T extends Record<string, unknown>>({
   const custom: CustomProps<T> = { editDisplayMode, setEditDisplayMode };
 
   const table = useDataTable<T>({
+    editDisplayMode,
     state: {
       columnFilters,
       ...state

@@ -1,18 +1,16 @@
-import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 // material-ui
-import { Box, Button, Link, Stack } from '@mui/material';
+import { Box, Button, Stack } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { bindTrigger } from 'material-ui-popup-state';
 
-// third party
-
 // project imports
+import AssignmentTable from '@/features/assignments/components/AssignmentTable';
 import { useAssignments } from '@/features/assignments/hooks/useAssignmentsQueries';
-import { useCreateContact, useDeleteContact, useUpdateContact } from '@/features/contacts/hooks/useContactsMutations';
+import ContactTable from '@/features/contacts/components/ContactTable';
 import { useContacts } from '@/features/contacts/hooks/useContactsQueries';
 import ContentTabs from '@/ui-component/ContentTabs';
-import DataTable from '@/ui-component/DataTable';
 import DeleteConfirm from '@/ui-component/DeleteConfirm';
 import FlexGrow from '@/ui-component/extended/FlexGrow';
 import { Company } from '../api/companiesApi';
@@ -33,9 +31,6 @@ const CompanyEdit = () => {
 
   const { data: contacts = [], isLoading: contactsIsLoading } = useContacts();
   const { data: assignments = [], isLoading: assignmentsIsLoading } = useAssignments();
-  const { mutate: createContact } = useCreateContact();
-  const { mutate: updateContact } = useUpdateContact();
-  const { mutate: deleteContact } = useDeleteContact();
 
   const handleSubmit = (data: Partial<Company>) => {
     if (company) {
@@ -67,27 +62,10 @@ const CompanyEdit = () => {
                   id: 'contacts',
                   label: 'Kontakter',
                   content: (
-                    <DataTable
-                      data={contacts.filter((contact) => contact.companyId === company.companyId)}
-                      getRowId={(row) => `${row.contactId}`}
-                      state={{ isLoading: contactsIsLoading }}
-                      columns={[
-                        {
-                          accessorKey: 'contactName',
-                          header: 'Namn',
-                          Cell: ({ cell, row }) => (
-                            <Link component={RouterLink} to={`/dashboard/contacts/${row.original.contactId}`}>
-                              {cell.getValue<string>()}
-                            </Link>
-                          )
-                        },
-                        { accessorKey: 'email', header: 'Email' },
-                        { accessorKey: 'jobTitle', header: 'Jobbtitel' },
-                        { accessorKey: 'phone', header: 'Telefonnummer' }
-                      ]}
-                      onCreate={(row) => createContact({ ...row, companyId: company.companyId })}
-                      onUpdate={(row) => updateContact(row)}
-                      onDelete={(row) => deleteContact(row)}
+                    <ContactTable
+                      contacts={contacts.filter((contact) => contact.companyId === company.companyId)}
+                      isLoading={contactsIsLoading}
+                      defaultValues={{ companyId: company.companyId }}
                     />
                   )
                 },
@@ -96,58 +74,11 @@ const CompanyEdit = () => {
                   id: 'assignments',
                   label: 'Uppdrag',
                   content: (
-                    <DataTable
-                      data={assignments.filter(
+                    <AssignmentTable
+                      assignments={assignments.filter(
                         (assignment) => assignment.externalContactPerson?.companyId === company.companyId
                       )}
-                      getRowId={(row) => `${row.assignmentId}`}
-                      state={{ isLoading: assignmentsIsLoading }}
-                      columns={[
-                        {
-                          accessorKey: 'assignmentName',
-                          header: 'Uppdrag',
-                          Cell: ({ cell, row }) => (
-                            <Link component={RouterLink} to={`/dashboard/assignments/${row.original.assignmentId}`}>
-                              {cell.getValue<string>()}
-                            </Link>
-                          )
-                        },
-                        {
-                          accessorFn: (row) => row.responsiblePerson?.contactName,
-                          header: 'Ansvarig',
-                          enableEditing: false,
-                          Cell: ({ cell, row }) => (
-                            <Link component={RouterLink} to={`/dashboard/contacts/${row.original.responsiblePersonId}`}>
-                              {cell.getValue<string>()}
-                            </Link>
-                          )
-                        },
-                        {
-                          accessorFn: (row) => row.externalContactPerson?.contactName,
-                          header: 'Extern',
-                          enableEditing: false,
-                          Cell: ({ cell, row }) => (
-                            <Link
-                              component={RouterLink}
-                              to={`/dashboard/contacts/${row.original.externalContactPersonId}`}
-                            >
-                              {cell.getValue<string>()}
-                            </Link>
-                          )
-                        },
-                        { accessorKey: 'status', header: 'Status' },
-                        {
-                          accessorKey: 'fee',
-                          header: 'Arvode',
-                          Cell: ({ cell }) =>
-                            cell.getValue<number>().toLocaleString('sv-SE', {
-                              style: 'currency',
-                              currency: 'SEK',
-                              minimumFractionDigits: 0,
-                              maximumFractionDigits: 0
-                            })
-                        }
-                      ]}
+                      isLoading={assignmentsIsLoading}
                     />
                   )
                 },

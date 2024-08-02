@@ -16,7 +16,7 @@ export type Assignment = {
   updatedAt: string;
 };
 
-type AssignmentData = Assignment & {
+export type AssignmentData = Assignment & {
   responsiblePerson: (Contact & { company: Company | undefined }) | undefined;
   externalContactPerson: (Contact & { company: Company | undefined }) | undefined;
 };
@@ -28,8 +28,11 @@ export const fetchAssignments = async (): Promise<AssignmentData[]> => {
   return assignments.map(transformAssignment(contacts, companies));
 };
 
-export const fetchAssignment = async (assignmentId: number) => {
-  return await selectOneQuery<Assignment>('assignments', { assignmentId });
+export const fetchAssignment = async (assignmentId: number): Promise<AssignmentData> => {
+  const assignment = await selectOneQuery<Assignment>('assignments', { assignmentId });
+  const contacts = toMap(await query<Contact>(`SELECT * FROM contacts`), 'contactId');
+  const companies = toMap(await query<Company>(`SELECT * FROM companies`), 'companyId');
+  return transformAssignment(contacts, companies)(assignment);
 };
 
 export const createAssignment = async (assignment: Partial<Assignment>) => {
@@ -70,7 +73,7 @@ export const deleteAssignment = async ({ assignmentId }: Pick<Assignment, 'assig
 function transformAssignment(
   contacts: Map<string | number, Contact>,
   companies: Map<string | number, Company>
-): (value: Assignment, index: number, array: Assignment[]) => AssignmentData {
+): (value: Assignment) => AssignmentData {
   return (assignment) => {
     const responsiblePerson = contacts.get(assignment.responsiblePersonId);
     const responsiblePersonCompany = responsiblePerson && companies.get(responsiblePerson.companyId);
