@@ -17,14 +17,17 @@ const moduleBookmark = (url: string, { label, height, disabled }: ModuleBookmark
   href='
     javascript:(function () {
       var messageBox = document.createElement("div");
-      messageBox.textContent = "Klicka var som helst för att klistra in på webbplatsen";
+      messageBox.innerHTML = "Klicka var som helst för att klistra in på webbplatsen.<br/><em>Obs: Fungerar inte på alla webbplatser.</em>";
       messageBox.style.position = "fixed";
       messageBox.style.top = "10px";
       messageBox.style.right = "10px";
-      messageBox.style.backgroundColor = "yellow";
+      messageBox.style.color = "#5969cf";
+      messageBox.style.border = "2px dashed #5969cf";
+      messageBox.style.backgroundColor = "#fff";
       messageBox.style.padding = "10px";
       messageBox.style.zIndex = "10000";
       document.body.appendChild(messageBox);
+
       function handleClick(event) {
         var iframe = document.createElement("iframe");
         iframe.src = "${url}";
@@ -55,7 +58,7 @@ const moduleBookmark = (url: string, { label, height, disabled }: ModuleBookmark
   >
     <path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2"></path>
   </svg>
-  <span style="display: none">${label}</span>
+  <span style="display: none">Infoga - ${label}</span>
 </a>
 `;
 

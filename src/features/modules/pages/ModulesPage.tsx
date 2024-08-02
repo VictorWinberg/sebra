@@ -10,7 +10,8 @@ import {
   InputLabel,
   MenuItem,
   Select,
-  TextField
+  TextField,
+  Tooltip
 } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select/SelectInput';
 
@@ -34,7 +35,7 @@ const ModulesPage = () => {
     if (module) module.props = { ...module.props, ...module.configProps }; // Merge props with configProps
     window.history.replaceState(null, '', window.location.pathname); // Remove all query params
     setSelectedModule(module);
-    setTitle(module?.label);
+    setTitle(module?.title);
   };
 
   return (
@@ -56,9 +57,11 @@ const ModulesPage = () => {
           </FormControl>
         </Grid>
         <Grid item sx={{ alignContent: 'center', textAlign: 'center' }}>
-          <Box sx={{ width: 24, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <Bookmark label={selectedModule?.label ?? ''} height={height} disabled={!selectedModule} />
-          </Box>
+          <Tooltip title="Dra bokmärket till bokmärkesfältet" arrow>
+            <Box sx={{ width: 24, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              <Bookmark label={selectedModule?.title ?? ''} height={height} disabled={!selectedModule} />
+            </Box>
+          </Tooltip>
         </Grid>
       </Grid>
 

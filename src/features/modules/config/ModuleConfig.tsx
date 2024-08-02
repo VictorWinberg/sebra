@@ -21,6 +21,7 @@ export type AnyProps = object;
 export interface ModuleBaseConfigItem {
   key: string;
   label: string;
+  title: string;
 }
 
 type ModuleFormConfig<M extends AnyData, P> = ModuleFormConfigItem<M, P>;
@@ -30,7 +31,8 @@ export type ModuleConfigItem<M extends AnyData, P extends AnyProps> = ModuleForm
 export const modules: ModuleConfigItem<AnyData, AnyProps>[] = [
   {
     key: 'companyForm',
-    label: 'Företagsformulär',
+    label: 'Formulär - Företag',
+    title: 'Nytt företag',
     type: 'form',
     FormComponent: CompanyForm,
     createMutation: useCreateCompany,
@@ -38,7 +40,8 @@ export const modules: ModuleConfigItem<AnyData, AnyProps>[] = [
   } satisfies ModuleFormConfigItem<CompanyData, CompanyFormProps>,
   {
     key: 'assignmentForm',
-    label: 'Uppdragsformulär',
+    label: 'Formulär - Uppdrag',
+    title: 'Nytt uppdrag',
     type: 'form',
     FormComponent: AssignmentForm,
     createMutation: useCreateAssignment,
@@ -46,7 +49,8 @@ export const modules: ModuleConfigItem<AnyData, AnyProps>[] = [
   } satisfies ModuleFormConfigItem<Assignment, AssignmentFormProps>,
   {
     key: 'contactForm',
-    label: 'Kontaktpersonsformulär',
+    label: 'Formulär - Kontaktperson',
+    title: 'Ny kontaktperson',
     type: 'form',
     FormComponent: ContactForm,
     createMutation: useCreateContact,
@@ -54,7 +58,8 @@ export const modules: ModuleConfigItem<AnyData, AnyProps>[] = [
   } satisfies ModuleFormConfigItem<ContactData, ContactFormProps>,
   {
     key: 'companiesTable',
-    label: 'Företagstabell',
+    label: 'Tabell - Företag',
+    title: 'Företag',
     type: 'table',
     useData: useCompanies,
     props: { columns: companyColumns },
@@ -62,7 +67,8 @@ export const modules: ModuleConfigItem<AnyData, AnyProps>[] = [
   } satisfies ModuleTableConfigItem<CompanyData, DataTableProps<CompanyData>>,
   {
     key: 'assignmentsTable',
-    label: 'Uppdragstabell',
+    label: 'Tabell - Uppdrag',
+    title: 'Uppdrag',
     type: 'table',
     useData: useAssignments,
     props: { columns: assignmentColumns },
@@ -70,7 +76,8 @@ export const modules: ModuleConfigItem<AnyData, AnyProps>[] = [
   } satisfies ModuleTableConfigItem<AssignmentData, DataTableProps<AssignmentData>>,
   {
     key: 'contactsTable',
-    label: 'Kontaktpersonstabell',
+    label: 'Tabell - Kontaktperson',
+    title: 'Kontakter',
     type: 'table',
     useData: useContacts,
     props: { columns: contactColumns },
