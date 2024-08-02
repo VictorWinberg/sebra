@@ -1,14 +1,15 @@
 // third-party
+import { AnyData } from '@/features/modules/config/ModuleConfig';
 import { MRT_TableOptions, useMaterialReactTable } from 'material-react-table';
 import { MRT_Localization_SV } from 'material-react-table/locales/sv';
 
-export interface DataTableProps<T extends Record<string, unknown>> extends MRT_TableOptions<T> {
+export interface DataTableProps<T extends AnyData> extends MRT_TableOptions<T> {
   onCreate?: (row: T) => void;
   onUpdate?: (row: T, prev: T) => void;
   onDelete?: (row: T) => void;
 }
 
-export const useDataTable = <T extends Record<string, unknown>>(props: DataTableProps<T>) => {
+export const useDataTable = <T extends AnyData>(props: DataTableProps<T>) => {
   return useMaterialReactTable<T>({
     createDisplayMode: 'modal', // ('modal', and 'custom' are also available)
     editDisplayMode: 'row', // ('modal', 'cell', 'table', and 'custom' are also available)

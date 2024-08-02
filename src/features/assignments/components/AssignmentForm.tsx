@@ -13,7 +13,7 @@ import { Assignment } from '../api/assignmentsApi';
 
 // ==============================|| ASSIGNMENT FORM ||============================== //
 
-interface AssignmentFormProps extends Omit<BoxProps, 'onChange' | 'onSubmit'> {
+export interface AssignmentFormProps extends Omit<BoxProps, 'onChange' | 'onSubmit'> {
   onSubmit?: (data: Partial<Assignment>) => void;
   onChange?: (data: Partial<Assignment>) => void;
   formProps?: UseFormProps<Partial<Assignment>>;

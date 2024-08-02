@@ -25,7 +25,7 @@ const DocumentEdit = Loadable(lazy(() => import('@/features/documents/components
 const Mailing = Loadable(lazy(() => import('@/dummy-views/mailing/Mailing')));
 const Results = Loadable(lazy(() => import('@/dummy-views/results/Results')));
 const Organization = Loadable(lazy(() => import('@/dummy-views/organization/Organization')));
-const Modules = Loadable(lazy(() => import('@/dummy-views/modules/Modules')));
+const ModulesPage = Loadable(lazy(() => import('@/features/modules/pages/ModulesPage')));
 
 // other routing
 const Settings = Loadable(lazy(() => import('@/dummy-views/settings/Settings')));
@@ -146,7 +146,7 @@ const MainRoutes = {
     },
     {
       path: 'modules',
-      element: <Modules />
+      element: <ModulesPage />
     },
     {
       path: 'settings',

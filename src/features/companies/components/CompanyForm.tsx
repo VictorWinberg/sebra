@@ -11,7 +11,7 @@ import { Company } from '../api/companiesApi';
 import FlexGrow, { sxFlex } from '@/ui-component/extended/FlexGrow';
 
 // ==============================|| COMPANY FORM ||============================== //
-interface CompanyFormProps extends Omit<BoxProps, 'onChange' | 'onSubmit'> {
+export interface CompanyFormProps extends Omit<BoxProps, 'onChange' | 'onSubmit'> {
   onSubmit?: (data: Partial<Company>) => void;
   onChange?: (data: Partial<Company>) => void;
   formProps?: UseFormProps<Partial<Company>>;
