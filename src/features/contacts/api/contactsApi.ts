@@ -17,7 +17,7 @@ export type Contact = {
   updatedAt: string;
 };
 
-type ContactData = Contact & { company?: Company };
+export type ContactData = Contact & { company?: Company };
 
 export const fetchContacts = async (): Promise<ContactData[]> => {
   const contacts = await query<Contact>(`SELECT * FROM contacts ORDER BY contact_name`);

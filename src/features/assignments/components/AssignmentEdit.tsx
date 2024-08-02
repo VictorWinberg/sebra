@@ -1,28 +1,20 @@
-import { useMemo } from 'react';
-import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 // material-ui
-import { Box, Button, DialogActions, DialogContent, DialogTitle, Link, Stack } from '@mui/material';
+import { Box, Button, Stack } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import { MRT_EditActionButtons } from 'material-react-table';
 import { bindTrigger } from 'material-ui-popup-state';
 
-// third party
-import dayjs, { Dayjs } from 'dayjs';
-
 // project imports
-import DocumentForm from '@/features/documents/components/DocumentForm';
-import {
-  useCreateDocumentReference,
-  useDeleteDocumentReference,
-  useSaveDocument
-} from '@/features/documents/hooks/useDocumentsMutations';
-import { useDocumentReferences, useDocuments } from '@/features/documents/hooks/useDocumentsQueries';
+import { Contact } from '@/features/contacts/api/contactsApi';
+import DocumentReferenceTable from '@/features/documents/components/DocumentReferenceTable';
+import { useDocumentReferences } from '@/features/documents/hooks/useDocumentsQueries';
+import InteractionTable from '@/features/interactions/components/InteractionTable';
+import { useInteractions } from '@/features/interactions/hooks/useInteractionsQueries';
 import ContentTabs from '@/ui-component/ContentTabs';
-import DataTable from '@/ui-component/DataTable';
 import DeleteConfirm from '@/ui-component/DeleteConfirm';
 import FlexGrow from '@/ui-component/extended/FlexGrow';
-import { formatDate, toLocalTime, toMap } from '@/utils';
+import { formatDate } from '@/utils';
 import { Assignment } from '../api/assignmentsApi';
 import { useCreateAssignment, useDeleteAssignment, useUpdateAssignment } from '../hooks/useAssignmentsMutations';
 import { useAssignment } from '../hooks/useAssignmentsQueries';
@@ -39,21 +31,13 @@ const AssignmentEdit = () => {
   const { mutate: updateAssignment } = useUpdateAssignment();
   const { mutate: deleteAssignment } = useDeleteAssignment();
 
-  const { data: files = [], isLoading: filesIsLoading } = useDocuments();
   const { data: documentReferences = [], isLoading: documentsIsLoading } = useDocumentReferences({
     entityType: 'assignment',
     entityId: assignment?.assignmentId
   });
-
-  // TODO: Refactor to use a selector or similar
-  const documents = useMemo(() => {
-    const fileMap = toMap(files, 'documentId');
-    return documentReferences.map((ref) => ({ ...ref, ...fileMap.get(ref.documentId)! }));
-  }, [files, documentReferences]);
-
-  const { mutate: saveDocument } = useSaveDocument();
-  const { mutate: createDocumentReference } = useCreateDocumentReference();
-  const { mutate: deleteDocumentReference } = useDeleteDocumentReference();
+  const { data: interactions = [], isLoading: interactionsIsLoading } = useInteractions(
+    assignment ? { contactId: assignment.responsiblePersonId } : undefined
+  );
 
   const handleSubmit = (data: Partial<Assignment>) => {
     if (assignment) {
@@ -80,85 +64,27 @@ const AssignmentEdit = () => {
           <FlexGrow>
             <ContentTabs
               tabs={[
-                { id: 'interactions', label: 'Interaktioner', content: <>Interaktioner...</> },
+                {
+                  id: 'interactions',
+                  label: 'Interaktioner',
+                  content: (
+                    <InteractionTable
+                      interactions={interactions}
+                      isLoading={interactionsIsLoading}
+                      defaultValues={{
+                        contacts: [assignment.responsiblePerson, assignment.externalContactPerson].filter(
+                          (contact) => !!contact
+                        ) as Contact[],
+                        interactionDate: formatDate()
+                      }}
+                    />
+                  )
+                },
                 {
                   id: 'documents',
                   label: 'Dokument',
                   content: (
-                    <DataTable
-                      data={documents}
-                      getRowId={(row) => `${row.documentId}-${row.entityType}-${row.entityId}`}
-                      state={{ isLoading: filesIsLoading || documentsIsLoading }}
-                      columns={[
-                        {
-                          accessorKey: 'documentName',
-                          header: 'Dokumentnamn',
-                          Cell: ({ cell, row }) => (
-                            <Link component={RouterLink} to={`/documents/${row.original.documentId}`}>
-                              {cell.getValue<string>()}
-                            </Link>
-                          )
-                        },
-                        { accessorFn: (row) => row.content?.type, header: 'Filtyp', enableEditing: false },
-                        {
-                          accessorFn: (row) => dayjs(row.content?.lastModified),
-                          header: 'Senast uppdaterad',
-                          filterVariant: 'date-range',
-                          enableEditing: false,
-                          Cell: ({ cell }) => formatDate(toLocalTime(cell.getValue<Dayjs>()))
-                        }
-                      ]}
-                      renderCreateRowDialogContent={({ row, table }) => (
-                        <>
-                          <DialogTitle variant="h4" color="primary">
-                            Nytt dokument
-                          </DialogTitle>
-                          <DialogContent>
-                            <DocumentForm
-                              sx={{ mt: 1 }}
-                              enableExistingDocuments
-                              formProps={{
-                                defaultValues: { entityType: 'assignment', entityId: assignment.assignmentId }
-                              }}
-                              onChange={(values) => {
-                                //@ts-expect-error any
-                                row._valuesCache = values;
-                              }}
-                            />
-                          </DialogContent>
-                          <DialogActions>
-                            <MRT_EditActionButtons row={row} table={table} variant="text" />
-                          </DialogActions>
-                        </>
-                      )}
-                      renderEditRowDialogContent={({ row, table }) => (
-                        <>
-                          <DialogTitle variant="h4" color="primary">
-                            Redigera dokument
-                          </DialogTitle>
-                          <DialogContent>
-                            <DocumentForm
-                              sx={{ mt: 1 }}
-                              formProps={{ defaultValues: row.original }}
-                              onChange={(values) => {
-                                //@ts-expect-error any
-                                row._valuesCache = values;
-                              }}
-                            />
-                          </DialogContent>
-                          <DialogActions>
-                            <MRT_EditActionButtons row={row} table={table} variant="text" />
-                          </DialogActions>
-                        </>
-                      )}
-                      onCreate={(row) =>
-                        saveDocument(row, {
-                          onSuccess: (documentId) => createDocumentReference({ ...row, documentId })
-                        })
-                      }
-                      onUpdate={(row) => saveDocument(row)}
-                      onDelete={(row) => deleteDocumentReference(row)}
-                    />
+                    <DocumentReferenceTable documentReferences={documentReferences} isLoading={documentsIsLoading} />
                   )
                 },
                 { id: 'stakeholders', label: 'Intressenter', content: <>Intressenter...</> },
