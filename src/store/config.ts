@@ -11,6 +11,6 @@ export interface AppStoreState {
  * Initial values of the "State" in the AppStore
  */
 export const INITIAL_APP_STORE_STATE: AppStoreState = {
-  opened: true,
+  opened: false,
   isAuthenticated: false // Overridden in AppStore by checking auth token
 };

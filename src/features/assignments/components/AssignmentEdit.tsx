@@ -1,8 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
 
 // material-ui
-import { Box, Button, Stack } from '@mui/material';
-import Typography from '@mui/material/Typography';
+import { Box, Button, Stack, Typography } from '@mui/material';
 import { bindTrigger } from 'material-ui-popup-state';
 
 // project imports

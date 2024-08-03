@@ -3,8 +3,8 @@ import { Typography } from '@mui/material';
 
 // project imports
 import menuItem from '@/layout/menu-items';
-import NavGroup from './NavGroup';
 import NavCollapse from './NavCollapse';
+import NavGroup from './NavGroup';
 
 // ==============================|| SIDEBAR MENU LIST ||============================== //
 

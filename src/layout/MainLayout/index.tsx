@@ -1,22 +1,20 @@
 import { Outlet } from 'react-router-dom';
 
 // material-ui
+import { CssBaseline, styled, useTheme } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import useMediaQuery from '@mui/material/useMediaQuery';
 
 // project imports
-import { CssBaseline, styled, useTheme } from '@mui/material';
+import { useAppStore } from '@/store';
+import { drawerWidthCollapsed, drawerWidthExpanded, headerHeight } from '@/store/constant';
+import Breadcrumbs from '@/ui-component/extended/Breadcrumbs';
 import Header from './Header';
 import Sidebar from './Sidebar';
-import Breadcrumbs from '@/ui-component/extended/Breadcrumbs';
-import { SET_MENU } from '@/store/actions';
-import { drawerWidth, headerHeight } from '@/store/constant';
 
 // assets
 import { IconChevronRight } from '@tabler/icons-react';
-import { useAppStore } from '@/store';
 
 interface MainProps {
   open: boolean;
@@ -25,30 +23,18 @@ interface MainProps {
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' && prop !== 'theme' })<MainProps>(
   ({ theme, open }) => ({
     ...theme.typography.mainContent,
-    transition: theme.transitions.create(
-      'margin',
-      open
-        ? {
-            easing: theme.transitions.easing.easeOut,
-            duration: theme.transitions.duration.enteringScreen
-          }
-        : {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen
-          }
-    ),
+    transition: theme.transitions.create('margin'),
     [theme.breakpoints.up('md')]: {
-      marginLeft: open ? 0 : -(drawerWidth - 20),
-      width: `calc(100% - ${drawerWidth}px)`
+      marginLeft: open ? drawerWidthExpanded : drawerWidthCollapsed
     },
     [theme.breakpoints.down('md')]: {
       marginLeft: '20px',
-      width: `calc(100% - ${drawerWidth}px)`,
+      width: `calc(100% - ${drawerWidthExpanded}px)`,
       padding: '16px'
     },
     [theme.breakpoints.down('sm')]: {
       marginLeft: '10px',
-      width: `calc(100% - ${drawerWidth}px)`,
+      width: `calc(100% - ${drawerWidthExpanded}px)`,
       padding: '16px',
       marginRight: '10px'
     }
@@ -58,15 +44,8 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' && pr
 // ==============================|| MAIN LAYOUT ||============================== //
 
 const MainLayout = () => {
-  const [state, dispatch] = useAppStore();
+  const [state] = useAppStore();
   const theme = useTheme();
-  const matchDownMd = useMediaQuery(theme.breakpoints.down('md'));
-
-  // Handle left drawer
-  const leftDrawerOpened = state.opened;
-  const handleLeftDrawerToggle = () => {
-    dispatch({ type: SET_MENU, payload: !leftDrawerOpened });
-  };
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -80,19 +59,19 @@ const MainLayout = () => {
         sx={{
           bgcolor: theme.palette.background.default,
           borderBottom: `1px solid ${theme.palette.divider}`,
-          transition: leftDrawerOpened ? theme.transitions.create('width') : 'none'
+          transition: state.opened ? theme.transitions.create('width') : 'none'
         }}
       >
         <Toolbar sx={{ height: `${headerHeight}px` }}>
-          <Header handleLeftDrawerToggle={handleLeftDrawerToggle} />
+          <Header />
         </Toolbar>
       </AppBar>
 
       {/* drawer */}
-      <Sidebar drawerOpen={!matchDownMd ? leftDrawerOpened : !leftDrawerOpened} drawerToggle={handleLeftDrawerToggle} />
+      <Sidebar />
 
       {/* main content */}
-      <Main theme={theme} open={leftDrawerOpened}>
+      <Main theme={theme} open={state.opened}>
         {/* breadcrumb */}
         <Breadcrumbs separator={IconChevronRight} icon title rightAlign />
         <Outlet />

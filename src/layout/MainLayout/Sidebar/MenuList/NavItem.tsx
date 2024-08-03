@@ -1,13 +1,7 @@
-import { forwardRef } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 // material-ui
-import { useMediaQuery } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import Typography from '@mui/material/Typography';
+import { Fade, ListItemButton, ListItemIcon, ListItemText, Typography, useMediaQuery, useTheme } from '@mui/material';
 
 // project imports
 import { MenuItem } from '@/layout/menu-items';
@@ -26,6 +20,7 @@ interface NavItemProps {
 
 const NavItem = ({ item, level }: NavItemProps) => {
   const theme = useTheme();
+  const navigate = useNavigate();
   const { pathname } = useLocation();
   const [state, dispatch] = useAppStore();
   const matchDownMd = useMediaQuery(theme.breakpoints.down('md'));
@@ -48,23 +43,20 @@ const NavItem = ({ item, level }: NavItemProps) => {
     itemTarget = '_blank';
   }
 
-  const LinkComponent: React.ElementType = forwardRef((props, ref: React.Ref<HTMLAnchorElement>) =>
-    item.external ? (
-      <a ref={ref} {...props} href={item.url} target={itemTarget} />
-    ) : (
-      <Link ref={ref} {...props} to={item.url ?? ''} target={itemTarget} />
-    )
-  );
-
   const onItemClick = () => {
     if (matchDownMd) {
       dispatch({ type: SET_MENU, payload: !state.opened });
+    }
+
+    if (item.external) {
+      window.open(item.url, itemTarget);
+    } else {
+      navigate(item.url ?? '');
     }
   };
 
   return (
     <ListItemButton
-      component={LinkComponent}
       disabled={item.disabled}
       sx={{
         borderRadius: '6px',
@@ -78,20 +70,22 @@ const NavItem = ({ item, level }: NavItemProps) => {
       onClick={onItemClick}
     >
       <ListItemIcon sx={{ my: 'auto', minWidth: !item.icon ? 18 : 36 }}>{itemIcon}</ListItemIcon>
-      <ListItemText
-        primary={
-          <Typography variant={pathname.startsWith(item.url || '') ? 'h5' : 'body1'} color="inherit">
-            {item.title}
-          </Typography>
-        }
-        secondary={
-          item.caption && (
-            <Typography variant="caption" sx={{ ...theme.typography.subMenuCaption }} display="block" gutterBottom>
-              {item.caption}
+      <Fade in={matchDownMd || state.opened}>
+        <ListItemText
+          primary={
+            <Typography variant={pathname.startsWith(item.url || '') ? 'h5' : 'body1'} color="inherit">
+              {item.title}
             </Typography>
-          )
-        }
-      />
+          }
+          secondary={
+            item.caption && (
+              <Typography variant="caption" sx={{ ...theme.typography.subMenuCaption }} display="block" gutterBottom>
+                {item.caption}
+              </Typography>
+            )
+          }
+        />
+      </Fade>
     </ListItemButton>
   );
 };

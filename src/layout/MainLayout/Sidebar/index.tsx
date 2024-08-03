@@ -6,24 +6,21 @@ import Stack from '@mui/material/Stack';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 // third-party
-import PerfectScrollbar from 'react-perfect-scrollbar';
 import { BrowserView, MobileView } from 'react-device-detect';
+import PerfectScrollbar from 'react-perfect-scrollbar';
 
 // project imports
-import MenuList from './MenuList';
-import LogoSection from '../LogoSection';
+import { useAppStore } from '@/store';
+import { SET_MENU } from '@/store/actions';
+import { drawerWidthCollapsed, drawerWidthExpanded, headerHeight } from '@/store/constant';
 import Chip from '@/ui-component/extended/Chip';
-
-import { drawerWidth, headerHeight } from '@/store/constant';
+import LogoSection from '../LogoSection';
+import MenuList from './MenuList';
 
 // ==============================|| SIDEBAR DRAWER ||============================== //
 
-interface SidebarProps {
-  drawerOpen: boolean;
-  drawerToggle: () => void;
-}
-
-const Sidebar = ({ drawerOpen, drawerToggle }: SidebarProps) => {
+const Sidebar = () => {
+  const [state, dispatch] = useAppStore();
   const theme = useTheme();
   const matchUpMd = useMediaQuery(theme.breakpoints.up('md'));
 
@@ -35,25 +32,27 @@ const Sidebar = ({ drawerOpen, drawerToggle }: SidebarProps) => {
         </Box>
       </Box>
       <BrowserView>
-        <PerfectScrollbar
-          component="div"
-          style={{
-            height: `calc(100vh - ${headerHeight}px)`,
-            paddingLeft: '16px',
-            paddingRight: '16px'
-          }}
-        >
-          <MenuList />
-          <Stack direction="row" justifyContent="center" sx={{ mb: 2 }}>
-            <Chip label={`v${__APP_VERSION__}`} disabled size="small" />
-            <Chip label={__COMMIT_HASH__} disabled size="small" />
-          </Stack>
+        <PerfectScrollbar component="div" style={{ height: `calc(100vh - ${headerHeight}px)` }}>
+          <Box
+            sx={{
+              px: state.opened ? 2 : 1,
+              width: state.opened ? drawerWidthExpanded : drawerWidthCollapsed,
+              overflow: 'hidden',
+              transition: theme.transitions.create(['width', 'padding'])
+            }}
+          >
+            <MenuList />
+            <Stack direction="column" justifyContent="center" sx={{ mb: 2 }}>
+              <Chip label={`v${__APP_VERSION__}`} disabled size="small" />
+              <Chip label={__COMMIT_HASH__} disabled size="small" />
+            </Stack>
+          </Box>
         </PerfectScrollbar>
       </BrowserView>
       <MobileView>
         <Box sx={{ px: 2 }}>
           <MenuList />
-          <Stack direction="row" justifyContent="center" sx={{ mb: 2 }}>
+          <Stack direction="column" justifyContent="center" sx={{ mb: 2 }}>
             <Chip label={`v${__APP_VERSION__}`} disabled size="small" />
             <Chip label={__COMMIT_HASH__} disabled size="small" />
           </Stack>
@@ -67,17 +66,16 @@ const Sidebar = ({ drawerOpen, drawerToggle }: SidebarProps) => {
       component="nav"
       sx={{
         flexShrink: { md: 0 },
-        width: matchUpMd ? drawerWidth : 'auto'
+        width: 'auto'
       }}
     >
       <Drawer
         variant={matchUpMd ? 'persistent' : 'temporary'}
         anchor="left"
-        open={drawerOpen}
-        onClose={drawerToggle}
+        open={state.opened || matchUpMd}
+        onClose={() => dispatch({ type: SET_MENU, payload: false })}
         sx={{
           '& .MuiDrawer-paper': {
-            width: drawerWidth,
             background: theme.palette.grey[100],
             color: theme.palette.text.primary,
             borderRight: 'none',

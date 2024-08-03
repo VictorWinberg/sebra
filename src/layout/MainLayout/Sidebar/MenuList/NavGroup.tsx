@@ -1,13 +1,10 @@
 // material-ui
-import { useTheme } from '@mui/material/styles';
-import Divider from '@mui/material/Divider';
-import List from '@mui/material/List';
-import Typography from '@mui/material/Typography';
+import { Divider, List, Typography, useTheme } from '@mui/material';
 
 // project imports
 import { MenuItem } from '@/layout/menu-items';
-import NavItem from './NavItem';
 import NavCollapse from './NavCollapse';
+import NavItem from './NavItem';
 
 // ==============================|| SIDEBAR MENU LIST GROUP ||============================== //
 

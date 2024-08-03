@@ -1,8 +1,7 @@
 import React from 'react';
 
 // material-ui
-import { Box, Divider, Grid, GridProps, List, ListItem, ListItemText, useTheme } from '@mui/material';
-import Typography from '@mui/material/Typography';
+import { Box, Divider, Grid, GridProps, List, ListItem, ListItemText, Typography, useTheme } from '@mui/material';
 
 // project imports
 

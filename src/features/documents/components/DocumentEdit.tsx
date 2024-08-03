@@ -2,8 +2,7 @@ import { useMemo } from 'react';
 import { Link as RouterLink, createSearchParams, useNavigate, useParams } from 'react-router-dom';
 
 // material-ui
-import { Box, Button, DialogActions, DialogContent, DialogTitle, Link, Stack } from '@mui/material';
-import Typography from '@mui/material/Typography';
+import { Box, Button, DialogActions, DialogContent, DialogTitle, Link, Stack, Typography } from '@mui/material';
 import { MRT_EditActionButtons } from 'material-react-table';
 import { bindTrigger } from 'material-ui-popup-state';
 
