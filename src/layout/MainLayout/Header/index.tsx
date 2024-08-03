@@ -1,5 +1,5 @@
 // material-ui
-import { Avatar, Box, ButtonBase, useTheme } from '@mui/material';
+import { Avatar, Box, ButtonBase, useMediaQuery, useTheme } from '@mui/material';
 
 // project imports
 import { useAppStore } from '@/store';
@@ -10,13 +10,14 @@ import ProfileSection from './ProfileSection';
 import SearchSection from './SearchSection';
 
 // assets
-import { IconMenu2 } from '@tabler/icons-react';
+import { IconLayoutSidebarLeftCollapse, IconLayoutSidebarLeftExpand, IconMenu2 } from '@tabler/icons-react';
 
 // ==============================|| MAIN NAVBAR / HEADER ||============================== //
 
 const Header = () => {
   const theme = useTheme();
   const [state, dispatch] = useAppStore();
+  const matchDownMd = useMediaQuery(theme.breakpoints.down('md'));
 
   return (
     <>
@@ -50,7 +51,13 @@ const Header = () => {
             onClick={() => dispatch({ type: SET_MENU, payload: !state.opened })}
             color="inherit"
           >
-            <IconMenu2 stroke={1.5} size="1.3rem" />
+            {matchDownMd ? (
+              <IconMenu2 stroke={1.5} size="1.3rem" />
+            ) : state.opened ? (
+              <IconLayoutSidebarLeftCollapse stroke={1.5} />
+            ) : (
+              <IconLayoutSidebarLeftExpand stroke={1.5} />
+            )}
           </Avatar>
         </ButtonBase>
       </Box>
