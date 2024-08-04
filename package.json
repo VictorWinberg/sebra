@@ -1,8 +1,8 @@
 {
   "type": "module",
-  "name": "project-x",
+  "name": "sebra",
   "version": "0.7.0",
-  "description": "Project X",
+  "description": "sebra - CRM",
   "private": true,
   "author": "VictorWinberg",
   "scripts": {

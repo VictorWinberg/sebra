@@ -41,7 +41,7 @@ jobs:
           pnpm install
           pnpm build
         env:
-          VITE_BASE_URL: '/project-x/'
+          VITE_BASE_URL: '/sebra/'
 
       - name: Github Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4.5.0

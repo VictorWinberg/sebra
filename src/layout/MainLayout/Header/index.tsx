@@ -41,11 +41,11 @@ const Header = () => {
               ...theme.typography.commonAvatar,
               ...theme.typography.mediumAvatar,
               transition: 'all .2s ease-in-out',
-              background: theme.palette.primary.light,
+              background: 'transparent',
               color: theme.palette.primary.dark,
               '&:hover': {
-                background: theme.palette.primary.dark,
-                color: theme.palette.primary.light
+                background: theme.palette.primary.light,
+                color: theme.palette.primary.main
               }
             }}
             onClick={() => dispatch({ type: SET_MENU, payload: !state.opened })}

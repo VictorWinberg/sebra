@@ -35,11 +35,11 @@ const HeaderAvatar = forwardRef(({ children, ...others }: HeaderAvatarProps, ref
       sx={{
         ...theme.typography.commonAvatar,
         ...theme.typography.mediumAvatar,
-        bgcolor: 'primary.light',
-        color: 'primary.dark',
+        background: 'transparent',
+        color: theme.palette.primary.dark,
         '&:hover': {
-          bgcolor: 'primary.dark',
-          color: 'primary.light'
+          background: theme.palette.primary.light,
+          color: theme.palette.primary.main
         }
       }}
       {...others}
