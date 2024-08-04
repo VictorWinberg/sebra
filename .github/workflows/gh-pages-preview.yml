@@ -38,7 +38,7 @@ jobs:
           pnpm install
           pnpm build
         env:
-          VITE_BASE_URL: /project-x/preview/${{ github.event.number }}/
+          VITE_BASE_URL: /sebra/preview/${{ github.event.number }}/
 
       - name: Github Preview Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4.5.0
@@ -55,4 +55,4 @@ jobs:
         with:
           header: test-env
           message: |
-            See the preview at https://victorwinberg.github.io/project-x/preview/${{ github.event.number }}
+            See the preview at https://victorwinberg.github.io/sebra/preview/${{ github.event.number }}

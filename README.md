@@ -1,6 +1,6 @@
-# Project X
+# sebra
 
-This is a starter project utilizing Vite with React + MUI, leveraging TypeScript for enhanced development experience. It's designed to accelerate the creation of professional React applications, featuring a mix of [Vite](https://vitejs.dev/guide/) and [MUI](https://mui.com) with a collection of reusable components and utilities.
+This project utilizes [Vite](https://vitejs.dev/guide/) with React + [MUI](https://mui.com), leveraging TypeScript for enhanced development experience.
 
 ## Features
 
@@ -32,6 +32,7 @@ This is a starter project utilizing Vite with React + MUI, leveraging TypeScript
 │   └── yyy ...
 ├── hooks                   # Custom React hooks
 ├── layout                  # Contains layout components
+├── plugins                 # Contains plugin components
 ├── routes                  # Route configuration files
 ├── store                   # Store configuration files
 ├── theme                   # Theme configuration files
