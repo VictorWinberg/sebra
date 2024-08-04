@@ -84,6 +84,7 @@ const NavItem = ({ item, level }: NavItemProps) => {
               </Typography>
             )
           }
+          sx={{ '& p': { whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' } }}
         />
       </Fade>
     </ListItemButton>
