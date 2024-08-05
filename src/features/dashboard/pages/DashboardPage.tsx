@@ -3,10 +3,8 @@ import React from 'react';
 // material-ui
 import { Box, Divider, Grid, GridProps, List, ListItem, ListItemText, Typography, useTheme } from '@mui/material';
 
-// project imports
-
 // assets
-import { IconArrowNarrowDown, IconArrowNarrowUp } from '@tabler/icons-react';
+import { IconArrowNarrowUp } from '@tabler/icons-react';
 
 // ==============================|| DASHBOARD PAGE ||============================== //
 
@@ -19,10 +17,7 @@ const DashboardPage = () => {
       sx={{
         width: 'auto',
         mx: -3,
-        '& > .MuiGrid-item': {
-          p: 3,
-          borderBottom: `0.5px solid ${theme.palette.divider}`
-        }
+        '& > .MuiGrid-item': { p: 3 }
       }}
     >
       <Grid item xs={12} md={6} lg={8}>
@@ -42,17 +37,6 @@ const DashboardPage = () => {
       </Grid>
       <Divider orientation="vertical" flexItem sx={{ mr: '-1px', display: { xs: 'none', md: 'block' } }} />
       <Grid item xs={12} md={6} lg={4}>
-        <GraphCard header="Leads" lastUpdated="From 1-6 Dec, 2020" />
-      </Grid>
-
-      <Grid item xs={12} md={4} lg={4}>
-        <Typography variant="body1" sx={{ mb: 1 }}>
-          Anteckningar
-        </Typography>
-        <Typography variant="body2">Klicka på en anteckning för att se mer.</Typography>
-      </Grid>
-      <Divider orientation="vertical" flexItem sx={{ mr: '-1px', display: { xs: 'none', md: 'block' } }} />
-      <Grid item xs={12} md={4} lg={4}>
         <Typography variant="body1" sx={{ mb: 1 }}>
           Att göra
         </Typography>
@@ -78,22 +62,13 @@ const DashboardPage = () => {
             />
           </ListItem>
         </List>
-      </Grid>
-      <Divider orientation="vertical" flexItem sx={{ mr: '-1px', display: { xs: 'none', md: 'block' } }} />
-      <Grid item xs={12} md={4} lg={4}>
-        <GraphCard
-          header="Kundmöten per vecka"
-          sub={
-            <>
-              <span style={{ color: 'red' }}>
-                <IconArrowNarrowDown size={16} style={{ verticalAlign: 'middle' }} />
-                2.1%
-              </span>{' '}
-              mot förra veckan
-            </>
-          }
-          lastUpdated="Registrerade samtal från 20-26 Feb, 2024"
-        />
+
+        <Divider sx={{ my: 2 }} />
+
+        <Typography variant="body1" sx={{ mb: 1 }}>
+          Anteckningar
+        </Typography>
+        <Typography variant="body2">Klicka på en anteckning för att se mer.</Typography>
       </Grid>
     </Grid>
   );
