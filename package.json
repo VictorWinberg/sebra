@@ -1,7 +1,7 @@
 {
   "type": "module",
   "name": "sebra",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "sebra - CRM",
   "private": true,
   "author": "VictorWinberg",
