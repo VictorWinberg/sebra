@@ -3,14 +3,15 @@ CREATE TABLE IF NOT EXISTS assignments (
     assignment_name VARCHAR(255),
     responsible_person_id INTEGER,
     external_contact_person_id INTEGER,
-    relevant_files VARCHAR(255),
+    company_id INTEGER,
     fee DECIMAL(10, 2),
     type VARCHAR(50),
     status VARCHAR(50),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (responsible_person_id) REFERENCES contacts(contact_id),
-    FOREIGN KEY (external_contact_person_id) REFERENCES contacts(contact_id)
+    FOREIGN KEY (external_contact_person_id) REFERENCES contacts(contact_id),
+    FOREIGN KEY (company_id) REFERENCES companies(company_id)
 );
 
 CREATE TABLE IF NOT EXISTS contacts (
@@ -22,7 +23,6 @@ CREATE TABLE IF NOT EXISTS contacts (
     company_id INTEGER,
     address VARCHAR(255),
     notes TEXT,
-    last_interaction_date DATE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (company_id) REFERENCES companies(company_id)
@@ -36,6 +36,7 @@ CREATE TABLE IF NOT EXISTS companies (
     phone VARCHAR(20),
     email VARCHAR(255),
     website VARCHAR(255),
+    organization_number VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
