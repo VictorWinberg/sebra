@@ -13,17 +13,24 @@ import { Lead, LEAD_STAGES } from '../api/leadsApi';
 import { useCompanies } from '@/features/companies/hooks/useCompaniesQueries';
 import { useAssignments } from '@/features/assignments/hooks/useAssignmentsQueries';
 
-// assets
-
 // ==============================|| LEADS FORM ||============================== //
 
 interface LeadFormProps extends Omit<BoxProps, 'onChange' | 'onSubmit'> {
   onSubmit?: (data: Lead) => void;
   onChange?: (data: Partial<Lead>) => void;
   formProps?: UseFormProps<Lead>;
+  renderTopContent?: () => React.ReactNode;
+  renderBottomContent?: () => React.ReactNode;
 }
 
-const LeadForm = ({ onSubmit = () => {}, onChange, formProps, children, ...rest }: LeadFormProps) => {
+const LeadForm = ({
+  onSubmit = () => {},
+  onChange,
+  formProps,
+  renderTopContent,
+  renderBottomContent,
+  ...rest
+}: LeadFormProps) => {
   const { data: contacts = [] } = useContacts();
   const { data: companies = [] } = useCompanies();
   const { data: assignments = [] } = useAssignments();
@@ -44,6 +51,8 @@ const LeadForm = ({ onSubmit = () => {}, onChange, formProps, children, ...rest 
   return (
     <FlexGrow {...rest}>
       <form onSubmit={handleSubmit(onSubmit)} style={{ ...sxFlex }}>
+        {renderTopContent?.()}
+
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
             <TextField
@@ -98,7 +107,7 @@ const LeadForm = ({ onSubmit = () => {}, onChange, formProps, children, ...rest 
                   getOptionLabel={(option) => option.companyName}
                   value={companies.find((contact) => contact.companyId === field.value) || null}
                   onChange={(_, value) => field.onChange(value ? value.companyId : undefined)}
-                  renderInput={(params) => <TextField {...params} label="Företag" variant="outlined" fullWidth />}
+                  renderInput={(params) => <TextField {...params} label="Bolag" variant="outlined" fullWidth />}
                 />
               )}
             />
@@ -121,7 +130,7 @@ const LeadForm = ({ onSubmit = () => {}, onChange, formProps, children, ...rest 
           </Grid>
         </Grid>
 
-        {children}
+        {renderBottomContent?.()}
       </form>
     </FlexGrow>
   );

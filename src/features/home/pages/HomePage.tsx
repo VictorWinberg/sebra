@@ -6,9 +6,9 @@ import { Box, Divider, Grid, GridProps, List, ListItem, ListItemText, Typography
 // assets
 import { IconArrowNarrowUp } from '@tabler/icons-react';
 
-// ==============================|| DASHBOARD PAGE ||============================== //
+// ==============================|| HOME PAGE ||============================== //
 
-const DashboardPage = () => {
+const HomePage = () => {
   const theme = useTheme();
 
   return (
@@ -111,4 +111,4 @@ const GraphCard = ({ header, sub, lastUpdated, ...rest }: GraphCardProps) => (
   </>
 );
 
-export default DashboardPage;
+export default HomePage;

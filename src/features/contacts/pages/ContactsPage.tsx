@@ -1,5 +1,3 @@
-import { Link as RouterLink } from 'react-router-dom';
-
 // material-ui
 import { Button, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { MRT_EditActionButtons } from 'material-react-table';
@@ -33,10 +31,9 @@ const ContactsPage = () => {
         onCreate={(row) => createContact(row)}
         onUpdate={(row) => updateContact(row)}
         onDelete={(row) => deleteContact(row)}
-        renderTopToolbarCustomActions={() => (
+        renderTopToolbarCustomActions={({ table }) => (
           <Button
-            component={RouterLink}
-            to="new"
+            onClick={() => table.setCreatingRow(true)}
             variant="outlined"
             size="small"
             startIcon={<AddIcon />}
@@ -48,7 +45,7 @@ const ContactsPage = () => {
         renderEditRowDialogContent={({ row, table }) => (
           <>
             <DialogTitle variant="h4" color="primary">
-              Redigera kontakt
+              {table.getState().creatingRow ? 'Lägg till kontakt' : 'Redigera kontakt'}
             </DialogTitle>
             <DialogContent>
               <ContactForm

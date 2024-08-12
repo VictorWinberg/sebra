@@ -39,7 +39,7 @@ const ContactEdit = () => {
       updateContact(data);
     } else {
       createContact(data, {
-        onSuccess: (res) => navigate(`/dashboard/contacts/${res.contactId}`)
+        onSuccess: (res) => navigate(`/home/contacts/${res.contactId}`)
       });
     }
   };
@@ -47,15 +47,36 @@ const ContactEdit = () => {
   if (isLoading) return;
 
   return (
-    <>
-      <Typography variant="h4" color="primary">
-        {contact ? 'Redigera kontakt' : 'Lägg till kontakt'}
-      </Typography>
-      <Box sx={{ my: 1 }} />
-      <ContactForm formProps={{ values: contact }} onSubmit={handleSubmit}>
-        <Box sx={{ my: 1 }} />
+    <ContactForm
+      formProps={{ values: contact }}
+      onSubmit={handleSubmit}
+      renderTopContent={() => (
+        <Box sx={{ position: 'relative', mt: 1, mb: 3 }}>
+          <Stack spacing={2} direction="row" sx={{ position: 'absolute', right: 0 }}>
+            {contact && (
+              <DeleteConfirm onClick={() => deleteContact(contact, { onSuccess: () => navigate('..') })}>
+                {(popupState) => (
+                  <Button variant="outlined" color="error" {...bindTrigger(popupState)}>
+                    Ta bort
+                  </Button>
+                )}
+              </DeleteConfirm>
+            )}
+            <Button variant="outlined" color="primary" onClick={() => navigate(-1)}>
+              Avbryt
+            </Button>
+            <Button type="submit" variant="contained" color="primary">
+              Spara
+            </Button>
+          </Stack>
 
-        {contact && (
+          <Typography variant="h4" color="primary">
+            {contact ? 'Redigera kontakt' : 'Lägg till kontakt'}
+          </Typography>
+        </Box>
+      )}
+      renderBottomContent={() =>
+        contact && (
           <FlexGrow>
             <ContentTabs
               tabs={[
@@ -88,27 +109,9 @@ const ContactEdit = () => {
               ]}
             />
           </FlexGrow>
-        )}
-
-        <Stack spacing={2} direction="row" sx={{ mt: 3, ml: 'auto' }}>
-          {contact && (
-            <DeleteConfirm onClick={() => deleteContact(contact, { onSuccess: () => navigate('..') })}>
-              {(popupState) => (
-                <Button size="large" variant="outlined" color="error" {...bindTrigger(popupState)}>
-                  Ta bort
-                </Button>
-              )}
-            </DeleteConfirm>
-          )}
-          <Button size="large" variant="outlined" color="primary" onClick={() => navigate(-1)}>
-            Avbryt
-          </Button>
-          <Button size="large" type="submit" variant="contained" color="primary">
-            Spara
-          </Button>
-        </Stack>
-      </ContactForm>
-    </>
+        )
+      }
+    />
   );
 };
 

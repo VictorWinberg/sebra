@@ -13,12 +13,12 @@ const main: MenuItem = {
   type: 'group',
   children: [
     {
-      id: 'dashboard',
-      title: 'Dashboard',
+      id: 'home',
+      title: 'Hem',
       type: 'item',
-      url: '/dashboard',
+      url: '/home',
       icon: icons.IconDashboard,
-      breadcrumbs: true
+      breadcrumbs: false
     },
     {
       id: 'documents',

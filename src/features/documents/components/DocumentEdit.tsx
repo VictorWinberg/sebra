@@ -6,8 +6,6 @@ import { Box, Button, DialogActions, DialogContent, DialogTitle, Link, Stack, Ty
 import { MRT_EditActionButtons } from 'material-react-table';
 import { bindTrigger } from 'material-ui-popup-state';
 
-// third party
-
 // project imports
 import { useAssignments } from '@/features/assignments/hooks/useAssignmentsQueries';
 import { useCompanies } from '@/features/companies/hooks/useCompaniesQueries';
@@ -63,7 +61,7 @@ const DocumentEdit = () => {
   const renderType = (entityType: string) => {
     switch (entityType) {
       case 'company':
-        return 'Företag';
+        return 'Bolag';
       case 'contact':
         return 'Kontakt';
       case 'assignment':
@@ -77,13 +75,13 @@ const DocumentEdit = () => {
     switch (entityType) {
       case 'company':
         return (
-          <Link component={RouterLink} to={`/dashboard/companies/${entityId}`}>
+          <Link component={RouterLink} to={`/home/companies/${entityId}`}>
             {companyMap.get(entityId)?.companyName}
           </Link>
         );
       case 'contact':
         return (
-          <Link component={RouterLink} to={`/dashboard/contacts/${entityId}`}>
+          <Link component={RouterLink} to={`/home/contacts/${entityId}`}>
             {contactMap.get(entityId)?.contactName}
           </Link>
         );
@@ -92,7 +90,7 @@ const DocumentEdit = () => {
           <Link
             component={RouterLink}
             to={{
-              pathname: `/dashboard/assignments/${entityId}`,
+              pathname: `/home/assignments/${entityId}`,
               search: `${createSearchParams({ tab: 'documents' })}`
             }}
           >
@@ -105,15 +103,36 @@ const DocumentEdit = () => {
   };
 
   return (
-    <>
-      <Typography variant="h4" color="primary">
-        {document ? 'Redigera dokument' : 'Lägg till dokument'}
-      </Typography>
-      <Box sx={{ my: 1 }} />
-      <DocumentForm formProps={{ defaultValues: document }} onSubmit={handleSubmit}>
-        <Box sx={{ my: 1 }} />
+    <DocumentForm
+      formProps={{ defaultValues: document }}
+      onSubmit={handleSubmit}
+      renderTopContent={() => (
+        <Box sx={{ position: 'relative', mt: 1, mb: 3 }}>
+          <Stack spacing={2} direction="row" sx={{ position: 'absolute', right: 0 }}>
+            {document && (
+              <DeleteConfirm onClick={() => deleteDocument(document, { onSuccess: () => navigate('..') })}>
+                {(popupState) => (
+                  <Button variant="outlined" color="error" {...bindTrigger(popupState)}>
+                    Ta bort
+                  </Button>
+                )}
+              </DeleteConfirm>
+            )}
+            <Button variant="outlined" color="primary" onClick={() => navigate(-1)}>
+              Avbryt
+            </Button>
+            <Button type="submit" variant="contained" color="primary">
+              Spara
+            </Button>
+          </Stack>
 
-        {document && (
+          <Typography variant="h4" color="primary">
+            {document ? 'Redigera dokument' : 'Lägg till dokument'}
+          </Typography>
+        </Box>
+      )}
+      renderBottomContent={() =>
+        document && (
           <FlexGrow>
             <ContentTabs
               tabs={[
@@ -139,35 +158,15 @@ const DocumentEdit = () => {
                           Cell: ({ row }) => renderLink(row.original.entityType, row.original.entityId)
                         }
                       ]}
-                      renderCreateRowDialogContent={({ row, table }) => (
-                        <>
-                          <DialogTitle variant="h4" color="primary">
-                            Ny referens
-                          </DialogTitle>
-                          <DialogContent>
-                            <DocumentReferenceForm
-                              sx={{ mt: 1 }}
-                              formProps={{ defaultValues: { documentId: document.documentId } }}
-                              onChange={(values) => {
-                                //@ts-expect-error any
-                                row._valuesCache = values;
-                              }}
-                            />
-                          </DialogContent>
-                          <DialogActions>
-                            <MRT_EditActionButtons row={row} table={table} variant="text" />
-                          </DialogActions>
-                        </>
-                      )}
                       renderEditRowDialogContent={({ row, table }) => (
                         <>
                           <DialogTitle variant="h4" color="primary">
-                            Redigera referens
+                            {table.getState().creatingRow ? 'Ny referens' : 'Redigera referens'}
                           </DialogTitle>
                           <DialogContent>
                             <DocumentReferenceForm
                               sx={{ mt: 1 }}
-                              formProps={{ defaultValues: row.original }}
+                              formProps={{ defaultValues: { ...row.original, documentId: document.documentId } }}
                               onChange={(values) => {
                                 //@ts-expect-error any
                                 row._valuesCache = values;
@@ -188,27 +187,9 @@ const DocumentEdit = () => {
               ]}
             />
           </FlexGrow>
-        )}
-
-        <Stack spacing={2} direction="row" sx={{ mt: 3, ml: 'auto' }}>
-          {document && (
-            <DeleteConfirm onClick={() => deleteDocument(document, { onSuccess: () => navigate('..') })}>
-              {(popupState) => (
-                <Button size="large" variant="outlined" color="error" {...bindTrigger(popupState)}>
-                  Ta bort
-                </Button>
-              )}
-            </DeleteConfirm>
-          )}
-          <Button size="large" variant="outlined" color="primary" onClick={() => navigate(-1)}>
-            Avbryt
-          </Button>
-          <Button size="large" type="submit" variant="contained" color="primary">
-            Spara
-          </Button>
-        </Stack>
-      </DocumentForm>
-    </>
+        )
+      }
+    />
   );
 };
 

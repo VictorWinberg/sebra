@@ -59,7 +59,7 @@ const InteractionTable = ({ interactions, isLoading, defaultValues }: Interactio
                     variant="outlined"
                     avatar={<Avatar {...stringAvatar(contact.contactName)} />}
                     label={contact.contactName}
-                    to={`/dashboard/contacts/${contact.contactId}`}
+                    to={`/home/contacts/${contact.contactId}`}
                     clickable
                     size="small"
                   />
@@ -80,35 +80,15 @@ const InteractionTable = ({ interactions, isLoading, defaultValues }: Interactio
           Cell: ({ cell }) => formatDate(toLocalTime(cell.getValue<Dayjs>()))
         }
       ]}
-      renderCreateRowDialogContent={({ row, table }) => (
-        <>
-          <DialogTitle variant="h4" color="primary">
-            Ny interaktion
-          </DialogTitle>
-          <DialogContent>
-            <InteractionForm
-              sx={{ mt: 1 }}
-              formProps={{ defaultValues }}
-              onChange={(values) => {
-                //@ts-expect-error any
-                row._valuesCache = values;
-              }}
-            />
-          </DialogContent>
-          <DialogActions>
-            <MRT_EditActionButtons row={row} table={table} variant="text" />
-          </DialogActions>
-        </>
-      )}
       renderEditRowDialogContent={({ row, table }) => (
         <>
           <DialogTitle variant="h4" color="primary">
-            Redigera interaktion
+            {table.getState().creatingRow ? 'Ny interaktion' : 'Redigera interaktion'}
           </DialogTitle>
           <DialogContent>
             <InteractionForm
               sx={{ mt: 1 }}
-              formProps={{ defaultValues: row.original }}
+              formProps={{ defaultValues: { ...defaultValues, ...row.original } }}
               onChange={(values) => {
                 //@ts-expect-error any
                 row._valuesCache = values;

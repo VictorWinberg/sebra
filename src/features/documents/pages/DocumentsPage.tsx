@@ -1,5 +1,3 @@
-import { Link as RouterLink } from 'react-router-dom';
-
 // material-ui
 import { Button, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { MRT_EditActionButtons } from 'material-react-table';
@@ -35,10 +33,9 @@ const DocumentPage = () => {
         onCreate={(row) => saveDocument(row)}
         onUpdate={(row) => saveDocument(row)}
         onDelete={(row) => deleteDocument(row)}
-        renderTopToolbarCustomActions={() => (
+        renderTopToolbarCustomActions={({ table }) => (
           <Button
-            component={RouterLink}
-            to="new"
+            onClick={() => table.setCreatingRow(true)}
             variant="outlined"
             size="small"
             startIcon={<AddIcon />}
@@ -50,11 +47,12 @@ const DocumentPage = () => {
         renderEditRowDialogContent={({ row, table }) => (
           <>
             <DialogTitle variant="h4" color="primary">
-              Redigera dokument
+              {table.getState().creatingRow ? 'Lägg till dokument' : 'Redigera dokument'}
             </DialogTitle>
             <DialogContent>
               <DocumentForm
                 sx={{ mt: 1 }}
+                enableExistingDocuments={Boolean(table.getState().creatingRow)}
                 formProps={{ defaultValues: row.original }}
                 onChange={(values) => {
                   //@ts-expect-error any

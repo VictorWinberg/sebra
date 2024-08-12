@@ -31,7 +31,7 @@ const AssignmentTable = ({ assignments, isLoading, defaultValues }: AssignmentTa
           accessorKey: 'assignmentName',
           header: 'Uppdrag',
           Cell: ({ cell, row }) => (
-            <Link component={RouterLink} to={`/dashboard/assignments/${row.original.assignmentId}`}>
+            <Link component={RouterLink} to={`/home/assignments/${row.original.assignmentId}`}>
               {cell.getValue<string>()}
             </Link>
           )
@@ -41,7 +41,7 @@ const AssignmentTable = ({ assignments, isLoading, defaultValues }: AssignmentTa
           header: 'Ansvarig',
           enableEditing: false,
           Cell: ({ cell, row }) => (
-            <Link component={RouterLink} to={`/dashboard/contacts/${row.original.responsiblePersonId}`}>
+            <Link component={RouterLink} to={`/home/contacts/${row.original.responsiblePersonId}`}>
               {cell.getValue<string>()}
             </Link>
           )
@@ -51,7 +51,17 @@ const AssignmentTable = ({ assignments, isLoading, defaultValues }: AssignmentTa
           header: 'Extern',
           enableEditing: false,
           Cell: ({ cell, row }) => (
-            <Link component={RouterLink} to={`/dashboard/contacts/${row.original.externalContactPersonId}`}>
+            <Link component={RouterLink} to={`/home/contacts/${row.original.externalContactPersonId}`}>
+              {cell.getValue<string>()}
+            </Link>
+          )
+        },
+        {
+          accessorFn: (row) => row.company?.companyName,
+          header: 'Bolag',
+          enableEditing: false,
+          Cell: ({ cell, row }) => (
+            <Link component={RouterLink} to={`/home/companies/${row.original.companyId}`}>
               {cell.getValue<string>()}
             </Link>
           )
@@ -69,35 +79,15 @@ const AssignmentTable = ({ assignments, isLoading, defaultValues }: AssignmentTa
             })
         }
       ]}
-      renderCreateRowDialogContent={({ row, table }) => (
-        <>
-          <DialogTitle variant="h4" color="primary">
-            Nytt uppdrag
-          </DialogTitle>
-          <DialogContent>
-            <AssignmentForm
-              sx={{ mt: 1 }}
-              formProps={{ defaultValues }}
-              onChange={(values) => {
-                //@ts-expect-error any
-                row._valuesCache = values;
-              }}
-            />
-          </DialogContent>
-          <DialogActions>
-            <MRT_EditActionButtons row={row} table={table} variant="text" />
-          </DialogActions>
-        </>
-      )}
       renderEditRowDialogContent={({ row, table }) => (
         <>
           <DialogTitle variant="h4" color="primary">
-            Redigera uppdrag
+            {table.getState().creatingRow ? 'Ny referens' : 'Redigera referens'}
           </DialogTitle>
           <DialogContent>
             <AssignmentForm
               sx={{ mt: 1 }}
-              formProps={{ defaultValues: row.original }}
+              formProps={{ defaultValues: { ...defaultValues, ...row.original } }}
               onChange={(values) => {
                 //@ts-expect-error any
                 row._valuesCache = values;

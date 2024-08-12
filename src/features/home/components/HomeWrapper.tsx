@@ -11,18 +11,18 @@ type TabItem = {
   url: string;
 };
 
-const defaultTab: TabItem = { id: 'dashboard', title: 'Dashboard', url: '/dashboard' };
+const defaultTab: TabItem = { id: 'home', title: 'Hem', url: '/home' };
 
 const tabItems: TabItem[] = [
-  { id: 'assignments', title: 'Uppdrag', url: '/dashboard/assignments' },
-  { id: 'contacts', title: 'Kontakter', url: '/dashboard/contacts' },
-  { id: 'companies', title: 'Bolag', url: '/dashboard/companies' },
-  { id: 'seeking', title: 'Söker', url: '/dashboard/seeking' },
-  { id: 'reports', title: 'Rapport', url: '/dashboard/reports' },
-  { id: 'leads', title: 'Leads', url: '/dashboard/leads' }
+  { id: 'assignments', title: 'Uppdrag', url: '/home/assignments' },
+  { id: 'contacts', title: 'Kontakter', url: '/home/contacts' },
+  { id: 'companies', title: 'Bolag', url: '/home/companies' },
+  { id: 'seeking', title: 'Söker', url: '/home/seeking' },
+  { id: 'reports', title: 'Rapport', url: '/home/reports' },
+  { id: 'leads', title: 'Leads', url: '/home/leads' }
 ];
 
-const DashboardWrapper = () => {
+const HomeWrapper = () => {
   const { pathname } = useLocation();
   const theme = useTheme();
 
@@ -55,4 +55,4 @@ const DashboardWrapper = () => {
   );
 };
 
-export default DashboardWrapper;
+export default HomeWrapper;

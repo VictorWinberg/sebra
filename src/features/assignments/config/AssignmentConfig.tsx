@@ -19,7 +19,7 @@ export const assignmentColumns: MRT_ColumnDef<AssignmentData>[] = [
     accessorKey: 'assignmentName',
     header: 'Uppdragsnamn',
     Cell: ({ cell, row }) => (
-      <Link component={RouterLink} to={`/dashboard/assignments/${row.original.assignmentId}`}>
+      <Link component={RouterLink} to={`/home/assignments/${row.original.assignmentId}`}>
         {cell.getValue<string>()}
       </Link>
     )
@@ -32,7 +32,7 @@ export const assignmentColumns: MRT_ColumnDef<AssignmentData>[] = [
       <Link
         component={RouterLink}
         to={{
-          pathname: `/dashboard/contacts/${row.original.responsiblePersonId}`,
+          pathname: `/home/contacts/${row.original.responsiblePersonId}`,
           search: `${createSearchParams({ tab: 'assignments' })}`
         }}
       >
@@ -48,7 +48,23 @@ export const assignmentColumns: MRT_ColumnDef<AssignmentData>[] = [
       <Link
         component={RouterLink}
         to={{
-          pathname: `/dashboard/contacts/${row.original.externalContactPersonId}`,
+          pathname: `/home/contacts/${row.original.externalContactPersonId}`,
+          search: `${createSearchParams({ tab: 'assignments' })}`
+        }}
+      >
+        {cell.getValue<string>()}
+      </Link>
+    )
+  },
+  {
+    accessorFn: (row) => row.company?.companyName,
+    header: 'Bolag',
+    enableEditing: false,
+    Cell: ({ cell, row }) => (
+      <Link
+        component={RouterLink}
+        to={{
+          pathname: `/home/companies/${row.original.companyId}`,
           search: `${createSearchParams({ tab: 'assignments' })}`
         }}
       >

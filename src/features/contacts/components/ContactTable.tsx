@@ -31,7 +31,7 @@ const ContactTable = ({ contacts, isLoading, defaultValues }: ContactTableProps)
           accessorKey: 'contactName',
           header: 'Namn',
           Cell: ({ cell, row }) => (
-            <Link component={RouterLink} to={`/dashboard/contacts/${row.original.contactId}`}>
+            <Link component={RouterLink} to={`/home/contacts/${row.original.contactId}`}>
               {cell.getValue<string>()}
             </Link>
           )
@@ -40,35 +40,15 @@ const ContactTable = ({ contacts, isLoading, defaultValues }: ContactTableProps)
         { accessorKey: 'jobTitle', header: 'Jobbtitel' },
         { accessorKey: 'phone', header: 'Telefonnummer' }
       ]}
-      renderCreateRowDialogContent={({ row, table }) => (
-        <>
-          <DialogTitle variant="h4" color="primary">
-            Ny kontakt
-          </DialogTitle>
-          <DialogContent>
-            <ContactForm
-              sx={{ mt: 1 }}
-              formProps={{ defaultValues }}
-              onChange={(values) => {
-                //@ts-expect-error any
-                row._valuesCache = values;
-              }}
-            />
-          </DialogContent>
-          <DialogActions>
-            <MRT_EditActionButtons row={row} table={table} variant="text" />
-          </DialogActions>
-        </>
-      )}
       renderEditRowDialogContent={({ row, table }) => (
         <>
           <DialogTitle variant="h4" color="primary">
-            Redigera kontakt
+            {table.getState().creatingRow ? 'Lägg till kontakt' : 'Redigera kontakt'}
           </DialogTitle>
           <DialogContent>
             <ContactForm
               sx={{ mt: 1 }}
-              formProps={{ defaultValues: row.original }}
+              formProps={{ defaultValues: { ...defaultValues, ...row.original } }}
               onChange={(values) => {
                 //@ts-expect-error any
                 row._valuesCache = values;

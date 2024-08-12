@@ -5,9 +5,9 @@ import MainLayout from '@/layout/MainLayout';
 import Loadable from '@/ui-component/Loadable';
 import { Navigate } from 'react-router-dom';
 
-// dashboard routing
-const DashboardWrapper = Loadable(lazy(() => import('@/features/dashboard/components/DashboardWrapper')));
-const DashboardPage = Loadable(lazy(() => import('@/features/dashboard/pages/DashboardPage')));
+// home routing
+const HomeWrapper = Loadable(lazy(() => import('@/features/home/components/HomeWrapper')));
+const HomePage = Loadable(lazy(() => import('@/features/home/pages/HomePage')));
 const AssignmentsPage = Loadable(lazy(() => import('@/features/assignments/pages/AssignmentsPage')));
 const AssignmentEdit = Loadable(lazy(() => import('@/features/assignments/components/AssignmentEdit')));
 const ContactsPage = Loadable(lazy(() => import('@/features/contacts/pages/ContactsPage')));
@@ -47,15 +47,15 @@ const MainRoutes = {
   children: [
     {
       path: '',
-      element: <Navigate to="/dashboard" />
+      element: <Navigate to="/home" />
     },
     {
-      path: 'dashboard',
-      element: <DashboardWrapper />,
+      path: 'home',
+      element: <HomeWrapper />,
       children: [
         {
           path: '',
-          element: <DashboardPage />
+          element: <HomePage />
         },
         {
           path: 'assignments',
