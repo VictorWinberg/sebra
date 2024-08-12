@@ -8,6 +8,7 @@ export type Assignment = {
   assignmentName: string;
   responsiblePersonId: number;
   externalContactPersonId: number;
+  companyId: number;
   relevantFiles: string;
   fee: number;
   type: string;
@@ -17,8 +18,9 @@ export type Assignment = {
 };
 
 export type AssignmentData = Assignment & {
-  responsiblePerson: (Contact & { company: Company | undefined }) | undefined;
-  externalContactPerson: (Contact & { company: Company | undefined }) | undefined;
+  responsiblePerson: Contact | undefined;
+  externalContactPerson: Contact | undefined;
+  company: Company | undefined;
 };
 
 export const fetchAssignments = async (): Promise<AssignmentData[]> => {
@@ -42,6 +44,7 @@ export const createAssignment = async (assignment: Partial<Assignment>) => {
       'assignmentName',
       'responsiblePersonId',
       'externalContactPersonId',
+      'companyId',
       'relevantFiles',
       'fee',
       'type',
@@ -57,6 +60,7 @@ export const updateAssignment = async (assignment: Partial<Assignment>) => {
       'assignmentName',
       'responsiblePersonId',
       'externalContactPersonId',
+      'companyId',
       'relevantFiles',
       'fee',
       'type',
@@ -76,20 +80,14 @@ function transformAssignment(
 ): (value: Assignment) => AssignmentData {
   return (assignment) => {
     const responsiblePerson = contacts.get(assignment.responsiblePersonId);
-    const responsiblePersonCompany = responsiblePerson && companies.get(responsiblePerson.companyId);
     const externalContactPerson = contacts.get(assignment.externalContactPersonId);
-    const externalContactPersonCompany = externalContactPerson && companies.get(externalContactPerson.companyId);
+    const company = companies.get(assignment.companyId);
 
-    return {
-      ...assignment,
-      responsiblePerson: responsiblePerson && {
-        ...responsiblePerson,
-        company: responsiblePersonCompany
-      },
-      externalContactPerson: externalContactPerson && {
-        ...externalContactPerson,
-        company: externalContactPersonCompany
-      }
-    };
+    return { ...assignment, responsiblePerson, externalContactPerson, company };
   };
 }
+
+export const fetchAssignmentStatuses = async () => {
+  const assignmentStatuses = await query<{ status: string }>(`SELECT DISTINCT status FROM assignments`);
+  return assignmentStatuses.map(({ status }) => status).filter(Boolean);
+};

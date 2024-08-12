@@ -7,9 +7,11 @@ import { Autocomplete, BoxProps, Grid, TextField } from '@mui/material';
 import { Controller, UseFormProps, useForm } from 'react-hook-form';
 
 // project imports
+import { useCompanies } from '@/features/companies/hooks/useCompaniesQueries';
 import { useContacts } from '@/features/contacts/hooks/useContactsQueries';
 import FlexGrow, { sxFlex } from '@/ui-component/extended/FlexGrow';
 import { Assignment } from '../api/assignmentsApi';
+import { useAssignmentStatuses } from '../hooks/useAssignmentsQueries';
 
 // ==============================|| ASSIGNMENT FORM ||============================== //
 
@@ -17,10 +19,21 @@ export interface AssignmentFormProps extends Omit<BoxProps, 'onChange' | 'onSubm
   onSubmit?: (data: Partial<Assignment>) => void;
   onChange?: (data: Partial<Assignment>) => void;
   formProps?: UseFormProps<Partial<Assignment>>;
+  renderTopContent?: () => React.ReactNode;
+  renderBottomContent?: () => React.ReactNode;
 }
 
-const AssignmentForm = ({ onSubmit = () => {}, onChange, formProps, children, ...rest }: AssignmentFormProps) => {
+const AssignmentForm = ({
+  onSubmit = () => {},
+  onChange,
+  formProps,
+  renderTopContent,
+  renderBottomContent,
+  ...rest
+}: AssignmentFormProps) => {
+  const { data: assignmentStatuses = [] } = useAssignmentStatuses();
   const { data: contacts = [] } = useContacts();
+  const { data: companies = [] } = useCompanies();
   const {
     register,
     control,
@@ -37,6 +50,8 @@ const AssignmentForm = ({ onSubmit = () => {}, onChange, formProps, children, ..
   return (
     <FlexGrow {...rest}>
       <form onSubmit={handleSubmit(onSubmit)} style={{ ...sxFlex }}>
+        {renderTopContent?.()}
+
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <TextField
@@ -48,7 +63,35 @@ const AssignmentForm = ({ onSubmit = () => {}, onChange, formProps, children, ..
               error={!!errors.assignmentName}
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={4}>
+            <Controller
+              name="status"
+              control={control}
+              render={({ field }) => (
+                <Autocomplete
+                  freeSolo
+                  options={assignmentStatuses}
+                  value={assignmentStatuses.find((status) => status === field.value) || null}
+                  onChange={(_, value) => field.onChange(value ?? '')}
+                  renderInput={(params) => <TextField {...params} label="Status" variant="outlined" fullWidth />}
+                />
+              )}
+            />
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <TextField fullWidth label="Typ" margin="none" type="text" {...register('type')} />
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <TextField
+              fullWidth
+              label="Arvode"
+              margin="none"
+              type="number"
+              {...register('fee')}
+              InputProps={{ endAdornment: 'SEK' }}
+            />
+          </Grid>
+          <Grid item xs={12} sm={4}>
             <Controller
               name="responsiblePersonId"
               control={control}
@@ -64,7 +107,7 @@ const AssignmentForm = ({ onSubmit = () => {}, onChange, formProps, children, ..
               )}
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={4}>
             <Controller
               name="externalContactPersonId"
               control={control}
@@ -80,37 +123,25 @@ const AssignmentForm = ({ onSubmit = () => {}, onChange, formProps, children, ..
               )}
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
-            <Autocomplete
-              multiple
-              options={[]}
-              // MUI "key" prop bug: https://github.com/mui/material-ui/pull/42241
-              renderInput={(params) => (
-                <TextField {...params} label="Fastigheter" type="text" {...register('relevantFiles')} />
+          <Grid item xs={12} sm={4}>
+            <Controller
+              name="companyId"
+              control={control}
+              render={({ field }) => (
+                <Autocomplete
+                  options={companies}
+                  getOptionKey={(option) => option.companyId}
+                  getOptionLabel={(option) => option.companyName}
+                  value={companies.find((company) => company.companyId === field.value) || null}
+                  onChange={(_, value) => field.onChange(value ? value.companyId : undefined)}
+                  renderInput={(params) => <TextField {...params} label="Bolag" variant="outlined" fullWidth />}
+                />
               )}
-              limitTags={2}
-              disableCloseOnSelect
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField fullWidth label="Status" margin="none" type="text" {...register('status')} />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField fullWidth label="Typ" margin="none" type="text" {...register('type')} />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              fullWidth
-              label="Arvode"
-              margin="none"
-              type="number"
-              {...register('fee')}
-              InputProps={{ endAdornment: 'SEK' }}
             />
           </Grid>
         </Grid>
 
-        {children}
+        {renderBottomContent?.()}
       </form>
     </FlexGrow>
   );

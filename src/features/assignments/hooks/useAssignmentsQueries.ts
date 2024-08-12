@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { fetchAssignment, fetchAssignments } from '../api/assignmentsApi';
+import { fetchAssignment, fetchAssignments, fetchAssignmentStatuses } from '../api/assignmentsApi';
 
 export const useAssignments = () => {
   return useQuery({ queryKey: ['assignments'], queryFn: fetchAssignments });
@@ -12,4 +12,8 @@ export const useAssignment = (assignmentId: number | undefined) => {
     queryFn: () => fetchAssignment(assignmentId!),
     enabled: !!assignmentId
   });
+};
+
+export const useAssignmentStatuses = () => {
+  return useQuery({ queryKey: ['assignmentStatuses'], queryFn: fetchAssignmentStatuses });
 };
