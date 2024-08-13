@@ -1,5 +1,5 @@
 // material-ui
-import { Box, Button } from '@mui/material';
+import { Button } from '@mui/material';
 
 // third-party
 import { UseMutationResult } from '@tanstack/react-query';
@@ -17,7 +17,8 @@ export interface ModuleFormConfigItem<M extends AnyData, P> extends ModuleBaseCo
 
 type FormProps<M> = {
   onSubmit: (data: Partial<M>) => void;
-  children?: React.ReactNode;
+  renderTopContent?: () => React.ReactNode;
+  renderBottomContent?: () => React.ReactNode;
 };
 
 type ModuleFormProps<M extends AnyData, P> = {
@@ -29,12 +30,15 @@ const ModuleForm = <M extends AnyData, P>({ selectedModule }: ModuleFormProps<M,
   const { mutate } = createMutation();
 
   return (
-    <FormComponent onSubmit={mutate} {...props}>
-      <Box sx={{ my: 1 }} />
-      <Button size="large" type="submit" variant="contained" color="primary">
-        Spara
-      </Button>
-    </FormComponent>
+    <FormComponent
+      onSubmit={mutate}
+      {...props}
+      renderBottomContent={() => (
+        <Button size="large" type="submit" variant="contained" color="primary" sx={{ mt: 2 }}>
+          Skapa
+        </Button>
+      )}
+    />
   );
 };
 
