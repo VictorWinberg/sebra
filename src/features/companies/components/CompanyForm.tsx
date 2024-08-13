@@ -15,9 +15,18 @@ export interface CompanyFormProps extends Omit<BoxProps, 'onChange' | 'onSubmit'
   onSubmit?: (data: Partial<Company>) => void;
   onChange?: (data: Partial<Company>) => void;
   formProps?: UseFormProps<Partial<Company>>;
+  renderTopContent?: () => React.ReactNode;
+  renderBottomContent?: () => React.ReactNode;
 }
 
-const CompanyForm = ({ onSubmit = () => {}, onChange, formProps, children, ...rest }: CompanyFormProps) => {
+const CompanyForm = ({
+  onSubmit = () => {},
+  onChange,
+  formProps,
+  renderTopContent,
+  renderBottomContent,
+  ...rest
+}: CompanyFormProps) => {
   const {
     register,
     handleSubmit,
@@ -33,8 +42,10 @@ const CompanyForm = ({ onSubmit = () => {}, onChange, formProps, children, ...re
   return (
     <FlexGrow {...rest}>
       <form onSubmit={handleSubmit(onSubmit)} style={{ ...sxFlex }}>
+        {renderTopContent?.()}
+
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12}>
             <TextField
               fullWidth
               label="Bolagsnamn"
@@ -44,24 +55,27 @@ const CompanyForm = ({ onSubmit = () => {}, onChange, formProps, children, ...re
               error={!!errors.companyName}
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={4}>
             <TextField fullWidth label="Address" type="text" margin="none" {...register('address')} />
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={4}>
             <TextField fullWidth label="Industri" type="text" margin="none" {...register('industry')} />
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={4}>
             <TextField fullWidth label="Website" type="text" margin="none" {...register('website')} />
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={4}>
             <TextField fullWidth label="Telefon" type="text" margin="none" {...register('phone')} />
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={4}>
             <TextField fullWidth label="Email" type="text" margin="none" {...register('email')} />
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <TextField fullWidth label="Org.nr" type="text" margin="none" {...register('organizationNumber')} />
           </Grid>
         </Grid>
 
-        {children}
+        {renderBottomContent?.()}
       </form>
     </FlexGrow>
   );

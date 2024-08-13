@@ -17,9 +17,9 @@ export type CompanyData = Awaited<ReturnType<typeof fetchCompanies>>[number];
 export const companyColumns: MRT_ColumnDef<CompanyData>[] = [
   {
     accessorKey: 'companyName',
-    header: 'Företagsnamn',
+    header: 'Bolagsnamn',
     Cell: ({ cell, row }) => (
-      <Link component={RouterLink} to={`/dashboard/companies/${row.original.companyId}`}>
+      <Link component={RouterLink} to={`/home/companies/${row.original.companyId}`}>
         {cell.getValue<string>()}
       </Link>
     )
@@ -27,6 +27,7 @@ export const companyColumns: MRT_ColumnDef<CompanyData>[] = [
   { accessorKey: 'address', header: 'Address' },
   { accessorKey: 'industry', header: 'Industri', filterVariant: 'multi-select' },
   { accessorKey: 'website', header: 'Website' },
+  { accessorKey: 'organizationNumber', header: 'Org.nr' },
   {
     accessorKey: 'updatedAt',
     accessorFn: (row) => dayjs.utc(row.updatedAt),

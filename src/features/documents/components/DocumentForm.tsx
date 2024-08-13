@@ -22,6 +22,8 @@ interface DocumentFormProps extends Omit<BoxProps, 'onChange' | 'onSubmit'> {
   onChange?: (data: Partial<DocumentRecord>) => void;
   formProps?: UseFormProps<DocumentRecord>;
   enableExistingDocuments?: boolean;
+  renderTopContent?: () => React.ReactNode;
+  renderBottomContent?: () => React.ReactNode;
 }
 
 const DocumentForm = ({
@@ -29,7 +31,8 @@ const DocumentForm = ({
   onChange,
   formProps,
   enableExistingDocuments,
-  children,
+  renderTopContent,
+  renderBottomContent,
   ...rest
 }: DocumentFormProps) => {
   const { data: documents = [] } = useDocuments();
@@ -68,6 +71,8 @@ const DocumentForm = ({
   return (
     <FlexGrow {...rest}>
       <form onSubmit={handleSubmit(onSubmit)} style={{ ...sxFlex }}>
+        {renderTopContent?.()}
+
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
             <Controller
@@ -148,7 +153,7 @@ const DocumentForm = ({
           </Grid>
         </Grid>
 
-        {children}
+        {renderBottomContent?.()}
       </form>
     </FlexGrow>
   );

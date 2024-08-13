@@ -11,10 +11,10 @@ export const useCreateCompany = () => {
     mutationFn: createCompany,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['companies'] });
-      showSnackbar('Företag skapat!');
+      showSnackbar('Bolag skapat!');
     },
     onError: () => {
-      showSnackbar('Ett fel uppstod när företaget skulle skapas.', 'error');
+      showSnackbar('Ett fel uppstod när bolaget skulle skapas.', 'error');
     }
   });
 };
@@ -27,10 +27,10 @@ export const useUpdateCompany = () => {
     mutationFn: updateCompany,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['companies'] });
-      showSnackbar('Företag uppdaterat!');
+      showSnackbar('Bolag uppdaterat!');
     },
     onError: () => {
-      showSnackbar('Ett fel uppstod när företaget skulle uppdateras.', 'error');
+      showSnackbar('Ett fel uppstod när bolaget skulle uppdateras.', 'error');
     }
   });
 };
@@ -43,10 +43,10 @@ export const useDeleteCompany = () => {
     mutationFn: deleteCompany,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['companies'] });
-      showSnackbar('Företag borttaget!');
+      showSnackbar('Bolag borttaget!');
     },
     onError: () => {
-      showSnackbar('Ett fel uppstod när företaget skulle tas bort.', 'error');
+      showSnackbar('Ett fel uppstod när bolaget skulle tas bort.', 'error');
     }
   });
 };

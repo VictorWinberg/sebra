@@ -31,8 +31,8 @@ export type ModuleConfigItem<M extends AnyData, P extends AnyProps> = ModuleForm
 export const modules: ModuleConfigItem<AnyData, AnyProps>[] = [
   {
     key: 'companyForm',
-    label: 'Formulär - Företag',
-    title: 'Nytt företag',
+    label: 'Formulär - Bolag',
+    title: 'Nytt bolag',
     type: 'form',
     FormComponent: CompanyForm,
     createMutation: useCreateCompany,
@@ -58,8 +58,8 @@ export const modules: ModuleConfigItem<AnyData, AnyProps>[] = [
   } satisfies ModuleFormConfigItem<ContactData, ContactFormProps>,
   {
     key: 'companiesTable',
-    label: 'Tabell - Företag',
-    title: 'Företag',
+    label: 'Tabell - Bolag',
+    title: 'Bolag',
     type: 'table',
     useData: useCompanies,
     props: { columns: companyColumns },

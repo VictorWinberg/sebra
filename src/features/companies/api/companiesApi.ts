@@ -9,6 +9,7 @@ export type Company = {
   phone: string;
   email: string;
   website: string;
+  organizationNumber: string;
   createdAt: string;
   updatedAt: string;
 };
@@ -24,14 +25,14 @@ export const fetchCompany = async (companyId: number) => {
 export const createCompany = async (company: Partial<Company>) => {
   return await insertQuery<Company>(
     'companies',
-    pick(company, ['companyName', 'address', 'industry', 'phone', 'email', 'website'])
+    pick(company, ['companyName', 'address', 'industry', 'phone', 'email', 'website', 'organizationNumber'])
   );
 };
 
 export const updateCompany = async (company: Partial<Company>) => {
   return await updateQuery<Company>(
     'companies',
-    pick(company, ['companyName', 'address', 'industry', 'phone', 'email', 'website']),
+    pick(company, ['companyName', 'address', 'industry', 'phone', 'email', 'website', 'organizationNumber']),
     pick(company, ['companyId'])
   );
 };

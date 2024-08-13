@@ -1,5 +1,3 @@
-import { Link as RouterLink } from 'react-router-dom';
-
 // material-ui
 import { Button, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { MRT_EditActionButtons } from 'material-react-table';
@@ -8,9 +6,9 @@ import { MRT_EditActionButtons } from 'material-react-table';
 import DataTable from '@/ui-component/DataTable';
 import FlexGrow from '@/ui-component/extended/FlexGrow';
 import AssignmentForm from '../components/AssignmentForm';
+import { assignmentColumns, AssignmentData } from '../config/AssignmentConfig';
 import { useCreateAssignment, useDeleteAssignment, useUpdateAssignment } from '../hooks/useAssignmentsMutations';
 import { useAssignments } from '../hooks/useAssignmentsQueries';
-import { assignmentColumns, AssignmentData } from '../config/AssignmentConfig';
 
 // assets
 import AddIcon from '@mui/icons-material/Add';
@@ -33,10 +31,9 @@ const AssignmentsPage = () => {
         onCreate={(row) => createAssignment(row)}
         onUpdate={(row) => updateAssignment(row)}
         onDelete={(row) => deleteAssignment(row)}
-        renderTopToolbarCustomActions={() => (
+        renderTopToolbarCustomActions={({ table }) => (
           <Button
-            component={RouterLink}
-            to="new"
+            onClick={() => table.setCreatingRow(true)}
             variant="outlined"
             size="small"
             startIcon={<AddIcon />}
@@ -48,7 +45,7 @@ const AssignmentsPage = () => {
         renderEditRowDialogContent={({ row, table }) => (
           <>
             <DialogTitle variant="h4" color="primary">
-              Redigera uppdrag
+              {table.getState().creatingRow ? 'Lägg till uppdrag' : 'Redigera uppdrag'}
             </DialogTitle>
             <DialogContent>
               <AssignmentForm

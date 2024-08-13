@@ -79,7 +79,7 @@ const LeadsPage = () => {
             </Link>
             <Divider sx={{ my: 1 }} />
             {row.original.assignment && (
-              <Link component={RouterLink} to={`/dashboard/assignments/${row.original.assignmentId}`}>
+              <Link component={RouterLink} to={`/home/assignments/${row.original.assignmentId}`}>
                 Uppdrag: {row.original.assignment.assignmentName}
               </Link>
             )}
@@ -91,7 +91,7 @@ const LeadsPage = () => {
                     variant="outlined"
                     avatar={<Avatar {...stringAvatar(row.original.contact.contactName)} />}
                     label={row.original.contact.contactName}
-                    to={`/dashboard/contacts/${row.original.contactId}`}
+                    to={`/home/contacts/${row.original.contactId}`}
                     clickable
                     size="small"
                   />
@@ -104,7 +104,7 @@ const LeadsPage = () => {
                     variant="outlined"
                     avatar={<Avatar {...stringAvatar(row.original.company.companyName)} />}
                     label={row.original.company.companyName}
-                    to={`/dashboard/companies/${row.original.companyId}`}
+                    to={`/home/companies/${row.original.companyId}`}
                     clickable
                     size="small"
                   />
@@ -114,30 +114,10 @@ const LeadsPage = () => {
             <Typography variant="caption">Uppdaterad {timeAgo(dayjs.utc(row.original.updatedAt))}</Typography>
           </Box>
         )}
-        renderCreateRowDialogContent={({ row, table }) => (
-          <>
-            <DialogTitle variant="h4" color="primary">
-              Ny lead
-            </DialogTitle>
-            <DialogContent>
-              <LeadForm
-                sx={{ mt: 1 }}
-                formProps={{ defaultValues: row.original }}
-                onChange={(values) => {
-                  //@ts-expect-error any
-                  row._valuesCache = values;
-                }}
-              />
-            </DialogContent>
-            <DialogActions>
-              <MRT_EditActionButtons row={row} table={table} variant="text" />
-            </DialogActions>
-          </>
-        )}
         renderEditRowDialogContent={({ row, table }) => (
           <>
             <DialogTitle variant="h4" color="primary">
-              Redigera lead
+              {table.getState().creatingRow ? 'Ny lead' : 'Redigera lead'}
             </DialogTitle>
             <DialogContent>
               <LeadForm
@@ -150,15 +130,17 @@ const LeadsPage = () => {
               />
             </DialogContent>
             <DialogActions>
-              <Button
-                color="error"
-                onClick={() => {
-                  table.setEditingRow(null);
-                  deleteLead(row.original);
-                }}
-              >
-                Ta bort
-              </Button>
+              {table.getState().editingRow && (
+                <Button
+                  color="error"
+                  onClick={() => {
+                    table.setEditingRow(null);
+                    deleteLead(row.original);
+                  }}
+                >
+                  Ta bort
+                </Button>
+              )}
               <MRT_EditActionButtons row={row} table={table} variant="text" />
             </DialogActions>
           </>

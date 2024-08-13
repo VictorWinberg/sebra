@@ -43,7 +43,7 @@ const AssignmentEdit = () => {
       updateAssignment(data);
     } else {
       createAssignment(data, {
-        onSuccess: (res) => navigate(`/dashboard/assignments/${res.assignmentId}`)
+        onSuccess: (res) => navigate(`/home/assignments/${res.assignmentId}`)
       });
     }
   };
@@ -51,16 +51,37 @@ const AssignmentEdit = () => {
   if (isLoading) return;
 
   return (
-    <>
-      <Typography variant="h4" color="primary">
-        {assignment ? 'Redigera uppdrag' : 'Lägg till uppdrag'}
-      </Typography>
-      <Box sx={{ my: 1 }} />
-      <AssignmentForm formProps={{ values: assignment }} onSubmit={handleSubmit}>
-        <Box sx={{ my: 1 }} />
+    <AssignmentForm
+      formProps={{ values: assignment }}
+      onSubmit={handleSubmit}
+      renderTopContent={() => (
+        <Box sx={{ position: 'relative', mt: 1, mb: 3 }}>
+          <Stack spacing={2} direction="row" sx={{ position: 'absolute', right: 0 }}>
+            {assignment && (
+              <DeleteConfirm onClick={() => deleteAssignment(assignment, { onSuccess: () => navigate('..') })}>
+                {(popupState) => (
+                  <Button variant="outlined" color="error" {...bindTrigger(popupState)}>
+                    Ta bort
+                  </Button>
+                )}
+              </DeleteConfirm>
+            )}
+            <Button variant="outlined" color="primary" onClick={() => navigate(-1)}>
+              Avbryt
+            </Button>
+            <Button type="submit" variant="contained" color="primary">
+              Spara
+            </Button>
+          </Stack>
 
-        {assignment && (
-          <FlexGrow>
+          <Typography variant="h4" color="primary">
+            {assignment ? 'Redigera uppdrag' : 'Lägg till uppdrag'}
+          </Typography>
+        </Box>
+      )}
+      renderBottomContent={() =>
+        assignment && (
+          <FlexGrow sx={{ mt: 1 }}>
             <ContentTabs
               tabs={[
                 {
@@ -83,7 +104,11 @@ const AssignmentEdit = () => {
                   id: 'documents',
                   label: 'Dokument',
                   content: (
-                    <DocumentReferenceTable documentReferences={documentReferences} isLoading={documentsIsLoading} />
+                    <DocumentReferenceTable
+                      documentReferences={documentReferences}
+                      isLoading={documentsIsLoading}
+                      defaultValues={{ entityId: assignment.assignmentId, entityType: 'assignment' }}
+                    />
                   )
                 },
                 { id: 'stakeholders', label: 'Intressenter', content: <>Intressenter...</> },
@@ -91,27 +116,9 @@ const AssignmentEdit = () => {
               ]}
             />
           </FlexGrow>
-        )}
-
-        <Stack spacing={2} direction="row" sx={{ mt: 3, ml: 'auto' }}>
-          {assignment && (
-            <DeleteConfirm onClick={() => deleteAssignment(assignment, { onSuccess: () => navigate('..') })}>
-              {(popupState) => (
-                <Button size="large" variant="outlined" color="error" {...bindTrigger(popupState)}>
-                  Ta bort
-                </Button>
-              )}
-            </DeleteConfirm>
-          )}
-          <Button size="large" variant="outlined" color="primary" onClick={() => navigate(-1)}>
-            Avbryt
-          </Button>
-          <Button size="large" type="submit" variant="contained" color="primary">
-            Spara
-          </Button>
-        </Stack>
-      </AssignmentForm>
-    </>
+        )
+      }
+    />
   );
 };
 

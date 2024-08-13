@@ -14,7 +14,7 @@ import FlexGrow, { sxFlex } from '@/ui-component/extended/FlexGrow';
 import { DocumentReference } from '../api/documentsApi';
 
 const ENTITY_TYPES = [
-  { label: 'Företag', value: 'company' },
+  { label: 'Bolag', value: 'company' },
   { label: 'Kontakt', value: 'contact' },
   { label: 'Uppdrag', value: 'assignment' }
 ];
@@ -24,13 +24,16 @@ interface DocumentReferenceFormProps extends Omit<BoxProps, 'onChange' | 'onSubm
   onSubmit?: (data: DocumentReference) => void;
   onChange?: (data: Partial<DocumentReference>) => void;
   formProps?: UseFormProps<DocumentReference>;
+  renderTopContent?: () => React.ReactNode;
+  renderBottomContent?: () => React.ReactNode;
 }
 
 const DocumentReferenceForm = ({
   onSubmit = () => {},
   onChange,
   formProps,
-  children,
+  renderTopContent,
+  renderBottomContent,
   ...rest
 }: DocumentReferenceFormProps) => {
   const { data: contacts = [] } = useContacts();
@@ -68,6 +71,8 @@ const DocumentReferenceForm = ({
   return (
     <FlexGrow {...rest}>
       <form onSubmit={handleSubmit(onSubmit)} style={{ ...sxFlex }}>
+        {renderTopContent?.()}
+
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
             <FormControl fullWidth variant="outlined" error={!!errors.entityType}>
@@ -111,7 +116,7 @@ const DocumentReferenceForm = ({
           </Grid>
         </Grid>
 
-        {children}
+        {renderBottomContent?.()}
       </form>
     </FlexGrow>
   );

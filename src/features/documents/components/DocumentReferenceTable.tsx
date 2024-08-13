@@ -63,36 +63,16 @@ const DocumentTable = ({ documentReferences, isLoading, defaultValues }: Documen
           Cell: ({ cell }) => formatDate(toLocalTime(cell.getValue<Dayjs>()))
         }
       ]}
-      renderCreateRowDialogContent={({ row, table }) => (
-        <>
-          <DialogTitle variant="h4" color="primary">
-            Nytt dokument
-          </DialogTitle>
-          <DialogContent>
-            <DocumentForm
-              sx={{ mt: 1 }}
-              enableExistingDocuments
-              formProps={{ defaultValues }}
-              onChange={(values) => {
-                //@ts-expect-error any
-                row._valuesCache = values;
-              }}
-            />
-          </DialogContent>
-          <DialogActions>
-            <MRT_EditActionButtons row={row} table={table} variant="text" />
-          </DialogActions>
-        </>
-      )}
       renderEditRowDialogContent={({ row, table }) => (
         <>
           <DialogTitle variant="h4" color="primary">
-            Redigera dokument
+            {table.getState().creatingRow ? 'Nytt dokument' : 'Redigera dokument'}
           </DialogTitle>
           <DialogContent>
             <DocumentForm
               sx={{ mt: 1 }}
-              formProps={{ defaultValues: row.original }}
+              enableExistingDocuments={Boolean(table.getState().creatingRow)}
+              formProps={{ defaultValues: { ...defaultValues, ...row.original } }}
               onChange={(values) => {
                 //@ts-expect-error any
                 row._valuesCache = values;

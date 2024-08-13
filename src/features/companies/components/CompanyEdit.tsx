@@ -36,7 +36,7 @@ const CompanyEdit = () => {
       updateCompany(data);
     } else {
       createCompany(data, {
-        onSuccess: (res) => navigate(`/dashboard/companies/${res.companyId}`)
+        onSuccess: (res) => navigate(`/home/companies/${res.companyId}`)
       });
     }
   };
@@ -45,66 +45,71 @@ const CompanyEdit = () => {
 
   return (
     <>
-      <Typography variant="h4" color="primary">
-        {company ? 'Redigera företag' : 'Lägg till företag'}
-      </Typography>
-      <Box sx={{ my: 1 }} />
-      <CompanyForm formProps={{ values: company }} onSubmit={handleSubmit}>
-        <Box sx={{ my: 1 }} />
-
-        {company && (
-          <FlexGrow>
-            <ContentTabs
-              tabs={[
-                { id: 'interactions', label: 'Interaktioner', content: <>Interaktioner...</> },
-                {
-                  id: 'contacts',
-                  label: 'Kontakter',
-                  content: (
-                    <ContactTable
-                      contacts={contacts.filter((contact) => contact.companyId === company.companyId)}
-                      isLoading={contactsIsLoading}
-                      defaultValues={{ companyId: company.companyId }}
-                    />
-                  )
-                },
-                { id: 'seeking', label: 'Söker', content: <>Söker...</> },
-                {
-                  id: 'assignments',
-                  label: 'Uppdrag',
-                  content: (
-                    <AssignmentTable
-                      assignments={assignments.filter(
-                        (assignment) => assignment.externalContactPerson?.companyId === company.companyId
-                      )}
-                      isLoading={assignmentsIsLoading}
-                    />
-                  )
-                },
-                { id: 'kyc', label: 'KYC', content: <>KYC...</> }
-              ]}
-            />
-          </FlexGrow>
-        )}
-
-        <Stack spacing={2} direction="row" sx={{ mt: 3, ml: 'auto' }}>
-          {company && (
-            <DeleteConfirm onClick={() => deleteCompany(company, { onSuccess: () => navigate('..') })}>
-              {(popupState) => (
-                <Button size="large" variant="outlined" color="error" {...bindTrigger(popupState)}>
-                  Ta bort
-                </Button>
+      <CompanyForm
+        formProps={{ values: company }}
+        onSubmit={handleSubmit}
+        renderTopContent={() => (
+          <Box sx={{ position: 'relative', mt: 1, mb: 3 }}>
+            <Stack spacing={2} direction="row" sx={{ position: 'absolute', right: 0 }}>
+              {company && (
+                <DeleteConfirm onClick={() => deleteCompany(company, { onSuccess: () => navigate('..') })}>
+                  {(popupState) => (
+                    <Button variant="outlined" color="error" {...bindTrigger(popupState)}>
+                      Ta bort
+                    </Button>
+                  )}
+                </DeleteConfirm>
               )}
-            </DeleteConfirm>
-          )}
-          <Button size="large" variant="outlined" color="primary" onClick={() => navigate(-1)}>
-            Avbryt
-          </Button>
-          <Button size="large" type="submit" variant="contained" color="primary">
-            Spara
-          </Button>
-        </Stack>
-      </CompanyForm>
+              <Button variant="outlined" color="primary" onClick={() => navigate(-1)}>
+                Avbryt
+              </Button>
+              <Button type="submit" variant="contained" color="primary">
+                Spara
+              </Button>
+            </Stack>
+
+            <Typography variant="h4" color="primary">
+              {company ? 'Redigera bolag' : 'Lägg till bolag'}
+            </Typography>
+          </Box>
+        )}
+        renderBottomContent={() =>
+          company && (
+            <FlexGrow sx={{ mt: 1 }}>
+              <ContentTabs
+                tabs={[
+                  { id: 'interactions', label: 'Interaktioner', content: <>Interaktioner...</> },
+                  {
+                    id: 'contacts',
+                    label: 'Kontakter',
+                    content: (
+                      <ContactTable
+                        contacts={contacts.filter((contact) => contact.companyId === company.companyId)}
+                        isLoading={contactsIsLoading}
+                        defaultValues={{ companyId: company.companyId }}
+                      />
+                    )
+                  },
+                  { id: 'seeking', label: 'Söker', content: <>Söker...</> },
+                  {
+                    id: 'assignments',
+                    label: 'Uppdrag',
+                    content: (
+                      <AssignmentTable
+                        assignments={assignments.filter(
+                          (assignment) => assignment.externalContactPerson?.companyId === company.companyId
+                        )}
+                        isLoading={assignmentsIsLoading}
+                      />
+                    )
+                  },
+                  { id: 'kyc', label: 'KYC', content: <>KYC...</> }
+                ]}
+              />
+            </FlexGrow>
+          )
+        }
+      />
     </>
   );
 };

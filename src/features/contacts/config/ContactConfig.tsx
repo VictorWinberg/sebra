@@ -19,7 +19,7 @@ export const contactColumns: MRT_ColumnDef<ContactData>[] = [
     accessorKey: 'contactName',
     header: 'Namn',
     Cell: ({ cell, row }) => (
-      <Link component={RouterLink} to={`/dashboard/contacts/${row.original.contactId}`}>
+      <Link component={RouterLink} to={`/home/contacts/${row.original.contactId}`}>
         {cell.getValue<string>()}
       </Link>
     )
@@ -32,7 +32,7 @@ export const contactColumns: MRT_ColumnDef<ContactData>[] = [
   { accessorKey: 'jobTitle', header: 'Jobbtitel' },
   {
     accessorFn: (row) => row.company?.companyName,
-    header: 'Företagsnamn',
+    header: 'Bolagsnamn',
     filterVariant: 'multi-select',
     enableEditing: false
   },

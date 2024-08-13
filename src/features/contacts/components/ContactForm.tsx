@@ -17,9 +17,18 @@ export interface ContactFormProps extends Omit<BoxProps, 'onChange' | 'onSubmit'
   onSubmit?: (data: Partial<Contact>) => void;
   onChange?: (data: Partial<Contact>) => void;
   formProps?: UseFormProps<Partial<Contact>>;
+  renderTopContent?: () => React.ReactNode;
+  renderBottomContent?: () => React.ReactNode;
 }
 
-const ContactForm = ({ onSubmit = () => {}, onChange, formProps, children, ...rest }: ContactFormProps) => {
+const ContactForm = ({
+  onSubmit = () => {},
+  onChange,
+  formProps,
+  renderTopContent,
+  renderBottomContent,
+  ...rest
+}: ContactFormProps) => {
   const { data: companies = [] } = useCompanies();
   const {
     register,
@@ -37,8 +46,10 @@ const ContactForm = ({ onSubmit = () => {}, onChange, formProps, children, ...re
   return (
     <FlexGrow {...rest}>
       <form onSubmit={handleSubmit(onSubmit)} style={{ ...sxFlex }}>
+        {renderTopContent?.()}
+
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12}>
             <TextField
               fullWidth
               label="Namn"
@@ -73,29 +84,12 @@ const ContactForm = ({ onSubmit = () => {}, onChange, formProps, children, ...re
           <Grid item xs={12} sm={6}>
             <TextField fullWidth label="Befattning" type="text" margin="none" {...register('jobTitle')} />
           </Grid>
-          <Grid item xs={12} sm={6}>
-            <Autocomplete
-              multiple
-              options={DummyDispatches}
-              // MUI "key" prop bug: https://github.com/mui/material-ui/pull/42241
-              renderInput={(params) => <TextField {...params} label="Utskick" name="dispatch" type="text" />}
-              limitTags={2}
-              disableCloseOnSelect
-            />
-          </Grid>
         </Grid>
 
-        {children}
+        {renderBottomContent?.()}
       </form>
     </FlexGrow>
   );
 };
-
-const DummyDispatches = [
-  { label: 'Utskick Syd' },
-  { label: 'Utskick Väst' },
-  { label: 'Utskick Norr' },
-  { label: 'Utskick Öst' }
-];
 
 export default ContactForm;

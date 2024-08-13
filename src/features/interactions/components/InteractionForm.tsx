@@ -21,9 +21,18 @@ interface InteractionFormProps extends Omit<BoxProps, 'onChange' | 'onSubmit'> {
   onSubmit?: (data: Interaction) => void;
   onChange?: (data: Partial<Interaction>) => void;
   formProps?: UseFormProps<Interaction>;
+  renderTopContent?: () => React.ReactNode;
+  renderBottomContent?: () => React.ReactNode;
 }
 
-const InteractionForm = ({ onSubmit = () => {}, onChange, formProps, children, ...rest }: InteractionFormProps) => {
+const InteractionForm = ({
+  onSubmit = () => {},
+  onChange,
+  formProps,
+  renderTopContent,
+  renderBottomContent,
+  ...rest
+}: InteractionFormProps) => {
   const { data: contacts = [] } = useContacts();
 
   const {
@@ -42,6 +51,8 @@ const InteractionForm = ({ onSubmit = () => {}, onChange, formProps, children, .
   return (
     <FlexGrow {...rest}>
       <form onSubmit={handleSubmit(onSubmit)} style={{ ...sxFlex }}>
+        {renderTopContent?.()}
+
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
             <Grid container spacing={2}>
@@ -124,7 +135,7 @@ const InteractionForm = ({ onSubmit = () => {}, onChange, formProps, children, .
           </Grid>
         </Grid>
 
-        {children}
+        {renderBottomContent?.()}
       </form>
     </FlexGrow>
   );
