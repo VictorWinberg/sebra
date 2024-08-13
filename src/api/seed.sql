@@ -435,9 +435,9 @@ VALUES
     ('f927238d-eb44-47ac-b29f-f8ec51c37a80', 75);
 
 -- Seed data for leads table
-INSERT INTO leads (lead_id, lead_title, stage, rank, contact_id, company_id, assignment_id, created_at, updated_at)
+INSERT INTO leads (lead_id, lead_title, description, stage, rank, contact_id, company_id, assignment_id, created_at, updated_at)
 VALUES
-    ('9671c767-bc53-4bf3-8038-8233b2feb9bc', 'Diskussion om kommande projekt.', 'Pitch', 1, 1, 1, 1, '2024-06-01', '2024-06-01'),
-    ('7fba6602-b886-4466-8965-abd480e040ee', 'Erbjudande skickat, inväntar svar.', 'Affär', 2, 2, 2, 2, '2024-06-02', '2024-06-02'),
-    ('eae2675f-f2e1-4aa7-85a5-a9166d24a5ec', 'Intresse i tidigare möte.', 'Intresse', 3, 3, 3, 3, '2024-06-03', '2024-06-03'),
-    ('e360580c-9a61-4af5-8c87-b74abce818b9', 'Visat intresse för nya lösningar.', 'Intresse', 4, 4, 4, 4, '2024-06-04', '2024-06-04');
+    ('9671c767-bc53-4bf3-8038-8233b2feb9bc', 'Diskussion om kommande projekt.', 'Under vårt senaste möte diskuterade vi möjligheten att inleda ett nytt projekt. Kunden är intresserad av att utforska potentiella samarbeten inom digital transformation och vill ha ytterligare information innan de går vidare.', 'Pitch', 1, 1, 1, 1, '2024-06-01', '2024-06-01'),
+    ('7fba6602-b886-4466-8965-abd480e040ee', 'Erbjudande skickat, inväntar svar.', 'Vi har skickat ett detaljerat erbjudande till kunden, som inkluderar prisuppgifter och leveranstider. Kunden har fått tid att överväga erbjudandet och vi förväntar oss ett svar inom de närmaste dagarna.', 'Affär', 2, 2, 2, 2, '2024-06-02', '2024-06-02'),
+    ('eae2675f-f2e1-4aa7-85a5-a9166d24a5ec', 'Intresse i tidigare möte.', 'Vid det senaste mötet visade kunden starkt intresse för våra tjänster, särskilt inom området för molnbaserade lösningar. De överväger nu våra förslag och vill planera ett uppföljande möte för att diskutera vidare.', 'Intresse', 3, 3, 3, 3, '2024-06-03', '2024-06-03'),
+    ('e360580c-9a61-4af5-8c87-b74abce818b9', 'Visat intresse för nya lösningar.', 'Kunden har uttryckt en vilja att utforska nya teknologiska lösningar för att förbättra sin verksamhet. Vi har föreslagit flera alternativ som de nu utvärderar för att avgöra vilka som bäst passar deras behov.', 'Intresse', 4, 4, 4, 4, '2024-06-04', '2024-06-04');

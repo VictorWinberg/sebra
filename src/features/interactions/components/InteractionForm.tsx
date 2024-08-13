@@ -14,8 +14,6 @@ import FlexGrow, { sxFlex } from '@/ui-component/extended/FlexGrow';
 import { Interaction } from '../api/interactionsApi';
 import { formatDate } from '@/utils';
 
-// assets
-
 // ==============================|| INTERACTIONS FORM ||============================== //
 interface InteractionFormProps extends Omit<BoxProps, 'onChange' | 'onSubmit'> {
   onSubmit?: (data: Interaction) => void;

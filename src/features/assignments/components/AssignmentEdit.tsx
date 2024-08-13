@@ -10,6 +10,7 @@ import DocumentReferenceTable from '@/features/documents/components/DocumentRefe
 import { useDocumentReferences } from '@/features/documents/hooks/useDocumentsQueries';
 import InteractionTable from '@/features/interactions/components/InteractionTable';
 import { useInteractions } from '@/features/interactions/hooks/useInteractionsQueries';
+import { headerHeight } from '@/store/constant';
 import ContentTabs from '@/ui-component/ContentTabs';
 import DeleteConfirm from '@/ui-component/DeleteConfirm';
 import FlexGrow from '@/ui-component/extended/FlexGrow';
@@ -81,7 +82,7 @@ const AssignmentEdit = () => {
       )}
       renderBottomContent={() =>
         assignment && (
-          <FlexGrow sx={{ mt: 1 }}>
+          <FlexGrow sx={{ mt: 1, minHeight: `calc(100vh - ${headerHeight}px - 1rem)` }}>
             <ContentTabs
               tabs={[
                 {

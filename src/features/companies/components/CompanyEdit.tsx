@@ -9,6 +9,7 @@ import AssignmentTable from '@/features/assignments/components/AssignmentTable';
 import { useAssignments } from '@/features/assignments/hooks/useAssignmentsQueries';
 import ContactTable from '@/features/contacts/components/ContactTable';
 import { useContacts } from '@/features/contacts/hooks/useContactsQueries';
+import { headerHeight } from '@/store/constant';
 import ContentTabs from '@/ui-component/ContentTabs';
 import DeleteConfirm from '@/ui-component/DeleteConfirm';
 import FlexGrow from '@/ui-component/extended/FlexGrow';
@@ -75,7 +76,7 @@ const CompanyEdit = () => {
         )}
         renderBottomContent={() =>
           company && (
-            <FlexGrow sx={{ mt: 1 }}>
+            <FlexGrow sx={{ mt: 1, minHeight: `calc(100vh - ${headerHeight}px - 1rem)` }}>
               <ContentTabs
                 tabs={[
                   { id: 'interactions', label: 'Interaktioner', content: <>Interaktioner...</> },

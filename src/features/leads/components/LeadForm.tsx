@@ -80,6 +80,17 @@ const LeadForm = ({
               )}
             />
           </Grid>
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              label="Beskrivning"
+              type="text"
+              multiline
+              rows={4}
+              {...register('description', { required: true })}
+              error={!!errors.description}
+            />
+          </Grid>
           <Grid item xs={12} sm={4}>
             <Controller
               name="contactId"

@@ -9,6 +9,7 @@ import AssignmentTable from '@/features/assignments/components/AssignmentTable';
 import { useAssignments } from '@/features/assignments/hooks/useAssignmentsQueries';
 import InteractionTable from '@/features/interactions/components/InteractionTable';
 import { useInteractions } from '@/features/interactions/hooks/useInteractionsQueries';
+import { headerHeight } from '@/store/constant';
 import ContentTabs from '@/ui-component/ContentTabs';
 import DeleteConfirm from '@/ui-component/DeleteConfirm';
 import FlexGrow from '@/ui-component/extended/FlexGrow';
@@ -77,7 +78,7 @@ const ContactEdit = () => {
       )}
       renderBottomContent={() =>
         contact && (
-          <FlexGrow>
+          <FlexGrow sx={{ mt: 1, minHeight: `calc(100vh - ${headerHeight}px - 1rem)` }}>
             <ContentTabs
               tabs={[
                 {

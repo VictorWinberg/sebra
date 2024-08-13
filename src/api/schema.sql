@@ -71,6 +71,7 @@ CREATE TABLE IF NOT EXISTS interaction_contacts (
 CREATE TABLE IF NOT EXISTS leads (
     lead_id TEXT,
     lead_title VARCHAR(255),
+    description TEXT,
     stage VARCHAR(50),
     rank INTEGER,
     contact_id INTEGER,

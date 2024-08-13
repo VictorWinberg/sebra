@@ -11,6 +11,7 @@ export const LEAD_STAGES = ['Intresse', 'Pitch', 'Affär', 'Uppföljning'];
 export type Lead = {
   leadId: string;
   leadTitle: string;
+  description: string;
   stage: string;
   rank: number;
   contactId: number;
@@ -40,6 +41,7 @@ export const createLead = async (lead: Partial<Lead>) => {
     pick({ ...lead, leadId: uuidv4() }, [
       'leadId',
       'leadTitle',
+      'description',
       'stage',
       'rank',
       'contactId',
@@ -52,7 +54,7 @@ export const createLead = async (lead: Partial<Lead>) => {
 export const updateLead = async (lead: Partial<Lead>) => {
   return await updateQuery<Lead>(
     'leads',
-    pick(lead, ['leadTitle', 'stage', 'rank', 'contactId', 'companyId', 'assignmentId']),
+    pick(lead, ['leadTitle', 'description', 'stage', 'rank', 'contactId', 'companyId', 'assignmentId']),
     pick(lead, ['leadId'])
   );
 };
