@@ -17,6 +17,7 @@ import { Company } from '../api/companiesApi';
 import { useCreateCompany, useDeleteCompany, useUpdateCompany } from '../hooks/useCompaniesMutations';
 import { useCompany } from '../hooks/useCompaniesQueries';
 import CompanyForm from './CompanyForm';
+import { useMemo } from 'react';
 
 // ==============================|| COMPANY EDIT PAGE ||============================== //
 
@@ -30,7 +31,11 @@ const CompanyEdit = () => {
   const { mutate: deleteCompany } = useDeleteCompany();
 
   const { data: contacts = [], isLoading: contactsIsLoading } = useContacts();
-  const { data: assignments = [], isLoading: assignmentsIsLoading } = useAssignments();
+  const { data: allAssignments = [], isLoading: assignmentsIsLoading } = useAssignments();
+  const assignments = useMemo(
+    () => allAssignments.filter((assignment) => assignment.externalContact?.companyId === company?.companyId),
+    [allAssignments, company]
+  );
 
   const handleSubmit = (data: Partial<Company>) => {
     if (company) {
@@ -98,7 +103,7 @@ const CompanyEdit = () => {
                     content: (
                       <AssignmentTable
                         assignments={assignments.filter(
-                          (assignment) => assignment.externalContactPerson?.companyId === company.companyId
+                          (assignment) => assignment.externalContact?.companyId === company.companyId
                         )}
                         isLoading={assignmentsIsLoading}
                       />

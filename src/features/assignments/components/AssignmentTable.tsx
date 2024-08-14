@@ -1,17 +1,19 @@
 import { Link as RouterLink } from 'react-router-dom';
 
 // material-ui
-import { DialogActions, DialogContent, DialogTitle, Link } from '@mui/material';
+import { Avatar, Chip, DialogActions, DialogContent, DialogTitle, Link, List, ListItem } from '@mui/material';
 import { MRT_EditActionButtons } from 'material-react-table';
 
 // project imports
 import DataTable from '@/ui-component/DataTable';
-import { Assignment, AssignmentData } from '../api/assignmentsApi';
+import { Assignment } from '../api/assignmentsApi';
 import { useCreateAssignment, useDeleteAssignment, useUpdateAssignment } from '../hooks/useAssignmentsMutations';
 import AssignmentForm from './AssignmentForm';
+import { Contact } from '@/features/contacts/api/contactsApi';
+import { stringAvatar } from '@/utils';
 
 interface AssignmentTableProps {
-  assignments: AssignmentData[];
+  assignments: Assignment[];
   isLoading: boolean;
   defaultValues?: Partial<Assignment>;
 }
@@ -37,21 +39,33 @@ const AssignmentTable = ({ assignments, isLoading, defaultValues }: AssignmentTa
           )
         },
         {
-          accessorFn: (row) => row.responsiblePerson?.contactName,
-          header: 'Ansvarig',
+          accessorKey: 'responsibleContacts',
+          header: 'Ansvariga',
           enableEditing: false,
-          Cell: ({ cell, row }) => (
-            <Link component={RouterLink} to={`/home/contacts/${row.original.responsiblePersonId}`}>
-              {cell.getValue<string>()}
-            </Link>
+          Cell: ({ cell }) => (
+            <List disablePadding>
+              {cell.getValue<Contact[]>().map((contact) => (
+                <ListItem key={contact.contactId} sx={{ py: 0.25 }} disableGutters>
+                  <Chip
+                    component={RouterLink}
+                    variant="outlined"
+                    avatar={<Avatar {...stringAvatar(contact.contactName)} />}
+                    label={contact.contactName}
+                    to={`/home/contacts/${contact.contactId}`}
+                    clickable
+                    size="small"
+                  />
+                </ListItem>
+              ))}
+            </List>
           )
         },
         {
-          accessorFn: (row) => row.externalContactPerson?.contactName,
+          accessorFn: (row) => row.externalContact?.contactName,
           header: 'Extern',
           enableEditing: false,
           Cell: ({ cell, row }) => (
-            <Link component={RouterLink} to={`/home/contacts/${row.original.externalContactPersonId}`}>
+            <Link component={RouterLink} to={`/home/contacts/${row.original.externalContactId}`}>
               {cell.getValue<string>()}
             </Link>
           )

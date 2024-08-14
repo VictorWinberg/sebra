@@ -11,8 +11,6 @@ type TabItem = {
   url: string;
 };
 
-const defaultTab: TabItem = { id: 'home', title: 'Hem', url: '/home' };
-
 const tabItems: TabItem[] = [
   { id: 'assignments', title: 'Uppdrag', url: '/home/assignments' },
   { id: 'contacts', title: 'Kontakter', url: '/home/contacts' },
@@ -26,8 +24,6 @@ const HomeWrapper = () => {
   const { pathname } = useLocation();
   const theme = useTheme();
 
-  const currentTab = tabItems.find((item) => pathname.startsWith(item.url)) || defaultTab;
-
   return (
     <FlexGrow>
       <Grid container alignItems="flex-start" justifyContent="space-between">
@@ -39,7 +35,7 @@ const HomeWrapper = () => {
                   key={item.id}
                   component={Link}
                   label={item.title}
-                  to={item.url === currentTab.url ? defaultTab.url : item.url}
+                  to={item.url}
                   color="primary"
                   variant={pathname.startsWith(item.url) ? 'filled' : 'outlined'}
                   sx={{ borderColor: theme.palette.grey[200], px: 1, mb: 1 }}

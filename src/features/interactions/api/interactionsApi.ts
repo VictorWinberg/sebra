@@ -15,19 +15,13 @@ export type InteractionRecord = {
   updatedAt: string;
 };
 
-export type InteractionContact = {
+type InteractionContact = {
   interactionId: string;
   contactId: number;
 };
 
-export const fetchInteractions = async (where: { contactId: number }): Promise<Interaction[]> => {
-  const interactionRecords = await query<InteractionRecord>(
-    `SELECT * FROM interactions
-     WHERE interaction_id IN (
-       SELECT interaction_id FROM interaction_contacts
-       WHERE contact_id = :contactId)`,
-    where
-  );
+export const fetchInteractions = async (): Promise<Interaction[]> => {
+  const interactionRecords = await query<InteractionRecord>(`SELECT * FROM interactions`);
   const interactions: Interaction[] = interactionRecords.map((interaction) => ({ ...interaction, contacts: [] }));
   const interactionMap = toMap(interactions, 'interactionId');
 

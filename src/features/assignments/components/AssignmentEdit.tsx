@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 // material-ui
@@ -14,7 +15,7 @@ import { headerHeight } from '@/store/constant';
 import ContentTabs from '@/ui-component/ContentTabs';
 import DeleteConfirm from '@/ui-component/DeleteConfirm';
 import FlexGrow from '@/ui-component/extended/FlexGrow';
-import { formatDate } from '@/utils';
+import { formatDate, intersection } from '@/utils';
 import { Assignment } from '../api/assignmentsApi';
 import { useCreateAssignment, useDeleteAssignment, useUpdateAssignment } from '../hooks/useAssignmentsMutations';
 import { useAssignment } from '../hooks/useAssignmentsQueries';
@@ -35,8 +36,14 @@ const AssignmentEdit = () => {
     entityType: 'assignment',
     entityId: assignment?.assignmentId
   });
-  const { data: interactions = [], isLoading: interactionsIsLoading } = useInteractions(
-    assignment ? { contactId: assignment.responsiblePersonId } : undefined
+  const { data: allInteractions = [], isLoading: interactionsIsLoading } = useInteractions();
+  const interactions = useMemo(
+    () =>
+      allInteractions.filter(
+        (interaction) =>
+          intersection(interaction.contacts, assignment?.responsibleContacts || [], 'contactId').length > 0
+      ),
+    [allInteractions, assignment]
   );
 
   const handleSubmit = (data: Partial<Assignment>) => {
@@ -93,9 +100,9 @@ const AssignmentEdit = () => {
                       interactions={interactions}
                       isLoading={interactionsIsLoading}
                       defaultValues={{
-                        contacts: [assignment.responsiblePerson, assignment.externalContactPerson].filter(
-                          (contact) => !!contact
-                        ) as Contact[],
+                        contacts: [...assignment.responsibleContacts, assignment.externalContact].filter(
+                          (contact): contact is Contact => !!contact
+                        ),
                         interactionDate: formatDate()
                       }}
                     />

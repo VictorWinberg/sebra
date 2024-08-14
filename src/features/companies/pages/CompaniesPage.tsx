@@ -5,8 +5,9 @@ import { MRT_EditActionButtons } from 'material-react-table';
 // project imports
 import DataTable from '@/ui-component/DataTable';
 import FlexGrow from '@/ui-component/extended/FlexGrow';
+import { Company } from '../api/companiesApi';
 import CompanyForm from '../components/CompanyForm';
-import { companyColumns, CompanyData } from '../config/CompanyConfig';
+import { companyColumns } from '../config/CompanyConfig';
 import { useCreateCompany, useDeleteCompany, useUpdateCompany } from '../hooks/useCompaniesMutations';
 import { useCompanies } from '../hooks/useCompaniesQueries';
 
@@ -23,7 +24,7 @@ const CompaniesPage = () => {
 
   return (
     <FlexGrow>
-      <DataTable<CompanyData>
+      <DataTable<Company>
         data={data}
         columns={companyColumns}
         getRowId={(row) => `${row.companyId}`}

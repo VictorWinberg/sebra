@@ -1,19 +1,21 @@
+import { Assignment, AssignmentRecord } from '@/features/assignments/api/assignmentsApi';
 import AssignmentForm, { AssignmentFormProps } from '@/features/assignments/components/AssignmentForm';
-import { assignmentColumns, AssignmentData } from '@/features/assignments/config/AssignmentConfig';
+import { assignmentColumns } from '@/features/assignments/config/AssignmentConfig';
 import { useCreateAssignment } from '@/features/assignments/hooks/useAssignmentsMutations';
 import { useAssignments } from '@/features/assignments/hooks/useAssignmentsQueries';
+import { Company } from '@/features/companies/api/companiesApi';
 import CompanyForm, { CompanyFormProps } from '@/features/companies/components/CompanyForm';
-import { companyColumns, CompanyData } from '@/features/companies/config/CompanyConfig';
+import { companyColumns } from '@/features/companies/config/CompanyConfig';
 import { useCreateCompany } from '@/features/companies/hooks/useCompaniesMutations';
 import { useCompanies } from '@/features/companies/hooks/useCompaniesQueries';
+import { Contact, ContactRecord } from '@/features/contacts/api/contactsApi';
 import ContactForm, { ContactFormProps } from '@/features/contacts/components/ContactForm';
-import { contactColumns, ContactData } from '@/features/contacts/config/ContactConfig';
+import { contactColumns } from '@/features/contacts/config/ContactConfig';
 import { useCreateContact } from '@/features/contacts/hooks/useContactsMutations';
 import { useContacts } from '@/features/contacts/hooks/useContactsQueries';
 import { DataTableProps } from '@/hooks/useDataTable';
 import { ModuleFormConfigItem } from '../components/ModuleForm';
 import { ModuleTableConfigItem } from '../components/ModuleTable';
-import { Assignment } from '@/features/assignments/api/assignmentsApi';
 
 export type AnyData = object;
 export type AnyProps = object;
@@ -37,7 +39,7 @@ export const modules: ModuleConfigItem<AnyData, AnyProps>[] = [
     FormComponent: CompanyForm,
     createMutation: useCreateCompany,
     props: {}
-  } satisfies ModuleFormConfigItem<CompanyData, CompanyFormProps>,
+  } satisfies ModuleFormConfigItem<Company, CompanyFormProps>,
   {
     key: 'assignmentForm',
     label: 'Formulär - Uppdrag',
@@ -46,7 +48,7 @@ export const modules: ModuleConfigItem<AnyData, AnyProps>[] = [
     FormComponent: AssignmentForm,
     createMutation: useCreateAssignment,
     props: {}
-  } satisfies ModuleFormConfigItem<Assignment, AssignmentFormProps>,
+  } satisfies ModuleFormConfigItem<AssignmentRecord, AssignmentFormProps>,
   {
     key: 'contactForm',
     label: 'Formulär - Kontaktperson',
@@ -55,7 +57,7 @@ export const modules: ModuleConfigItem<AnyData, AnyProps>[] = [
     FormComponent: ContactForm,
     createMutation: useCreateContact,
     props: {}
-  } satisfies ModuleFormConfigItem<ContactData, ContactFormProps>,
+  } satisfies ModuleFormConfigItem<ContactRecord, ContactFormProps>,
   {
     key: 'companiesTable',
     label: 'Tabell - Bolag',
@@ -64,7 +66,7 @@ export const modules: ModuleConfigItem<AnyData, AnyProps>[] = [
     useData: useCompanies,
     props: { columns: companyColumns },
     configProps: { enableTopToolbar: true, enableColumnFilters: true }
-  } satisfies ModuleTableConfigItem<CompanyData, DataTableProps<CompanyData>>,
+  } satisfies ModuleTableConfigItem<Company, DataTableProps<Company>>,
   {
     key: 'assignmentsTable',
     label: 'Tabell - Uppdrag',
@@ -73,7 +75,7 @@ export const modules: ModuleConfigItem<AnyData, AnyProps>[] = [
     useData: useAssignments,
     props: { columns: assignmentColumns },
     configProps: { enableTopToolbar: true, enableColumnFilters: true }
-  } satisfies ModuleTableConfigItem<AssignmentData, DataTableProps<AssignmentData>>,
+  } satisfies ModuleTableConfigItem<Assignment, DataTableProps<Assignment>>,
   {
     key: 'contactsTable',
     label: 'Tabell - Kontaktperson',
@@ -82,5 +84,5 @@ export const modules: ModuleConfigItem<AnyData, AnyProps>[] = [
     useData: useContacts,
     props: { columns: contactColumns },
     configProps: { enableTopToolbar: true, enableColumnFilters: true }
-  } satisfies ModuleTableConfigItem<ContactData, DataTableProps<ContactData>>
+  } satisfies ModuleTableConfigItem<Contact, DataTableProps<Contact>>
 ] as ModuleConfigItem<AnyData, AnyProps>[];

@@ -9,12 +9,11 @@ import dayjs, { Dayjs } from 'dayjs';
 
 // project imports
 import { formatDate, toLocalTime } from '@/utils';
-import { fetchCompanies } from '../api/companiesApi';
+import { Company } from '../api/companiesApi';
 
 // ==============================|| COMPANY CONFIG ||============================== //
 
-export type CompanyData = Awaited<ReturnType<typeof fetchCompanies>>[number];
-export const companyColumns: MRT_ColumnDef<CompanyData>[] = [
+export const companyColumns: MRT_ColumnDef<Company>[] = [
   {
     accessorKey: 'companyName',
     header: 'Bolagsnamn',

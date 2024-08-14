@@ -23,8 +23,37 @@ export const pick = <T extends Record<string, unknown>, K extends keyof T>(obj: 
  * @param key - The key to use as the map key.
  * @returns The map.
  */
-export const toMap = <T>(array: T[], key: keyof T) => {
+export const toMap = <T, K extends keyof T>(array: T[], key: K) => {
   return new Map(array.map((item) => [item[key], item]));
+};
+
+/**
+ * Group an array of items by the specified key.
+ * @param array - The array to group.
+ * @param keySelector - The function to select the key.
+ * @returns The grouped object.
+ */
+export const groupBy = <T, K extends keyof T>(array: T[], key: K) => {
+  return array.reduce((grouped, item) => {
+    const k = item[key];
+    if (!grouped.has(k)) {
+      grouped.set(k, []);
+    }
+    grouped.get(k)!.push(item);
+    return grouped;
+  }, new Map<T[K], T[]>());
+};
+
+/**
+ * Intersection of two arrays.
+ * @param a - The first array.
+ * @param b - The second array.
+ * @param key - The key to compare.
+ * @returns The intersection of the two arrays.
+ */
+export const intersection = <T, K extends keyof T>(a: T[], b: T[], key: K) => {
+  const bSet = new Set(b.map((item) => item[key]));
+  return a.filter((item) => bSet.has(item[key]));
 };
 
 type RequiredFields<T> = {

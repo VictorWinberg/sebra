@@ -2,7 +2,9 @@ import { deleteQuery, query, insertQuery, updateQuery, selectOneQuery } from '@/
 import { Company } from '@/features/companies/api/companiesApi';
 import { pick, toMap } from '@/utils';
 
-export type Contact = {
+export type Contact = ContactRecord & { company?: Company };
+
+export type ContactRecord = {
   contactId: number;
   contactName: string;
   email: string;
@@ -17,9 +19,7 @@ export type Contact = {
   updatedAt: string;
 };
 
-export type ContactData = Contact & { company?: Company };
-
-export const fetchContacts = async (): Promise<ContactData[]> => {
+export const fetchContacts = async (): Promise<Contact[]> => {
   const contacts = await query<Contact>(`SELECT * FROM contacts ORDER BY contact_name`);
   const companies = toMap(await query<Company>(`SELECT * FROM companies`), 'companyId');
 
@@ -27,11 +27,11 @@ export const fetchContacts = async (): Promise<ContactData[]> => {
 };
 
 export const fetchContact = async (contactId: number) => {
-  return await selectOneQuery<Contact>('contacts', { contactId });
+  return await selectOneQuery<ContactRecord>('contacts', { contactId });
 };
 
 export const createContact = async (contact: Partial<Contact>) => {
-  return await insertQuery<Contact>(
+  return await insertQuery<ContactRecord>(
     'contacts',
     pick(contact, [
       'contactName',
@@ -48,7 +48,7 @@ export const createContact = async (contact: Partial<Contact>) => {
 };
 
 export const updateContact = async (contact: Partial<Contact>) => {
-  return await updateQuery<Contact>(
+  return await updateQuery<ContactRecord>(
     'contacts',
     pick(contact, [
       'contactName',
@@ -66,5 +66,5 @@ export const updateContact = async (contact: Partial<Contact>) => {
 };
 
 export const deleteContact = async ({ contactId }: Pick<Contact, 'contactId'>) => {
-  return await deleteQuery<Contact>('contacts', { contactId });
+  return await deleteQuery<ContactRecord>('contacts', { contactId });
 };

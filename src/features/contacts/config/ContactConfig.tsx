@@ -9,12 +9,11 @@ import dayjs, { Dayjs } from 'dayjs';
 
 // project imports
 import { formatDate, toLocalTime } from '@/utils';
-import { fetchContacts } from '../api/contactsApi';
+import { Contact } from '../api/contactsApi';
 
 // ==============================|| CONTACT CONFIG ||============================== //
 
-export type ContactData = Awaited<ReturnType<typeof fetchContacts>>[number];
-export const contactColumns: MRT_ColumnDef<ContactData>[] = [
+export const contactColumns: MRT_ColumnDef<Contact>[] = [
   {
     accessorKey: 'contactName',
     header: 'Namn',

@@ -5,8 +5,9 @@ import { MRT_EditActionButtons } from 'material-react-table';
 // project imports
 import DataTable from '@/ui-component/DataTable';
 import FlexGrow from '@/ui-component/extended/FlexGrow';
+import { Contact } from '../api/contactsApi';
 import ContactForm from '../components/ContactForm';
-import { contactColumns, ContactData } from '../config/ContactConfig';
+import { contactColumns } from '../config/ContactConfig';
 import { useCreateContact, useDeleteContact, useUpdateContact } from '../hooks/useContactsMutations';
 import { useContacts } from '../hooks/useContactsQueries';
 
@@ -23,7 +24,7 @@ const ContactsPage = () => {
 
   return (
     <FlexGrow>
-      <DataTable<ContactData>
+      <DataTable<Contact>
         data={data}
         columns={contactColumns}
         getRowId={(row) => `${row.contactId}`}
