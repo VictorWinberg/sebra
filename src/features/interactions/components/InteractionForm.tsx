@@ -104,6 +104,7 @@ const InteractionForm = ({
                   render={({ field }) => (
                     <Autocomplete
                       multiple
+                      disableCloseOnSelect
                       id="multiple-contacts"
                       options={contacts}
                       getOptionKey={(option) => option.contactId}

@@ -47,37 +47,40 @@ export const fetchInteractions = async (where: { contactId: number }): Promise<I
   return Array.from(interactionMap.values());
 };
 
-export const createInteraction = async (interaction: Partial<InteractionRecord>) => {
-  return await insertQuery<InteractionRecord>(
+export const createInteraction = async (interaction: Interaction) => {
+  const record = await insertQuery<InteractionRecord>(
     'interactions',
     pick({ ...interaction, interactionId: uuidv4() }, ['interactionId', 'interactionType', 'interactionDate', 'notes'])
   );
+  await createInteractionContacts({ interactionId: record.interactionId, contacts: interaction.contacts });
 };
 
-export const updateInteraction = async (interaction: Partial<InteractionRecord>) => {
-  return await updateQuery<InteractionRecord>(
+export const updateInteraction = async (interaction: Interaction) => {
+  await updateQuery<InteractionRecord>(
     'interactions',
     pick(interaction, ['interactionType', 'interactionDate', 'notes']),
     pick(interaction, ['interactionId'])
   );
+  await updateInteractionContacts(interaction);
 };
 
 export const deleteInteraction = async (interaction: Pick<InteractionRecord, 'interactionId'>) => {
-  return await deleteQuery<InteractionRecord>('interactions', pick(interaction, ['interactionId']));
+  await deleteInteractionContacts(interaction);
+  await deleteQuery<InteractionRecord>('interactions', pick(interaction, ['interactionId']));
 };
 
 export const createInteractionContacts = async (interaction: Pick<Interaction, 'interactionId' | 'contacts'>) => {
-  return await insertManyQuery<InteractionContact>(
+  await insertManyQuery<InteractionContact>(
     'interaction_contacts',
     interaction.contacts.map(({ contactId }) => ({ interactionId: interaction.interactionId, contactId }))
   );
 };
 
-export const updateInteractionContacts = async (interaction: Pick<Interaction, 'interactionId' | 'contacts'>) => {
+const updateInteractionContacts = async (interaction: Pick<Interaction, 'interactionId' | 'contacts'>) => {
   await deleteInteractionContacts(interaction);
   await createInteractionContacts(interaction);
 };
 
-export const deleteInteractionContacts = async (where: Partial<InteractionContact>) => {
-  await deleteQuery<InteractionContact>('interaction_contacts', pick(where, ['interactionId', 'contactId']));
+const deleteInteractionContacts = async (interaction: Pick<InteractionRecord, 'interactionId'>) => {
+  await deleteQuery<InteractionContact>('interaction_contacts', pick(interaction, ['interactionId']));
 };

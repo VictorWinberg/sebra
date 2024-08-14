@@ -102,6 +102,7 @@ export const insertQuery = <T extends Params>(table: string, data: Partial<T>): 
 };
 
 export const insertManyQuery = <T extends Params>(table: string, data: Partial<T>[]): T[] => {
+  if (data.length === 0) return [];
   const columns = generateColumns(data[0]);
 
   const queryText = `

@@ -12,13 +12,7 @@ import { Contact } from '@/features/contacts/api/contactsApi';
 import DataTable from '@/ui-component/DataTable';
 import { formatDate, stringAvatar, toLocalTime } from '@/utils';
 import { Interaction } from '../api/interactionsApi';
-import {
-  useCreateInteraction,
-  useCreateInteractionContacts,
-  useDeleteInteraction,
-  useUpdateInteraction,
-  useUpdateInteractionContacts
-} from '../hooks/useInteractionsMutations';
+import { useCreateInteraction, useDeleteInteraction, useUpdateInteraction } from '../hooks/useInteractionsMutations';
 import InteractionForm from './InteractionForm';
 
 interface InteractionTableProps {
@@ -31,8 +25,6 @@ const InteractionTable = ({ interactions, isLoading, defaultValues }: Interactio
   const { mutate: createInteraction } = useCreateInteraction();
   const { mutate: updateInteraction } = useUpdateInteraction();
   const { mutate: deleteInteraction } = useDeleteInteraction();
-  const { mutate: createInteractionContacts } = useCreateInteractionContacts();
-  const { mutate: updateInteractionContacts } = useUpdateInteractionContacts();
 
   return (
     <DataTable
@@ -53,7 +45,7 @@ const InteractionTable = ({ interactions, isLoading, defaultValues }: Interactio
           Cell: ({ cell }) => (
             <List disablePadding>
               {cell.getValue<Contact[]>().map((contact) => (
-                <ListItem key={contact.contactId} sx={{ py: 0.5 }} disableGutters>
+                <ListItem key={contact.contactId} sx={{ py: 0.25 }} disableGutters>
                   <Chip
                     component={RouterLink}
                     variant="outlined"
@@ -100,15 +92,9 @@ const InteractionTable = ({ interactions, isLoading, defaultValues }: Interactio
           </DialogActions>
         </>
       )}
-      onCreate={(row) => [
-        createInteraction(row, {
-          onSuccess: ({ interactionId }) => {
-            createInteractionContacts({ ...row, interactionId });
-          }
-        })
-      ]}
-      onUpdate={(row) => [updateInteraction(row), updateInteractionContacts(row)]}
-      onDelete={(row) => [deleteInteraction(row)]}
+      onCreate={(row) => createInteraction(row)}
+      onUpdate={(row) => updateInteraction(row)}
+      onDelete={(row) => deleteInteraction(row)}
     />
   );
 };
