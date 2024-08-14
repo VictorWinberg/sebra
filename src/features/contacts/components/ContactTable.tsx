@@ -6,12 +6,12 @@ import { MRT_EditActionButtons } from 'material-react-table';
 
 // project imports
 import DataTable from '@/ui-component/DataTable';
-import { Contact, ContactData } from '../api/contactsApi';
-import { useCreateContact, useUpdateContact, useDeleteContact } from '../hooks/useContactsMutations';
+import { Contact } from '../api/contactsApi';
+import { useCreateContact, useDeleteContact, useUpdateContact } from '../hooks/useContactsMutations';
 import ContactForm from './ContactForm';
 
 interface ContactTableProps {
-  contacts: ContactData[];
+  contacts: Contact[];
   isLoading: boolean;
   defaultValues?: Partial<Contact>;
 }

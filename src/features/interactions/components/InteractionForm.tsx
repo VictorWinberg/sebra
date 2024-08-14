@@ -110,7 +110,7 @@ const InteractionForm = ({
                       getOptionKey={(option) => option.contactId}
                       getOptionLabel={(option) => option.contactName}
                       isOptionEqualToValue={(option, value) => option.contactId === value.contactId}
-                      value={field.value}
+                      value={field.value || []}
                       onChange={(_, value) => field.onChange(value)}
                       renderInput={(params) => (
                         <TextField

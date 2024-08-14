@@ -4,10 +4,9 @@ import { useQuery } from '@tanstack/react-query';
 // project imports
 import { fetchInteractions } from '../api/interactionsApi';
 
-export const useInteractions = (where: { contactId: number } | undefined) => {
+export const useInteractions = () => {
   return useQuery({
-    queryKey: ['interactions', where],
-    queryFn: () => fetchInteractions(where!),
-    enabled: where && Object.keys(where).length > 0
+    queryKey: ['interactions'],
+    queryFn: () => fetchInteractions()
   });
 };

@@ -8,7 +8,13 @@ import { pick, toMap } from '@/utils';
 
 export const LEAD_STAGES = ['Intresse', 'Pitch', 'Affär', 'Uppföljning'];
 
-export type Lead = {
+export type Lead = LeadRecord & {
+  contact?: Contact;
+  company?: Company;
+  assignment?: Assignment;
+};
+
+export type LeadRecord = {
   leadId: string;
   leadTitle: string;
   description: string;
@@ -21,13 +27,7 @@ export type Lead = {
   updatedAt: string;
 };
 
-type LeadData = Lead & {
-  contact?: Contact;
-  company?: Company;
-  assignment?: Assignment;
-};
-
-export const fetchLeads = async (): Promise<LeadData[]> => {
+export const fetchLeads = async (): Promise<Lead[]> => {
   const assignments = toMap(await query<Assignment>(`SELECT * FROM assignments`), 'assignmentId');
   const contacts = toMap(await query<Contact>(`SELECT * FROM contacts`), 'contactId');
   const companies = toMap(await query<Company>(`SELECT * FROM companies`), 'companyId');
@@ -36,7 +36,7 @@ export const fetchLeads = async (): Promise<LeadData[]> => {
 };
 
 export const createLead = async (lead: Partial<Lead>) => {
-  return await insertQuery<Lead>(
+  return await insertQuery<LeadRecord>(
     'leads',
     pick({ ...lead, leadId: uuidv4() }, [
       'leadId',
@@ -52,7 +52,7 @@ export const createLead = async (lead: Partial<Lead>) => {
 };
 
 export const updateLead = async (lead: Partial<Lead>) => {
-  return await updateQuery<Lead>(
+  return await updateQuery<LeadRecord>(
     'leads',
     pick(lead, ['leadTitle', 'description', 'stage', 'rank', 'contactId', 'companyId', 'assignmentId']),
     pick(lead, ['leadId'])
@@ -67,7 +67,7 @@ function transformLead(
   assignments: Map<string | number, Assignment>,
   contacts: Map<string | number, Contact>,
   companies: Map<string | number, Company>
-): (value: Lead, index: number, array: Lead[]) => LeadData {
+): (value: LeadRecord) => Lead {
   return (lead) => {
     return {
       ...lead,

@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 // material-ui
@@ -30,9 +31,20 @@ const ContactEdit = () => {
   const { mutate: updateContact } = useUpdateContact();
   const { mutate: deleteContact } = useDeleteContact();
 
-  const { data: assignments = [], isLoading: assignmentsIsLoading } = useAssignments();
-  const { data: interactions = [], isLoading: interactionsIsLoading } = useInteractions(
-    contact ? { contactId: contact.contactId } : undefined
+  const { data: allAssignments = [], isLoading: assignmentsIsLoading } = useAssignments();
+  const assignments = useMemo(
+    () =>
+      allAssignments.filter(
+        (assignment) =>
+          assignment.responsibleContacts.some((c) => c.contactId === contact?.contactId) ||
+          assignment.externalContactId === contact?.contactId
+      ),
+    [allAssignments, contact]
+  );
+  const { data: allInteractions = [], isLoading: interactionsIsLoading } = useInteractions();
+  const interactions = useMemo(
+    () => allInteractions.filter((interaction) => interaction.contacts.some((c) => c.contactId === contact?.contactId)),
+    [allInteractions, contact]
   );
 
   const handleSubmit = (data: Partial<Contact>) => {
@@ -96,16 +108,7 @@ const ContactEdit = () => {
                 {
                   id: 'assignments',
                   label: 'Uppdrag',
-                  content: (
-                    <AssignmentTable
-                      assignments={assignments.filter(
-                        (assignment) =>
-                          assignment.externalContactPersonId === contact.contactId ||
-                          assignment.responsiblePersonId === contact.contactId
-                      )}
-                      isLoading={assignmentsIsLoading}
-                    />
-                  )
+                  content: <AssignmentTable assignments={assignments} isLoading={assignmentsIsLoading} />
                 }
               ]}
             />

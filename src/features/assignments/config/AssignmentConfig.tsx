@@ -1,20 +1,20 @@
 import { Link as RouterLink, createSearchParams } from 'react-router-dom';
 
 // material-ui
-import { Link } from '@mui/material';
+import { Link, List, ListItem } from '@mui/material';
 import { MRT_ColumnDef } from 'material-react-table';
 
 // third party
 import dayjs, { Dayjs } from 'dayjs';
 
 // project imports
+import { Contact } from '@/features/contacts/api/contactsApi';
 import { formatDate, toLocalTime } from '@/utils';
-import { fetchAssignments } from '../api/assignmentsApi';
+import { Assignment } from '../api/assignmentsApi';
 
 // ==============================|| ASSIGNMENT CONFIG ||============================== //
 
-export type AssignmentData = Awaited<ReturnType<typeof fetchAssignments>>[number];
-export const assignmentColumns: MRT_ColumnDef<AssignmentData>[] = [
+export const assignmentColumns: MRT_ColumnDef<Assignment>[] = [
   {
     accessorKey: 'assignmentName',
     header: 'Uppdragsnamn',
@@ -25,30 +25,30 @@ export const assignmentColumns: MRT_ColumnDef<AssignmentData>[] = [
     )
   },
   {
-    accessorFn: (row) => row.responsiblePerson?.contactName,
-    header: 'Ansvarig',
+    accessorKey: 'responsibleContacts',
+    header: 'Ansvariga',
     enableEditing: false,
-    Cell: ({ cell, row }) => (
-      <Link
-        component={RouterLink}
-        to={{
-          pathname: `/home/contacts/${row.original.responsiblePersonId}`,
-          search: `${createSearchParams({ tab: 'assignments' })}`
-        }}
-      >
-        {cell.getValue<string>()}
-      </Link>
+    Cell: ({ cell }) => (
+      <List disablePadding>
+        {cell.getValue<Contact[]>().map((contact) => (
+          <ListItem key={contact.contactId} sx={{ py: 0.25 }} disableGutters>
+            <Link component={RouterLink} to={`/home/contacts/${contact.contactId}`}>
+              {contact.contactName}
+            </Link>
+          </ListItem>
+        ))}
+      </List>
     )
   },
   {
-    accessorFn: (row) => row.externalContactPerson?.contactName,
-    header: 'Extern',
+    accessorFn: (row) => row.externalContact?.contactName,
+    header: 'Extern kontakt',
     enableEditing: false,
     Cell: ({ cell, row }) => (
       <Link
         component={RouterLink}
         to={{
-          pathname: `/home/contacts/${row.original.externalContactPersonId}`,
+          pathname: `/home/contacts/${row.original.externalContactId}`,
           search: `${createSearchParams({ tab: 'assignments' })}`
         }}
       >

@@ -1,13 +1,26 @@
-import { deleteQuery, insertQuery, query, selectOneQuery, updateQuery } from '@/api/DummyDB';
+import {
+  deleteQuery,
+  insertManyQuery,
+  insertQuery,
+  query,
+  selectAllQuery,
+  selectOneQuery,
+  updateQuery
+} from '@/api/DummyDB';
 import { Company } from '@/features/companies/api/companiesApi';
 import { Contact } from '@/features/contacts/api/contactsApi';
-import { pick, toMap } from '@/utils';
+import { groupBy, pick, toMap } from '@/utils';
 
-export type Assignment = {
+export type Assignment = AssignmentRecord & {
+  responsibleContacts: Contact[];
+  externalContact: Contact | undefined;
+  company: Company | undefined;
+};
+
+export type AssignmentRecord = {
   assignmentId: number;
   assignmentName: string;
-  responsiblePersonId: number;
-  externalContactPersonId: number;
+  externalContactId: number;
   companyId: number;
   relevantFiles: string;
   fee: number;
@@ -17,77 +30,102 @@ export type Assignment = {
   updatedAt: string;
 };
 
-export type AssignmentData = Assignment & {
-  responsiblePerson: Contact | undefined;
-  externalContactPerson: Contact | undefined;
-  company: Company | undefined;
+type ResponsibleContact = {
+  assignmentId: number;
+  contactId: number;
 };
 
-export const fetchAssignments = async (): Promise<AssignmentData[]> => {
-  const assignments = await query<Assignment>(`SELECT * FROM assignments ORDER BY assignment_name`);
-  const contacts = toMap(await query<Contact>(`SELECT * FROM contacts`), 'contactId');
-  const companies = toMap(await query<Company>(`SELECT * FROM companies`), 'companyId');
-  return assignments.map(transformAssignment(contacts, companies));
+export const fetchAssignments = async (): Promise<Assignment[]> => {
+  const [assignments, responsibleContacts, contacts, companies] = await Promise.all([
+    query<Assignment>(`SELECT * FROM assignments ORDER BY assignment_name`),
+    query<ResponsibleContact>(`SELECT * FROM assignment_responsible_contacts`),
+    query<Contact>(`SELECT * FROM contacts`),
+    query<Company>(`SELECT * FROM companies`)
+  ]);
+
+  const responsibleContactsMap = groupBy(responsibleContacts, 'assignmentId');
+  const contactsMap = toMap(contacts, 'contactId');
+  const companiesMap = toMap(companies, 'companyId');
+
+  return assignments.map(transformAssignment(responsibleContactsMap, contactsMap, companiesMap));
 };
 
-export const fetchAssignment = async (assignmentId: number): Promise<AssignmentData> => {
-  const assignment = await selectOneQuery<Assignment>('assignments', { assignmentId });
-  const contacts = toMap(await query<Contact>(`SELECT * FROM contacts`), 'contactId');
-  const companies = toMap(await query<Company>(`SELECT * FROM companies`), 'companyId');
-  return transformAssignment(contacts, companies)(assignment);
+export const fetchAssignment = async (assignmentId: number): Promise<Assignment> => {
+  const [assignment, responsibleContacts, contacts, companies] = await Promise.all([
+    selectOneQuery<AssignmentRecord>('assignments', { assignmentId }),
+    selectAllQuery<ResponsibleContact>('assignment_responsible_contacts', { assignmentId }),
+    query<Contact>(`SELECT * FROM contacts`),
+    query<Company>(`SELECT * FROM companies`)
+  ]);
+
+  const responsibleContactsMap = groupBy(responsibleContacts, 'assignmentId');
+  const contactsMap = toMap(contacts, 'contactId');
+  const companiesMap = toMap(companies, 'companyId');
+
+  return transformAssignment(responsibleContactsMap, contactsMap, companiesMap)(assignment);
 };
 
 export const createAssignment = async (assignment: Partial<Assignment>) => {
-  return await insertQuery<Assignment>(
+  const record = await insertQuery<AssignmentRecord>(
     'assignments',
-    pick(assignment, [
-      'assignmentName',
-      'responsiblePersonId',
-      'externalContactPersonId',
-      'companyId',
-      'relevantFiles',
-      'fee',
-      'type',
-      'status'
-    ])
+    pick(assignment, ['assignmentName', 'externalContactId', 'companyId', 'relevantFiles', 'fee', 'type', 'status'])
   );
+  await createAssignmentResponsibleContacts({ ...assignment, ...record });
+  return record;
 };
 
 export const updateAssignment = async (assignment: Partial<Assignment>) => {
-  return await updateQuery<Assignment>(
+  await updateQuery<AssignmentRecord>(
     'assignments',
-    pick(assignment, [
-      'assignmentName',
-      'responsiblePersonId',
-      'externalContactPersonId',
-      'companyId',
-      'relevantFiles',
-      'fee',
-      'type',
-      'status'
-    ]),
+    pick(assignment, ['assignmentName', 'externalContactId', 'companyId', 'relevantFiles', 'fee', 'type', 'status']),
     pick(assignment, ['assignmentId'])
   );
+  await updateAssignmentResponsibleContacts(assignment);
 };
 
 export const deleteAssignment = async ({ assignmentId }: Pick<Assignment, 'assignmentId'>) => {
-  return await deleteQuery<Assignment>('assignments', { assignmentId });
+  await deleteQuery<AssignmentRecord>('assignments', { assignmentId });
+  await deleteAssignmentResponsibleContacts({ assignmentId });
 };
 
 function transformAssignment(
-  contacts: Map<string | number, Contact>,
-  companies: Map<string | number, Company>
-): (value: Assignment) => AssignmentData {
-  return (assignment) => {
-    const responsiblePerson = contacts.get(assignment.responsiblePersonId);
-    const externalContactPerson = contacts.get(assignment.externalContactPersonId);
-    const company = companies.get(assignment.companyId);
+  responsibleContactsMap: Map<number, ResponsibleContact[]>,
+  contactsMap: Map<number, Contact>,
+  companiesMap: Map<number, Company>
+): (value: AssignmentRecord) => Assignment {
+  return (assignment: AssignmentRecord) => {
+    const responsibleContactsList = responsibleContactsMap.get(assignment.assignmentId) || [];
+    const responsibleContactIds = responsibleContactsList.map((c) => c.contactId);
+    const responsibleContacts = responsibleContactIds
+      .map((contactId) => contactsMap.get(contactId))
+      .filter((c): c is Contact => !!c);
+    const externalContact = contactsMap.get(assignment.externalContactId);
+    const company = companiesMap.get(assignment.companyId);
 
-    return { ...assignment, responsiblePerson, externalContactPerson, company };
+    return { ...assignment, responsibleContacts, externalContact, company };
   };
 }
 
 export const fetchAssignmentStatuses = async () => {
   const assignmentStatuses = await query<{ status: string }>(`SELECT DISTINCT status FROM assignments`);
   return assignmentStatuses.map(({ status }) => status).filter(Boolean);
+};
+
+const createAssignmentResponsibleContacts = async ({ assignmentId, responsibleContacts }: Partial<Assignment>) => {
+  if (!assignmentId || !responsibleContacts) return;
+
+  await insertManyQuery<ResponsibleContact>(
+    'assignment_responsible_contacts',
+    responsibleContacts.map(({ contactId }) => ({ assignmentId, contactId }))
+  );
+};
+
+const updateAssignmentResponsibleContacts = async (assignment: Partial<Assignment>) => {
+  await deleteAssignmentResponsibleContacts(assignment);
+  await createAssignmentResponsibleContacts(assignment);
+};
+
+const deleteAssignmentResponsibleContacts = async ({ assignmentId }: Partial<Assignment>) => {
+  if (!assignmentId) return;
+  await deleteQuery<ResponsibleContact>('assignment_responsible_contacts', { assignmentId });
 };

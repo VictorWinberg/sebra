@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 // material-ui
-import { Autocomplete, BoxProps, Grid, TextField } from '@mui/material';
+import { Autocomplete, BoxProps, Chip, Grid, TextField } from '@mui/material';
 
 // third party
 import { Controller, UseFormProps, useForm } from 'react-hook-form';
@@ -93,23 +93,41 @@ const AssignmentForm = ({
           </Grid>
           <Grid item xs={12} sm={4}>
             <Controller
-              name="responsiblePersonId"
+              name="responsibleContacts"
               control={control}
               render={({ field }) => (
                 <Autocomplete
+                  multiple
+                  limitTags={2}
+                  disableCloseOnSelect
+                  id="multiple-contacts"
                   options={contacts}
                   getOptionKey={(option) => option.contactId}
                   getOptionLabel={(option) => option.contactName}
-                  value={contacts.find((contact) => contact.contactId === field.value) || null}
-                  onChange={(_, value) => field.onChange(value ? value.contactId : undefined)}
-                  renderInput={(params) => <TextField {...params} label="Ansvarig" variant="outlined" fullWidth />}
+                  isOptionEqualToValue={(option, value) => option.contactId === value.contactId}
+                  value={field.value || []}
+                  onChange={(_, value) => field.onChange(value)}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Ansvariga kontakter"
+                      variant="outlined"
+                      fullWidth
+                      error={!!errors.responsibleContacts}
+                    />
+                  )}
+                  renderTags={(tags, getTagProps) => {
+                    return tags.map((option, index) => (
+                      <Chip {...getTagProps({ index })} key={option.contactId} label={option.contactName} />
+                    ));
+                  }}
                 />
               )}
             />
           </Grid>
           <Grid item xs={12} sm={4}>
             <Controller
-              name="externalContactPersonId"
+              name="externalContactId"
               control={control}
               render={({ field }) => (
                 <Autocomplete
@@ -118,7 +136,9 @@ const AssignmentForm = ({
                   getOptionLabel={(option) => option.contactName}
                   value={contacts.find((contact) => contact.contactId === field.value) || null}
                   onChange={(_, value) => field.onChange(value ? value.contactId : undefined)}
-                  renderInput={(params) => <TextField {...params} label="Extern" variant="outlined" fullWidth />}
+                  renderInput={(params) => (
+                    <TextField {...params} label="Extern kontakt" variant="outlined" fullWidth />
+                  )}
                 />
               )}
             />

@@ -24,7 +24,7 @@ import { MRT_ColumnDef, MRT_EditActionButtons } from 'material-react-table';
 import DataBoard from '@/ui-component/board/DataBoard';
 import FlexGrow from '@/ui-component/extended/FlexGrow';
 import { stringAvatar, timeAgo } from '@/utils';
-import { fetchLeads, LEAD_STAGES } from '../api/leadsApi';
+import { Lead, LEAD_STAGES } from '../api/leadsApi';
 import LeadForm from '../components/LeadForm';
 import { useCreateLead, useDeleteLead, useUpdateLead } from '../hooks/useLeadsMutations';
 import { useLeads } from '../hooks/useLeadsQueries';
@@ -34,9 +34,7 @@ import { Add } from '@mui/icons-material';
 
 // ==============================|| LEADS PAGE ||============================== //
 
-type DataType = Awaited<ReturnType<typeof fetchLeads>>[number];
-
-const columns: MRT_ColumnDef<DataType>[] = [
+const columns: MRT_ColumnDef<Lead>[] = [
   { accessorKey: 'leadDescription', header: 'Beskrivning' },
   { accessorKey: 'leadStage', header: 'Status' }
 ];
@@ -52,7 +50,7 @@ const LeadsPage = () => {
 
   return (
     <FlexGrow>
-      <DataBoard<DataType>
+      <DataBoard<Lead>
         data={leads}
         columns={columns}
         columnId="stage"
