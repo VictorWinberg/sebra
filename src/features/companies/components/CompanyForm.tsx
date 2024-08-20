@@ -12,9 +12,9 @@ import FlexGrow, { sxFlex } from '@/ui-component/extended/FlexGrow';
 
 // ==============================|| COMPANY FORM ||============================== //
 export interface CompanyFormProps extends Omit<BoxProps, 'onChange' | 'onSubmit'> {
-  onSubmit?: (data: Partial<Company>) => void;
-  onChange?: (data: Partial<Company>) => void;
-  formProps?: UseFormProps<Partial<Company>>;
+  onSubmit?: (data: Company) => void;
+  onChange?: (data: Company) => void;
+  formProps?: UseFormProps<Company>;
   renderTopContent?: () => React.ReactNode;
   renderBottomContent?: () => React.ReactNode;
 }
@@ -32,7 +32,7 @@ const CompanyForm = ({
     handleSubmit,
     watch,
     formState: { errors }
-  } = useForm<Partial<Company>>(formProps);
+  } = useForm<Company>(formProps);
 
   const fields = watch();
   useEffect(() => {

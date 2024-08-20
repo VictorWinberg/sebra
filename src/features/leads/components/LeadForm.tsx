@@ -17,7 +17,7 @@ import { useAssignments } from '@/features/assignments/hooks/useAssignmentsQueri
 
 interface LeadFormProps extends Omit<BoxProps, 'onChange' | 'onSubmit'> {
   onSubmit?: (data: Lead) => void;
-  onChange?: (data: Partial<Lead>) => void;
+  onChange?: (data: Lead) => void;
   formProps?: UseFormProps<Lead>;
   renderTopContent?: () => React.ReactNode;
   renderBottomContent?: () => React.ReactNode;

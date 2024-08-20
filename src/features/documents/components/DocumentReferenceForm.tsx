@@ -22,7 +22,7 @@ const ENTITY_TYPES = [
 // ==============================|| DOCUMENT FORM ||============================== //
 interface DocumentReferenceFormProps extends Omit<BoxProps, 'onChange' | 'onSubmit'> {
   onSubmit?: (data: DocumentReference) => void;
-  onChange?: (data: Partial<DocumentReference>) => void;
+  onChange?: (data: DocumentReference) => void;
   formProps?: UseFormProps<DocumentReference>;
   renderTopContent?: () => React.ReactNode;
   renderBottomContent?: () => React.ReactNode;

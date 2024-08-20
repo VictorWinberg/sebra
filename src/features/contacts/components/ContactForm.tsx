@@ -14,9 +14,9 @@ import FlexGrow, { sxFlex } from '@/ui-component/extended/FlexGrow';
 // ==============================|| CONTACT FORM ||============================== //
 
 export interface ContactFormProps extends Omit<BoxProps, 'onChange' | 'onSubmit'> {
-  onSubmit?: (data: Partial<Contact>) => void;
-  onChange?: (data: Partial<Contact>) => void;
-  formProps?: UseFormProps<Partial<Contact>>;
+  onSubmit?: (data: Contact) => void;
+  onChange?: (data: Contact) => void;
+  formProps?: UseFormProps<Contact>;
   renderTopContent?: () => React.ReactNode;
   renderBottomContent?: () => React.ReactNode;
 }
@@ -36,7 +36,7 @@ const ContactForm = ({
     handleSubmit,
     watch,
     formState: { errors }
-  } = useForm<Partial<Contact>>(formProps);
+  } = useForm<Contact>(formProps);
 
   const fields = watch();
   useEffect(() => {

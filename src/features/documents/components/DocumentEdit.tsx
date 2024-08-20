@@ -168,7 +168,6 @@ const DocumentEdit = () => {
                               sx={{ mt: 1 }}
                               formProps={{ defaultValues: { ...row.original, documentId: document.documentId } }}
                               onChange={(values) => {
-                                //@ts-expect-error any
                                 row._valuesCache = values;
                               }}
                             />

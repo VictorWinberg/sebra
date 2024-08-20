@@ -19,7 +19,7 @@ import { CloudDownload } from '@mui/icons-material';
 // ==============================|| DOCUMENT FORM ||============================== //
 interface DocumentFormProps extends Omit<BoxProps, 'onChange' | 'onSubmit'> {
   onSubmit?: (data: DocumentRecord) => void;
-  onChange?: (data: Partial<DocumentRecord>) => void;
+  onChange?: (data: DocumentRecord) => void;
   formProps?: UseFormProps<DocumentRecord>;
   enableExistingDocuments?: boolean;
   renderTopContent?: () => React.ReactNode;

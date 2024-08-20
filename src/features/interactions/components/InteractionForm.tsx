@@ -17,7 +17,7 @@ import { formatDate } from '@/utils';
 // ==============================|| INTERACTIONS FORM ||============================== //
 interface InteractionFormProps extends Omit<BoxProps, 'onChange' | 'onSubmit'> {
   onSubmit?: (data: Interaction) => void;
-  onChange?: (data: Partial<Interaction>) => void;
+  onChange?: (data: Interaction) => void;
   formProps?: UseFormProps<Interaction>;
   renderTopContent?: () => React.ReactNode;
   renderBottomContent?: () => React.ReactNode;

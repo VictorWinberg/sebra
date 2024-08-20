@@ -53,7 +53,6 @@ const CompaniesPage = () => {
                 sx={{ mt: 1 }}
                 formProps={{ values: row.original }}
                 onChange={(values) => {
-                  //@ts-expect-error any
                   row._valuesCache = values;
                 }}
               />
