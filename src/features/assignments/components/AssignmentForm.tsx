@@ -16,9 +16,9 @@ import { useAssignmentStatuses } from '../hooks/useAssignmentsQueries';
 // ==============================|| ASSIGNMENT FORM ||============================== //
 
 export interface AssignmentFormProps extends Omit<BoxProps, 'onChange' | 'onSubmit'> {
-  onSubmit?: (data: Partial<Assignment>) => void;
-  onChange?: (data: Partial<Assignment>) => void;
-  formProps?: UseFormProps<Partial<Assignment>>;
+  onSubmit?: (data: Assignment) => void;
+  onChange?: (data: Assignment) => void;
+  formProps?: UseFormProps<Assignment>;
   renderTopContent?: () => React.ReactNode;
   renderBottomContent?: () => React.ReactNode;
 }
@@ -40,7 +40,7 @@ const AssignmentForm = ({
     handleSubmit,
     watch,
     formState: { errors }
-  } = useForm<Partial<Assignment>>(formProps);
+  } = useForm<Assignment>(formProps);
 
   const fields = watch();
   useEffect(() => {

@@ -1,12 +1,11 @@
 // material-ui
-import { Button, DialogActions, DialogContent, DialogTitle } from '@mui/material';
-import { MRT_EditActionButtons } from 'material-react-table';
+import { Button } from '@mui/material';
 
 // project imports
 import DataTable from '@/ui-component/DataTable';
 import FlexGrow from '@/ui-component/extended/FlexGrow';
 import { Assignment } from '../api/assignmentsApi';
-import AssignmentForm from '../components/AssignmentForm';
+import AssignmentDialog from '../components/AssignmentDialog';
 import { assignmentColumns } from '../config/AssignmentConfig';
 import { useCreateAssignment, useDeleteAssignment, useUpdateAssignment } from '../hooks/useAssignmentsMutations';
 import { useAssignments } from '../hooks/useAssignmentsQueries';
@@ -43,26 +42,7 @@ const AssignmentsPage = () => {
             Lägg till uppdrag
           </Button>
         )}
-        renderEditRowDialogContent={({ row, table }) => (
-          <>
-            <DialogTitle variant="h4" color="primary">
-              {table.getState().creatingRow ? 'Lägg till uppdrag' : 'Redigera uppdrag'}
-            </DialogTitle>
-            <DialogContent>
-              <AssignmentForm
-                sx={{ mt: 1 }}
-                formProps={{ values: row.original }}
-                onChange={(values) => {
-                  //@ts-expect-error any
-                  row._valuesCache = values;
-                }}
-              />
-            </DialogContent>
-            <DialogActions>
-              <MRT_EditActionButtons row={row} table={table} variant="text" />
-            </DialogActions>
-          </>
-        )}
+        renderEditRowDialogContent={AssignmentDialog}
       />
     </FlexGrow>
   );
