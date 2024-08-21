@@ -2,8 +2,7 @@ import { useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 // material-ui
-import { Box, Button, Stack, Typography } from '@mui/material';
-import { bindTrigger } from 'material-ui-popup-state';
+import { Box, Typography } from '@mui/material';
 
 // project imports
 import AssignmentTable from '@/features/assignments/components/AssignmentTable';
@@ -12,8 +11,8 @@ import InteractionTable from '@/features/interactions/components/InteractionTabl
 import { useInteractions } from '@/features/interactions/hooks/useInteractionsQueries';
 import { headerHeight } from '@/store/constant';
 import ContentTabs from '@/ui-component/ContentTabs';
-import DeleteConfirm from '@/ui-component/DeleteConfirm';
 import FlexGrow from '@/ui-component/extended/FlexGrow';
+import { FormActionButtons } from '@/ui-component/SebraForm';
 import { formatDate } from '@/utils';
 import { Contact } from '../api/contactsApi';
 import { useCreateContact, useDeleteContact, useUpdateContact } from '../hooks/useContactsMutations';
@@ -65,27 +64,15 @@ const ContactEdit = () => {
       onSubmit={handleSubmit}
       renderTopContent={() => (
         <Box sx={{ position: 'relative', mt: 1, mb: 3 }}>
-          <Stack spacing={2} direction="row" sx={{ position: 'absolute', right: 0 }}>
-            {contact && (
-              <DeleteConfirm onClick={() => deleteContact(contact, { onSuccess: () => navigate('..') })}>
-                {(popupState) => (
-                  <Button variant="outlined" color="error" {...bindTrigger(popupState)}>
-                    Ta bort
-                  </Button>
-                )}
-              </DeleteConfirm>
-            )}
-            <Button variant="outlined" color="primary" onClick={() => navigate(-1)}>
-              Avbryt
-            </Button>
-            <Button type="submit" variant="contained" color="primary">
-              Spara
-            </Button>
-          </Stack>
-
           <Typography variant="h4" color="primary">
             {contact ? 'Redigera kontakt' : 'Lägg till kontakt'}
           </Typography>
+
+          <FormActionButtons
+            sx={{ position: 'absolute', top: 0, right: 0 }}
+            onDelete={contact ? () => deleteContact(contact, { onSuccess: () => navigate('..') }) : undefined}
+            onCancel={() => navigate(-1)}
+          />
         </Box>
       )}
       renderBottomContent={() =>

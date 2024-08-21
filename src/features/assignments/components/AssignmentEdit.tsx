@@ -2,8 +2,7 @@ import { useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 // material-ui
-import { Box, Button, Stack, Typography } from '@mui/material';
-import { bindTrigger } from 'material-ui-popup-state';
+import { Box, Typography } from '@mui/material';
 
 // project imports
 import DocumentReferenceTable from '@/features/documents/components/DocumentReferenceTable';
@@ -11,8 +10,8 @@ import InteractionTable from '@/features/interactions/components/InteractionTabl
 import { useInteractions } from '@/features/interactions/hooks/useInteractionsQueries';
 import { headerHeight } from '@/store/constant';
 import ContentTabs from '@/ui-component/ContentTabs';
-import DeleteConfirm from '@/ui-component/DeleteConfirm';
 import FlexGrow from '@/ui-component/extended/FlexGrow';
+import { FormActionButtons } from '@/ui-component/SebraForm';
 import { formatDate, intersection } from '@/utils';
 import { Assignment } from '../api/assignmentsApi';
 import { useCreateAssignment, useDeleteAssignment, useUpdateAssignment } from '../hooks/useAssignmentsMutations';
@@ -58,27 +57,15 @@ const AssignmentEdit = () => {
       onSubmit={handleSubmit}
       renderTopContent={() => (
         <Box sx={{ position: 'relative', mt: 1, mb: 3 }}>
-          <Stack spacing={2} direction="row" sx={{ position: 'absolute', right: 0 }}>
-            {assignment && (
-              <DeleteConfirm onClick={() => deleteAssignment(assignment, { onSuccess: () => navigate('..') })}>
-                {(popupState) => (
-                  <Button variant="outlined" color="error" {...bindTrigger(popupState)}>
-                    Ta bort
-                  </Button>
-                )}
-              </DeleteConfirm>
-            )}
-            <Button variant="outlined" color="primary" onClick={() => navigate(-1)}>
-              Avbryt
-            </Button>
-            <Button type="submit" variant="contained" color="primary">
-              Spara
-            </Button>
-          </Stack>
-
           <Typography variant="h4" color="primary">
             {assignment ? 'Redigera uppdrag' : 'Lägg till uppdrag'}
           </Typography>
+
+          <FormActionButtons
+            sx={{ position: 'absolute', top: 0, right: 0 }}
+            onDelete={assignment ? () => deleteAssignment(assignment, { onSuccess: () => navigate('..') }) : undefined}
+            onCancel={() => navigate(-1)}
+          />
         </Box>
       )}
       renderBottomContent={() =>
