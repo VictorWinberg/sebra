@@ -1,8 +1,7 @@
 import { Link as RouterLink } from 'react-router-dom';
 
 // material-ui
-import { Avatar, Chip, DialogActions, DialogContent, DialogTitle, List, ListItem } from '@mui/material';
-import { MRT_EditActionButtons } from 'material-react-table';
+import { Avatar, Chip, List, ListItem } from '@mui/material';
 
 // third party
 import dayjs, { Dayjs } from 'dayjs';
@@ -10,6 +9,7 @@ import dayjs, { Dayjs } from 'dayjs';
 // project imports
 import { Contact } from '@/features/contacts/api/contactsApi';
 import DataTable from '@/ui-component/DataTable';
+import SebraDialog from '@/ui-component/SebraDialog';
 import { formatDate, stringAvatar, toLocalTime } from '@/utils';
 import { Interaction } from '../api/interactionsApi';
 import { useCreateInteraction, useDeleteInteraction, useUpdateInteraction } from '../hooks/useInteractionsMutations';
@@ -73,24 +73,13 @@ const InteractionTable = ({ interactions, isLoading, defaultValues }: Interactio
         }
       ]}
       renderEditRowDialogContent={({ row, table }) => (
-        <>
-          <DialogTitle variant="h4" color="primary">
-            {table.getState().creatingRow ? 'Ny interaktion' : 'Redigera interaktion'}
-          </DialogTitle>
-          <DialogContent>
-            <InteractionForm
-              sx={{ mt: 1 }}
-              formProps={{ defaultValues: { ...defaultValues, ...row.original } }}
-              onChange={(values) => {
-                //@ts-expect-error any
-                row._valuesCache = values;
-              }}
-            />
-          </DialogContent>
-          <DialogActions>
-            <MRT_EditActionButtons row={row} table={table} variant="text" />
-          </DialogActions>
-        </>
+        <SebraDialog
+          table={table}
+          row={row}
+          titles={{ creating: 'Ny interaktion', editing: 'Redigera interaktion' }}
+          FormComponent={InteractionForm}
+          defaultValues={defaultValues}
+        />
       )}
       onCreate={(row) => createInteraction(row)}
       onUpdate={(row) => updateInteraction(row)}

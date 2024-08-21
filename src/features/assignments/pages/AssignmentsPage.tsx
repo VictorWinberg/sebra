@@ -4,8 +4,9 @@ import { Button } from '@mui/material';
 // project imports
 import DataTable from '@/ui-component/DataTable';
 import FlexGrow from '@/ui-component/extended/FlexGrow';
+import SebraDialog from '../../../ui-component/SebraDialog';
 import { Assignment } from '../api/assignmentsApi';
-import AssignmentDialog from '../components/AssignmentDialog';
+import AssignmentForm from '../components/AssignmentForm';
 import { assignmentColumns } from '../config/AssignmentConfig';
 import { useCreateAssignment, useDeleteAssignment, useUpdateAssignment } from '../hooks/useAssignmentsMutations';
 import { useAssignments } from '../hooks/useAssignmentsQueries';
@@ -42,7 +43,14 @@ const AssignmentsPage = () => {
             Lägg till uppdrag
           </Button>
         )}
-        renderEditRowDialogContent={AssignmentDialog}
+        renderEditRowDialogContent={({ table, row }) => (
+          <SebraDialog
+            FormComponent={AssignmentForm}
+            table={table}
+            row={row}
+            titles={{ creating: 'Lägg till uppdrag', editing: 'Redigera uppdrag' }}
+          />
+        )}
       />
     </FlexGrow>
   );

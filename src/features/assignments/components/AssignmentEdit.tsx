@@ -6,9 +6,7 @@ import { Box, Button, Stack, Typography } from '@mui/material';
 import { bindTrigger } from 'material-ui-popup-state';
 
 // project imports
-import { Contact } from '@/features/contacts/api/contactsApi';
 import DocumentReferenceTable from '@/features/documents/components/DocumentReferenceTable';
-import { useDocumentReferences } from '@/features/documents/hooks/useDocumentsQueries';
 import InteractionTable from '@/features/interactions/components/InteractionTable';
 import { useInteractions } from '@/features/interactions/hooks/useInteractionsQueries';
 import { headerHeight } from '@/store/constant';
@@ -32,10 +30,6 @@ const AssignmentEdit = () => {
   const { mutate: updateAssignment } = useUpdateAssignment();
   const { mutate: deleteAssignment } = useDeleteAssignment();
 
-  const { data: documentReferences = [], isLoading: documentsIsLoading } = useDocumentReferences({
-    entityType: 'assignment',
-    entityId: assignment?.assignmentId
-  });
   const { data: allInteractions = [], isLoading: interactionsIsLoading } = useInteractions();
   const interactions = useMemo(
     () =>
@@ -100,9 +94,7 @@ const AssignmentEdit = () => {
                       interactions={interactions}
                       isLoading={interactionsIsLoading}
                       defaultValues={{
-                        contacts: [...assignment.responsibleContacts, assignment.externalContact].filter(
-                          (contact): contact is Contact => !!contact
-                        ),
+                        contacts: [...assignment.responsibleContacts, assignment.externalContact].filter((c) => !!c),
                         interactionDate: formatDate()
                       }}
                     />
@@ -113,8 +105,6 @@ const AssignmentEdit = () => {
                   label: 'Dokument',
                   content: (
                     <DocumentReferenceTable
-                      documentReferences={documentReferences}
-                      isLoading={documentsIsLoading}
                       defaultValues={{ entityId: assignment.assignmentId, entityType: 'assignment' }}
                     />
                   )

@@ -1,10 +1,10 @@
 // material-ui
-import { Button, DialogActions, DialogContent, DialogTitle } from '@mui/material';
-import { MRT_EditActionButtons } from 'material-react-table';
+import { Button } from '@mui/material';
 
 // project imports
 import DataTable from '@/ui-component/DataTable';
 import FlexGrow from '@/ui-component/extended/FlexGrow';
+import SebraDialog from '@/ui-component/SebraDialog';
 import { Contact } from '../api/contactsApi';
 import ContactForm from '../components/ContactForm';
 import { contactColumns } from '../config/ContactConfig';
@@ -44,24 +44,12 @@ const ContactsPage = () => {
           </Button>
         )}
         renderEditRowDialogContent={({ row, table }) => (
-          <>
-            <DialogTitle variant="h4" color="primary">
-              {table.getState().creatingRow ? 'Lägg till kontakt' : 'Redigera kontakt'}
-            </DialogTitle>
-            <DialogContent>
-              <ContactForm
-                sx={{ mt: 1 }}
-                formProps={{ values: row.original }}
-                onChange={(values) => {
-                  //@ts-expect-error any
-                  row._valuesCache = values;
-                }}
-              />
-            </DialogContent>
-            <DialogActions>
-              <MRT_EditActionButtons row={row} table={table} variant="text" />
-            </DialogActions>
-          </>
+          <SebraDialog
+            table={table}
+            row={row}
+            titles={{ creating: 'Lägg till kontakt', editing: 'Redigera kontakt' }}
+            FormComponent={ContactForm}
+          />
         )}
       />
     </FlexGrow>

@@ -1,10 +1,10 @@
 // material-ui
-import { Button, DialogActions, DialogContent, DialogTitle } from '@mui/material';
-import { MRT_EditActionButtons } from 'material-react-table';
+import { Button } from '@mui/material';
 
 // project imports
 import DataTable from '@/ui-component/DataTable';
 import FlexGrow from '@/ui-component/extended/FlexGrow';
+import SebraDialog from '@/ui-component/SebraDialog';
 import { Company } from '../api/companiesApi';
 import CompanyForm from '../components/CompanyForm';
 import { companyColumns } from '../config/CompanyConfig';
@@ -44,23 +44,12 @@ const CompaniesPage = () => {
           </Button>
         )}
         renderEditRowDialogContent={({ row, table }) => (
-          <>
-            <DialogTitle variant="h4" color="primary">
-              {table.getState().creatingRow ? 'Lägg till bolag' : 'Redigera bolag'}
-            </DialogTitle>
-            <DialogContent>
-              <CompanyForm
-                sx={{ mt: 1 }}
-                formProps={{ values: row.original }}
-                onChange={(values) => {
-                  row._valuesCache = values;
-                }}
-              />
-            </DialogContent>
-            <DialogActions>
-              <MRT_EditActionButtons row={row} table={table} variant="text" />
-            </DialogActions>
-          </>
+          <SebraDialog
+            table={table}
+            row={row}
+            titles={{ creating: 'Lägg till bolag', editing: 'Redigera bolag' }}
+            FormComponent={CompanyForm}
+          />
         )}
       />
     </FlexGrow>

@@ -18,10 +18,10 @@ import { SelectChangeEvent } from '@mui/material/Select/SelectInput';
 // project imports
 import Module from '../components/Module';
 import Bookmark from '../components/ModuleBookmark';
-import { AnyData, AnyProps, ModuleConfigItem, modules } from '../config/ModuleConfig';
+import { AnyData, ModuleConfigItem, modules } from '../config/ModuleConfig';
 
 const ModulesPage = () => {
-  const [selectedModule, setSelectedModule] = useState<ModuleConfigItem<AnyData, AnyProps> | undefined>(() => {
+  const [selectedModule, setSelectedModule] = useState<ModuleConfigItem<AnyData> | undefined>(() => {
     const searchParams = new URLSearchParams(window.location.search);
     const module = modules.find((module) => module.key === searchParams.get('module'));
     if (module) module.props = { ...module.props, ...module.configProps };

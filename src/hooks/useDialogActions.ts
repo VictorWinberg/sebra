@@ -1,7 +1,6 @@
-import { useState } from 'react';
-import { MRT_Row, MRT_TableInstance } from 'material-react-table';
+import { MRT_Row, MRT_RowData, MRT_TableInstance } from 'material-react-table';
 
-function useDialogActions<T extends Record<string, unknown>>(table: MRT_TableInstance<T>, row: MRT_Row<T>) {
+function useDialogActions<T extends MRT_RowData>(table: MRT_TableInstance<T>, row: MRT_Row<T>) {
   const {
     getState,
     options: { onCreatingRowCancel, onCreatingRowSave, onEditingRowCancel, onEditingRowSave },
@@ -13,8 +12,6 @@ function useDialogActions<T extends Record<string, unknown>>(table: MRT_TableIns
   const isCreating = creatingRow?.id === row.id;
   const isEditing = editingRow?.id === row.id;
 
-  const [values, setValues] = useState(row.original);
-
   const handleCancel = () => {
     if (isCreating) {
       onCreatingRowCancel?.({ row, table });
@@ -25,7 +22,7 @@ function useDialogActions<T extends Record<string, unknown>>(table: MRT_TableIns
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (values: T) => {
     if (isCreating) {
       onCreatingRowSave?.({
         exitCreatingMode: () => setCreatingRow(null),
@@ -43,14 +40,7 @@ function useDialogActions<T extends Record<string, unknown>>(table: MRT_TableIns
     }
   };
 
-  return {
-    creatingRow,
-    isSaving,
-    values,
-    setValues,
-    handleCancel,
-    handleSubmit
-  };
+  return { creatingRow, isSaving, handleCancel, handleSubmit };
 }
 
 export default useDialogActions;

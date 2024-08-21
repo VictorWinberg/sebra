@@ -2,8 +2,7 @@ import { useMemo } from 'react';
 import { Link as RouterLink, createSearchParams, useNavigate, useParams } from 'react-router-dom';
 
 // material-ui
-import { Box, Button, DialogActions, DialogContent, DialogTitle, Link, Stack, Typography } from '@mui/material';
-import { MRT_EditActionButtons } from 'material-react-table';
+import { Box, Button, Link, Stack, Typography } from '@mui/material';
 import { bindTrigger } from 'material-ui-popup-state';
 
 // project imports
@@ -14,8 +13,8 @@ import ContentTabs from '@/ui-component/ContentTabs';
 import DataTable from '@/ui-component/DataTable';
 import DeleteConfirm from '@/ui-component/DeleteConfirm';
 import FlexGrow from '@/ui-component/extended/FlexGrow';
-import { toMap } from '@/utils';
-import { DocumentRecord } from '../api/documentsApi';
+import SebraDialog from '@/ui-component/SebraDialog';
+import { DocumentContent, toMap } from '@/utils';
 import {
   useCreateDocumentReference,
   useDeleteDocument,
@@ -50,7 +49,7 @@ const DocumentEdit = () => {
   const contactMap = useMemo(() => toMap(contacts, 'contactId'), [contacts]);
   const assignmentMap = useMemo(() => toMap(assignments, 'assignmentId'), [assignments]);
 
-  const handleSubmit = (data: DocumentRecord) => {
+  const handleSubmit = (data: DocumentContent) => {
     saveDocument(data, {
       onSuccess: (res) => navigate(`/documents/${res}`)
     });
@@ -159,23 +158,13 @@ const DocumentEdit = () => {
                         }
                       ]}
                       renderEditRowDialogContent={({ row, table }) => (
-                        <>
-                          <DialogTitle variant="h4" color="primary">
-                            {table.getState().creatingRow ? 'Ny referens' : 'Redigera referens'}
-                          </DialogTitle>
-                          <DialogContent>
-                            <DocumentReferenceForm
-                              sx={{ mt: 1 }}
-                              formProps={{ defaultValues: { ...row.original, documentId: document.documentId } }}
-                              onChange={(values) => {
-                                row._valuesCache = values;
-                              }}
-                            />
-                          </DialogContent>
-                          <DialogActions>
-                            <MRT_EditActionButtons row={row} table={table} variant="text" />
-                          </DialogActions>
-                        </>
+                        <SebraDialog
+                          table={table}
+                          row={row}
+                          titles={{ creating: 'Ny referens', editing: 'Redigera referens' }}
+                          FormComponent={DocumentReferenceForm}
+                          defaultValues={{ documentId: document.documentId }}
+                        />
                       )}
                       onCreate={(row) => createDocumentReference(row)}
                       onUpdate={(row, prev) => updateDocumentReference({ row, where: prev })}

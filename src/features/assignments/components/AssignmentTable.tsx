@@ -1,16 +1,16 @@
 import { Link as RouterLink } from 'react-router-dom';
 
 // material-ui
-import { Avatar, Chip, DialogActions, DialogContent, DialogTitle, Link, List, ListItem } from '@mui/material';
-import { MRT_EditActionButtons } from 'material-react-table';
+import { Avatar, Chip, Link, List, ListItem } from '@mui/material';
 
 // project imports
+import { Contact } from '@/features/contacts/api/contactsApi';
 import DataTable from '@/ui-component/DataTable';
+import SebraDialog from '@/ui-component/SebraDialog';
+import { stringAvatar } from '@/utils';
 import { Assignment } from '../api/assignmentsApi';
 import { useCreateAssignment, useDeleteAssignment, useUpdateAssignment } from '../hooks/useAssignmentsMutations';
 import AssignmentForm from './AssignmentForm';
-import { Contact } from '@/features/contacts/api/contactsApi';
-import { stringAvatar } from '@/utils';
 
 interface AssignmentTableProps {
   assignments: Assignment[];
@@ -94,24 +94,13 @@ const AssignmentTable = ({ assignments, isLoading, defaultValues }: AssignmentTa
         }
       ]}
       renderEditRowDialogContent={({ row, table }) => (
-        <>
-          <DialogTitle variant="h4" color="primary">
-            {table.getState().creatingRow ? 'Ny referens' : 'Redigera referens'}
-          </DialogTitle>
-          <DialogContent>
-            <AssignmentForm
-              sx={{ mt: 1 }}
-              formProps={{ defaultValues: { ...defaultValues, ...row.original } }}
-              onChange={(values) => {
-                //@ts-expect-error any
-                row._valuesCache = values;
-              }}
-            />
-          </DialogContent>
-          <DialogActions>
-            <MRT_EditActionButtons row={row} table={table} variant="text" />
-          </DialogActions>
-        </>
+        <SebraDialog
+          table={table}
+          row={row}
+          titles={{ creating: 'Lägg till uppdrag', editing: 'Redigera uppdrag' }}
+          FormComponent={AssignmentForm}
+          defaultValues={defaultValues}
+        />
       )}
       onCreate={(row) => createAssignment(row)}
       onUpdate={(row) => updateAssignment(row)}

@@ -22,8 +22,9 @@ export const documentColumns: MRT_ColumnDef<DocumentContent>[] = [
       </Link>
     )
   },
-  { accessorKey: 'content.type', header: 'Filtyp' },
+  { accessorKey: 'content.type', accessorFn: (row) => row.content?.type, header: 'Filtyp' },
   {
+    accessorKey: 'content.lastModified',
     accessorFn: (row) => dayjs(row.content?.lastModified),
     header: 'Senast uppdaterad',
     filterVariant: 'date-range',
