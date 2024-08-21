@@ -1,14 +1,28 @@
 import { Link as RouterLink } from 'react-router-dom';
 
 // material-ui
-import { Avatar, Box, Button, Chip, Divider, Link, List, ListItem, Typography } from '@mui/material';
+import {
+  Avatar,
+  Box,
+  Button,
+  Chip,
+  Divider,
+  IconButton,
+  Link,
+  List,
+  ListItem,
+  Tooltip,
+  Typography
+} from '@mui/material';
+import { MRT_ColumnDef } from 'material-react-table';
+import { bindTrigger } from 'material-ui-popup-state';
 
 // third-party
 import dayjs from 'dayjs';
-import { MRT_ColumnDef } from 'material-react-table';
 
 // project imports
 import DataBoard from '@/ui-component/board/DataBoard';
+import DeleteConfirm from '@/ui-component/DeleteConfirm';
 import FlexGrow from '@/ui-component/extended/FlexGrow';
 import SebraDialog from '@/ui-component/SebraDialog';
 import { stringAvatar, timeAgo } from '@/utils';
@@ -18,7 +32,7 @@ import { useCreateLead, useDeleteLead, useUpdateLead } from '../hooks/useLeadsMu
 import { useLeads } from '../hooks/useLeadsQueries';
 
 // assets
-import { Add } from '@mui/icons-material';
+import { Add, Delete } from '@mui/icons-material';
 
 // ==============================|| LEADS PAGE ||============================== //
 
@@ -102,23 +116,33 @@ const LeadsPage = () => {
         )}
         renderEditRowDialogContent={({ row, table }) => (
           <>
+            {table.getState().editingRow && (
+              <DeleteConfirm
+                id={row.id}
+                onClick={() => {
+                  deleteLead(row.original);
+                  table.setEditingRow(null);
+                }}
+              >
+                {(popupState) => (
+                  <Tooltip title="Delete">
+                    <IconButton
+                      sx={{ position: 'absolute', right: 0, my: 1, mx: 2 }}
+                      color="error"
+                      {...bindTrigger(popupState)}
+                    >
+                      <Delete />
+                    </IconButton>
+                  </Tooltip>
+                )}
+              </DeleteConfirm>
+            )}
             <SebraDialog
               table={table}
               row={row}
               titles={{ creating: 'Ny lead', editing: 'Redigera lead' }}
               FormComponent={LeadForm}
             />
-            {table.getState().editingRow && (
-              <Button
-                color="error"
-                onClick={() => {
-                  table.setEditingRow(null);
-                  deleteLead(row.original);
-                }}
-              >
-                Ta bort
-              </Button>
-            )}
           </>
         )}
       />

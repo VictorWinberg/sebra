@@ -40,15 +40,6 @@ const SebraDialog = <T extends MRT_RowData>({
           onSubmit={handleSubmit}
           renderBottomContent={() => (
             <Box sx={{ mt: 3, ml: 'auto' }}>
-              <Button
-                color="error"
-                onClick={() => {
-                  table.setEditingRow(null);
-                  console.log(table);
-                }}
-              >
-                Ta bort
-              </Button>
               <Button onClick={handleCancel} sx={{ minWidth: '100px' }}>
                 Avbryt
               </Button>

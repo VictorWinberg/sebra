@@ -1,7 +1,9 @@
-// third-party
-import { AnyData } from '@/features/modules/config/ModuleConfig';
+// material-ui
 import { MRT_TableOptions, useMaterialReactTable } from 'material-react-table';
 import { MRT_Localization_SV } from 'material-react-table/locales/sv';
+
+// project imports
+import { AnyData } from '@/features/modules/config/ModuleConfig';
 
 export interface DataTableProps<T extends AnyData> extends MRT_TableOptions<T> {
   onCreate?: (row: T) => void;

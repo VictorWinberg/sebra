@@ -33,8 +33,6 @@ const DocumentReferenceForm = ({ formProps, ...props }: FormProps<DocumentRefere
     formState: { errors }
   } = useForm<DocumentReference>(formProps);
 
-  console.log('ref', formProps);
-
   const fields = watch();
 
   const entityOptions = useMemo(() => {
