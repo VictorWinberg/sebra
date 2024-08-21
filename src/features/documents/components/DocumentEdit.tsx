@@ -2,8 +2,7 @@ import { useMemo } from 'react';
 import { Link as RouterLink, createSearchParams, useNavigate, useParams } from 'react-router-dom';
 
 // material-ui
-import { Box, Button, Link, Stack, Typography } from '@mui/material';
-import { bindTrigger } from 'material-ui-popup-state';
+import { Box, Link, Typography } from '@mui/material';
 
 // project imports
 import { useAssignments } from '@/features/assignments/hooks/useAssignmentsQueries';
@@ -11,9 +10,9 @@ import { useCompanies } from '@/features/companies/hooks/useCompaniesQueries';
 import { useContacts } from '@/features/contacts/hooks/useContactsQueries';
 import ContentTabs from '@/ui-component/ContentTabs';
 import DataTable from '@/ui-component/DataTable';
-import DeleteConfirm from '@/ui-component/DeleteConfirm';
 import FlexGrow from '@/ui-component/extended/FlexGrow';
 import SebraDialog from '@/ui-component/SebraDialog';
+import { FormActionButtons } from '@/ui-component/SebraForm';
 import { DocumentContent, toMap } from '@/utils';
 import {
   useCreateDocumentReference,
@@ -107,27 +106,15 @@ const DocumentEdit = () => {
       onSubmit={handleSubmit}
       renderTopContent={() => (
         <Box sx={{ position: 'relative', mt: 1, mb: 3 }}>
-          <Stack spacing={2} direction="row" sx={{ position: 'absolute', right: 0 }}>
-            {document && (
-              <DeleteConfirm onClick={() => deleteDocument(document, { onSuccess: () => navigate('..') })}>
-                {(popupState) => (
-                  <Button variant="outlined" color="error" {...bindTrigger(popupState)}>
-                    Ta bort
-                  </Button>
-                )}
-              </DeleteConfirm>
-            )}
-            <Button variant="outlined" color="primary" onClick={() => navigate(-1)}>
-              Avbryt
-            </Button>
-            <Button type="submit" variant="contained" color="primary">
-              Spara
-            </Button>
-          </Stack>
-
           <Typography variant="h4" color="primary">
             {document ? 'Redigera dokument' : 'Lägg till dokument'}
           </Typography>
+
+          <FormActionButtons
+            sx={{ position: 'absolute', top: 0, right: 0 }}
+            onDelete={document ? () => deleteDocument(document, { onSuccess: () => navigate('..') }) : undefined}
+            onCancel={() => navigate(-1)}
+          />
         </Box>
       )}
       renderBottomContent={() =>
