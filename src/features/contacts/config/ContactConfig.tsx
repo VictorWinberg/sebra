@@ -30,6 +30,7 @@ export const contactColumns: MRT_ColumnDef<Contact>[] = [
   },
   { accessorKey: 'jobTitle', header: 'Jobbtitel' },
   {
+    accessorKey: 'companyName',
     accessorFn: (row) => row.company?.companyName,
     header: 'Bolagsnamn',
     filterVariant: 'multi-select',

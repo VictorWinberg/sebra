@@ -5,27 +5,22 @@ import { Button } from '@mui/material';
 import { UseMutationResult } from '@tanstack/react-query';
 
 // project imports
+import { FormProps } from '@/ui-component/SebraForm';
 import { AnyData, ModuleBaseConfigItem } from '../config/ModuleConfig';
 
-export interface ModuleFormConfigItem<M extends AnyData, P> extends ModuleBaseConfigItem {
+export interface ModuleFormConfigItem<M extends AnyData> extends ModuleBaseConfigItem {
   type: 'form';
   FormComponent: React.FC<FormProps<M>>;
-  createMutation: () => UseMutationResult<M, Error, Partial<M>, unknown>;
-  props: P;
-  configProps?: P;
+  createMutation: () => UseMutationResult<unknown, Error, Partial<M>, unknown>;
+  props: FormProps<M>;
+  configProps?: FormProps<M>;
 }
 
-type FormProps<M> = {
-  onSubmit: (data: Partial<M>) => void;
-  renderTopContent?: () => React.ReactNode;
-  renderBottomContent?: () => React.ReactNode;
+type ModuleFormProps<M extends AnyData> = {
+  selectedModule: ModuleFormConfigItem<M>;
 };
 
-type ModuleFormProps<M extends AnyData, P> = {
-  selectedModule: ModuleFormConfigItem<M, P>;
-};
-
-const ModuleForm = <M extends AnyData, P>({ selectedModule }: ModuleFormProps<M, P>) => {
+const ModuleForm = <M extends AnyData>({ selectedModule }: ModuleFormProps<M>) => {
   const { FormComponent, createMutation, props } = selectedModule;
   const { mutate } = createMutation();
 

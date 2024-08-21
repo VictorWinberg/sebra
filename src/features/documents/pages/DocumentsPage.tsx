@@ -1,10 +1,10 @@
 // material-ui
-import { Button, DialogActions, DialogContent, DialogTitle } from '@mui/material';
-import { MRT_EditActionButtons } from 'material-react-table';
+import { Button } from '@mui/material';
 
 // project imports
 import DataTable from '@/ui-component/DataTable';
 import FlexGrow from '@/ui-component/extended/FlexGrow';
+import SebraDialog from '@/ui-component/SebraDialog';
 import { DocumentContent } from '@/utils';
 import DocumentForm from '../components/DocumentForm';
 import { documentColumns } from '../config/DocumentConfig';
@@ -45,25 +45,12 @@ const DocumentPage = () => {
           </Button>
         )}
         renderEditRowDialogContent={({ row, table }) => (
-          <>
-            <DialogTitle variant="h4" color="primary">
-              {table.getState().creatingRow ? 'Lägg till dokument' : 'Redigera dokument'}
-            </DialogTitle>
-            <DialogContent>
-              <DocumentForm
-                sx={{ mt: 1 }}
-                enableExistingDocuments={Boolean(table.getState().creatingRow)}
-                formProps={{ defaultValues: row.original }}
-                onChange={(values) => {
-                  //@ts-expect-error any
-                  row._valuesCache = values;
-                }}
-              />
-            </DialogContent>
-            <DialogActions>
-              <MRT_EditActionButtons row={row} table={table} variant="text" />
-            </DialogActions>
-          </>
+          <SebraDialog
+            table={table}
+            row={row}
+            titles={{ creating: 'Lägg till dokument', editing: 'Redigera dokument' }}
+            FormComponent={DocumentForm}
+          />
         )}
       />
     </FlexGrow>

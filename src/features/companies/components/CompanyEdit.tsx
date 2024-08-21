@@ -33,7 +33,7 @@ const CompanyEdit = () => {
   const { data: contacts = [], isLoading: contactsIsLoading } = useContacts();
   const { data: allAssignments = [], isLoading: assignmentsIsLoading } = useAssignments();
   const assignments = useMemo(
-    () => allAssignments.filter((assignment) => assignment.externalContact?.companyId === company?.companyId),
+    () => allAssignments.filter((assignment) => assignment.companyId === company?.companyId),
     [allAssignments, company]
   );
 
@@ -102,10 +102,9 @@ const CompanyEdit = () => {
                     label: 'Uppdrag',
                     content: (
                       <AssignmentTable
-                        assignments={assignments.filter(
-                          (assignment) => assignment.externalContact?.companyId === company.companyId
-                        )}
+                        assignments={assignments}
                         isLoading={assignmentsIsLoading}
+                        defaultValues={{ companyId: company.companyId }}
                       />
                     )
                   },

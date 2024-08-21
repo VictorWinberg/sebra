@@ -1,10 +1,10 @@
 // material-ui
-import { Button, DialogActions, DialogContent, DialogTitle } from '@mui/material';
-import { MRT_EditActionButtons } from 'material-react-table';
+import { Button } from '@mui/material';
 
 // project imports
 import DataTable from '@/ui-component/DataTable';
 import FlexGrow from '@/ui-component/extended/FlexGrow';
+import SebraDialog from '../../../ui-component/SebraDialog';
 import { Assignment } from '../api/assignmentsApi';
 import AssignmentForm from '../components/AssignmentForm';
 import { assignmentColumns } from '../config/AssignmentConfig';
@@ -43,25 +43,13 @@ const AssignmentsPage = () => {
             Lägg till uppdrag
           </Button>
         )}
-        renderEditRowDialogContent={({ row, table }) => (
-          <>
-            <DialogTitle variant="h4" color="primary">
-              {table.getState().creatingRow ? 'Lägg till uppdrag' : 'Redigera uppdrag'}
-            </DialogTitle>
-            <DialogContent>
-              <AssignmentForm
-                sx={{ mt: 1 }}
-                formProps={{ values: row.original }}
-                onChange={(values) => {
-                  //@ts-expect-error any
-                  row._valuesCache = values;
-                }}
-              />
-            </DialogContent>
-            <DialogActions>
-              <MRT_EditActionButtons row={row} table={table} variant="text" />
-            </DialogActions>
-          </>
+        renderEditRowDialogContent={({ table, row }) => (
+          <SebraDialog
+            FormComponent={AssignmentForm}
+            table={table}
+            row={row}
+            titles={{ creating: 'Lägg till uppdrag', editing: 'Redigera uppdrag' }}
+          />
         )}
       />
     </FlexGrow>

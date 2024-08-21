@@ -2,37 +2,36 @@ import { useMemo } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 
 // material-ui
-import { DialogActions, DialogContent, DialogTitle, Link } from '@mui/material';
-import { MRT_EditActionButtons } from 'material-react-table';
+import { Link } from '@mui/material';
 
 // third party
 import dayjs, { Dayjs } from 'dayjs';
 
 // project imports
 import DataTable from '@/ui-component/DataTable';
-import { formatDate, toLocalTime, toMap } from '@/utils';
-import { DocumentRecord, DocumentReference } from '../api/documentsApi';
+import SebraDialog from '@/ui-component/SebraDialog';
+import { DocumentContent, formatDate, toLocalTime, toMap } from '@/utils';
+import { DocumentReference } from '../api/documentsApi';
 import {
   useCreateDocumentReference,
   useDeleteDocumentReference,
   useSaveDocument
 } from '../hooks/useDocumentsMutations';
-import { useDocuments } from '../hooks/useDocumentsQueries';
+import { useDocumentReferences, useDocuments } from '../hooks/useDocumentsQueries';
 import DocumentForm from './DocumentForm';
 
-interface DocumentTableProps {
-  documentReferences: DocumentReference[];
-  isLoading: boolean;
-  defaultValues?: Partial<DocumentRecord>;
+interface DocumentReferenceTableProps {
+  defaultValues: Omit<DocumentReference, 'documentId'>;
 }
 
-const DocumentTable = ({ documentReferences, isLoading, defaultValues }: DocumentTableProps) => {
+const DocumentReferenceTable = ({ defaultValues }: DocumentReferenceTableProps) => {
+  const { data: documentReferences = [], isLoading } = useDocumentReferences(defaultValues);
   const { data: files = [], isLoading: filesIsLoading } = useDocuments();
 
   // TODO: Refactor to use a selector or similar
-  const documents = useMemo(() => {
+  const documents: DocumentContent[] = useMemo(() => {
     const fileMap = toMap(files, 'documentId');
-    return documentReferences.map((ref) => ({ ...ref, ...fileMap.get(ref.documentId)! }));
+    return documentReferences.map((ref) => fileMap.get(ref.documentId)).filter((doc) => !!doc);
   }, [files, documentReferences]);
 
   const { mutate: saveDocument } = useSaveDocument();
@@ -40,9 +39,9 @@ const DocumentTable = ({ documentReferences, isLoading, defaultValues }: Documen
   const { mutate: deleteDocumentReference } = useDeleteDocumentReference();
 
   return (
-    <DataTable
+    <DataTable<DocumentContent>
       data={documents}
-      getRowId={(row) => `${row.documentId}-${row.entityType}-${row.entityId}`}
+      getRowId={(row) => row.documentId}
       state={{ isLoading: filesIsLoading || isLoading }}
       columns={[
         {
@@ -54,8 +53,9 @@ const DocumentTable = ({ documentReferences, isLoading, defaultValues }: Documen
             </Link>
           )
         },
-        { accessorFn: (row) => row.content?.type, header: 'Filtyp', enableEditing: false },
+        { accessorKey: 'content.type', accessorFn: (row) => row.content?.type, header: 'Filtyp', enableEditing: false },
         {
+          accessorKey: 'content.lastModified',
           accessorFn: (row) => dayjs(row.content?.lastModified),
           header: 'Senast uppdaterad',
           filterVariant: 'date-range',
@@ -64,29 +64,16 @@ const DocumentTable = ({ documentReferences, isLoading, defaultValues }: Documen
         }
       ]}
       renderEditRowDialogContent={({ row, table }) => (
-        <>
-          <DialogTitle variant="h4" color="primary">
-            {table.getState().creatingRow ? 'Nytt dokument' : 'Redigera dokument'}
-          </DialogTitle>
-          <DialogContent>
-            <DocumentForm
-              sx={{ mt: 1 }}
-              enableExistingDocuments={Boolean(table.getState().creatingRow)}
-              formProps={{ defaultValues: { ...defaultValues, ...row.original } }}
-              onChange={(values) => {
-                //@ts-expect-error any
-                row._valuesCache = values;
-              }}
-            />
-          </DialogContent>
-          <DialogActions>
-            <MRT_EditActionButtons row={row} table={table} variant="text" />
-          </DialogActions>
-        </>
+        <SebraDialog
+          table={table}
+          row={row}
+          titles={{ creating: 'Nytt dokument', editing: 'Redigera dokument' }}
+          FormComponent={DocumentForm}
+        />
       )}
       onCreate={(row) =>
         saveDocument(row, {
-          onSuccess: (documentId) => createDocumentReference({ ...row, documentId })
+          onSuccess: (documentId) => createDocumentReference({ ...defaultValues, documentId })
         })
       }
       onUpdate={(row) => saveDocument(row)}
@@ -95,4 +82,4 @@ const DocumentTable = ({ documentReferences, isLoading, defaultValues }: Documen
   );
 };
 
-export default DocumentTable;
+export default DocumentReferenceTable;

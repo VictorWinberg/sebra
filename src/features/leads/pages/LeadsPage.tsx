@@ -1,28 +1,16 @@
 import { Link as RouterLink } from 'react-router-dom';
 
 // material-ui
-import {
-  Avatar,
-  Box,
-  Button,
-  Chip,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Divider,
-  Link,
-  List,
-  ListItem,
-  Typography
-} from '@mui/material';
+import { Avatar, Box, Button, Chip, Divider, Link, List, ListItem, Typography } from '@mui/material';
 
 // third-party
 import dayjs from 'dayjs';
-import { MRT_ColumnDef, MRT_EditActionButtons } from 'material-react-table';
+import { MRT_ColumnDef } from 'material-react-table';
 
 // project imports
 import DataBoard from '@/ui-component/board/DataBoard';
 import FlexGrow from '@/ui-component/extended/FlexGrow';
+import SebraDialog from '@/ui-component/SebraDialog';
 import { stringAvatar, timeAgo } from '@/utils';
 import { Lead, LEAD_STAGES } from '../api/leadsApi';
 import LeadForm from '../components/LeadForm';
@@ -114,33 +102,23 @@ const LeadsPage = () => {
         )}
         renderEditRowDialogContent={({ row, table }) => (
           <>
-            <DialogTitle variant="h4" color="primary">
-              {table.getState().creatingRow ? 'Ny lead' : 'Redigera lead'}
-            </DialogTitle>
-            <DialogContent>
-              <LeadForm
-                sx={{ mt: 1 }}
-                formProps={{ defaultValues: row.original }}
-                onChange={(values) => {
-                  //@ts-expect-error any
-                  row._valuesCache = values;
+            <SebraDialog
+              table={table}
+              row={row}
+              titles={{ creating: 'Ny lead', editing: 'Redigera lead' }}
+              FormComponent={LeadForm}
+            />
+            {table.getState().editingRow && (
+              <Button
+                color="error"
+                onClick={() => {
+                  table.setEditingRow(null);
+                  deleteLead(row.original);
                 }}
-              />
-            </DialogContent>
-            <DialogActions>
-              {table.getState().editingRow && (
-                <Button
-                  color="error"
-                  onClick={() => {
-                    table.setEditingRow(null);
-                    deleteLead(row.original);
-                  }}
-                >
-                  Ta bort
-                </Button>
-              )}
-              <MRT_EditActionButtons row={row} table={table} variant="text" />
-            </DialogActions>
+              >
+                Ta bort
+              </Button>
+            )}
           </>
         )}
       />

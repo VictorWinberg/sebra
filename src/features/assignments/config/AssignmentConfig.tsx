@@ -41,6 +41,7 @@ export const assignmentColumns: MRT_ColumnDef<Assignment>[] = [
     )
   },
   {
+    accessorKey: 'externalContact.contactName',
     accessorFn: (row) => row.externalContact?.contactName,
     header: 'Extern kontakt',
     enableEditing: false,
@@ -57,6 +58,7 @@ export const assignmentColumns: MRT_ColumnDef<Assignment>[] = [
     )
   },
   {
+    accessorKey: 'company.companyName',
     accessorFn: (row) => row.company?.companyName,
     header: 'Bolag',
     enableEditing: false,

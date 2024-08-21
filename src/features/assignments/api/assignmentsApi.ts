@@ -96,9 +96,7 @@ function transformAssignment(
   return (assignment: AssignmentRecord) => {
     const responsibleContactsList = responsibleContactsMap.get(assignment.assignmentId) || [];
     const responsibleContactIds = responsibleContactsList.map((c) => c.contactId);
-    const responsibleContacts = responsibleContactIds
-      .map((contactId) => contactsMap.get(contactId))
-      .filter((c): c is Contact => !!c);
+    const responsibleContacts = responsibleContactIds.map((contactId) => contactsMap.get(contactId)).filter((c) => !!c);
     const externalContact = contactsMap.get(assignment.externalContactId);
     const company = companiesMap.get(assignment.companyId);
 

@@ -9,18 +9,18 @@ import { DataTableProps, useDataTable } from '@/hooks/useDataTable';
 import { FilterParam, StringParam, useQueryParam } from '@/hooks/useQueryParam';
 import { AnyData, ModuleBaseConfigItem } from '../config/ModuleConfig';
 
-export interface ModuleTableConfigItem<M extends AnyData, P extends DataTableProps<M>> extends ModuleBaseConfigItem {
+export interface ModuleTableConfigItem<M extends AnyData> extends ModuleBaseConfigItem {
   type: 'table';
   useData: () => UseQueryResult<M[], Error>;
-  props: Omit<P, 'data'>;
-  configProps?: Omit<P, 'data' | 'columns'>;
+  props: Omit<DataTableProps<M>, 'data'>;
+  configProps?: Omit<DataTableProps<M>, 'data' | 'columns'>;
 }
 
-type ModuleTableProps<M extends AnyData, P extends DataTableProps<M>> = {
-  selectedModule: ModuleTableConfigItem<M, P>;
+type ModuleTableProps<M extends AnyData> = {
+  selectedModule: ModuleTableConfigItem<M>;
 };
 
-const ModuleTable = <M extends AnyData, P extends DataTableProps<M>>({ selectedModule }: ModuleTableProps<M, P>) => {
+const ModuleTable = <M extends AnyData>({ selectedModule }: ModuleTableProps<M>) => {
   const { useData, props } = selectedModule;
 
   const [columnFilters, setColumnFilters] = useQueryParam('filters', FilterParam, []);

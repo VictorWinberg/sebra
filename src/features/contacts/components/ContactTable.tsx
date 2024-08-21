@@ -1,11 +1,11 @@
 import { Link as RouterLink } from 'react-router-dom';
 
 // material-ui
-import { DialogActions, DialogContent, DialogTitle, Link } from '@mui/material';
-import { MRT_EditActionButtons } from 'material-react-table';
+import { Link } from '@mui/material';
 
 // project imports
 import DataTable from '@/ui-component/DataTable';
+import SebraDialog from '@/ui-component/SebraDialog';
 import { Contact } from '../api/contactsApi';
 import { useCreateContact, useDeleteContact, useUpdateContact } from '../hooks/useContactsMutations';
 import ContactForm from './ContactForm';
@@ -41,24 +41,13 @@ const ContactTable = ({ contacts, isLoading, defaultValues }: ContactTableProps)
         { accessorKey: 'phone', header: 'Telefonnummer' }
       ]}
       renderEditRowDialogContent={({ row, table }) => (
-        <>
-          <DialogTitle variant="h4" color="primary">
-            {table.getState().creatingRow ? 'Lägg till kontakt' : 'Redigera kontakt'}
-          </DialogTitle>
-          <DialogContent>
-            <ContactForm
-              sx={{ mt: 1 }}
-              formProps={{ defaultValues: { ...defaultValues, ...row.original } }}
-              onChange={(values) => {
-                //@ts-expect-error any
-                row._valuesCache = values;
-              }}
-            />
-          </DialogContent>
-          <DialogActions>
-            <MRT_EditActionButtons row={row} table={table} variant="text" />
-          </DialogActions>
-        </>
+        <SebraDialog
+          table={table}
+          row={row}
+          titles={{ creating: 'Lägg till kontakt', editing: 'Redigera kontakt' }}
+          FormComponent={ContactForm}
+          defaultValues={defaultValues}
+        />
       )}
       onCreate={(row) => createContact(row)}
       onUpdate={(row) => updateContact(row)}
