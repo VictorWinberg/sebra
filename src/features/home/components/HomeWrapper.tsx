@@ -1,8 +1,9 @@
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { Chip, Box, Grid, useTheme } from '@mui/material';
 
-// third-party
-import PerfectScrollbar from 'react-perfect-scrollbar';
+// material-ui
+import { Chip, Fade, Tab, Tabs } from '@mui/material';
+
+// project imports
 import FlexGrow from '@/ui-component/extended/FlexGrow';
 
 type TabItem = {
@@ -22,30 +23,47 @@ const tabItems: TabItem[] = [
 
 const HomeWrapper = () => {
   const { pathname } = useLocation();
-  const theme = useTheme();
+  const selected = tabItems.findIndex((item) => pathname.startsWith(item.url));
 
   return (
     <FlexGrow>
-      <Grid container alignItems="flex-start" justifyContent="space-between">
-        <Grid item sm="auto">
-          <PerfectScrollbar style={{ width: '100%', maxWidth: 'calc(100vw - 52px)', overflowX: 'hidden' }}>
-            <Box sx={{ display: 'flex', gap: 2 }}>
-              {tabItems.map((item) => (
-                <Chip
-                  key={item.id}
-                  component={Link}
-                  label={item.title}
-                  to={item.url}
-                  color="primary"
-                  variant={pathname.startsWith(item.url) ? 'filled' : 'outlined'}
-                  sx={{ borderColor: theme.palette.grey[200], px: 1, mb: 1 }}
-                  clickable
-                />
-              ))}
-            </Box>
-          </PerfectScrollbar>
-        </Grid>
-      </Grid>
+      <Tabs variant="scrollable" value={selected} sx={{ minHeight: 0 }} TabIndicatorProps={{ sx: { display: 'none' } }}>
+        {tabItems.map((item, index) => (
+          <Tab
+            key={item.id}
+            component="div"
+            sx={{ p: 0, m: 0, mr: 1, minHeight: 0, minWidth: 0, fontWeight: 400 }}
+            disableRipple
+            label={
+              <>
+                <Fade in={index === selected} timeout={300}>
+                  <Chip
+                    component={Link}
+                    label={item.title}
+                    to={item.url}
+                    color="primary"
+                    variant="filled"
+                    sx={{ px: 1, '&:hover': { backgroundColor: 'primary.main' } }}
+                    clickable
+                  />
+                </Fade>
+                <Fade in={index !== selected} timeout={300}>
+                  <Chip
+                    component={Link}
+                    label={item.title}
+                    to={item.url}
+                    color="primary"
+                    variant="outlined"
+                    sx={{ px: 1, position: 'absolute', top: 0, left: 0 }}
+                    style={{ boxShadow: 'none' }}
+                    clickable
+                  />
+                </Fade>
+              </>
+            }
+          />
+        ))}
+      </Tabs>
       <Outlet />
     </FlexGrow>
   );
