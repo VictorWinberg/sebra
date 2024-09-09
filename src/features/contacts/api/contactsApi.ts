@@ -1,8 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
 
 import { deleteQuery, query, insertQuery, updateQuery, selectOneQuery } from '@/api/DummyDB';
-import { Company } from '@/features/companies/api/companiesApi';
 import { pick, toMap } from '@/utils';
+import { Company } from '@/api/gql/graphql';
 
 export type Contact = ContactRecord & { company?: Company };
 

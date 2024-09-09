@@ -26,8 +26,6 @@ const CompaniesPage = () => {
   const { mutate: updateCompany } = useUpdateCompany();
   const { mutate: deleteCompany } = useDeleteCompany();
 
-  console.log(data);
-
   return (
     <FlexGrow>
       <DataTable<Company>
@@ -35,8 +33,18 @@ const CompaniesPage = () => {
         columns={companyColumns}
         getRowId={(row) => `${row.id}`}
         state={{ isLoading }}
-        onCreate={(row) => createCompany(row, { onSuccess: (res) => navigate(`/home/companies/${res.id}`) })}
-        onUpdate={(row) => updateCompany(row)}
+        onCreate={(data) =>
+          createCompany(
+            { data },
+            {
+              onSuccess: (res) => {
+                const id = res?.createCompany?.id || '';
+                navigate(`/home/companies/${id}`);
+              }
+            }
+          )
+        }
+        onUpdate={(row) => updateCompany({ id: row.id!, data: row })}
         onDelete={(row) => deleteCompany(row)}
         renderTopToolbarCustomActions={({ table }) => (
           <Button

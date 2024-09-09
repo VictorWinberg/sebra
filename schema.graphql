@@ -23,7 +23,7 @@ type Assignment {
   createdAt: DateTime
   externalContact: Contact
   fee: Float!
-  id: String
+  id: String!
   status: String
   type: String
   updatedAt: DateTime
@@ -1103,8 +1103,8 @@ type Company {
   address: String
   companyName: String!
   createdAt: DateTime
-  email: EmailAddress
-  id: String
+  email: String
+  id: String!
   industry: String
   organizationNumber: String
   phone: String
@@ -1145,14 +1145,14 @@ input Company_createdAt_operator {
 }
 
 input Company_email_operator {
-  all: [EmailAddress]
-  contains: EmailAddress
-  equals: EmailAddress
+  all: [String]
+  contains: String
+  equals: String
   exists: Boolean
-  in: [EmailAddress]
-  like: EmailAddress
-  not_equals: EmailAddress
-  not_in: [EmailAddress]
+  in: [String]
+  like: String
+  not_equals: String
+  not_in: [String]
 }
 
 input Company_id_operator {
@@ -1272,7 +1272,7 @@ type Contact {
   contactName: String!
   createdAt: DateTime
   email: EmailAddress!
-  id: String
+  id: String!
   jobTitle: String
   notes: String
   phone: String
@@ -1929,7 +1929,7 @@ type DocumentReference {
   documentId: String!
   entityId: Float!
   entityType: String!
-  id: String
+  id: String!
   updatedAt: DateTime
 }
 
@@ -2335,7 +2335,7 @@ scalar EmailAddress
 
 type Interaction {
   createdAt: DateTime
-  id: String
+  id: String!
   interactionDate: DateTime!
   interactionType: String!
   notes: String
@@ -2752,7 +2752,7 @@ type Lead {
   contact: Contact
   createdAt: DateTime
   description: String
-  id: String
+  id: String!
   leadTitle: String!
   rank: Float
   stage: String
@@ -3398,17 +3398,8 @@ type LeadsUpdateDocAccess {
 type Media {
   alt: String!
   createdAt: DateTime
-  filename: String
-  filesize: Float
-  focalX: Float
-  focalY: Float
-  height: Float
-  id: String
-  mimeType: String
-  thumbnailURL: String
+  id: String!
   updatedAt: DateTime
-  url: String
-  width: Float
 }
 
 type MediaCreateAccess {
@@ -3434,16 +3425,7 @@ type MediaDeleteDocAccess {
 type MediaDocAccessFields {
   alt: MediaDocAccessFields_alt
   createdAt: MediaDocAccessFields_createdAt
-  filename: MediaDocAccessFields_filename
-  filesize: MediaDocAccessFields_filesize
-  focalX: MediaDocAccessFields_focalX
-  focalY: MediaDocAccessFields_focalY
-  height: MediaDocAccessFields_height
-  mimeType: MediaDocAccessFields_mimeType
-  thumbnailURL: MediaDocAccessFields_thumbnailURL
   updatedAt: MediaDocAccessFields_updatedAt
-  url: MediaDocAccessFields_url
-  width: MediaDocAccessFields_width
 }
 
 type MediaDocAccessFields_alt {
@@ -3492,167 +3474,6 @@ type MediaDocAccessFields_createdAt_Update {
   permission: Boolean!
 }
 
-type MediaDocAccessFields_filename {
-  create: MediaDocAccessFields_filename_Create
-  delete: MediaDocAccessFields_filename_Delete
-  read: MediaDocAccessFields_filename_Read
-  update: MediaDocAccessFields_filename_Update
-}
-
-type MediaDocAccessFields_filename_Create {
-  permission: Boolean!
-}
-
-type MediaDocAccessFields_filename_Delete {
-  permission: Boolean!
-}
-
-type MediaDocAccessFields_filename_Read {
-  permission: Boolean!
-}
-
-type MediaDocAccessFields_filename_Update {
-  permission: Boolean!
-}
-
-type MediaDocAccessFields_filesize {
-  create: MediaDocAccessFields_filesize_Create
-  delete: MediaDocAccessFields_filesize_Delete
-  read: MediaDocAccessFields_filesize_Read
-  update: MediaDocAccessFields_filesize_Update
-}
-
-type MediaDocAccessFields_filesize_Create {
-  permission: Boolean!
-}
-
-type MediaDocAccessFields_filesize_Delete {
-  permission: Boolean!
-}
-
-type MediaDocAccessFields_filesize_Read {
-  permission: Boolean!
-}
-
-type MediaDocAccessFields_filesize_Update {
-  permission: Boolean!
-}
-
-type MediaDocAccessFields_focalX {
-  create: MediaDocAccessFields_focalX_Create
-  delete: MediaDocAccessFields_focalX_Delete
-  read: MediaDocAccessFields_focalX_Read
-  update: MediaDocAccessFields_focalX_Update
-}
-
-type MediaDocAccessFields_focalX_Create {
-  permission: Boolean!
-}
-
-type MediaDocAccessFields_focalX_Delete {
-  permission: Boolean!
-}
-
-type MediaDocAccessFields_focalX_Read {
-  permission: Boolean!
-}
-
-type MediaDocAccessFields_focalX_Update {
-  permission: Boolean!
-}
-
-type MediaDocAccessFields_focalY {
-  create: MediaDocAccessFields_focalY_Create
-  delete: MediaDocAccessFields_focalY_Delete
-  read: MediaDocAccessFields_focalY_Read
-  update: MediaDocAccessFields_focalY_Update
-}
-
-type MediaDocAccessFields_focalY_Create {
-  permission: Boolean!
-}
-
-type MediaDocAccessFields_focalY_Delete {
-  permission: Boolean!
-}
-
-type MediaDocAccessFields_focalY_Read {
-  permission: Boolean!
-}
-
-type MediaDocAccessFields_focalY_Update {
-  permission: Boolean!
-}
-
-type MediaDocAccessFields_height {
-  create: MediaDocAccessFields_height_Create
-  delete: MediaDocAccessFields_height_Delete
-  read: MediaDocAccessFields_height_Read
-  update: MediaDocAccessFields_height_Update
-}
-
-type MediaDocAccessFields_height_Create {
-  permission: Boolean!
-}
-
-type MediaDocAccessFields_height_Delete {
-  permission: Boolean!
-}
-
-type MediaDocAccessFields_height_Read {
-  permission: Boolean!
-}
-
-type MediaDocAccessFields_height_Update {
-  permission: Boolean!
-}
-
-type MediaDocAccessFields_mimeType {
-  create: MediaDocAccessFields_mimeType_Create
-  delete: MediaDocAccessFields_mimeType_Delete
-  read: MediaDocAccessFields_mimeType_Read
-  update: MediaDocAccessFields_mimeType_Update
-}
-
-type MediaDocAccessFields_mimeType_Create {
-  permission: Boolean!
-}
-
-type MediaDocAccessFields_mimeType_Delete {
-  permission: Boolean!
-}
-
-type MediaDocAccessFields_mimeType_Read {
-  permission: Boolean!
-}
-
-type MediaDocAccessFields_mimeType_Update {
-  permission: Boolean!
-}
-
-type MediaDocAccessFields_thumbnailURL {
-  create: MediaDocAccessFields_thumbnailURL_Create
-  delete: MediaDocAccessFields_thumbnailURL_Delete
-  read: MediaDocAccessFields_thumbnailURL_Read
-  update: MediaDocAccessFields_thumbnailURL_Update
-}
-
-type MediaDocAccessFields_thumbnailURL_Create {
-  permission: Boolean!
-}
-
-type MediaDocAccessFields_thumbnailURL_Delete {
-  permission: Boolean!
-}
-
-type MediaDocAccessFields_thumbnailURL_Read {
-  permission: Boolean!
-}
-
-type MediaDocAccessFields_thumbnailURL_Update {
-  permission: Boolean!
-}
-
 type MediaDocAccessFields_updatedAt {
   create: MediaDocAccessFields_updatedAt_Create
   delete: MediaDocAccessFields_updatedAt_Delete
@@ -3676,65 +3497,10 @@ type MediaDocAccessFields_updatedAt_Update {
   permission: Boolean!
 }
 
-type MediaDocAccessFields_url {
-  create: MediaDocAccessFields_url_Create
-  delete: MediaDocAccessFields_url_Delete
-  read: MediaDocAccessFields_url_Read
-  update: MediaDocAccessFields_url_Update
-}
-
-type MediaDocAccessFields_url_Create {
-  permission: Boolean!
-}
-
-type MediaDocAccessFields_url_Delete {
-  permission: Boolean!
-}
-
-type MediaDocAccessFields_url_Read {
-  permission: Boolean!
-}
-
-type MediaDocAccessFields_url_Update {
-  permission: Boolean!
-}
-
-type MediaDocAccessFields_width {
-  create: MediaDocAccessFields_width_Create
-  delete: MediaDocAccessFields_width_Delete
-  read: MediaDocAccessFields_width_Read
-  update: MediaDocAccessFields_width_Update
-}
-
-type MediaDocAccessFields_width_Create {
-  permission: Boolean!
-}
-
-type MediaDocAccessFields_width_Delete {
-  permission: Boolean!
-}
-
-type MediaDocAccessFields_width_Read {
-  permission: Boolean!
-}
-
-type MediaDocAccessFields_width_Update {
-  permission: Boolean!
-}
-
 type MediaFields {
   alt: MediaFields_alt
   createdAt: MediaFields_createdAt
-  filename: MediaFields_filename
-  filesize: MediaFields_filesize
-  focalX: MediaFields_focalX
-  focalY: MediaFields_focalY
-  height: MediaFields_height
-  mimeType: MediaFields_mimeType
-  thumbnailURL: MediaFields_thumbnailURL
   updatedAt: MediaFields_updatedAt
-  url: MediaFields_url
-  width: MediaFields_width
 }
 
 type MediaFields_alt {
@@ -3783,167 +3549,6 @@ type MediaFields_createdAt_Update {
   permission: Boolean!
 }
 
-type MediaFields_filename {
-  create: MediaFields_filename_Create
-  delete: MediaFields_filename_Delete
-  read: MediaFields_filename_Read
-  update: MediaFields_filename_Update
-}
-
-type MediaFields_filename_Create {
-  permission: Boolean!
-}
-
-type MediaFields_filename_Delete {
-  permission: Boolean!
-}
-
-type MediaFields_filename_Read {
-  permission: Boolean!
-}
-
-type MediaFields_filename_Update {
-  permission: Boolean!
-}
-
-type MediaFields_filesize {
-  create: MediaFields_filesize_Create
-  delete: MediaFields_filesize_Delete
-  read: MediaFields_filesize_Read
-  update: MediaFields_filesize_Update
-}
-
-type MediaFields_filesize_Create {
-  permission: Boolean!
-}
-
-type MediaFields_filesize_Delete {
-  permission: Boolean!
-}
-
-type MediaFields_filesize_Read {
-  permission: Boolean!
-}
-
-type MediaFields_filesize_Update {
-  permission: Boolean!
-}
-
-type MediaFields_focalX {
-  create: MediaFields_focalX_Create
-  delete: MediaFields_focalX_Delete
-  read: MediaFields_focalX_Read
-  update: MediaFields_focalX_Update
-}
-
-type MediaFields_focalX_Create {
-  permission: Boolean!
-}
-
-type MediaFields_focalX_Delete {
-  permission: Boolean!
-}
-
-type MediaFields_focalX_Read {
-  permission: Boolean!
-}
-
-type MediaFields_focalX_Update {
-  permission: Boolean!
-}
-
-type MediaFields_focalY {
-  create: MediaFields_focalY_Create
-  delete: MediaFields_focalY_Delete
-  read: MediaFields_focalY_Read
-  update: MediaFields_focalY_Update
-}
-
-type MediaFields_focalY_Create {
-  permission: Boolean!
-}
-
-type MediaFields_focalY_Delete {
-  permission: Boolean!
-}
-
-type MediaFields_focalY_Read {
-  permission: Boolean!
-}
-
-type MediaFields_focalY_Update {
-  permission: Boolean!
-}
-
-type MediaFields_height {
-  create: MediaFields_height_Create
-  delete: MediaFields_height_Delete
-  read: MediaFields_height_Read
-  update: MediaFields_height_Update
-}
-
-type MediaFields_height_Create {
-  permission: Boolean!
-}
-
-type MediaFields_height_Delete {
-  permission: Boolean!
-}
-
-type MediaFields_height_Read {
-  permission: Boolean!
-}
-
-type MediaFields_height_Update {
-  permission: Boolean!
-}
-
-type MediaFields_mimeType {
-  create: MediaFields_mimeType_Create
-  delete: MediaFields_mimeType_Delete
-  read: MediaFields_mimeType_Read
-  update: MediaFields_mimeType_Update
-}
-
-type MediaFields_mimeType_Create {
-  permission: Boolean!
-}
-
-type MediaFields_mimeType_Delete {
-  permission: Boolean!
-}
-
-type MediaFields_mimeType_Read {
-  permission: Boolean!
-}
-
-type MediaFields_mimeType_Update {
-  permission: Boolean!
-}
-
-type MediaFields_thumbnailURL {
-  create: MediaFields_thumbnailURL_Create
-  delete: MediaFields_thumbnailURL_Delete
-  read: MediaFields_thumbnailURL_Read
-  update: MediaFields_thumbnailURL_Update
-}
-
-type MediaFields_thumbnailURL_Create {
-  permission: Boolean!
-}
-
-type MediaFields_thumbnailURL_Delete {
-  permission: Boolean!
-}
-
-type MediaFields_thumbnailURL_Read {
-  permission: Boolean!
-}
-
-type MediaFields_thumbnailURL_Update {
-  permission: Boolean!
-}
-
 type MediaFields_updatedAt {
   create: MediaFields_updatedAt_Create
   delete: MediaFields_updatedAt_Delete
@@ -3964,52 +3569,6 @@ type MediaFields_updatedAt_Read {
 }
 
 type MediaFields_updatedAt_Update {
-  permission: Boolean!
-}
-
-type MediaFields_url {
-  create: MediaFields_url_Create
-  delete: MediaFields_url_Delete
-  read: MediaFields_url_Read
-  update: MediaFields_url_Update
-}
-
-type MediaFields_url_Create {
-  permission: Boolean!
-}
-
-type MediaFields_url_Delete {
-  permission: Boolean!
-}
-
-type MediaFields_url_Read {
-  permission: Boolean!
-}
-
-type MediaFields_url_Update {
-  permission: Boolean!
-}
-
-type MediaFields_width {
-  create: MediaFields_width_Create
-  delete: MediaFields_width_Delete
-  read: MediaFields_width_Read
-  update: MediaFields_width_Update
-}
-
-type MediaFields_width_Create {
-  permission: Boolean!
-}
-
-type MediaFields_width_Delete {
-  permission: Boolean!
-}
-
-type MediaFields_width_Read {
-  permission: Boolean!
-}
-
-type MediaFields_width_Update {
   permission: Boolean!
 }
 
@@ -4054,80 +3613,7 @@ input Media_createdAt_operator {
   not_equals: DateTime
 }
 
-input Media_filename_operator {
-  all: [String]
-  contains: String
-  equals: String
-  exists: Boolean
-  in: [String]
-  like: String
-  not_equals: String
-  not_in: [String]
-}
-
-input Media_filesize_operator {
-  equals: Float
-  exists: Boolean
-  greater_than: Float
-  greater_than_equal: Float
-  less_than: Float
-  less_than_equal: Float
-  not_equals: Float
-}
-
-input Media_focalX_operator {
-  equals: Float
-  exists: Boolean
-  greater_than: Float
-  greater_than_equal: Float
-  less_than: Float
-  less_than_equal: Float
-  not_equals: Float
-}
-
-input Media_focalY_operator {
-  equals: Float
-  exists: Boolean
-  greater_than: Float
-  greater_than_equal: Float
-  less_than: Float
-  less_than_equal: Float
-  not_equals: Float
-}
-
-input Media_height_operator {
-  equals: Float
-  exists: Boolean
-  greater_than: Float
-  greater_than_equal: Float
-  less_than: Float
-  less_than_equal: Float
-  not_equals: Float
-}
-
 input Media_id_operator {
-  all: [String]
-  contains: String
-  equals: String
-  exists: Boolean
-  in: [String]
-  like: String
-  not_equals: String
-  not_in: [String]
-}
-
-input Media_mimeType_operator {
-  all: [String]
-  contains: String
-  equals: String
-  exists: Boolean
-  in: [String]
-  like: String
-  not_equals: String
-  not_in: [String]
-}
-
-input Media_thumbnailURL_operator {
   all: [String]
   contains: String
   equals: String
@@ -4149,33 +3635,13 @@ input Media_updatedAt_operator {
   not_equals: DateTime
 }
 
-input Media_url_operator {
-  all: [String]
-  contains: String
-  equals: String
-  exists: Boolean
-  in: [String]
-  like: String
-  not_equals: String
-  not_in: [String]
-}
-
 input Media_where {
   AND: [Media_where_and]
   OR: [Media_where_or]
   alt: Media_alt_operator
   createdAt: Media_createdAt_operator
-  filename: Media_filename_operator
-  filesize: Media_filesize_operator
-  focalX: Media_focalX_operator
-  focalY: Media_focalY_operator
-  height: Media_height_operator
   id: Media_id_operator
-  mimeType: Media_mimeType_operator
-  thumbnailURL: Media_thumbnailURL_operator
   updatedAt: Media_updatedAt_operator
-  url: Media_url_operator
-  width: Media_width_operator
 }
 
 input Media_where_and {
@@ -4183,17 +3649,8 @@ input Media_where_and {
   OR: [Media_where_or]
   alt: Media_alt_operator
   createdAt: Media_createdAt_operator
-  filename: Media_filename_operator
-  filesize: Media_filesize_operator
-  focalX: Media_focalX_operator
-  focalY: Media_focalY_operator
-  height: Media_height_operator
   id: Media_id_operator
-  mimeType: Media_mimeType_operator
-  thumbnailURL: Media_thumbnailURL_operator
   updatedAt: Media_updatedAt_operator
-  url: Media_url_operator
-  width: Media_width_operator
 }
 
 input Media_where_or {
@@ -4201,27 +3658,8 @@ input Media_where_or {
   OR: [Media_where_or]
   alt: Media_alt_operator
   createdAt: Media_createdAt_operator
-  filename: Media_filename_operator
-  filesize: Media_filesize_operator
-  focalX: Media_focalX_operator
-  focalY: Media_focalY_operator
-  height: Media_height_operator
   id: Media_id_operator
-  mimeType: Media_mimeType_operator
-  thumbnailURL: Media_thumbnailURL_operator
   updatedAt: Media_updatedAt_operator
-  url: Media_url_operator
-  width: Media_width_operator
-}
-
-input Media_width_operator {
-  equals: Float
-  exists: Boolean
-  greater_than: Float
-  greater_than_equal: Float
-  less_than: Float
-  less_than_equal: Float
-  not_equals: Float
 }
 
 type Mutation {
@@ -4251,6 +3689,7 @@ type Mutation {
   duplicateDocumentReference(id: String!): DocumentReference
   duplicateInteraction(id: String!): Interaction
   duplicateLead(id: String!): Lead
+  duplicateMedia(id: String!): Media
   duplicatePayloadPreference(id: String!): PayloadPreference
   duplicateWorkspace(id: String!): Workspace
   forgotPasswordUser(disableEmail: Boolean, email: String!, expiration: Int): Boolean!
@@ -4274,7 +3713,7 @@ type Mutation {
 
 type PayloadPreference {
   createdAt: DateTime
-  id: String
+  id: String!
   key: String
   updatedAt: DateTime
   user: PayloadPreference_User_Relationship!
@@ -4756,7 +4195,7 @@ type User {
   createdAt: DateTime
   email: EmailAddress!
   hash: String
-  id: String
+  id: String!
   lockUntil: DateTime
   loginAttempts: Float
   password: String!
@@ -4805,6 +4244,16 @@ input User_id_operator {
   not_in: [String]
 }
 
+input User_password_operator {
+  all: [String]
+  contains: String
+  equals: String
+  in: [String]
+  like: String
+  not_equals: String
+  not_in: [String]
+}
+
 enum User_roles {
   admin
   user
@@ -4845,6 +4294,7 @@ input User_where {
   createdAt: User_createdAt_operator
   email: User_email_operator
   id: User_id_operator
+  password: User_password_operator
   roles: User_roles_operator
   updatedAt: User_updatedAt_operator
   workspace: User_workspace_operator
@@ -4856,6 +4306,7 @@ input User_where_and {
   createdAt: User_createdAt_operator
   email: User_email_operator
   id: User_id_operator
+  password: User_password_operator
   roles: User_roles_operator
   updatedAt: User_updatedAt_operator
   workspace: User_workspace_operator
@@ -4867,6 +4318,7 @@ input User_where_or {
   createdAt: User_createdAt_operator
   email: User_email_operator
   id: User_id_operator
+  password: User_password_operator
   roles: User_roles_operator
   updatedAt: User_updatedAt_operator
   workspace: User_workspace_operator
@@ -5241,7 +4693,7 @@ type UsersUpdateDocAccess {
 
 type Workspace {
   createdAt: DateTime
-  id: String
+  id: String!
   name: String!
   updatedAt: DateTime
 }
@@ -5815,31 +5267,13 @@ input mutationLeadUpdateInput {
 input mutationMediaInput {
   alt: String!
   createdAt: String
-  filename: String
-  filesize: Float
-  focalX: Float
-  focalY: Float
-  height: Float
-  mimeType: String
-  thumbnailURL: String
   updatedAt: String
-  url: String
-  width: Float
 }
 
 input mutationMediaUpdateInput {
   alt: String
   createdAt: String
-  filename: String
-  filesize: Float
-  focalX: Float
-  focalY: Float
-  height: Float
-  mimeType: String
-  thumbnailURL: String
   updatedAt: String
-  url: String
-  width: Float
 }
 
 input mutationPayloadPreferenceInput {

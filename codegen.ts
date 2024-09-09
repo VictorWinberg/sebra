@@ -2,7 +2,8 @@ import type { CodegenConfig } from '@graphql-codegen/cli';
 
 const config: CodegenConfig = {
   overwrite: true,
-  schema: 'https://payload-cms-sigma.vercel.app/api/graphql',
+  // schema: 'http://localhost:8080/api/graphql',
+  schema: './schema.graphql',
   documents: ['src/**/*.{ts,tsx}'],
   ignoreNoDocuments: true,
   watch: true,

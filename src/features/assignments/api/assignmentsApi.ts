@@ -9,9 +9,9 @@ import {
   selectOneQuery,
   updateQuery
 } from '@/api/DummyDB';
-import { Company } from '@/features/companies/api/companiesApi';
 import { Contact } from '@/features/contacts/api/contactsApi';
 import { groupBy, pick, toMap } from '@/utils';
+import { Company } from '@/api/gql/graphql';
 
 export type Assignment = AssignmentRecord & {
   responsibleContacts: Contact[];

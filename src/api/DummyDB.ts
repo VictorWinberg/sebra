@@ -114,7 +114,7 @@ export const insertManyQuery = <T extends Params>(table: string, data: Partial<T
   return executeQuery<T>(queryText, params);
 };
 
-export const updateQuery = <T extends Params>(table: string, data: Partial<T>, where: Partial<T>): T[] => {
+export const updateQuery = <T extends Params>(table: string, data: Partial<T>, where: Partial<T>): T => {
   const setClause = generateSetClause(data, 1);
   const whereClause = generateWhereClause(where, 2);
 
@@ -128,10 +128,10 @@ export const updateQuery = <T extends Params>(table: string, data: Partial<T>, w
     ...mapParams(data, 1),
     ...mapParams(where, 2)
   };
-  return executeQuery<T>(queryText, params);
+  return executeQuery<T>(queryText, params)[0];
 };
 
-export const deleteQuery = <T extends Params>(table: string, where: Partial<T>): T[] => {
+export const deleteQuery = <T extends Params>(table: string, where: Partial<T>): T => {
   const whereClause = generateWhereClause(where);
 
   const queryText = `
@@ -140,7 +140,7 @@ export const deleteQuery = <T extends Params>(table: string, where: Partial<T>):
     RETURNING *;
   `;
   const params = mapParams(where);
-  return executeQuery<T>(queryText, params);
+  return executeQuery<T>(queryText, params)[0];
 };
 
 export function save() {

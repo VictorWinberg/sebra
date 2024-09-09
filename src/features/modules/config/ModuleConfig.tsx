@@ -1,9 +1,9 @@
+import { Company } from '@/api/gql/graphql';
 import { Assignment } from '@/features/assignments/api/assignmentsApi';
 import AssignmentForm from '@/features/assignments/components/AssignmentForm';
 import { assignmentColumns } from '@/features/assignments/config/AssignmentConfig';
 import { useCreateAssignment } from '@/features/assignments/hooks/useAssignmentsMutations';
 import { useAssignments } from '@/features/assignments/hooks/useAssignmentsQueries';
-import { Company } from '@/features/companies/api/companiesApi';
 import CompanyForm from '@/features/companies/components/CompanyForm';
 import { companyColumns } from '@/features/companies/config/CompanyConfig';
 import { useCreateCompany } from '@/features/companies/hooks/useCompaniesMutations';

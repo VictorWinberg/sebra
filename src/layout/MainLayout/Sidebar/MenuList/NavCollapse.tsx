@@ -116,6 +116,7 @@ const NavCollapse = ({ menu, level }: NavCollapseProps) => {
           borderRadius: '6px',
           mb: 0.5,
           alignItems: 'flex-start',
+          flexGrow: 0,
           backgroundColor: level > 1 ? 'transparent !important' : 'inherit',
           py: level > 1 ? 1 : 1.25,
           pl: `${level * 24}px`

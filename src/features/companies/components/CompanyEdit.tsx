@@ -1,9 +1,11 @@
+import { useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 // material-ui
 import { Box, Typography } from '@mui/material';
 
 // project imports
+import { MutationCompanyInput } from '@/api/gql/graphql';
 import AssignmentTable from '@/features/assignments/components/AssignmentTable';
 import { useAssignments } from '@/features/assignments/hooks/useAssignmentsQueries';
 import ContactTable from '@/features/contacts/components/ContactTable';
@@ -12,8 +14,6 @@ import { headerHeight } from '@/store/constant';
 import ContentTabs from '@/ui-component/ContentTabs';
 import FlexGrow from '@/ui-component/extended/FlexGrow';
 import { FormActionButtons } from '@/ui-component/SebraForm';
-import { useMemo } from 'react';
-import { Company } from '../api/companiesApi';
 import { useCreateCompany, useDeleteCompany, useUpdateCompany } from '../hooks/useCompaniesMutations';
 import { useCompany } from '../hooks/useCompaniesQueries';
 import CompanyForm from './CompanyForm';
@@ -36,13 +36,19 @@ const CompanyEdit = () => {
     [allAssignments, company]
   );
 
-  const handleSubmit = (data: Partial<Company>) => {
+  const handleSubmit = (data: MutationCompanyInput) => {
     if (company) {
-      updateCompany(data);
+      updateCompany({ id: company.id!, data });
     } else {
-      createCompany(data, {
-        onSuccess: (res) => navigate(`/home/companies/${res.id}`)
-      });
+      createCompany(
+        { data },
+        {
+          onSuccess: (res) => {
+            const id = res?.createCompany?.id || '';
+            navigate(`/home/companies/${id}`);
+          }
+        }
+      );
     }
   };
 

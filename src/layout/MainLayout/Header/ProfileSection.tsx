@@ -19,61 +19,29 @@ import Typography from '@mui/material/Typography';
 // third-party
 
 // project imports
-import { graphql } from '@/api/gql';
-import { getQueryKey, useGraphQL, useGraphQLMutation } from '@/hooks/useGraphQL';
+import { useAuthLogout } from '@/features/authentication/hooks/useAuthMutations';
+import { useAuth } from '@/features/authentication/hooks/useAuthQueries';
 import MainCard from '@/ui-component/cards/MainCard';
 import Transitions from '@/ui-component/extended/Transitions';
 
 // assets
 import User1 from '@/assets/images/users/user-round.svg';
 import { IconLogout, IconSettings, IconUser } from '@tabler/icons-react';
-import { useQueryClient } from '@tanstack/react-query';
-import { GetMeDocument } from '@/api/gql/graphql';
 
 // ==============================|| PROFILE MENU ||============================== //
 
 const ProfileSection = () => {
   const theme = useTheme();
-
   const [open, setOpen] = useState(false);
 
-  const queryClient = useQueryClient();
-  const { data } = useGraphQL(
-    graphql(`
-      query GetMe {
-        meUser {
-          user {
-            id
-            email
-          }
-        }
-      }
-    `)
-  );
-  const user = data?.meUser?.user;
-
-  const { mutate: logoutUser } = useGraphQLMutation(
-    graphql(`
-      mutation AuthLogout {
-        logoutUser
-      }
-    `)
-  );
+  const { data: user } = useAuth();
+  const { mutate: logoutUser } = useAuthLogout();
 
   /**
    * anchorRef is used on different componets and specifying one type leads to other components throwing an error
    * */
   const anchorRef = useRef<HTMLDivElement>(null);
-  const handleLogout = async () => {
-    logoutUser(
-      {},
-      {
-        onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: getQueryKey(GetMeDocument) });
-        }
-      }
-    );
-  };
+  const handleLogout = () => logoutUser({});
 
   const handleClose = (event: MouseEvent | TouchEvent) => {
     if (anchorRef.current?.contains(event.target as Node)) {

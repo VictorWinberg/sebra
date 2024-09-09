@@ -5,16 +5,38 @@
  * @param keys - The keys to pick.
  * @returns The object with only the specified keys.
  */
-export const pick = <T extends Record<string, unknown>, K extends keyof T>(obj: T, keys: K[]): Pick<T, K> => {
+export const pick = <T extends Record<string, unknown>, K extends keyof T>(
+  obj: T,
+  keys: K[]
+): { [P in K]: NonNullable<T[P]> } => {
   return keys.reduce(
     (picked, key) => {
-      if (key in obj) {
+      if (key in obj && obj[key]) {
         picked[key] = obj[key];
       }
       return picked;
     },
     {} as Partial<Pick<T, K>>
-  ) as Pick<T, K>;
+  ) as { [P in K]: NonNullable<T[P]> };
+};
+
+/**
+ * Omit the specified keys from the object.
+ *
+ * @param obj - The object to omit keys from.
+ * @param keys - The keys to omit.
+ * @returns The object with the specified keys omitted.
+ */
+export const omit = <T extends Record<string, unknown>, K extends keyof T>(obj: T, keys: K[]): Omit<T, K> => {
+  return (Object.keys(obj) as K[]).reduce(
+    (result, key) => {
+      if (!keys.includes(key)) {
+        (result as T)[key] = obj[key];
+      }
+      return result;
+    },
+    {} as Partial<Omit<T, K>>
+  ) as Omit<T, K>;
 };
 
 /**
@@ -77,3 +99,6 @@ export const validateRequiredFields = <T extends Record<string, unknown>>(
     throw new Error(`Fields required: ${missingFields.join(', ')}`);
   }
 };
+
+export type AssertEqual<T, U> = (<G>() => G extends T ? 1 : 2) extends <G>() => G extends U ? 1 : 2 ? true : never;
+export type AssertKeys<T, U> = keyof T extends keyof U ? (keyof U extends keyof T ? true : never) : never;

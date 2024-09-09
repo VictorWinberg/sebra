@@ -23,9 +23,8 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useForm } from 'react-hook-form';
 
 // project imports
-import { graphql } from '@/api/gql';
-import { useGraphQLMutation } from '@/hooks/useGraphQL';
 import AnimateButton from '@/ui-component/extended/AnimateButton';
+import { useAuthLogin } from '../../hooks/useAuthMutations';
 
 // assets
 import Google from '@/assets/images/icons/social-google.svg';
@@ -39,18 +38,6 @@ type Auth = {
   password: string;
 };
 
-const authLoginQuery = graphql(`
-  mutation AuthLogin($email: String!, $password: String!) {
-    loginUser(email: $email, password: $password) {
-      token
-      user {
-        id
-        email
-      }
-    }
-  }
-`);
-
 const AuthLogin = () => {
   const theme = useTheme();
   const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
@@ -62,7 +49,7 @@ const AuthLogin = () => {
     handleSubmit,
     setError
   } = useForm<Auth>();
-  const { mutate: loginUser } = useGraphQLMutation(authLoginQuery);
+  const { mutate: loginUser } = useAuthLogin();
 
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => {

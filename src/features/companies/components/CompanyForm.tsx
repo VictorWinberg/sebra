@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 
 // project imports
 import SebraForm, { FormProps } from '@/ui-component/SebraForm';
-import { Company } from '../api/companiesApi';
+import { Company } from '@/api/gql/graphql';
 
 // ==============================|| COMPANY FORM ||============================== //
 
