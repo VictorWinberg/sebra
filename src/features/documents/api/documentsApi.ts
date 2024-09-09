@@ -6,7 +6,7 @@ export type DocumentRecord = DocumentReference & DocumentContent;
 export type DocumentReference = {
   documentId: string;
   entityType: string;
-  entityId: number;
+  entityId: string;
 };
 
 export const fetchDocumentReferences = async (where: Partial<DocumentReference>): Promise<DocumentReference[]> => {

@@ -26,14 +26,14 @@ const AssignmentTable = ({ assignments, isLoading, defaultValues }: AssignmentTa
   return (
     <DataTable
       data={assignments}
-      getRowId={(row) => `${row.assignmentId}`}
+      getRowId={(row) => `${row.id}`}
       state={{ isLoading }}
       columns={[
         {
           accessorKey: 'assignmentName',
           header: 'Uppdrag',
           Cell: ({ cell, row }) => (
-            <Link component={RouterLink} to={`/home/assignments/${row.original.assignmentId}`}>
+            <Link component={RouterLink} to={`/home/assignments/${row.original.id}`}>
               {cell.getValue<string>()}
             </Link>
           )
@@ -45,13 +45,13 @@ const AssignmentTable = ({ assignments, isLoading, defaultValues }: AssignmentTa
           Cell: ({ cell }) => (
             <List disablePadding>
               {cell.getValue<Contact[]>().map((contact) => (
-                <ListItem key={contact.contactId} sx={{ py: 0.25 }} disableGutters>
+                <ListItem key={contact.id} sx={{ py: 0.25 }} disableGutters>
                   <Chip
                     component={RouterLink}
                     variant="outlined"
                     avatar={<Avatar {...stringAvatar(contact.contactName)} />}
                     label={contact.contactName}
-                    to={`/home/contacts/${contact.contactId}`}
+                    to={`/home/contacts/${contact.id}`}
                     clickable
                     size="small"
                   />

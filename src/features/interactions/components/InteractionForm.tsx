@@ -82,9 +82,9 @@ const InteractionForm = ({ formProps, ...props }: FormProps<Interaction>) => {
                     disableCloseOnSelect
                     id="multiple-contacts"
                     options={contacts}
-                    getOptionKey={(option) => option.contactId}
+                    getOptionKey={(option) => option.id}
                     getOptionLabel={(option) => option.contactName}
-                    isOptionEqualToValue={(option, value) => option.contactId === value.contactId}
+                    isOptionEqualToValue={(option, value) => option.id === value.id}
                     value={field.value || []}
                     onChange={(_, value) => field.onChange(value)}
                     renderInput={(params) => (
@@ -92,7 +92,7 @@ const InteractionForm = ({ formProps, ...props }: FormProps<Interaction>) => {
                     )}
                     renderTags={(tags, getTagProps) => {
                       return tags.map((option, index) => (
-                        <Chip {...getTagProps({ index })} key={option.contactId} label={option.contactName} />
+                        <Chip {...getTagProps({ index })} key={option.id} label={option.contactName} />
                       ));
                     }}
                   />

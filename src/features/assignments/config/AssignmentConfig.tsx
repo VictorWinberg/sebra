@@ -19,7 +19,7 @@ export const assignmentColumns: MRT_ColumnDef<Assignment>[] = [
     accessorKey: 'assignmentName',
     header: 'Uppdragsnamn',
     Cell: ({ cell, row }) => (
-      <Link component={RouterLink} to={`/home/assignments/${row.original.assignmentId}`}>
+      <Link component={RouterLink} to={`/home/assignments/${row.original.id}`}>
         {cell.getValue<string>()}
       </Link>
     )
@@ -31,8 +31,8 @@ export const assignmentColumns: MRT_ColumnDef<Assignment>[] = [
     Cell: ({ cell }) => (
       <List disablePadding>
         {cell.getValue<Contact[]>().map((contact) => (
-          <ListItem key={contact.contactId} sx={{ py: 0.25 }} disableGutters>
-            <Link component={RouterLink} to={`/home/contacts/${contact.contactId}`}>
+          <ListItem key={contact.id} sx={{ py: 0.25 }} disableGutters>
+            <Link component={RouterLink} to={`/home/contacts/${contact.id}`}>
               {contact.contactName}
             </Link>
           </ListItem>

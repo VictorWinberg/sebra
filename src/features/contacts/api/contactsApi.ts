@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid';
+
 import { deleteQuery, query, insertQuery, updateQuery, selectOneQuery } from '@/api/DummyDB';
 import { Company } from '@/features/companies/api/companiesApi';
 import { pick, toMap } from '@/utils';
@@ -5,12 +7,12 @@ import { pick, toMap } from '@/utils';
 export type Contact = ContactRecord & { company?: Company };
 
 export type ContactRecord = {
-  contactId: number;
+  id: string;
   contactName: string;
   email: string;
   phone: string;
   jobTitle: string;
-  companyId: number;
+  companyId: string;
   position: string;
   address: string;
   notes: string;
@@ -21,19 +23,20 @@ export type ContactRecord = {
 
 export const fetchContacts = async (): Promise<Contact[]> => {
   const contacts = await query<Contact>(`SELECT * FROM contacts ORDER BY contact_name`);
-  const companies = toMap(await query<Company>(`SELECT * FROM companies`), 'companyId');
+  const companies = toMap(await query<Company>(`SELECT * FROM companies`), 'id');
 
   return contacts.map((contact) => ({ ...contact, company: companies.get(contact.companyId) }));
 };
 
-export const fetchContact = async (contactId: number) => {
-  return await selectOneQuery<ContactRecord>('contacts', { contactId });
+export const fetchContact = async (id: string) => {
+  return await selectOneQuery<ContactRecord>('contacts', { id });
 };
 
 export const createContact = async (contact: Partial<Contact>) => {
   return await insertQuery<ContactRecord>(
     'contacts',
-    pick(contact, [
+    pick({ ...contact, id: uuidv4() }, [
+      'id',
       'contactName',
       'email',
       'phone',
@@ -61,10 +64,10 @@ export const updateContact = async (contact: Partial<Contact>) => {
       'notes',
       'lastInteractionDate'
     ]),
-    pick(contact, ['contactId'])
+    pick(contact, ['id'])
   );
 };
 
-export const deleteContact = async ({ contactId }: Pick<Contact, 'contactId'>) => {
-  return await deleteQuery<ContactRecord>('contacts', { contactId });
+export const deleteContact = async ({ id }: Pick<Contact, 'id'>) => {
+  return await deleteQuery<ContactRecord>('contacts', { id });
 };

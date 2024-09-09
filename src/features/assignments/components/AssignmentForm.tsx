@@ -76,9 +76,9 @@ const AssignmentForm = ({ formProps, ...props }: FormProps<Assignment>) => {
                 disableCloseOnSelect
                 id="multiple-contacts"
                 options={contacts}
-                getOptionKey={(option) => option.contactId}
+                getOptionKey={(option) => option.id}
                 getOptionLabel={(option) => option.contactName}
-                isOptionEqualToValue={(option, value) => option.contactId === value.contactId}
+                isOptionEqualToValue={(option, value) => option.id === value.id}
                 value={field.value || []}
                 onChange={(_, value) => field.onChange(value)}
                 renderInput={(params) => (
@@ -92,7 +92,7 @@ const AssignmentForm = ({ formProps, ...props }: FormProps<Assignment>) => {
                 )}
                 renderTags={(tags, getTagProps) => {
                   return tags.map((option, index) => (
-                    <Chip {...getTagProps({ index })} key={option.contactId} label={option.contactName} />
+                    <Chip {...getTagProps({ index })} key={option.id} label={option.contactName} />
                   ));
                 }}
               />
@@ -106,10 +106,10 @@ const AssignmentForm = ({ formProps, ...props }: FormProps<Assignment>) => {
             render={({ field }) => (
               <Autocomplete
                 options={contacts}
-                getOptionKey={(option) => option.contactId}
+                getOptionKey={(option) => option.id}
                 getOptionLabel={(option) => option.contactName}
-                value={contacts.find((contact) => contact.contactId === field.value) || null}
-                onChange={(_, value) => field.onChange(value ? value.contactId : undefined)}
+                value={contacts.find((contact) => contact.id === field.value) || null}
+                onChange={(_, value) => field.onChange(value ? value.id : undefined)}
                 renderInput={(params) => <TextField {...params} label="Extern kontakt" variant="outlined" fullWidth />}
               />
             )}
@@ -122,10 +122,10 @@ const AssignmentForm = ({ formProps, ...props }: FormProps<Assignment>) => {
             render={({ field }) => (
               <Autocomplete
                 options={companies}
-                getOptionKey={(option) => option.companyId}
+                getOptionKey={(option) => option.id}
                 getOptionLabel={(option) => option.companyName}
-                value={companies.find((company) => company.companyId === field.value) || null}
-                onChange={(_, value) => field.onChange(value ? value.companyId : undefined)}
+                value={companies.find((company) => company.id === field.value) || null}
+                onChange={(_, value) => field.onChange(value ? value.id : undefined)}
                 renderInput={(params) => <TextField {...params} label="Bolag" variant="outlined" fullWidth />}
               />
             )}

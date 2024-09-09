@@ -60,7 +60,7 @@ const LeadsPage = () => {
         onCreate={(row) => createLead(row)}
         onUpdate={(row) => updateLead(row)}
         onDelete={(row) => deleteLead(row)}
-        getRowId={(row) => `${row.leadId}`}
+        getRowId={(row) => `${row.id}`}
         renderTopToolbarCustomActions={({ table }) => (
           <Button
             variant="outlined"

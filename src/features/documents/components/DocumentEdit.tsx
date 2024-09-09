@@ -44,9 +44,9 @@ const DocumentEdit = () => {
   const { mutate: createDocumentReference } = useCreateDocumentReference();
   const { mutate: updateDocumentReference } = useUpdateDocumentReference();
   const { mutate: deleteDocumentReference } = useDeleteDocumentReference();
-  const companyMap = useMemo(() => toMap(companies, 'companyId'), [companies]);
-  const contactMap = useMemo(() => toMap(contacts, 'contactId'), [contacts]);
-  const assignmentMap = useMemo(() => toMap(assignments, 'assignmentId'), [assignments]);
+  const companyMap = useMemo(() => toMap(companies, 'id'), [companies]);
+  const contactMap = useMemo(() => toMap(contacts, 'id'), [contacts]);
+  const assignmentMap = useMemo(() => toMap(assignments, 'id'), [assignments]);
 
   const handleSubmit = (data: DocumentContent) => {
     saveDocument(data, {
@@ -69,7 +69,7 @@ const DocumentEdit = () => {
     }
   };
 
-  const renderLink = (entityType: string, entityId: number) => {
+  const renderLink = (entityType: string, entityId: string) => {
     switch (entityType) {
       case 'company':
         return (

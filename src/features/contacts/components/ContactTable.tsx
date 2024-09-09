@@ -24,14 +24,14 @@ const ContactTable = ({ contacts, isLoading, defaultValues }: ContactTableProps)
   return (
     <DataTable
       data={contacts}
-      getRowId={(row) => `${row.contactId}`}
+      getRowId={(row) => `${row.id}`}
       state={{ isLoading }}
       columns={[
         {
           accessorKey: 'contactName',
           header: 'Namn',
           Cell: ({ cell, row }) => (
-            <Link component={RouterLink} to={`/home/contacts/${row.original.contactId}`}>
+            <Link component={RouterLink} to={`/home/contacts/${row.original.id}`}>
               {cell.getValue<string>()}
             </Link>
           )

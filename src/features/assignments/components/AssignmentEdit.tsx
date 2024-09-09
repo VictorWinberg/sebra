@@ -24,7 +24,7 @@ const AssignmentEdit = () => {
   const params = useParams();
   const navigate = useNavigate();
 
-  const { data: assignment, isLoading } = useAssignment(params.id === 'new' ? undefined : Number(params.id));
+  const { data: assignment, isLoading } = useAssignment(params.id === 'new' ? undefined : params.id);
   const { mutate: createAssignment } = useCreateAssignment();
   const { mutate: updateAssignment } = useUpdateAssignment();
   const { mutate: deleteAssignment } = useDeleteAssignment();
@@ -33,8 +33,7 @@ const AssignmentEdit = () => {
   const interactions = useMemo(
     () =>
       allInteractions.filter(
-        (interaction) =>
-          intersection(interaction.contacts, assignment?.responsibleContacts || [], 'contactId').length > 0
+        (interaction) => intersection(interaction.contacts, assignment?.responsibleContacts || [], 'id').length > 0
       ),
     [allInteractions, assignment]
   );
@@ -44,7 +43,7 @@ const AssignmentEdit = () => {
       updateAssignment(data);
     } else {
       createAssignment(data, {
-        onSuccess: (res) => navigate(`/home/assignments/${res.assignmentId}`)
+        onSuccess: (res) => navigate(`/home/assignments/${res.id}`)
       });
     }
   };
@@ -91,9 +90,7 @@ const AssignmentEdit = () => {
                   id: 'documents',
                   label: 'Dokument',
                   content: (
-                    <DocumentReferenceTable
-                      defaultValues={{ entityId: assignment.assignmentId, entityType: 'assignment' }}
-                    />
+                    <DocumentReferenceTable defaultValues={{ entityId: assignment.id, entityType: 'assignment' }} />
                   )
                 }
               ]}

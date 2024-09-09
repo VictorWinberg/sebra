@@ -2,7 +2,7 @@ import { deleteQuery, query, insertQuery, updateQuery, selectOneQuery } from '@/
 import { pick } from '@/utils';
 
 export type Company = {
-  companyId: number;
+  id: string;
   companyName: string;
   address: string;
   industry: string;
@@ -18,8 +18,8 @@ export const fetchCompanies = async () => {
   return await query<Company>(`SELECT * FROM companies ORDER BY company_name`);
 };
 
-export const fetchCompany = async (companyId: number) => {
-  return await selectOneQuery<Company>('companies', { companyId });
+export const fetchCompany = async (id: string) => {
+  return await selectOneQuery<Company>('companies', { id });
 };
 
 export const createCompany = async (company: Partial<Company>) => {
@@ -33,10 +33,10 @@ export const updateCompany = async (company: Partial<Company>) => {
   return await updateQuery<Company>(
     'companies',
     pick(company, ['companyName', 'address', 'industry', 'phone', 'email', 'website', 'organizationNumber']),
-    pick(company, ['companyId'])
+    pick(company, ['id'])
   );
 };
 
-export const deleteCompany = async ({ companyId }: Pick<Company, 'companyId'>) => {
-  return await deleteQuery<Company>('companies', { companyId });
+export const deleteCompany = async ({ id }: Pick<Company, 'id'>) => {
+  return await deleteQuery<Company>('companies', { id });
 };

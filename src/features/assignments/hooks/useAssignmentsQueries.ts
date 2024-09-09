@@ -6,7 +6,7 @@ export const useAssignments = () => {
   return useQuery({ queryKey: ['assignments'], queryFn: fetchAssignments });
 };
 
-export const useAssignment = (assignmentId: number | undefined) => {
+export const useAssignment = (assignmentId: string | undefined) => {
   return useQuery({
     queryKey: ['assignment', assignmentId],
     queryFn: () => fetchAssignment(assignmentId!),

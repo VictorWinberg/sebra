@@ -38,12 +38,12 @@ const DocumentReferenceForm = ({ formProps, ...props }: FormProps<DocumentRefere
   const entityOptions = useMemo(() => {
     switch (fields.entityType) {
       case 'company':
-        return companies.map((company) => ({ id: company.companyId, label: company.companyName }));
+        return companies.map((company) => ({ id: company.id, label: company.companyName }));
       case 'contact':
-        return contacts.map((contact) => ({ id: contact.contactId, label: contact.contactName }));
+        return contacts.map((contact) => ({ id: contact.id, label: contact.contactName }));
       case 'assignment':
         return assignments.map((assignment) => ({
-          id: assignment.assignmentId,
+          id: assignment.id,
           label: assignment.assignmentName
         }));
       default:

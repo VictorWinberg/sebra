@@ -15,22 +15,22 @@ export type Lead = LeadRecord & {
 };
 
 export type LeadRecord = {
-  leadId: string;
+  id: string;
   leadTitle: string;
   description: string;
   stage: string;
   rank: number;
-  contactId: number;
-  companyId: number;
-  assignmentId: number;
+  contactId: string;
+  companyId: string;
+  assignmentId: string;
   createdAt: string;
   updatedAt: string;
 };
 
 export const fetchLeads = async (): Promise<Lead[]> => {
-  const assignments = toMap(await query<Assignment>(`SELECT * FROM assignments`), 'assignmentId');
-  const contacts = toMap(await query<Contact>(`SELECT * FROM contacts`), 'contactId');
-  const companies = toMap(await query<Company>(`SELECT * FROM companies`), 'companyId');
+  const assignments = toMap(await query<Assignment>(`SELECT * FROM assignments`), 'id');
+  const contacts = toMap(await query<Contact>(`SELECT * FROM contacts`), 'id');
+  const companies = toMap(await query<Company>(`SELECT * FROM companies`), 'id');
   const leads = await query<Lead>(`SELECT * FROM leads ORDER BY rank`);
   return leads.map(transformLead(assignments, contacts, companies));
 };
@@ -38,8 +38,8 @@ export const fetchLeads = async (): Promise<Lead[]> => {
 export const createLead = async (lead: Partial<Lead>) => {
   return await insertQuery<LeadRecord>(
     'leads',
-    pick({ ...lead, leadId: uuidv4() }, [
-      'leadId',
+    pick({ ...lead, id: uuidv4() }, [
+      'id',
       'leadTitle',
       'description',
       'stage',
@@ -55,12 +55,12 @@ export const updateLead = async (lead: Partial<Lead>) => {
   return await updateQuery<LeadRecord>(
     'leads',
     pick(lead, ['leadTitle', 'description', 'stage', 'rank', 'contactId', 'companyId', 'assignmentId']),
-    pick(lead, ['leadId'])
+    pick(lead, ['id'])
   );
 };
 
-export const deleteLead = async ({ leadId }: Pick<Lead, 'leadId'>) => {
-  return await deleteQuery('leads', { leadId });
+export const deleteLead = async ({ id }: Pick<Lead, 'id'>) => {
+  return await deleteQuery('leads', { id });
 };
 
 function transformLead(

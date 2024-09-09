@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom';
+
 // material-ui
 import { Button } from '@mui/material';
 
@@ -17,6 +19,8 @@ import AddIcon from '@mui/icons-material/Add';
 // ==============================|| ASSIGNMENTS PAGE ||============================== //
 
 const AssignmentsPage = () => {
+  const navigate = useNavigate();
+
   const { data = [], isLoading } = useAssignments();
   const { mutate: createAssignment } = useCreateAssignment();
   const { mutate: updateAssignment } = useUpdateAssignment();
@@ -27,9 +31,9 @@ const AssignmentsPage = () => {
       <DataTable<Assignment>
         data={data}
         columns={assignmentColumns}
-        getRowId={(row) => `${row.assignmentId}`}
+        getRowId={(row) => `${row.id}`}
         state={{ isLoading }}
-        onCreate={(row) => createAssignment(row)}
+        onCreate={(row) => createAssignment(row, { onSuccess: (res) => navigate(`/home/assignments/${res.id}`) })}
         onUpdate={(row) => updateAssignment(row)}
         onDelete={(row) => deleteAssignment(row)}
         renderTopToolbarCustomActions={({ table }) => (
