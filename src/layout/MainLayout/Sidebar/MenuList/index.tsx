@@ -1,5 +1,5 @@
 // material-ui
-import { Typography } from '@mui/material';
+import { Divider, Typography } from '@mui/material';
 
 // project imports
 import menuItem from '@/layout/menu-items';
@@ -15,6 +15,8 @@ const MenuList = () => {
         return <NavGroup key={item.id} item={item} />;
       case 'collapse':
         return <NavCollapse key={item.id} menu={item} level={0} />;
+      case 'divider':
+        return <Divider key={item.id} sx={{ my: 1 }} />;
       default:
         return (
           <Typography key={item.id} variant="h6" color="error" align="center">

@@ -1,5 +1,4 @@
 import main from './main';
-import other from './other';
 import dev from './dev';
 import { Icon } from '@tabler/icons-react';
 
@@ -20,7 +19,7 @@ export interface MenuItem {
 }
 
 const menuItems: { items: MenuItem[] } = {
-  items: [main, other, dev]
+  items: [main, ...(process.env.NODE_ENV === 'development' ? [dev] : [])]
 };
 
 export default menuItems;

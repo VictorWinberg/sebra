@@ -13,17 +13,16 @@ type TabItem = {
 };
 
 const tabItems: TabItem[] = [
+  { id: 'home', title: 'Hem', url: '/home' },
   { id: 'assignments', title: 'Uppdrag', url: '/home/assignments' },
   { id: 'contacts', title: 'Kontakter', url: '/home/contacts' },
   { id: 'companies', title: 'Bolag', url: '/home/companies' },
-  { id: 'seeking', title: 'Söker', url: '/home/seeking' },
-  { id: 'reports', title: 'Rapport', url: '/home/reports' },
   { id: 'leads', title: 'Leads', url: '/home/leads' }
 ];
 
 const HomeWrapper = () => {
   const { pathname } = useLocation();
-  const selected = tabItems.findIndex((item) => pathname.startsWith(item.url));
+  const selected = tabItems.findLastIndex((item) => pathname.startsWith(item.url));
 
   return (
     <FlexGrow>

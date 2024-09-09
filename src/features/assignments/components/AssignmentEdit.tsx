@@ -95,9 +95,7 @@ const AssignmentEdit = () => {
                       defaultValues={{ entityId: assignment.assignmentId, entityType: 'assignment' }}
                     />
                   )
-                },
-                { id: 'stakeholders', label: 'Intressenter', content: <>Intressenter...</> },
-                { id: 'modules', label: 'Moduler', content: <>Moduler...</> }
+                }
               ]}
             />
           </FlexGrow>

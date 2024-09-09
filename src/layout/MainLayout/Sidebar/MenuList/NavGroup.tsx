@@ -22,6 +22,8 @@ const NavGroup = ({ item }: NavGroupProps) => {
         return <NavCollapse key={menu.id} menu={menu} level={1} />;
       case 'item':
         return <NavItem key={menu.id} item={menu} level={1} />;
+      case 'divider':
+        return <Divider key={menu.id} sx={{ my: 1 }} />;
       default:
         return (
           <Typography key={menu.id} variant="h6" color="error" align="center">
@@ -34,6 +36,7 @@ const NavGroup = ({ item }: NavGroupProps) => {
   return (
     <>
       <List
+        disablePadding
         subheader={
           item.title && (
             <Typography variant="caption" sx={{ ...theme.typography.menuCaption }} display="block" gutterBottom>

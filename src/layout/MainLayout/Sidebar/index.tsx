@@ -16,6 +16,7 @@ import { drawerWidthCollapsed, drawerWidthExpanded, headerHeight } from '@/store
 import Chip from '@/ui-component/extended/Chip';
 import LogoSection from '../LogoSection';
 import MenuList from './MenuList';
+import FlexGrow from '@/ui-component/extended/FlexGrow';
 
 // ==============================|| SIDEBAR DRAWER ||============================== //
 
@@ -33,30 +34,33 @@ const Sidebar = () => {
       </Box>
       <BrowserView>
         <PerfectScrollbar component="div" style={{ height: `calc(100vh - ${headerHeight}px)` }}>
-          <Box
+          <FlexGrow
             sx={{
               px: state.opened ? 2 : 1,
+              height: '100%',
               width: state.opened ? drawerWidthExpanded : drawerWidthCollapsed,
               overflow: 'hidden',
               transition: theme.transitions.create(['width', 'padding'])
             }}
           >
             <MenuList />
+            <Box sx={{ flexGrow: 1 }} />
             <Stack direction="column" justifyContent="center" sx={{ mb: 2 }}>
               <Chip label={`v${__APP_VERSION__}`} disabled size="small" />
               <Chip label={__COMMIT_HASH__} disabled size="small" />
             </Stack>
-          </Box>
+          </FlexGrow>
         </PerfectScrollbar>
       </BrowserView>
       <MobileView>
-        <Box sx={{ px: 2 }}>
+        <FlexGrow sx={{ px: 2 }}>
           <MenuList />
+          <Box sx={{ flexGrow: 1 }} />
           <Stack direction="column" justifyContent="center" sx={{ mb: 2 }}>
             <Chip label={`v${__APP_VERSION__}`} disabled size="small" />
             <Chip label={__COMMIT_HASH__} disabled size="small" />
           </Stack>
-        </Box>
+        </FlexGrow>
       </MobileView>
     </>
   );
