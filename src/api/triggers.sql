@@ -4,7 +4,7 @@ FOR EACH ROW
 BEGIN
     UPDATE assignments
     SET updated_at = CURRENT_TIMESTAMP
-    WHERE assignment_id = OLD.assignment_id;
+    WHERE id = OLD.id;
 END;
 
 CREATE TRIGGER update_contacts_updated_at
@@ -13,7 +13,7 @@ FOR EACH ROW
 BEGIN
     UPDATE contacts
     SET updated_at = CURRENT_TIMESTAMP
-    WHERE contact_id = OLD.contact_id;
+    WHERE id = OLD.id;
 END;
 
 CREATE TRIGGER update_companies_updated_at
@@ -22,7 +22,7 @@ FOR EACH ROW
 BEGIN
     UPDATE companies
     SET updated_at = CURRENT_TIMESTAMP
-    WHERE company_id = OLD.company_id;
+    WHERE id = OLD.id;
 END;
 
 CREATE TRIGGER update_document_references_updated_at
@@ -40,7 +40,7 @@ FOR EACH ROW
 BEGIN
     UPDATE interactions
     SET updated_at = CURRENT_TIMESTAMP
-    WHERE interaction_id = OLD.interaction_id;
+    WHERE id = OLD.id;
 END;
 
 CREATE TRIGGER update_leads_updated_at
@@ -57,5 +57,5 @@ BEGIN
             THEN CURRENT_TIMESTAMP
             ELSE OLD.updated_at
         END
-    WHERE lead_id = OLD.lead_id;
+    WHERE id = OLD.id;
 END;

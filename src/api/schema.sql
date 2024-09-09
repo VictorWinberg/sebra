@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS assignments (
     id TEXT PRIMARY KEY,
-    assignment_name VARCHAR(255),
+    assignment_name VARCHAR(255) NOT NULL,
     external_contact_id TEXT,
     company_id TEXT,
     fee DECIMAL(10, 2),
@@ -13,8 +13,8 @@ CREATE TABLE IF NOT EXISTS assignments (
 );
 
 CREATE TABLE IF NOT EXISTS assignment_responsible_contacts (
-    assignment_id TEXT,
-    contact_id TEXT,
+    assignment_id TEXT NOT NULL,
+    contact_id TEXT NOT NULL,
     PRIMARY KEY (assignment_id, contact_id),
     FOREIGN KEY (assignment_id) REFERENCES assignments(id),
     FOREIGN KEY (contact_id) REFERENCES contacts(id)
@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS assignment_responsible_contacts (
 
 CREATE TABLE IF NOT EXISTS contacts (
     id TEXT PRIMARY KEY,
-    contact_name VARCHAR(255),
+    contact_name VARCHAR(255) NOT NULL,
     email VARCHAR(255),
     phone VARCHAR(20),
     job_title VARCHAR(100),
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS contacts (
 
 CREATE TABLE IF NOT EXISTS companies (
     id TEXT PRIMARY KEY,
-    company_name VARCHAR(255),
+    company_name VARCHAR(255) NOT NULL,
     address VARCHAR(255),
     industry VARCHAR(100),
     phone VARCHAR(20),
@@ -67,18 +67,18 @@ CREATE TABLE IF NOT EXISTS interactions (
 );
 
 CREATE TABLE IF NOT EXISTS interaction_contacts (
-    interaction_id TEXT,
-    contact_id TEXT,
+    interaction_id TEXT NOT NULL,
+    contact_id TEXT NOT NULL,
     PRIMARY KEY (interaction_id, contact_id),
     FOREIGN KEY (interaction_id) REFERENCES interactions(id),
     FOREIGN KEY (contact_id) REFERENCES contacts(id)
 );
 
 CREATE TABLE IF NOT EXISTS leads (
-    id TEXT,
-    lead_title VARCHAR(255),
+    id TEXT NOT NULL,
+    lead_title VARCHAR(255) NOT NULL,
     description TEXT,
-    stage VARCHAR(50),
+    stage VARCHAR(50) NOT NULL,
     rank INTEGER,
     contact_id INTEGER,
     company_id INTEGER,

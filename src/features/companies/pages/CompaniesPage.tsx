@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom';
+
 // material-ui
 import { Button } from '@mui/material';
 
@@ -17,6 +19,8 @@ import { Add } from '@mui/icons-material';
 // ==============================|| COMPANIES PAGE ||============================== //
 
 const CompaniesPage = () => {
+  const navigate = useNavigate();
+
   const { data = [], isLoading } = useCompanies();
   const { mutate: createCompany } = useCreateCompany();
   const { mutate: updateCompany } = useUpdateCompany();
@@ -29,7 +33,7 @@ const CompaniesPage = () => {
         columns={companyColumns}
         getRowId={(row) => `${row.id}`}
         state={{ isLoading }}
-        onCreate={(row) => createCompany(row)}
+        onCreate={(row) => createCompany(row, { onSuccess: (res) => navigate(`/home/companies/${res.id}`) })}
         onUpdate={(row) => updateCompany(row)}
         onDelete={(row) => deleteCompany(row)}
         renderTopToolbarCustomActions={({ table }) => (

@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom';
+
 // material-ui
 import { Button } from '@mui/material';
 
@@ -17,6 +19,8 @@ import AddIcon from '@mui/icons-material/Add';
 // ==============================|| CONTACTS PAGE ||============================== //
 
 const ContactsPage = () => {
+  const navigate = useNavigate();
+
   const { data = [], isLoading } = useContacts();
   const { mutate: createContact } = useCreateContact();
   const { mutate: updateContact } = useUpdateContact();
@@ -29,7 +33,7 @@ const ContactsPage = () => {
         columns={contactColumns}
         getRowId={(row) => `${row.id}`}
         state={{ isLoading }}
-        onCreate={(row) => createContact(row)}
+        onCreate={(row) => createContact(row, { onSuccess: (res) => navigate(`/home/contacts/${res.id}`) })}
         onUpdate={(row) => updateContact(row)}
         onDelete={(row) => deleteContact(row)}
         renderTopToolbarCustomActions={({ table }) => (

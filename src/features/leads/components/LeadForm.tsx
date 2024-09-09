@@ -49,9 +49,12 @@ const LeadForm = ({ formProps, ...props }: FormProps<Lead>) => {
                 getOptionLabel={(option) => option}
                 value={field.value || null}
                 onChange={(_, value) => field.onChange(value)}
-                renderInput={(params) => <TextField {...params} label="Fas" variant="outlined" fullWidth />}
+                renderInput={(params) => (
+                  <TextField {...params} label="Fas" variant="outlined" fullWidth error={!!errors.stage} />
+                )}
               />
             )}
+            rules={{ required: true }}
           />
         </Grid>
         <Grid item xs={12}>
