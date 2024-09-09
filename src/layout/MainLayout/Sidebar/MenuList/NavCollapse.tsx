@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import {
   Box,
   Collapse,
+  Divider,
   List,
   ListItemButton,
   ListItemIcon,
@@ -84,6 +85,8 @@ const NavCollapse = ({ menu, level }: NavCollapseProps) => {
         return <NavCollapse key={item.id} menu={item} level={level + 1} />;
       case 'item':
         return <NavItem key={item.id} item={item} level={level + 1} />;
+      case 'divider':
+        return <Divider key={item.id} sx={{ my: 1 }} />;
       default:
         return (
           <Typography key={item.id} variant="h6" color="error" align="center">

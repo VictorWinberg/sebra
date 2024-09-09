@@ -1,9 +1,17 @@
 // assets
-import { IconDashboard, IconFile, IconMail, IconMessageCircle, IconSettings, IconUser } from '@tabler/icons-react';
+import {
+  IconDashboard,
+  IconFile,
+  IconLogin2,
+  IconMail,
+  IconMessageCircle,
+  IconSettings,
+  IconUser
+} from '@tabler/icons-react';
 import { MenuItem } from '.';
 
 // constant
-const icons = { IconDashboard, IconFile, IconMail, IconMessageCircle, IconUser, IconSettings };
+const icons = { IconDashboard, IconFile, IconLogin2, IconMail, IconMessageCircle, IconUser, IconSettings };
 
 // ==============================|| MAIN MENU ITEMS ||============================== //
 
@@ -29,36 +37,20 @@ const main: MenuItem = {
       breadcrumbs: true
     },
     {
-      id: 'mailing',
-      title: 'Utskick',
-      type: 'item',
-      url: '/mailing',
-      icon: icons.IconMail,
-      breadcrumbs: true
-    },
-    {
-      id: 'results',
-      title: 'Resultat',
-      type: 'item',
-      url: '/results',
-      icon: icons.IconMessageCircle,
-      breadcrumbs: true
-    },
-    {
-      id: 'organization',
-      title: 'Organisation',
-      type: 'item',
-      url: '/organization',
-      icon: icons.IconUser,
-      breadcrumbs: true
-    },
-    {
       id: 'modules',
       title: 'Moduler',
       type: 'item',
       url: '/modules',
       icon: icons.IconSettings,
       breadcrumbs: true
+    },
+    { id: 'divider', type: 'divider' },
+    {
+      id: 'login',
+      title: 'Login',
+      type: 'item',
+      url: '/pages/login',
+      icon: icons.IconLogin2
     }
   ]
 };

@@ -14,6 +14,7 @@ const Logo = () => {
 
   return (
     <Stack
+      style={{ position: 'relative' }}
       direction="row"
       alignItems="center"
       spacing={1}

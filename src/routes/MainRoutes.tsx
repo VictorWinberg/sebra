@@ -14,23 +14,12 @@ const ContactsPage = Loadable(lazy(() => import('@/features/contacts/pages/Conta
 const ContactEdit = Loadable(lazy(() => import('@/features/contacts/components/ContactEdit')));
 const CompaniesPage = Loadable(lazy(() => import('@/features/companies/pages/CompaniesPage')));
 const CompanyEdit = Loadable(lazy(() => import('@/features/companies/components/CompanyEdit')));
-const Seeking = Loadable(lazy(() => import('@/dummy-views/seeking/Seeking')));
-const NewSeeking = Loadable(lazy(() => import('@/dummy-views/seeking/NewSeeking')));
-const Reports = Loadable(lazy(() => import('@/dummy-views/reports/Reports')));
 const LeadsPage = Loadable(lazy(() => import('@/features/leads/pages/LeadsPage')));
 
 // main routing
 const DocumentsPage = Loadable(lazy(() => import('@/features/documents/pages/DocumentsPage')));
 const DocumentEdit = Loadable(lazy(() => import('@/features/documents/components/DocumentEdit')));
-const Mailing = Loadable(lazy(() => import('@/dummy-views/mailing/Mailing')));
-const Results = Loadable(lazy(() => import('@/dummy-views/results/Results')));
-const Organization = Loadable(lazy(() => import('@/dummy-views/organization/Organization')));
 const ModulesPage = Loadable(lazy(() => import('@/features/modules/pages/ModulesPage')));
-
-// other routing
-const Settings = Loadable(lazy(() => import('@/dummy-views/settings/Settings')));
-const Account = Loadable(lazy(() => import('@/dummy-views/account/Account')));
-const Help = Loadable(lazy(() => import('@/dummy-views/help/Help')));
 
 // dev routing
 const DevPage = Loadable(lazy(() => import('@/features/dev/pages/DevPage')));
@@ -97,23 +86,6 @@ const MainRoutes = {
           ]
         },
         {
-          path: 'seeking',
-          children: [
-            {
-              path: '',
-              element: <Seeking />
-            },
-            {
-              path: 'new',
-              element: <NewSeeking />
-            }
-          ]
-        },
-        {
-          path: 'reports',
-          element: <Reports />
-        },
-        {
           path: 'leads',
           element: <LeadsPage />
         }
@@ -133,58 +105,38 @@ const MainRoutes = {
       ]
     },
     {
-      path: 'mailing',
-      element: <Mailing />
-    },
-    {
-      path: 'results',
-      element: <Results />
-    },
-    {
-      path: 'organization',
-      element: <Organization />
-    },
-    {
       path: 'modules',
       element: <ModulesPage />
     },
-    {
-      path: 'settings',
-      element: <Settings />
-    },
-    {
-      path: 'my-account',
-      element: <Account />
-    },
-    {
-      path: 'help',
-      element: <Help />
-    },
-    {
-      path: 'dev',
-      children: [
-        {
-          path: 'sample',
-          element: <DevPage />
-        },
-        {
-          path: 'util-typography',
-          element: <TypographyPage />
-        },
-        {
-          path: 'util-color',
-          element: <ColorPage />
-        },
-        {
-          path: 'util-shadow',
-          element: <ShadowPage />
-        },
-        {
-          path: 'sample-page',
-          element: <SamplePage />
-        }
-      ]
-    }
+    ...(process.env.NODE_ENV === 'development'
+      ? [
+          {
+            path: 'dev',
+            children: [
+              {
+                path: 'sample',
+                element: <DevPage />
+              },
+              {
+                path: 'util-typography',
+                element: <TypographyPage />
+              },
+              {
+                path: 'util-color',
+                element: <ColorPage />
+              },
+              {
+                path: 'util-shadow',
+                element: <ShadowPage />
+              },
+              {
+                path: 'sample-page',
+                element: <SamplePage />
+              }
+            ]
+          }
+        ]
+      : [])
   ]
 };
 

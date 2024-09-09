@@ -71,7 +71,6 @@ const CompanyEdit = () => {
             <FlexGrow sx={{ mt: 1, minHeight: `calc(100vh - ${headerHeight}px - 1rem)` }}>
               <ContentTabs
                 tabs={[
-                  { id: 'interactions', label: 'Interaktioner', content: <>Interaktioner...</> },
                   {
                     id: 'contacts',
                     label: 'Kontakter',
@@ -83,7 +82,6 @@ const CompanyEdit = () => {
                       />
                     )
                   },
-                  { id: 'seeking', label: 'Söker', content: <>Söker...</> },
                   {
                     id: 'assignments',
                     label: 'Uppdrag',
@@ -94,8 +92,7 @@ const CompanyEdit = () => {
                         defaultValues={{ companyId: company.companyId }}
                       />
                     )
-                  },
-                  { id: 'kyc', label: 'KYC', content: <>KYC...</> }
+                  }
                 ]}
               />
             </FlexGrow>

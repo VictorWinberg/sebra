@@ -91,7 +91,6 @@ const ContactEdit = () => {
                     />
                   )
                 },
-                { id: 'seeking', label: 'Söker', content: <>Söker...</> },
                 {
                   id: 'assignments',
                   label: 'Uppdrag',
