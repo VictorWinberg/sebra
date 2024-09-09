@@ -3,6 +3,8 @@ import { createRoot } from 'react-dom/client';
 
 // project imports
 import App from './App';
+import './plugins/sentry';
+import './plugins/dayjs';
 import './api/DummyDB';
 
 // style + assets
