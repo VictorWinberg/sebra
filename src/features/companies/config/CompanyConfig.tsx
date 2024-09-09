@@ -8,8 +8,8 @@ import { MRT_ColumnDef } from 'material-react-table';
 import dayjs, { Dayjs } from 'dayjs';
 
 // project imports
+import { Company } from '@/api/gql/graphql';
 import { formatDate, toLocalTime } from '@/utils';
-import { Company } from '../api/companiesApi';
 
 // ==============================|| COMPANY CONFIG ||============================== //
 
