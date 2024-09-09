@@ -46,10 +46,10 @@ const ContactForm = ({ formProps, ...props }: FormProps<Contact>) => {
             render={({ field }) => (
               <Autocomplete
                 options={companies}
-                getOptionKey={(option) => option.companyId}
+                getOptionKey={(option) => option.id}
                 getOptionLabel={(option) => option.companyName}
-                value={companies.find((company) => company.companyId === field.value) || null}
-                onChange={(_, value) => field.onChange(value ? value.companyId : undefined)}
+                value={companies.find((company) => company.id === field.value) || null}
+                onChange={(_, value) => field.onChange(value ? value.id : undefined)}
                 renderInput={(params) => <TextField {...params} label="Bolag" variant="outlined" fullWidth />}
               />
             )}

@@ -25,7 +25,7 @@ const ContactEdit = () => {
   const params = useParams();
   const navigate = useNavigate();
 
-  const { data: contact, isLoading } = useContact(params.id === 'new' ? undefined : Number(params.id));
+  const { data: contact, isLoading } = useContact(params.id === 'new' ? undefined : params.id);
   const { mutate: createContact } = useCreateContact();
   const { mutate: updateContact } = useUpdateContact();
   const { mutate: deleteContact } = useDeleteContact();
@@ -35,14 +35,14 @@ const ContactEdit = () => {
     () =>
       allAssignments.filter(
         (assignment) =>
-          assignment.responsibleContacts.some((c) => c.contactId === contact?.contactId) ||
-          assignment.externalContactId === contact?.contactId
+          assignment.responsibleContacts.some((c) => c.id === contact?.id) ||
+          assignment.externalContactId === contact?.id
       ),
     [allAssignments, contact]
   );
   const { data: allInteractions = [], isLoading: interactionsIsLoading } = useInteractions();
   const interactions = useMemo(
-    () => allInteractions.filter((interaction) => interaction.contacts.some((c) => c.contactId === contact?.contactId)),
+    () => allInteractions.filter((interaction) => interaction.contacts.some((c) => c.id === contact?.id)),
     [allInteractions, contact]
   );
 
@@ -51,7 +51,7 @@ const ContactEdit = () => {
       updateContact(data);
     } else {
       createContact(data, {
-        onSuccess: (res) => navigate(`/home/contacts/${res.contactId}`)
+        onSuccess: (res) => navigate(`/home/contacts/${res.id}`)
       });
     }
   };

@@ -24,7 +24,7 @@ const CompanyEdit = () => {
   const params = useParams();
   const navigate = useNavigate();
 
-  const { data: company, isLoading } = useCompany(params.id === 'new' ? undefined : Number(params.id));
+  const { data: company, isLoading } = useCompany(params.id === 'new' ? undefined : params.id);
   const { mutate: createCompany } = useCreateCompany();
   const { mutate: updateCompany } = useUpdateCompany();
   const { mutate: deleteCompany } = useDeleteCompany();
@@ -32,7 +32,7 @@ const CompanyEdit = () => {
   const { data: contacts = [], isLoading: contactsIsLoading } = useContacts();
   const { data: allAssignments = [], isLoading: assignmentsIsLoading } = useAssignments();
   const assignments = useMemo(
-    () => allAssignments.filter((assignment) => assignment.companyId === company?.companyId),
+    () => allAssignments.filter((assignment) => assignment.companyId === company?.id),
     [allAssignments, company]
   );
 
@@ -41,7 +41,7 @@ const CompanyEdit = () => {
       updateCompany(data);
     } else {
       createCompany(data, {
-        onSuccess: (res) => navigate(`/home/companies/${res.companyId}`)
+        onSuccess: (res) => navigate(`/home/companies/${res.id}`)
       });
     }
   };
@@ -77,9 +77,9 @@ const CompanyEdit = () => {
                     label: 'Kontakter',
                     content: (
                       <ContactTable
-                        contacts={contacts.filter((contact) => contact.companyId === company.companyId)}
+                        contacts={contacts.filter((contact) => contact.companyId === company.id)}
                         isLoading={contactsIsLoading}
-                        defaultValues={{ companyId: company.companyId }}
+                        defaultValues={{ companyId: company.id }}
                       />
                     )
                   },
@@ -91,7 +91,7 @@ const CompanyEdit = () => {
                       <AssignmentTable
                         assignments={assignments}
                         isLoading={assignmentsIsLoading}
-                        defaultValues={{ companyId: company.companyId }}
+                        defaultValues={{ companyId: company.id }}
                       />
                     )
                   },

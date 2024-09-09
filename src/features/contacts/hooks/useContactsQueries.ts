@@ -6,7 +6,7 @@ export const useContacts = () => {
   return useQuery({ queryKey: ['contacts'], queryFn: fetchContacts });
 };
 
-export const useContact = (contactId: number | undefined) => {
+export const useContact = (contactId: string | undefined) => {
   return useQuery({
     queryKey: ['contact', contactId],
     queryFn: () => fetchContact(contactId!),

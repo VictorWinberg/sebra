@@ -18,7 +18,7 @@ export const companyColumns: MRT_ColumnDef<Company>[] = [
     accessorKey: 'companyName',
     header: 'Bolagsnamn',
     Cell: ({ cell, row }) => (
-      <Link component={RouterLink} to={`/home/companies/${row.original.companyId}`}>
+      <Link component={RouterLink} to={`/home/companies/${row.original.id}`}>
         {cell.getValue<string>()}
       </Link>
     )

@@ -27,7 +27,7 @@ const AssignmentsPage = () => {
       <DataTable<Assignment>
         data={data}
         columns={assignmentColumns}
-        getRowId={(row) => `${row.assignmentId}`}
+        getRowId={(row) => `${row.id}`}
         state={{ isLoading }}
         onCreate={(row) => createAssignment(row)}
         onUpdate={(row) => updateAssignment(row)}

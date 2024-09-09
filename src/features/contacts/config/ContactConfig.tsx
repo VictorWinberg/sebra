@@ -18,7 +18,7 @@ export const contactColumns: MRT_ColumnDef<Contact>[] = [
     accessorKey: 'contactName',
     header: 'Namn',
     Cell: ({ cell, row }) => (
-      <Link component={RouterLink} to={`/home/contacts/${row.original.contactId}`}>
+      <Link component={RouterLink} to={`/home/contacts/${row.original.id}`}>
         {cell.getValue<string>()}
       </Link>
     )

@@ -29,7 +29,7 @@ const InteractionTable = ({ interactions, isLoading, defaultValues }: Interactio
   return (
     <DataTable
       data={interactions}
-      getRowId={(row) => row.interactionId}
+      getRowId={(row) => row.id}
       state={{ isLoading }}
       columns={[
         {
@@ -45,13 +45,13 @@ const InteractionTable = ({ interactions, isLoading, defaultValues }: Interactio
           Cell: ({ cell }) => (
             <List disablePadding>
               {cell.getValue<Contact[]>().map((contact) => (
-                <ListItem key={contact.contactId} sx={{ py: 0.25 }} disableGutters>
+                <ListItem key={contact.id} sx={{ py: 0.25 }} disableGutters>
                   <Chip
                     component={RouterLink}
                     variant="outlined"
                     avatar={<Avatar {...stringAvatar(contact.contactName)} />}
                     label={contact.contactName}
-                    to={`/home/contacts/${contact.contactId}`}
+                    to={`/home/contacts/${contact.id}`}
                     clickable
                     size="small"
                   />

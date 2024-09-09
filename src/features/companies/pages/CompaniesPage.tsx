@@ -27,7 +27,7 @@ const CompaniesPage = () => {
       <DataTable<Company>
         data={data}
         columns={companyColumns}
-        getRowId={(row) => `${row.companyId}`}
+        getRowId={(row) => `${row.id}`}
         state={{ isLoading }}
         onCreate={(row) => createCompany(row)}
         onUpdate={(row) => updateCompany(row)}

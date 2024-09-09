@@ -27,7 +27,7 @@ const ContactsPage = () => {
       <DataTable<Contact>
         data={data}
         columns={contactColumns}
-        getRowId={(row) => `${row.contactId}`}
+        getRowId={(row) => `${row.id}`}
         state={{ isLoading }}
         onCreate={(row) => createContact(row)}
         onUpdate={(row) => updateContact(row)}

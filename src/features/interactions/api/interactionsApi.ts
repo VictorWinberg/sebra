@@ -7,7 +7,7 @@ import { pick, toMap } from '@/utils';
 export type Interaction = InteractionRecord & { contacts: Contact[] };
 
 export type InteractionRecord = {
-  interactionId: string;
+  id: string;
   interactionDate: string;
   interactionType: string;
   notes: string;
@@ -17,16 +17,16 @@ export type InteractionRecord = {
 
 type InteractionContact = {
   interactionId: string;
-  contactId: number;
+  contactId: string;
 };
 
 export const fetchInteractions = async (): Promise<Interaction[]> => {
   const interactionRecords = await query<InteractionRecord>(`SELECT * FROM interactions`);
   const interactions: Interaction[] = interactionRecords.map((interaction) => ({ ...interaction, contacts: [] }));
-  const interactionMap = toMap(interactions, 'interactionId');
+  const interactionMap = toMap(interactions, 'id');
 
   const contacts = await query<Contact>(`SELECT * FROM contacts`);
-  const contactMap = toMap(contacts, 'contactId');
+  const contactMap = toMap(contacts, 'id');
 
   const interactionContacts = await query<InteractionContact>('SELECT * FROM interaction_contacts');
   interactionContacts.forEach((interactionContact) => {
@@ -44,37 +44,37 @@ export const fetchInteractions = async (): Promise<Interaction[]> => {
 export const createInteraction = async (interaction: Interaction) => {
   const record = await insertQuery<InteractionRecord>(
     'interactions',
-    pick({ ...interaction, interactionId: uuidv4() }, ['interactionId', 'interactionType', 'interactionDate', 'notes'])
+    pick({ ...interaction, interactionId: uuidv4() }, ['id', 'interactionType', 'interactionDate', 'notes'])
   );
-  await createInteractionContacts({ interactionId: record.interactionId, contacts: interaction.contacts });
+  await createInteractionContacts({ id: record.id, contacts: interaction.contacts });
 };
 
 export const updateInteraction = async (interaction: Interaction) => {
   await updateQuery<InteractionRecord>(
     'interactions',
     pick(interaction, ['interactionType', 'interactionDate', 'notes']),
-    pick(interaction, ['interactionId'])
+    pick(interaction, ['id'])
   );
   await updateInteractionContacts(interaction);
 };
 
-export const deleteInteraction = async (interaction: Pick<InteractionRecord, 'interactionId'>) => {
+export const deleteInteraction = async (interaction: Pick<InteractionRecord, 'id'>) => {
   await deleteInteractionContacts(interaction);
-  await deleteQuery<InteractionRecord>('interactions', pick(interaction, ['interactionId']));
+  await deleteQuery<InteractionRecord>('interactions', pick(interaction, ['id']));
 };
 
-export const createInteractionContacts = async (interaction: Pick<Interaction, 'interactionId' | 'contacts'>) => {
+export const createInteractionContacts = async (interaction: Pick<Interaction, 'id' | 'contacts'>) => {
   await insertManyQuery<InteractionContact>(
     'interaction_contacts',
-    interaction.contacts.map(({ contactId }) => ({ interactionId: interaction.interactionId, contactId }))
+    interaction.contacts.map(({ id: contactId }) => ({ interactionId: interaction.id, contactId }))
   );
 };
 
-const updateInteractionContacts = async (interaction: Pick<Interaction, 'interactionId' | 'contacts'>) => {
+const updateInteractionContacts = async (interaction: Pick<Interaction, 'id' | 'contacts'>) => {
   await deleteInteractionContacts(interaction);
   await createInteractionContacts(interaction);
 };
 
-const deleteInteractionContacts = async (interaction: Pick<InteractionRecord, 'interactionId'>) => {
-  await deleteQuery<InteractionContact>('interaction_contacts', pick(interaction, ['interactionId']));
+const deleteInteractionContacts = async ({ id }: Pick<InteractionRecord, 'id'>) => {
+  await deleteQuery<InteractionContact>('interaction_contacts', { interactionId: id });
 };

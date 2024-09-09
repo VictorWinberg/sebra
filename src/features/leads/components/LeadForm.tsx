@@ -72,10 +72,10 @@ const LeadForm = ({ formProps, ...props }: FormProps<Lead>) => {
             render={({ field }) => (
               <Autocomplete
                 options={contacts}
-                getOptionKey={(option) => option.contactId}
+                getOptionKey={(option) => option.id}
                 getOptionLabel={(option) => option.contactName}
-                value={contacts.find((contact) => contact.contactId === field.value) || null}
-                onChange={(_, value) => field.onChange(value ? value.contactId : undefined)}
+                value={contacts.find((contact) => contact.id === field.value) || null}
+                onChange={(_, value) => field.onChange(value ? value.id : undefined)}
                 renderInput={(params) => <TextField {...params} label="Kontakt" variant="outlined" fullWidth />}
               />
             )}
@@ -88,10 +88,10 @@ const LeadForm = ({ formProps, ...props }: FormProps<Lead>) => {
             render={({ field }) => (
               <Autocomplete
                 options={companies}
-                getOptionKey={(option) => option.companyId}
+                getOptionKey={(option) => option.id}
                 getOptionLabel={(option) => option.companyName}
-                value={companies.find((contact) => contact.companyId === field.value) || null}
-                onChange={(_, value) => field.onChange(value ? value.companyId : undefined)}
+                value={companies.find((contact) => contact.id === field.value) || null}
+                onChange={(_, value) => field.onChange(value ? value.id : undefined)}
                 renderInput={(params) => <TextField {...params} label="Bolag" variant="outlined" fullWidth />}
               />
             )}
@@ -104,10 +104,10 @@ const LeadForm = ({ formProps, ...props }: FormProps<Lead>) => {
             render={({ field }) => (
               <Autocomplete
                 options={assignments}
-                getOptionKey={(option) => option.assignmentId}
+                getOptionKey={(option) => option.id}
                 getOptionLabel={(option) => option.assignmentName}
-                value={assignments.find((contact) => contact.assignmentId === field.value) || null}
-                onChange={(_, value) => field.onChange(value ? value.assignmentId : undefined)}
+                value={assignments.find((contact) => contact.id === field.value) || null}
+                onChange={(_, value) => field.onChange(value ? value.id : undefined)}
                 renderInput={(params) => <TextField {...params} label="Uppdrag" variant="outlined" fullWidth />}
               />
             )}
