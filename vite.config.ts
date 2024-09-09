@@ -1,7 +1,8 @@
-import { defineConfig } from 'vite';
+import { sentryVitePlugin } from '@sentry/vite-plugin';
 import react from '@vitejs/plugin-react-swc';
-import tsConfigPaths from 'vite-tsconfig-paths';
 import * as child from 'child_process';
+import { defineConfig } from 'vite';
+import tsConfigPaths from 'vite-tsconfig-paths';
 
 const commitHash = child.execSync('git rev-parse --short HEAD').toString();
 
@@ -12,12 +13,20 @@ export default defineConfig({
     __APP_VERSION__: JSON.stringify(process.env.npm_package_version),
     __COMMIT_HASH__: JSON.stringify(commitHash)
   },
-  plugins: [react(), tsConfigPaths()],
+  plugins: [
+    react(),
+    tsConfigPaths(),
+    sentryVitePlugin({
+      org: 'vicnie-ab',
+      project: 'sebra'
+    })
+  ],
   optimizeDeps: {
     include: ['@emotion/styled']
   },
   build: {
-    outDir: 'dist'
+    outDir: 'dist',
+    sourcemap: true
   },
   publicDir: 'public',
   server: {

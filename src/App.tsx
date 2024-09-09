@@ -4,15 +4,18 @@ import { RouterProvider } from 'react-router-dom';
 import ErrorBoundary from '@/layout/ErrorBoundary';
 import router from '@/routes';
 import Providers from './Providers';
+import SnackbarProvider from './ui-component/SnackbarProvider';
 
 // ==============================|| APP ||============================== //
 
 const App = () => {
   return (
     <ErrorBoundary name="App">
-      <Providers>
-        <RouterProvider router={router} />
-      </Providers>
+      <SnackbarProvider>
+        <Providers>
+          <RouterProvider router={router} />
+        </Providers>
+      </SnackbarProvider>
     </ErrorBoundary>
   );
 };
