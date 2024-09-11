@@ -7,13 +7,13 @@ import { Avatar, Chip, List, ListItem } from '@mui/material';
 import dayjs, { Dayjs } from 'dayjs';
 
 // project imports
-import { Contact } from '@/features/contacts/api/contactsApi';
 import DataTable from '@/ui-component/DataTable';
 import SebraDialog from '@/ui-component/SebraDialog';
 import { formatDate, stringAvatar, toLocalTime } from '@/utils';
 import { Interaction } from '../api/interactionsApi';
 import { useCreateInteraction, useDeleteInteraction, useUpdateInteraction } from '../hooks/useInteractionsMutations';
 import InteractionForm from './InteractionForm';
+import { Contact } from '@/api/gql/graphql';
 
 interface InteractionTableProps {
   interactions: Interaction[];

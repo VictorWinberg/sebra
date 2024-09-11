@@ -1,8 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
 
 import { deleteQuery, insertManyQuery, insertQuery, query, updateQuery } from '@/api/DummyDB';
-import { Contact } from '@/features/contacts/api/contactsApi';
 import { pick, toMap } from '@/utils';
+import { Contact } from '@/api/gql/graphql';
 
 export type Interaction = InteractionRecord & { contacts: Contact[] };
 

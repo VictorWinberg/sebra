@@ -1,9 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
 
 import { deleteQuery, insertQuery, query, updateQuery } from '@/api/DummyDB';
+import { Company, Contact } from '@/api/gql/graphql';
 import { Assignment } from '@/features/assignments/api/assignmentsApi';
-import { Company } from '@/features/companies/api/companiesApi';
-import { Contact } from '@/features/contacts/api/contactsApi';
 import { pick, toMap } from '@/utils';
 
 export const LEAD_STAGES = ['Intresse', 'Pitch', 'Affär', 'Uppföljning'];

@@ -7,7 +7,6 @@ import { Button } from '@mui/material';
 import DataTable from '@/ui-component/DataTable';
 import FlexGrow from '@/ui-component/extended/FlexGrow';
 import SebraDialog from '@/ui-component/SebraDialog';
-import { Contact } from '../api/contactsApi';
 import ContactForm from '../components/ContactForm';
 import { contactColumns } from '../config/ContactConfig';
 import { useCreateContact, useDeleteContact, useUpdateContact } from '../hooks/useContactsMutations';
@@ -15,6 +14,7 @@ import { useContacts } from '../hooks/useContactsQueries';
 
 // assets
 import AddIcon from '@mui/icons-material/Add';
+import { Contact } from '@/api/gql/graphql';
 
 // ==============================|| CONTACTS PAGE ||============================== //
 
@@ -33,7 +33,11 @@ const ContactsPage = () => {
         columns={contactColumns}
         getRowId={(row) => `${row.id}`}
         state={{ isLoading }}
-        onCreate={(row) => createContact(row, { onSuccess: (res) => navigate(`/home/contacts/${res.id}`) })}
+        onCreate={(row) =>
+          createContact(row, {
+            onSuccess: ({ createContact }) => navigate(`/home/contacts/${createContact?.id || ''}`)
+          })
+        }
         onUpdate={(row) => updateContact(row)}
         onDelete={(row) => deleteContact(row)}
         renderTopToolbarCustomActions={({ table }) => (

@@ -5,6 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Box, Typography } from '@mui/material';
 
 // project imports
+import { Contact } from '@/api/gql/graphql';
 import AssignmentTable from '@/features/assignments/components/AssignmentTable';
 import { useAssignments } from '@/features/assignments/hooks/useAssignmentsQueries';
 import InteractionTable from '@/features/interactions/components/InteractionTable';
@@ -14,7 +15,6 @@ import ContentTabs from '@/ui-component/ContentTabs';
 import FlexGrow from '@/ui-component/extended/FlexGrow';
 import { FormActionButtons } from '@/ui-component/SebraForm';
 import { formatDate } from '@/utils';
-import { Contact } from '../api/contactsApi';
 import { useCreateContact, useDeleteContact, useUpdateContact } from '../hooks/useContactsMutations';
 import { useContact } from '../hooks/useContactsQueries';
 import ContactForm from './ContactForm';
@@ -46,13 +46,11 @@ const ContactEdit = () => {
     [allInteractions, contact]
   );
 
-  const handleSubmit = (data: Partial<Contact>) => {
+  const handleSubmit = (data: Contact) => {
     if (contact) {
-      updateContact(data);
+      updateContact({ ...data, id: contact.id });
     } else {
-      createContact(data, {
-        onSuccess: (res) => navigate(`/home/contacts/${res.id}`)
-      });
+      createContact(data, { onSuccess: ({ createContact }) => navigate(`/home/contacts/${createContact?.id || ''}`) });
     }
   };
 
