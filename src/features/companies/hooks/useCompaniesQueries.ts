@@ -23,6 +23,7 @@ export const useCompany = (companyId: string | undefined): UseQueryResult<Compan
   return useQuery({
     queryKey: ['company', companyId],
     queryFn: () => fn({ id: companyId! }),
-    select: (data) => data.Company!
+    select: (data) => data.Company!,
+    enabled: !!companyId
   });
 };

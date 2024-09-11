@@ -4,13 +4,13 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Avatar, Chip, Link, List, ListItem } from '@mui/material';
 
 // project imports
-import { Contact } from '@/features/contacts/api/contactsApi';
 import DataTable from '@/ui-component/DataTable';
 import SebraDialog from '@/ui-component/SebraDialog';
 import { stringAvatar } from '@/utils';
 import { Assignment } from '../api/assignmentsApi';
 import { useCreateAssignment, useDeleteAssignment, useUpdateAssignment } from '../hooks/useAssignmentsMutations';
 import AssignmentForm from './AssignmentForm';
+import { Contact } from '@/api/gql/graphql';
 
 interface AssignmentTableProps {
   assignments: Assignment[];

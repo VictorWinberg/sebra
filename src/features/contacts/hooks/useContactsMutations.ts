@@ -1,14 +1,17 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
+import { useAuth } from '@/features/authentication/hooks/useAuthQueries';
 import { useSnackbar } from '@/hooks/useSnackbar';
-import { createContact, deleteContact, updateContact } from '../api/contactsApi';
+import { createContactGQL, deleteContactGQL, updateContactGQL } from '../api/contactsGQL';
+import { createContactLocal, deleteContactLocal, updateContactLocal } from '../api/contactsLocal';
 
 export const useCreateContact = () => {
+  const { data: user } = useAuth();
   const queryClient = useQueryClient();
   const { showSnackbar } = useSnackbar();
 
   return useMutation({
-    mutationFn: createContact,
+    mutationFn: user ? createContactGQL : createContactLocal,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['contacts'] });
       showSnackbar('Kontakt skapat!');
@@ -20,11 +23,12 @@ export const useCreateContact = () => {
 };
 
 export const useUpdateContact = () => {
+  const { data: user } = useAuth();
   const queryClient = useQueryClient();
   const { showSnackbar } = useSnackbar();
 
   return useMutation({
-    mutationFn: updateContact,
+    mutationFn: user ? updateContactGQL : updateContactLocal,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['contacts'] });
       showSnackbar('Kontakt uppdaterat!');
@@ -36,11 +40,12 @@ export const useUpdateContact = () => {
 };
 
 export const useDeleteContact = () => {
+  const { data: user } = useAuth();
   const queryClient = useQueryClient();
   const { showSnackbar } = useSnackbar();
 
   return useMutation({
-    mutationFn: deleteContact,
+    mutationFn: user ? deleteContactGQL : deleteContactLocal,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['contacts'] });
       showSnackbar('Kontakt borttaget!');

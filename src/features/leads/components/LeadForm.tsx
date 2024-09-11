@@ -78,7 +78,7 @@ const LeadForm = ({ formProps, ...props }: FormProps<Lead>) => {
                 getOptionKey={(option) => option.id}
                 getOptionLabel={(option) => option.contactName}
                 value={contacts.find((contact) => contact.id === field.value) || null}
-                onChange={(_, value) => field.onChange(value ? value.id : undefined)}
+                onChange={(_, value) => field.onChange(value ?? undefined)}
                 renderInput={(params) => <TextField {...params} label="Kontakt" variant="outlined" fullWidth />}
               />
             )}
@@ -94,7 +94,7 @@ const LeadForm = ({ formProps, ...props }: FormProps<Lead>) => {
                 getOptionKey={(option) => option.id}
                 getOptionLabel={(option) => option.companyName}
                 value={companies.find((contact) => contact.id === field.value) || null}
-                onChange={(_, value) => field.onChange(value ? value.id : undefined)}
+                onChange={(_, value) => field.onChange(value ?? undefined)}
                 renderInput={(params) => <TextField {...params} label="Bolag" variant="outlined" fullWidth />}
               />
             )}
@@ -110,7 +110,7 @@ const LeadForm = ({ formProps, ...props }: FormProps<Lead>) => {
                 getOptionKey={(option) => option.id}
                 getOptionLabel={(option) => option.assignmentName}
                 value={assignments.find((contact) => contact.id === field.value) || null}
-                onChange={(_, value) => field.onChange(value ? value.id : undefined)}
+                onChange={(_, value) => field.onChange(value ?? undefined)}
                 renderInput={(params) => <TextField {...params} label="Uppdrag" variant="outlined" fullWidth />}
               />
             )}

@@ -11,7 +11,7 @@ import { AnyData, ModuleBaseConfigItem } from '../config/ModuleConfig';
 export interface ModuleFormConfigItem<M extends AnyData> extends ModuleBaseConfigItem {
   type: 'form';
   FormComponent: React.FC<FormProps<M>>;
-  createMutation: () => UseMutationResult<unknown, Error, { data: Omit<M, 'id'> }, unknown>;
+  createMutation: () => UseMutationResult<unknown, Error, M, unknown>;
   props: FormProps<M>;
   configProps?: FormProps<M>;
 }
@@ -26,7 +26,7 @@ const ModuleForm = <M extends AnyData>({ selectedModule }: ModuleFormProps<M>) =
 
   return (
     <FormComponent
-      onSubmit={(data) => mutate({ data })}
+      onSubmit={mutate}
       {...props}
       renderBottomContent={() => (
         <Button size="large" type="submit" variant="contained" color="primary" sx={{ mt: 2 }}>

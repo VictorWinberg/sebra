@@ -34,17 +34,11 @@ const CompaniesPage = () => {
         getRowId={(row) => `${row.id}`}
         state={{ isLoading }}
         onCreate={(data) =>
-          createCompany(
-            { data },
-            {
-              onSuccess: (res) => {
-                const id = res?.createCompany?.id || '';
-                navigate(`/home/companies/${id}`);
-              }
-            }
-          )
+          createCompany(data, {
+            onSuccess: ({ createCompany }) => navigate(`/home/companies/${createCompany?.id || ''}`)
+          })
         }
-        onUpdate={(row) => updateCompany({ id: row.id!, data: row })}
+        onUpdate={(row) => updateCompany(row)}
         onDelete={(row) => deleteCompany(row)}
         renderTopToolbarCustomActions={({ table }) => (
           <Button

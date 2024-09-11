@@ -8,9 +8,9 @@ import { MRT_ColumnDef } from 'material-react-table';
 import dayjs, { Dayjs } from 'dayjs';
 
 // project imports
-import { Contact } from '@/features/contacts/api/contactsApi';
 import { formatDate, toLocalTime } from '@/utils';
 import { Assignment } from '../api/assignmentsApi';
+import { Contact } from '@/api/gql/graphql';
 
 // ==============================|| ASSIGNMENT CONFIG ||============================== //
 

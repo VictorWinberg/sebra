@@ -5,7 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Box, Typography } from '@mui/material';
 
 // project imports
-import { MutationCompanyInput } from '@/api/gql/graphql';
+import { Company } from '@/api/gql/graphql';
 import AssignmentTable from '@/features/assignments/components/AssignmentTable';
 import { useAssignments } from '@/features/assignments/hooks/useAssignmentsQueries';
 import ContactTable from '@/features/contacts/components/ContactTable';
@@ -36,19 +36,11 @@ const CompanyEdit = () => {
     [allAssignments, company]
   );
 
-  const handleSubmit = (data: MutationCompanyInput) => {
+  const handleSubmit = (data: Company) => {
     if (company) {
-      updateCompany({ id: company.id!, data });
+      updateCompany({ ...data, id: company.id });
     } else {
-      createCompany(
-        { data },
-        {
-          onSuccess: (res) => {
-            const id = res?.createCompany?.id || '';
-            navigate(`/home/companies/${id}`);
-          }
-        }
-      );
+      createCompany(data, { onSuccess: ({ createCompany }) => navigate(`/home/companies/${createCompany?.id || ''}`) });
     }
   };
 
@@ -82,9 +74,9 @@ const CompanyEdit = () => {
                     label: 'Kontakter',
                     content: (
                       <ContactTable
-                        contacts={contacts.filter((contact) => contact.companyId === company.id)}
+                        contacts={contacts.filter((contact) => contact.company?.id === company.id)}
                         isLoading={contactsIsLoading}
-                        defaultValues={{ companyId: company.id }}
+                        defaultValues={{ company }}
                       />
                     )
                   },
@@ -95,7 +87,7 @@ const CompanyEdit = () => {
                       <AssignmentTable
                         assignments={assignments}
                         isLoading={assignmentsIsLoading}
-                        defaultValues={{ companyId: company.id }}
+                        defaultValues={{ company }}
                       />
                     )
                   }

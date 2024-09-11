@@ -2,14 +2,14 @@ CREATE TABLE IF NOT EXISTS assignments (
     id TEXT PRIMARY KEY,
     assignment_name VARCHAR(255) NOT NULL,
     external_contact_id TEXT,
-    company_id TEXT,
+    company TEXT,
     fee DECIMAL(10, 2),
     type VARCHAR(50),
     status VARCHAR(50),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (external_contact_id) REFERENCES contacts(id),
-    FOREIGN KEY (company_id) REFERENCES companies(id)
+    FOREIGN KEY (company) REFERENCES companies(id)
 );
 
 CREATE TABLE IF NOT EXISTS assignment_responsible_contacts (
@@ -26,12 +26,12 @@ CREATE TABLE IF NOT EXISTS contacts (
     email VARCHAR(255),
     phone VARCHAR(20),
     job_title VARCHAR(100),
-    company_id TEXT,
+    company TEXT,
     address VARCHAR(255),
     notes TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (company_id) REFERENCES companies(id)
+    FOREIGN KEY (company) REFERENCES companies(id)
 );
 
 CREATE TABLE IF NOT EXISTS companies (
@@ -81,11 +81,11 @@ CREATE TABLE IF NOT EXISTS leads (
     stage VARCHAR(50) NOT NULL,
     rank INTEGER,
     contact_id INTEGER,
-    company_id INTEGER,
+    company INTEGER,
     assignment_id INTEGER,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (contact_id) REFERENCES contacts(id),
-    FOREIGN KEY (company_id) REFERENCES companies(id),
+    FOREIGN KEY (company) REFERENCES companies(id),
     FOREIGN KEY (assignment_id) REFERENCES assignments(id)
 );

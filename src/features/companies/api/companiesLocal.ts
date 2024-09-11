@@ -1,15 +1,14 @@
+import { v4 as uuidv4 } from 'uuid';
+
 import { deleteQuery, insertQuery, query, selectOneQuery, updateQuery } from '@/api/DummyDB';
 import {
   Company,
   CreateCompanyMutation,
-  CreateCompanyMutationVariables,
   DeleteCompanyMutation,
-  DeleteCompanyMutationVariables,
   GetCompaniesQuery,
   GetCompanyQuery,
   GetCompanyQueryVariables,
-  UpdateCompanyMutation,
-  UpdateCompanyMutationVariables
+  UpdateCompanyMutation
 } from '@/api/gql/graphql';
 import { AssertKeys, pick } from '@/utils';
 
@@ -29,36 +28,33 @@ type LocalCompany = {
 export const verify: AssertKeys<LocalCompany, Omit<Company, '__typename'>> = true;
 
 export const getCompaniesLocal = async (): Promise<GetCompaniesQuery> => {
-  const companies = await query<Company>(`SELECT * FROM companies ORDER BY company_name`);
-  return { Companies: { docs: companies } };
+  const docs = await query<Company>(`SELECT * FROM companies ORDER BY company_name`);
+  return { Companies: { docs } };
 };
 
 export const getCompanyLocal = async ({ id }: GetCompanyQueryVariables): Promise<GetCompanyQuery> => {
-  const company = await selectOneQuery<Company>('companies', { id });
-  return { Company: company };
+  return { Company: await selectOneQuery<Company>('companies', { id }) };
 };
 
-export const createCompanyLocal = async ({ data }: CreateCompanyMutationVariables): Promise<CreateCompanyMutation> => {
-  const company = await insertQuery<Company>(
-    'companies',
-    pick(data, ['companyName', 'address', 'industry', 'phone', 'email', 'website', 'organizationNumber'])
-  );
-  return { createCompany: company };
+export const createCompanyLocal = async (data: Company): Promise<CreateCompanyMutation> => {
+  const params = pick({ ...data, id: uuidv4() }, [
+    'id',
+    'companyName',
+    'address',
+    'industry',
+    'phone',
+    'email',
+    'website',
+    'organizationNumber'
+  ]);
+  return { createCompany: await insertQuery('companies', params) };
 };
 
-export const updateCompanyLocal = async ({
-  id,
-  data
-}: UpdateCompanyMutationVariables): Promise<UpdateCompanyMutation> => {
-  const company = await updateQuery<Company>(
-    'companies',
-    pick(data, ['companyName', 'address', 'industry', 'phone', 'email', 'website', 'organizationNumber']),
-    { id }
-  );
-  return { updateCompany: company };
+export const updateCompanyLocal = async ({ id, ...data }: Company): Promise<UpdateCompanyMutation> => {
+  const params = pick(data, ['companyName', 'address', 'industry', 'phone', 'email', 'website', 'organizationNumber']);
+  return { updateCompany: await updateQuery<Company>('companies', params, { id }) };
 };
 
-export const deleteCompanyLocal = async ({ id }: DeleteCompanyMutationVariables): Promise<DeleteCompanyMutation> => {
-  const company = await deleteQuery<Company>('companies', { id });
-  return { deleteCompany: company };
+export const deleteCompanyLocal = async ({ id }: Company): Promise<DeleteCompanyMutation> => {
+  return { deleteCompany: await deleteQuery<Company>('companies', { id }) };
 };

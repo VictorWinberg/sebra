@@ -10,7 +10,7 @@ VALUES
     ('dcdc69a7-ab39-4bec-80ff-04021f8813ca', 'ByggStyrka AB', 'Byggarevägen 6, Örebro', 'Bygg', '019-555 679', 'info@byggstyrka.com', 'http://www.byggstyrka.com', '20230704-1234', '2023-07-04', '2023-07-04');
 
 -- Seed data for contacts table
-INSERT INTO contacts (id, contact_name, email, phone, company_id, job_title, address, notes, created_at, updated_at)
+INSERT INTO contacts (id, contact_name, email, phone, company, job_title, address, notes, created_at, updated_at)
 VALUES
     ('92162d7a-ceea-486a-8d2f-891ec7feaa3e', 'Victor Winberg', 'victor.winberg@sebra.se', '08-123 456 78', '19b61f09-c879-4548-a79d-06d6f8211ff8', 'CTO', 'Sveavägen 123, Stockholm', 'Kontakt för IT-frågor', '2024-05-28', '2024-05-28'),
     ('61fa7fcf-0cd6-4af6-9a5e-bf4a945f42b2', 'Sebastian Roos', 'sebastian.roos@sebra.se', '08-123 456 78', '19b61f09-c879-4548-a79d-06d6f8211ff8', 'VD', 'Sveavägen 123, Stockholm', 'Huvudkontaktperson', '2024-05-28', '2024-05-28'),
@@ -41,7 +41,7 @@ VALUES
     ('0b09b721-f6f8-4197-87aa-e37277d26c1e', 'Ellie Andersson', 'ellie.andersson@byggstyrka.com', '019-555 684', 'dcdc69a7-ab39-4bec-80ff-04021f8813ca', 'Byggprojektledare', 'Byggarevägen 6, Örebro', 'Planering och ledning av byggprojekt', '2023-09-26', '2023-09-26');
 
 -- Seed data for assignments table
-INSERT INTO assignments (id, assignment_name, external_contact_id, company_id, fee, type, status, created_at, updated_at)
+INSERT INTO assignments (id, assignment_name, external_contact_id, company, fee, type, status, created_at, updated_at)
 VALUES
     ('adbbfcf9-d95a-4be2-840b-e03d595ec2f1', 'Affärslokaler och Hyresförhandlingar', '92162d7a-ceea-486a-8d2f-891ec7feaa3e', '19b61f09-c879-4548-a79d-06d6f8211ff8', 102000.00, 'Affärslokaler och Hyresförhandlingar', 'Pågående', '2024-02-30', '2024-02-30'),
     ('4734fd6f-5148-4fc6-bbaa-17c589b74eb2', 'Bostadsutveckling och Framtidsplanering', 'fcac2ac2-5450-42ae-a56b-823f0782a629', 'fd303530-16c6-46e4-b83a-5c4b04fa4b4e', 118000.00, 'Bostadsutveckling och Framtidsplanering', 'Pågående', '2023-09-14', '2023-09-14'),
@@ -353,7 +353,7 @@ VALUES
     ('f927238d-eb44-47ac-b29f-f8ec51c37a80', '5834f24e-af27-406e-8171-9c784182f24d');
 
 -- Seed data for leads table
-INSERT INTO leads (id, lead_title, description, stage, rank, contact_id, company_id, assignment_id, created_at, updated_at)
+INSERT INTO leads (id, lead_title, description, stage, rank, contact_id, company, assignment_id, created_at, updated_at)
 VALUES
     ('9671c767-bc53-4bf3-8038-8233b2feb9bc', 'Diskussion om kommande projekt.', 'Under vårt senaste möte diskuterade vi möjligheten att inleda ett nytt projekt. Kunden är intresserad av att utforska potentiella samarbeten inom digital transformation och vill ha ytterligare information innan de går vidare.', 'Pitch', 1, '92162d7a-ceea-486a-8d2f-891ec7feaa3e', '19b61f09-c879-4548-a79d-06d6f8211ff8', 'adbbfcf9-d95a-4be2-840b-e03d595ec2f1', '2024-06-01', '2024-06-01'),
     ('7fba6602-b886-4466-8965-abd480e040ee', 'Erbjudande skickat, inväntar svar.', 'Vi har skickat ett detaljerat erbjudande till kunden, som inkluderar prisuppgifter och leveranstider. Kunden har fått tid att överväga erbjudandet och vi förväntar oss ett svar inom de närmaste dagarna.', 'Affär', 2, 'ef40a58c-99ea-4b64-b9b9-5cce9cf9d9e4', '12ac063b-b562-41bd-9547-bf038620e18b', 'a42d42db-cffc-466c-a5ca-7d0a40eb265e', '2024-06-02', '2024-06-02'),

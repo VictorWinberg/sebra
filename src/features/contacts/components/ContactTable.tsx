@@ -4,9 +4,9 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Link } from '@mui/material';
 
 // project imports
+import { Contact } from '@/api/gql/graphql';
 import DataTable from '@/ui-component/DataTable';
 import SebraDialog from '@/ui-component/SebraDialog';
-import { Contact } from '../api/contactsApi';
 import { useCreateContact, useDeleteContact, useUpdateContact } from '../hooks/useContactsMutations';
 import ContactForm from './ContactForm';
 

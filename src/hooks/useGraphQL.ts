@@ -41,12 +41,9 @@ export const useGraphQLMutation = <TResult, TVariables>(
 };
 
 export const requestGQL =
-  <TResult, TVariables>(
-    document: TypedDocumentNode<TResult, TVariables>,
-    transform?: (variables: TVariables) => TVariables
-  ) =>
+  <TResult, TVariables>(document: TypedDocumentNode<TResult, TVariables>) =>
   (variables?: TVariables): Promise<TResult> =>
-    request(`${API_URL}graphql`, document, (variables && transform ? transform(variables) : variables) ?? undefined);
+    request(`${API_URL}graphql`, document, variables ?? undefined);
 
 export interface GraphQLParams {
   enabled: boolean;
