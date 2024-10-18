@@ -5,6 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Box, Typography } from '@mui/material';
 
 // project imports
+import { Assignment } from '@/api/gql/graphql';
 import DocumentReferenceTable from '@/features/documents/components/DocumentReferenceTable';
 import InteractionTable from '@/features/interactions/components/InteractionTable';
 import { useInteractions } from '@/features/interactions/hooks/useInteractionsQueries';
@@ -13,7 +14,6 @@ import ContentTabs from '@/ui-component/ContentTabs';
 import FlexGrow from '@/ui-component/extended/FlexGrow';
 import { FormActionButtons } from '@/ui-component/SebraForm';
 import { formatDate, intersection } from '@/utils';
-import { Assignment } from '../api/assignmentsApi';
 import { useCreateAssignment, useDeleteAssignment, useUpdateAssignment } from '../hooks/useAssignmentsMutations';
 import { useAssignment } from '../hooks/useAssignmentsQueries';
 import AssignmentForm from './AssignmentForm';
@@ -38,12 +38,12 @@ const AssignmentEdit = () => {
     [allInteractions, assignment]
   );
 
-  const handleSubmit = (data: Partial<Assignment>) => {
+  const handleSubmit = (data: Assignment) => {
     if (assignment) {
-      updateAssignment(data);
+      updateAssignment({ ...data, id: assignment.id });
     } else {
       createAssignment(data, {
-        onSuccess: (res) => navigate(`/home/assignments/${res.id}`)
+        onSuccess: ({ createAssignment }) => navigate(`/home/assignments/${createAssignment?.id || ''}`)
       });
     }
   };
@@ -80,7 +80,9 @@ const AssignmentEdit = () => {
                       interactions={interactions}
                       isLoading={interactionsIsLoading}
                       defaultValues={{
-                        contacts: [...assignment.responsibleContacts, assignment.externalContact].filter((c) => !!c),
+                        contacts: [...(assignment.responsibleContacts || []), assignment.externalContact].filter(
+                          (c) => !!c
+                        ),
                         interactionDate: formatDate()
                       }}
                     />

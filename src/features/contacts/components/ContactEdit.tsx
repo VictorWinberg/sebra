@@ -35,8 +35,8 @@ const ContactEdit = () => {
     () =>
       allAssignments.filter(
         (assignment) =>
-          assignment.responsibleContacts.some((c) => c.id === contact?.id) ||
-          assignment.externalContactId === contact?.id
+          assignment.responsibleContacts?.some((c) => c.id === contact?.id) ||
+          assignment.externalContact?.id === contact?.id
       ),
     [allAssignments, contact]
   );

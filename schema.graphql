@@ -22,8 +22,9 @@ type Assignment {
   company: Company
   createdAt: DateTime
   externalContact: Contact
-  fee: Float!
+  fee: Float
   id: String!
+  responsibleContacts: [Contact!]
   status: String
   type: String
   updatedAt: DateTime
@@ -70,6 +71,7 @@ input Assignment_externalContact_operator {
 
 input Assignment_fee_operator {
   equals: Float
+  exists: Boolean
   greater_than: Float
   greater_than_equal: Float
   less_than: Float
@@ -86,6 +88,15 @@ input Assignment_id_operator {
   like: String
   not_equals: String
   not_in: [String]
+}
+
+input Assignment_responsibleContacts_operator {
+  all: [JSON]
+  equals: JSON
+  exists: Boolean
+  in: [JSON]
+  not_equals: JSON
+  not_in: [JSON]
 }
 
 input Assignment_status_operator {
@@ -130,6 +141,7 @@ input Assignment_where {
   externalContact: Assignment_externalContact_operator
   fee: Assignment_fee_operator
   id: Assignment_id_operator
+  responsibleContacts: Assignment_responsibleContacts_operator
   status: Assignment_status_operator
   type: Assignment_type_operator
   updatedAt: Assignment_updatedAt_operator
@@ -144,6 +156,7 @@ input Assignment_where_and {
   externalContact: Assignment_externalContact_operator
   fee: Assignment_fee_operator
   id: Assignment_id_operator
+  responsibleContacts: Assignment_responsibleContacts_operator
   status: Assignment_status_operator
   type: Assignment_type_operator
   updatedAt: Assignment_updatedAt_operator
@@ -158,6 +171,7 @@ input Assignment_where_or {
   externalContact: Assignment_externalContact_operator
   fee: Assignment_fee_operator
   id: Assignment_id_operator
+  responsibleContacts: Assignment_responsibleContacts_operator
   status: Assignment_status_operator
   type: Assignment_type_operator
   updatedAt: Assignment_updatedAt_operator
@@ -203,6 +217,7 @@ type AssignmentsDocAccessFields {
   createdAt: AssignmentsDocAccessFields_createdAt
   externalContact: AssignmentsDocAccessFields_externalContact
   fee: AssignmentsDocAccessFields_fee
+  responsibleContacts: AssignmentsDocAccessFields_responsibleContacts
   status: AssignmentsDocAccessFields_status
   type: AssignmentsDocAccessFields_type
   updatedAt: AssignmentsDocAccessFields_updatedAt
@@ -323,6 +338,29 @@ type AssignmentsDocAccessFields_fee_Update {
   permission: Boolean!
 }
 
+type AssignmentsDocAccessFields_responsibleContacts {
+  create: AssignmentsDocAccessFields_responsibleContacts_Create
+  delete: AssignmentsDocAccessFields_responsibleContacts_Delete
+  read: AssignmentsDocAccessFields_responsibleContacts_Read
+  update: AssignmentsDocAccessFields_responsibleContacts_Update
+}
+
+type AssignmentsDocAccessFields_responsibleContacts_Create {
+  permission: Boolean!
+}
+
+type AssignmentsDocAccessFields_responsibleContacts_Delete {
+  permission: Boolean!
+}
+
+type AssignmentsDocAccessFields_responsibleContacts_Read {
+  permission: Boolean!
+}
+
+type AssignmentsDocAccessFields_responsibleContacts_Update {
+  permission: Boolean!
+}
+
 type AssignmentsDocAccessFields_status {
   create: AssignmentsDocAccessFields_status_Create
   delete: AssignmentsDocAccessFields_status_Delete
@@ -398,6 +436,7 @@ type AssignmentsFields {
   createdAt: AssignmentsFields_createdAt
   externalContact: AssignmentsFields_externalContact
   fee: AssignmentsFields_fee
+  responsibleContacts: AssignmentsFields_responsibleContacts
   status: AssignmentsFields_status
   type: AssignmentsFields_type
   updatedAt: AssignmentsFields_updatedAt
@@ -515,6 +554,29 @@ type AssignmentsFields_fee_Read {
 }
 
 type AssignmentsFields_fee_Update {
+  permission: Boolean!
+}
+
+type AssignmentsFields_responsibleContacts {
+  create: AssignmentsFields_responsibleContacts_Create
+  delete: AssignmentsFields_responsibleContacts_Delete
+  read: AssignmentsFields_responsibleContacts_Read
+  update: AssignmentsFields_responsibleContacts_Update
+}
+
+type AssignmentsFields_responsibleContacts_Create {
+  permission: Boolean!
+}
+
+type AssignmentsFields_responsibleContacts_Delete {
+  permission: Boolean!
+}
+
+type AssignmentsFields_responsibleContacts_Read {
+  permission: Boolean!
+}
+
+type AssignmentsFields_responsibleContacts_Update {
   permission: Boolean!
 }
 
@@ -5143,7 +5205,8 @@ input mutationAssignmentInput {
   company: String
   createdAt: String
   externalContact: String
-  fee: Float!
+  fee: Float
+  responsibleContacts: [String]
   status: String
   type: String
   updatedAt: String
@@ -5155,6 +5218,7 @@ input mutationAssignmentUpdateInput {
   createdAt: String
   externalContact: String
   fee: Float
+  responsibleContacts: [String]
   status: String
   type: String
   updatedAt: String

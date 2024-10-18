@@ -1,5 +1,4 @@
-import { Company, Contact } from '@/api/gql/graphql';
-import { Assignment } from '@/features/assignments/api/assignmentsApi';
+import { Assignment, Company, Contact } from '@/api/gql/graphql';
 import AssignmentForm from '@/features/assignments/components/AssignmentForm';
 import { assignmentColumns } from '@/features/assignments/config/AssignmentConfig';
 import { useCreateAssignment } from '@/features/assignments/hooks/useAssignmentsMutations';

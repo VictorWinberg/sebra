@@ -32,7 +32,7 @@ const CompanyEdit = () => {
   const { data: contacts = [], isLoading: contactsIsLoading } = useContacts();
   const { data: allAssignments = [], isLoading: assignmentsIsLoading } = useAssignments();
   const assignments = useMemo(
-    () => allAssignments.filter((assignment) => assignment.companyId === company?.id),
+    () => allAssignments.filter((assignment) => assignment.company?.id === company?.id),
     [allAssignments, company]
   );
 

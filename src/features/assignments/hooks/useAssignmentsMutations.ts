@@ -1,14 +1,17 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { useSnackbar } from '@/hooks/useSnackbar';
-import { createAssignment, deleteAssignment, updateAssignment } from '../api/assignmentsApi';
+import { createAssignmentLocal, deleteAssignmentLocal, updateAssignmentLocal } from '../api/assignmentsLocal';
+import { useAuth } from '@/features/authentication/hooks/useAuthQueries';
+import { createAssignmentGQL, deleteAssignmentGQL, updateAssignmentGQL } from '../api/assignmentsGQL';
 
 export const useCreateAssignment = () => {
+  const { data: user } = useAuth();
   const queryClient = useQueryClient();
   const { showSnackbar } = useSnackbar();
 
   return useMutation({
-    mutationFn: createAssignment,
+    mutationFn: user ? createAssignmentGQL : createAssignmentLocal,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['assignments'] });
       showSnackbar('Uppdrag skapat!');
@@ -20,11 +23,12 @@ export const useCreateAssignment = () => {
 };
 
 export const useUpdateAssignment = () => {
+  const { data: user } = useAuth();
   const queryClient = useQueryClient();
   const { showSnackbar } = useSnackbar();
 
   return useMutation({
-    mutationFn: updateAssignment,
+    mutationFn: user ? updateAssignmentGQL : updateAssignmentLocal,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['assignments'] });
       showSnackbar('Uppdrag uppdaterat!');
@@ -36,11 +40,12 @@ export const useUpdateAssignment = () => {
 };
 
 export const useDeleteAssignment = () => {
+  const { data: user } = useAuth();
   const queryClient = useQueryClient();
   const { showSnackbar } = useSnackbar();
 
   return useMutation({
-    mutationFn: deleteAssignment,
+    mutationFn: user ? deleteAssignmentGQL : deleteAssignmentLocal,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['assignments'] });
       showSnackbar('Uppdrag borttaget!');

@@ -9,19 +9,19 @@ export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> =
 export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string; }
-  String: { input: string; output: string; }
-  Boolean: { input: boolean; output: boolean; }
-  Int: { input: number; output: number; }
-  Float: { input: number; output: number; }
+  ID: { input: string; output: string };
+  String: { input: string; output: string };
+  Boolean: { input: boolean; output: boolean };
+  Int: { input: number; output: number };
+  Float: { input: number; output: number };
   /** A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
-  DateTime: { input: any; output: any; }
+  DateTime: { input: any; output: any };
   /** A field whose value conforms to the standard internet email address format as specified in HTML Spec: https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address. */
-  EmailAddress: { input: any; output: any; }
+  EmailAddress: { input: any; output: any };
   /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
-  JSON: { input: any; output: any; }
+  JSON: { input: any; output: any };
   /** The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
-  JSONObject: { input: any; output: any; }
+  JSONObject: { input: any; output: any };
 };
 
 export type Access = {
@@ -45,8 +45,9 @@ export type Assignment = {
   company?: Maybe<Company>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   externalContact?: Maybe<Contact>;
-  fee: Scalars['Float']['output'];
+  fee?: Maybe<Scalars['Float']['output']>;
   id: Scalars['String']['output'];
+  responsibleContacts?: Maybe<Array<Contact>>;
   status?: Maybe<Scalars['String']['output']>;
   type?: Maybe<Scalars['String']['output']>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
@@ -93,6 +94,7 @@ export type Assignment_ExternalContact_Operator = {
 
 export type Assignment_Fee_Operator = {
   equals?: InputMaybe<Scalars['Float']['input']>;
+  exists?: InputMaybe<Scalars['Boolean']['input']>;
   greater_than?: InputMaybe<Scalars['Float']['input']>;
   greater_than_equal?: InputMaybe<Scalars['Float']['input']>;
   less_than?: InputMaybe<Scalars['Float']['input']>;
@@ -109,6 +111,15 @@ export type Assignment_Id_Operator = {
   like?: InputMaybe<Scalars['String']['input']>;
   not_equals?: InputMaybe<Scalars['String']['input']>;
   not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+};
+
+export type Assignment_ResponsibleContacts_Operator = {
+  all?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
+  equals?: InputMaybe<Scalars['JSON']['input']>;
+  exists?: InputMaybe<Scalars['Boolean']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
+  not_equals?: InputMaybe<Scalars['JSON']['input']>;
+  not_in?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
 };
 
 export type Assignment_Status_Operator = {
@@ -153,6 +164,7 @@ export type Assignment_Where = {
   externalContact?: InputMaybe<Assignment_ExternalContact_Operator>;
   fee?: InputMaybe<Assignment_Fee_Operator>;
   id?: InputMaybe<Assignment_Id_Operator>;
+  responsibleContacts?: InputMaybe<Assignment_ResponsibleContacts_Operator>;
   status?: InputMaybe<Assignment_Status_Operator>;
   type?: InputMaybe<Assignment_Type_Operator>;
   updatedAt?: InputMaybe<Assignment_UpdatedAt_Operator>;
@@ -167,6 +179,7 @@ export type Assignment_Where_And = {
   externalContact?: InputMaybe<Assignment_ExternalContact_Operator>;
   fee?: InputMaybe<Assignment_Fee_Operator>;
   id?: InputMaybe<Assignment_Id_Operator>;
+  responsibleContacts?: InputMaybe<Assignment_ResponsibleContacts_Operator>;
   status?: InputMaybe<Assignment_Status_Operator>;
   type?: InputMaybe<Assignment_Type_Operator>;
   updatedAt?: InputMaybe<Assignment_UpdatedAt_Operator>;
@@ -181,6 +194,7 @@ export type Assignment_Where_Or = {
   externalContact?: InputMaybe<Assignment_ExternalContact_Operator>;
   fee?: InputMaybe<Assignment_Fee_Operator>;
   id?: InputMaybe<Assignment_Id_Operator>;
+  responsibleContacts?: InputMaybe<Assignment_ResponsibleContacts_Operator>;
   status?: InputMaybe<Assignment_Status_Operator>;
   type?: InputMaybe<Assignment_Type_Operator>;
   updatedAt?: InputMaybe<Assignment_UpdatedAt_Operator>;
@@ -232,6 +246,7 @@ export type AssignmentsDocAccessFields = {
   createdAt?: Maybe<AssignmentsDocAccessFields_CreatedAt>;
   externalContact?: Maybe<AssignmentsDocAccessFields_ExternalContact>;
   fee?: Maybe<AssignmentsDocAccessFields_Fee>;
+  responsibleContacts?: Maybe<AssignmentsDocAccessFields_ResponsibleContacts>;
   status?: Maybe<AssignmentsDocAccessFields_Status>;
   type?: Maybe<AssignmentsDocAccessFields_Type>;
   updatedAt?: Maybe<AssignmentsDocAccessFields_UpdatedAt>;
@@ -377,6 +392,34 @@ export type AssignmentsDocAccessFields_Fee_Update = {
   permission: Scalars['Boolean']['output'];
 };
 
+export type AssignmentsDocAccessFields_ResponsibleContacts = {
+  __typename?: 'AssignmentsDocAccessFields_responsibleContacts';
+  create?: Maybe<AssignmentsDocAccessFields_ResponsibleContacts_Create>;
+  delete?: Maybe<AssignmentsDocAccessFields_ResponsibleContacts_Delete>;
+  read?: Maybe<AssignmentsDocAccessFields_ResponsibleContacts_Read>;
+  update?: Maybe<AssignmentsDocAccessFields_ResponsibleContacts_Update>;
+};
+
+export type AssignmentsDocAccessFields_ResponsibleContacts_Create = {
+  __typename?: 'AssignmentsDocAccessFields_responsibleContacts_Create';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type AssignmentsDocAccessFields_ResponsibleContacts_Delete = {
+  __typename?: 'AssignmentsDocAccessFields_responsibleContacts_Delete';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type AssignmentsDocAccessFields_ResponsibleContacts_Read = {
+  __typename?: 'AssignmentsDocAccessFields_responsibleContacts_Read';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type AssignmentsDocAccessFields_ResponsibleContacts_Update = {
+  __typename?: 'AssignmentsDocAccessFields_responsibleContacts_Update';
+  permission: Scalars['Boolean']['output'];
+};
+
 export type AssignmentsDocAccessFields_Status = {
   __typename?: 'AssignmentsDocAccessFields_status';
   create?: Maybe<AssignmentsDocAccessFields_Status_Create>;
@@ -468,6 +511,7 @@ export type AssignmentsFields = {
   createdAt?: Maybe<AssignmentsFields_CreatedAt>;
   externalContact?: Maybe<AssignmentsFields_ExternalContact>;
   fee?: Maybe<AssignmentsFields_Fee>;
+  responsibleContacts?: Maybe<AssignmentsFields_ResponsibleContacts>;
   status?: Maybe<AssignmentsFields_Status>;
   type?: Maybe<AssignmentsFields_Type>;
   updatedAt?: Maybe<AssignmentsFields_UpdatedAt>;
@@ -610,6 +654,34 @@ export type AssignmentsFields_Fee_Read = {
 
 export type AssignmentsFields_Fee_Update = {
   __typename?: 'AssignmentsFields_fee_Update';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type AssignmentsFields_ResponsibleContacts = {
+  __typename?: 'AssignmentsFields_responsibleContacts';
+  create?: Maybe<AssignmentsFields_ResponsibleContacts_Create>;
+  delete?: Maybe<AssignmentsFields_ResponsibleContacts_Delete>;
+  read?: Maybe<AssignmentsFields_ResponsibleContacts_Read>;
+  update?: Maybe<AssignmentsFields_ResponsibleContacts_Update>;
+};
+
+export type AssignmentsFields_ResponsibleContacts_Create = {
+  __typename?: 'AssignmentsFields_responsibleContacts_Create';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type AssignmentsFields_ResponsibleContacts_Delete = {
+  __typename?: 'AssignmentsFields_responsibleContacts_Delete';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type AssignmentsFields_ResponsibleContacts_Read = {
+  __typename?: 'AssignmentsFields_responsibleContacts_Read';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type AssignmentsFields_ResponsibleContacts_Update = {
+  __typename?: 'AssignmentsFields_responsibleContacts_Update';
   permission: Scalars['Boolean']['output'];
 };
 
@@ -4277,161 +4349,131 @@ export type Mutation = {
   verifyEmailUser?: Maybe<Scalars['Boolean']['output']>;
 };
 
-
 export type MutationCreateAssignmentArgs = {
   data: MutationAssignmentInput;
   draft?: InputMaybe<Scalars['Boolean']['input']>;
 };
-
 
 export type MutationCreateCompanyArgs = {
   data: MutationCompanyInput;
   draft?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
-
 export type MutationCreateContactArgs = {
   data: MutationContactInput;
   draft?: InputMaybe<Scalars['Boolean']['input']>;
 };
-
 
 export type MutationCreateDocumentReferenceArgs = {
   data: MutationDocumentReferenceInput;
   draft?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
-
 export type MutationCreateInteractionArgs = {
   data: MutationInteractionInput;
   draft?: InputMaybe<Scalars['Boolean']['input']>;
 };
-
 
 export type MutationCreateLeadArgs = {
   data: MutationLeadInput;
   draft?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
-
 export type MutationCreateMediaArgs = {
   data: MutationMediaInput;
   draft?: InputMaybe<Scalars['Boolean']['input']>;
 };
-
 
 export type MutationCreatePayloadPreferenceArgs = {
   data: MutationPayloadPreferenceInput;
   draft?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
-
 export type MutationCreateUserArgs = {
   data: MutationUserInput;
   draft?: InputMaybe<Scalars['Boolean']['input']>;
 };
-
 
 export type MutationCreateWorkspaceArgs = {
   data: MutationWorkspaceInput;
   draft?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
-
 export type MutationDeleteAssignmentArgs = {
   id: Scalars['String']['input'];
 };
-
 
 export type MutationDeleteCompanyArgs = {
   id: Scalars['String']['input'];
 };
 
-
 export type MutationDeleteContactArgs = {
   id: Scalars['String']['input'];
 };
-
 
 export type MutationDeleteDocumentReferenceArgs = {
   id: Scalars['String']['input'];
 };
 
-
 export type MutationDeleteInteractionArgs = {
   id: Scalars['String']['input'];
 };
-
 
 export type MutationDeleteLeadArgs = {
   id: Scalars['String']['input'];
 };
 
-
 export type MutationDeleteMediaArgs = {
   id: Scalars['String']['input'];
 };
-
 
 export type MutationDeletePayloadPreferenceArgs = {
   id: Scalars['String']['input'];
 };
 
-
 export type MutationDeleteUserArgs = {
   id: Scalars['String']['input'];
 };
-
 
 export type MutationDeleteWorkspaceArgs = {
   id: Scalars['String']['input'];
 };
 
-
 export type MutationDuplicateAssignmentArgs = {
   id: Scalars['String']['input'];
 };
-
 
 export type MutationDuplicateCompanyArgs = {
   id: Scalars['String']['input'];
 };
 
-
 export type MutationDuplicateContactArgs = {
   id: Scalars['String']['input'];
 };
-
 
 export type MutationDuplicateDocumentReferenceArgs = {
   id: Scalars['String']['input'];
 };
 
-
 export type MutationDuplicateInteractionArgs = {
   id: Scalars['String']['input'];
 };
-
 
 export type MutationDuplicateLeadArgs = {
   id: Scalars['String']['input'];
 };
 
-
 export type MutationDuplicateMediaArgs = {
   id: Scalars['String']['input'];
 };
-
 
 export type MutationDuplicatePayloadPreferenceArgs = {
   id: Scalars['String']['input'];
 };
 
-
 export type MutationDuplicateWorkspaceArgs = {
   id: Scalars['String']['input'];
 };
-
 
 export type MutationForgotPasswordUserArgs = {
   disableEmail?: InputMaybe<Scalars['Boolean']['input']>;
@@ -4439,24 +4481,20 @@ export type MutationForgotPasswordUserArgs = {
   expiration?: InputMaybe<Scalars['Int']['input']>;
 };
 
-
 export type MutationLoginUserArgs = {
   email?: InputMaybe<Scalars['String']['input']>;
   password?: InputMaybe<Scalars['String']['input']>;
   username?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 export type MutationResetPasswordUserArgs = {
   password?: InputMaybe<Scalars['String']['input']>;
   token?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 export type MutationUnlockUserArgs = {
   email: Scalars['String']['input'];
 };
-
 
 export type MutationUpdateAssignmentArgs = {
   autosave?: InputMaybe<Scalars['Boolean']['input']>;
@@ -4465,14 +4503,12 @@ export type MutationUpdateAssignmentArgs = {
   id: Scalars['String']['input'];
 };
 
-
 export type MutationUpdateCompanyArgs = {
   autosave?: InputMaybe<Scalars['Boolean']['input']>;
   data: MutationCompanyUpdateInput;
   draft?: InputMaybe<Scalars['Boolean']['input']>;
   id: Scalars['String']['input'];
 };
-
 
 export type MutationUpdateContactArgs = {
   autosave?: InputMaybe<Scalars['Boolean']['input']>;
@@ -4481,14 +4517,12 @@ export type MutationUpdateContactArgs = {
   id: Scalars['String']['input'];
 };
 
-
 export type MutationUpdateDocumentReferenceArgs = {
   autosave?: InputMaybe<Scalars['Boolean']['input']>;
   data: MutationDocumentReferenceUpdateInput;
   draft?: InputMaybe<Scalars['Boolean']['input']>;
   id: Scalars['String']['input'];
 };
-
 
 export type MutationUpdateInteractionArgs = {
   autosave?: InputMaybe<Scalars['Boolean']['input']>;
@@ -4497,14 +4531,12 @@ export type MutationUpdateInteractionArgs = {
   id: Scalars['String']['input'];
 };
 
-
 export type MutationUpdateLeadArgs = {
   autosave?: InputMaybe<Scalars['Boolean']['input']>;
   data: MutationLeadUpdateInput;
   draft?: InputMaybe<Scalars['Boolean']['input']>;
   id: Scalars['String']['input'];
 };
-
 
 export type MutationUpdateMediaArgs = {
   autosave?: InputMaybe<Scalars['Boolean']['input']>;
@@ -4513,14 +4545,12 @@ export type MutationUpdateMediaArgs = {
   id: Scalars['String']['input'];
 };
 
-
 export type MutationUpdatePayloadPreferenceArgs = {
   autosave?: InputMaybe<Scalars['Boolean']['input']>;
   data: MutationPayloadPreferenceUpdateInput;
   draft?: InputMaybe<Scalars['Boolean']['input']>;
   id: Scalars['String']['input'];
 };
-
 
 export type MutationUpdateUserArgs = {
   autosave?: InputMaybe<Scalars['Boolean']['input']>;
@@ -4529,14 +4559,12 @@ export type MutationUpdateUserArgs = {
   id: Scalars['String']['input'];
 };
 
-
 export type MutationUpdateWorkspaceArgs = {
   autosave?: InputMaybe<Scalars['Boolean']['input']>;
   data: MutationWorkspaceUpdateInput;
   draft?: InputMaybe<Scalars['Boolean']['input']>;
   id: Scalars['String']['input'];
 };
-
 
 export type MutationVerifyEmailUserArgs = {
   token?: InputMaybe<Scalars['String']['input']>;
@@ -5086,12 +5114,10 @@ export type Query = {
   meUser?: Maybe<UsersMe>;
 };
 
-
 export type QueryAssignmentArgs = {
   draft?: InputMaybe<Scalars['Boolean']['input']>;
   id: Scalars['String']['input'];
 };
-
 
 export type QueryAssignmentsArgs = {
   draft?: InputMaybe<Scalars['Boolean']['input']>;
@@ -5101,7 +5127,6 @@ export type QueryAssignmentsArgs = {
   where?: InputMaybe<Assignment_Where>;
 };
 
-
 export type QueryCompaniesArgs = {
   draft?: InputMaybe<Scalars['Boolean']['input']>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -5110,18 +5135,15 @@ export type QueryCompaniesArgs = {
   where?: InputMaybe<Company_Where>;
 };
 
-
 export type QueryCompanyArgs = {
   draft?: InputMaybe<Scalars['Boolean']['input']>;
   id: Scalars['String']['input'];
 };
 
-
 export type QueryContactArgs = {
   draft?: InputMaybe<Scalars['Boolean']['input']>;
   id: Scalars['String']['input'];
 };
-
 
 export type QueryContactsArgs = {
   draft?: InputMaybe<Scalars['Boolean']['input']>;
@@ -5131,12 +5153,10 @@ export type QueryContactsArgs = {
   where?: InputMaybe<Contact_Where>;
 };
 
-
 export type QueryDocumentReferenceArgs = {
   draft?: InputMaybe<Scalars['Boolean']['input']>;
   id: Scalars['String']['input'];
 };
-
 
 export type QueryDocumentReferencesArgs = {
   draft?: InputMaybe<Scalars['Boolean']['input']>;
@@ -5146,12 +5166,10 @@ export type QueryDocumentReferencesArgs = {
   where?: InputMaybe<DocumentReference_Where>;
 };
 
-
 export type QueryInteractionArgs = {
   draft?: InputMaybe<Scalars['Boolean']['input']>;
   id: Scalars['String']['input'];
 };
-
 
 export type QueryInteractionsArgs = {
   draft?: InputMaybe<Scalars['Boolean']['input']>;
@@ -5161,12 +5179,10 @@ export type QueryInteractionsArgs = {
   where?: InputMaybe<Interaction_Where>;
 };
 
-
 export type QueryLeadArgs = {
   draft?: InputMaybe<Scalars['Boolean']['input']>;
   id: Scalars['String']['input'];
 };
-
 
 export type QueryLeadsArgs = {
   draft?: InputMaybe<Scalars['Boolean']['input']>;
@@ -5176,18 +5192,15 @@ export type QueryLeadsArgs = {
   where?: InputMaybe<Lead_Where>;
 };
 
-
 export type QueryMediaArgs = {
   draft?: InputMaybe<Scalars['Boolean']['input']>;
   id: Scalars['String']['input'];
 };
 
-
 export type QueryPayloadPreferenceArgs = {
   draft?: InputMaybe<Scalars['Boolean']['input']>;
   id: Scalars['String']['input'];
 };
-
 
 export type QueryPayloadPreferencesArgs = {
   draft?: InputMaybe<Scalars['Boolean']['input']>;
@@ -5197,12 +5210,10 @@ export type QueryPayloadPreferencesArgs = {
   where?: InputMaybe<PayloadPreference_Where>;
 };
 
-
 export type QueryUserArgs = {
   draft?: InputMaybe<Scalars['Boolean']['input']>;
   id: Scalars['String']['input'];
 };
-
 
 export type QueryUsersArgs = {
   draft?: InputMaybe<Scalars['Boolean']['input']>;
@@ -5212,12 +5223,10 @@ export type QueryUsersArgs = {
   where?: InputMaybe<User_Where>;
 };
 
-
 export type QueryWorkspaceArgs = {
   draft?: InputMaybe<Scalars['Boolean']['input']>;
   id: Scalars['String']['input'];
 };
-
 
 export type QueryWorkspacesArgs = {
   draft?: InputMaybe<Scalars['Boolean']['input']>;
@@ -5227,7 +5236,6 @@ export type QueryWorkspacesArgs = {
   where?: InputMaybe<Workspace_Where>;
 };
 
-
 export type QueryAllMediaArgs = {
   draft?: InputMaybe<Scalars['Boolean']['input']>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -5236,111 +5244,91 @@ export type QueryAllMediaArgs = {
   where?: InputMaybe<Media_Where>;
 };
 
-
 export type QueryCountAssignmentsArgs = {
   draft?: InputMaybe<Scalars['Boolean']['input']>;
   where?: InputMaybe<Assignment_Where>;
 };
-
 
 export type QueryCountCompaniesArgs = {
   draft?: InputMaybe<Scalars['Boolean']['input']>;
   where?: InputMaybe<Company_Where>;
 };
 
-
 export type QueryCountContactsArgs = {
   draft?: InputMaybe<Scalars['Boolean']['input']>;
   where?: InputMaybe<Contact_Where>;
 };
-
 
 export type QueryCountDocumentReferencesArgs = {
   draft?: InputMaybe<Scalars['Boolean']['input']>;
   where?: InputMaybe<DocumentReference_Where>;
 };
 
-
 export type QueryCountInteractionsArgs = {
   draft?: InputMaybe<Scalars['Boolean']['input']>;
   where?: InputMaybe<Interaction_Where>;
 };
-
 
 export type QueryCountLeadsArgs = {
   draft?: InputMaybe<Scalars['Boolean']['input']>;
   where?: InputMaybe<Lead_Where>;
 };
 
-
 export type QueryCountPayloadPreferencesArgs = {
   draft?: InputMaybe<Scalars['Boolean']['input']>;
   where?: InputMaybe<PayloadPreference_Where>;
 };
-
 
 export type QueryCountUsersArgs = {
   draft?: InputMaybe<Scalars['Boolean']['input']>;
   where?: InputMaybe<User_Where>;
 };
 
-
 export type QueryCountWorkspacesArgs = {
   draft?: InputMaybe<Scalars['Boolean']['input']>;
   where?: InputMaybe<Workspace_Where>;
 };
-
 
 export type QueryCountallMediaArgs = {
   draft?: InputMaybe<Scalars['Boolean']['input']>;
   where?: InputMaybe<Media_Where>;
 };
 
-
 export type QueryDocAccessAssignmentArgs = {
   id: Scalars['String']['input'];
 };
-
 
 export type QueryDocAccessCompanyArgs = {
   id: Scalars['String']['input'];
 };
 
-
 export type QueryDocAccessContactArgs = {
   id: Scalars['String']['input'];
 };
-
 
 export type QueryDocAccessDocumentReferenceArgs = {
   id: Scalars['String']['input'];
 };
 
-
 export type QueryDocAccessInteractionArgs = {
   id: Scalars['String']['input'];
 };
-
 
 export type QueryDocAccessLeadArgs = {
   id: Scalars['String']['input'];
 };
 
-
 export type QueryDocAccessMediaArgs = {
   id: Scalars['String']['input'];
 };
-
 
 export type QueryDocAccessPayloadPreferenceArgs = {
   id: Scalars['String']['input'];
 };
 
-
 export type QueryDocAccessUserArgs = {
   id: Scalars['String']['input'];
 };
-
 
 export type QueryDocAccessWorkspaceArgs = {
   id: Scalars['String']['input'];
@@ -6439,7 +6427,8 @@ export type MutationAssignmentInput = {
   company?: InputMaybe<Scalars['String']['input']>;
   createdAt?: InputMaybe<Scalars['String']['input']>;
   externalContact?: InputMaybe<Scalars['String']['input']>;
-  fee: Scalars['Float']['input'];
+  fee?: InputMaybe<Scalars['Float']['input']>;
+  responsibleContacts?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   status?: InputMaybe<Scalars['String']['input']>;
   type?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['String']['input']>;
@@ -6451,6 +6440,7 @@ export type MutationAssignmentUpdateInput = {
   createdAt?: InputMaybe<Scalars['String']['input']>;
   externalContact?: InputMaybe<Scalars['String']['input']>;
   fee?: InputMaybe<Scalars['Float']['input']>;
+  responsibleContacts?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   status?: InputMaybe<Scalars['String']['input']>;
   type?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['String']['input']>;
@@ -6722,103 +6712,1226 @@ export type WorkspacesDocAccess = {
   update?: Maybe<WorkspacesUpdateDocAccess>;
 };
 
+export type GetAssignmentsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetAssignmentsQuery = {
+  __typename?: 'Query';
+  Assignments?: {
+    __typename?: 'Assignments';
+    docs?: Array<{
+      __typename?: 'Assignment';
+      id: string;
+      assignmentName: string;
+      fee?: number | null;
+      status?: string | null;
+      type?: string | null;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+      company?: {
+        __typename?: 'Company';
+        id: string;
+        companyName: string;
+        address?: string | null;
+        industry?: string | null;
+        phone?: string | null;
+        email?: string | null;
+        website?: string | null;
+        organizationNumber?: string | null;
+        createdAt?: any | null;
+        updatedAt?: any | null;
+      } | null;
+      externalContact?: {
+        __typename?: 'Contact';
+        id: string;
+        contactName: string;
+        email: any;
+        phone?: string | null;
+        jobTitle?: string | null;
+        address?: string | null;
+        notes?: string | null;
+        createdAt?: any | null;
+        updatedAt?: any | null;
+      } | null;
+      responsibleContacts?: Array<{
+        __typename?: 'Contact';
+        id: string;
+        contactName: string;
+        email: any;
+        phone?: string | null;
+        jobTitle?: string | null;
+        address?: string | null;
+        createdAt?: any | null;
+        updatedAt?: any | null;
+      }> | null;
+    } | null> | null;
+  } | null;
+};
+
+export type GetAssignmentQueryVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+export type GetAssignmentQuery = {
+  __typename?: 'Query';
+  Assignment?: {
+    __typename?: 'Assignment';
+    id: string;
+    assignmentName: string;
+    fee?: number | null;
+    status?: string | null;
+    type?: string | null;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+    company?: {
+      __typename?: 'Company';
+      id: string;
+      companyName: string;
+      address?: string | null;
+      industry?: string | null;
+      phone?: string | null;
+      email?: string | null;
+      website?: string | null;
+      organizationNumber?: string | null;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+    } | null;
+    externalContact?: {
+      __typename?: 'Contact';
+      id: string;
+      contactName: string;
+      email: any;
+      phone?: string | null;
+      jobTitle?: string | null;
+      address?: string | null;
+      notes?: string | null;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+    } | null;
+    responsibleContacts?: Array<{
+      __typename?: 'Contact';
+      id: string;
+      contactName: string;
+      email: any;
+      phone?: string | null;
+      jobTitle?: string | null;
+      address?: string | null;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+    }> | null;
+  } | null;
+};
+
+export type CreateAssignmentMutationVariables = Exact<{
+  data: MutationAssignmentInput;
+}>;
+
+export type CreateAssignmentMutation = {
+  __typename?: 'Mutation';
+  createAssignment?: { __typename?: 'Assignment'; id: string } | null;
+};
+
+export type UpdateAssignmentMutationVariables = Exact<{
+  id: Scalars['String']['input'];
+  data: MutationAssignmentUpdateInput;
+}>;
+
+export type UpdateAssignmentMutation = {
+  __typename?: 'Mutation';
+  updateAssignment?: { __typename?: 'Assignment'; id: string } | null;
+};
+
+export type DeleteAssignmentMutationVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+export type DeleteAssignmentMutation = {
+  __typename?: 'Mutation';
+  deleteAssignment?: { __typename?: 'Assignment'; id: string } | null;
+};
+
 export type AuthLoginMutationVariables = Exact<{
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
 }>;
 
+export type AuthLoginMutation = {
+  __typename?: 'Mutation';
+  loginUser?: {
+    __typename?: 'usersLoginResult';
+    token?: string | null;
+    user?: { __typename?: 'User'; id: string; email: any } | null;
+  } | null;
+};
 
-export type AuthLoginMutation = { __typename?: 'Mutation', loginUser?: { __typename?: 'usersLoginResult', token?: string | null, user?: { __typename?: 'User', id: string, email: any } | null } | null };
+export type AuthLogoutMutationVariables = Exact<{ [key: string]: never }>;
 
-export type AuthLogoutMutationVariables = Exact<{ [key: string]: never; }>;
+export type AuthLogoutMutation = { __typename?: 'Mutation'; logoutUser?: string | null };
 
+export type GetMeQueryVariables = Exact<{ [key: string]: never }>;
 
-export type AuthLogoutMutation = { __typename?: 'Mutation', logoutUser?: string | null };
+export type GetMeQuery = {
+  __typename?: 'Query';
+  meUser?: { __typename?: 'usersMe'; user?: { __typename?: 'User'; id: string; email: any } | null } | null;
+};
 
-export type GetMeQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetCompaniesQueryVariables = Exact<{ [key: string]: never }>;
 
-
-export type GetMeQuery = { __typename?: 'Query', meUser?: { __typename?: 'usersMe', user?: { __typename?: 'User', id: string, email: any } | null } | null };
-
-export type GetCompaniesQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetCompaniesQuery = { __typename?: 'Query', Companies?: { __typename?: 'Companies', docs?: Array<{ __typename?: 'Company', id: string, companyName: string, address?: string | null, industry?: string | null, phone?: string | null, email?: string | null, website?: string | null, organizationNumber?: string | null, createdAt?: any | null, updatedAt?: any | null } | null> | null } | null };
+export type GetCompaniesQuery = {
+  __typename?: 'Query';
+  Companies?: {
+    __typename?: 'Companies';
+    docs?: Array<{
+      __typename?: 'Company';
+      id: string;
+      companyName: string;
+      address?: string | null;
+      industry?: string | null;
+      phone?: string | null;
+      email?: string | null;
+      website?: string | null;
+      organizationNumber?: string | null;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+    } | null> | null;
+  } | null;
+};
 
 export type GetCompanyQueryVariables = Exact<{
   id: Scalars['String']['input'];
 }>;
 
-
-export type GetCompanyQuery = { __typename?: 'Query', Company?: { __typename?: 'Company', id: string, companyName: string, address?: string | null, industry?: string | null, phone?: string | null, email?: string | null, website?: string | null, organizationNumber?: string | null, createdAt?: any | null, updatedAt?: any | null } | null };
+export type GetCompanyQuery = {
+  __typename?: 'Query';
+  Company?: {
+    __typename?: 'Company';
+    id: string;
+    companyName: string;
+    address?: string | null;
+    industry?: string | null;
+    phone?: string | null;
+    email?: string | null;
+    website?: string | null;
+    organizationNumber?: string | null;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+  } | null;
+};
 
 export type CreateCompanyMutationVariables = Exact<{
   data: MutationCompanyInput;
 }>;
 
-
-export type CreateCompanyMutation = { __typename?: 'Mutation', createCompany?: { __typename?: 'Company', id: string } | null };
+export type CreateCompanyMutation = {
+  __typename?: 'Mutation';
+  createCompany?: { __typename?: 'Company'; id: string } | null;
+};
 
 export type UpdateCompanyMutationVariables = Exact<{
   id: Scalars['String']['input'];
   data: MutationCompanyUpdateInput;
 }>;
 
-
-export type UpdateCompanyMutation = { __typename?: 'Mutation', updateCompany?: { __typename?: 'Company', id: string } | null };
+export type UpdateCompanyMutation = {
+  __typename?: 'Mutation';
+  updateCompany?: { __typename?: 'Company'; id: string } | null;
+};
 
 export type DeleteCompanyMutationVariables = Exact<{
   id: Scalars['String']['input'];
 }>;
 
+export type DeleteCompanyMutation = {
+  __typename?: 'Mutation';
+  deleteCompany?: { __typename?: 'Company'; id: string } | null;
+};
 
-export type DeleteCompanyMutation = { __typename?: 'Mutation', deleteCompany?: { __typename?: 'Company', id: string } | null };
+export type GetContactsQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GetContactsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetContactsQuery = { __typename?: 'Query', Contacts?: { __typename?: 'Contacts', docs?: Array<{ __typename?: 'Contact', id: string, contactName: string, email: any, phone?: string | null, jobTitle?: string | null, address?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, company?: { __typename?: 'Company', id: string, companyName: string, address?: string | null, industry?: string | null, phone?: string | null, email?: string | null, website?: string | null, organizationNumber?: string | null, createdAt?: any | null, updatedAt?: any | null } | null } | null> | null } | null };
+export type GetContactsQuery = {
+  __typename?: 'Query';
+  Contacts?: {
+    __typename?: 'Contacts';
+    docs?: Array<{
+      __typename?: 'Contact';
+      id: string;
+      contactName: string;
+      email: any;
+      phone?: string | null;
+      jobTitle?: string | null;
+      address?: string | null;
+      notes?: string | null;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+      company?: {
+        __typename?: 'Company';
+        id: string;
+        companyName: string;
+        address?: string | null;
+        industry?: string | null;
+        phone?: string | null;
+        email?: string | null;
+        website?: string | null;
+        organizationNumber?: string | null;
+        createdAt?: any | null;
+        updatedAt?: any | null;
+      } | null;
+    } | null> | null;
+  } | null;
+};
 
 export type GetContactQueryVariables = Exact<{
   id: Scalars['String']['input'];
 }>;
 
-
-export type GetContactQuery = { __typename?: 'Query', Contact?: { __typename?: 'Contact', id: string, contactName: string, email: any, phone?: string | null, jobTitle?: string | null, address?: string | null, notes?: string | null, createdAt?: any | null, updatedAt?: any | null, company?: { __typename?: 'Company', id: string, companyName: string, address?: string | null, industry?: string | null, phone?: string | null, email?: string | null, website?: string | null, organizationNumber?: string | null, createdAt?: any | null, updatedAt?: any | null } | null } | null };
+export type GetContactQuery = {
+  __typename?: 'Query';
+  Contact?: {
+    __typename?: 'Contact';
+    id: string;
+    contactName: string;
+    email: any;
+    phone?: string | null;
+    jobTitle?: string | null;
+    address?: string | null;
+    notes?: string | null;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+    company?: {
+      __typename?: 'Company';
+      id: string;
+      companyName: string;
+      address?: string | null;
+      industry?: string | null;
+      phone?: string | null;
+      email?: string | null;
+      website?: string | null;
+      organizationNumber?: string | null;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+    } | null;
+  } | null;
+};
 
 export type CreateContactMutationVariables = Exact<{
   data: MutationContactInput;
 }>;
 
-
-export type CreateContactMutation = { __typename?: 'Mutation', createContact?: { __typename?: 'Contact', id: string } | null };
+export type CreateContactMutation = {
+  __typename?: 'Mutation';
+  createContact?: { __typename?: 'Contact'; id: string } | null;
+};
 
 export type UpdateContactMutationVariables = Exact<{
   id: Scalars['String']['input'];
   data: MutationContactUpdateInput;
 }>;
 
-
-export type UpdateContactMutation = { __typename?: 'Mutation', updateContact?: { __typename?: 'Contact', id: string } | null };
+export type UpdateContactMutation = {
+  __typename?: 'Mutation';
+  updateContact?: { __typename?: 'Contact'; id: string } | null;
+};
 
 export type DeleteContactMutationVariables = Exact<{
   id: Scalars['String']['input'];
 }>;
 
+export type DeleteContactMutation = {
+  __typename?: 'Mutation';
+  deleteContact?: { __typename?: 'Contact'; id: string } | null;
+};
 
-export type DeleteContactMutation = { __typename?: 'Mutation', deleteContact?: { __typename?: 'Contact', id: string } | null };
-
-
-export const AuthLoginDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"AuthLogin"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"email"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"password"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"loginUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"email"},"value":{"kind":"Variable","name":{"kind":"Name","value":"email"}}},{"kind":"Argument","name":{"kind":"Name","value":"password"},"value":{"kind":"Variable","name":{"kind":"Name","value":"password"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"token"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}}]}}]}}]}}]} as unknown as DocumentNode<AuthLoginMutation, AuthLoginMutationVariables>;
-export const AuthLogoutDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"AuthLogout"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"logoutUser"}}]}}]} as unknown as DocumentNode<AuthLogoutMutation, AuthLogoutMutationVariables>;
-export const GetMeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetMe"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"meUser"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}}]}}]}}]}}]} as unknown as DocumentNode<GetMeQuery, GetMeQueryVariables>;
-export const GetCompaniesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetCompanies"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"Companies"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"sort"},"value":{"kind":"StringValue","value":"companyName","block":false}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"docs"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"companyName"}},{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"industry"}},{"kind":"Field","name":{"kind":"Name","value":"phone"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"website"}},{"kind":"Field","name":{"kind":"Name","value":"organizationNumber"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]}}]}}]} as unknown as DocumentNode<GetCompaniesQuery, GetCompaniesQueryVariables>;
-export const GetCompanyDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetCompany"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"Company"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"companyName"}},{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"industry"}},{"kind":"Field","name":{"kind":"Name","value":"phone"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"website"}},{"kind":"Field","name":{"kind":"Name","value":"organizationNumber"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]}}]} as unknown as DocumentNode<GetCompanyQuery, GetCompanyQueryVariables>;
-export const CreateCompanyDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateCompany"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"mutationCompanyInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createCompany"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<CreateCompanyMutation, CreateCompanyMutationVariables>;
-export const UpdateCompanyDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateCompany"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"mutationCompanyUpdateInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateCompany"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<UpdateCompanyMutation, UpdateCompanyMutationVariables>;
-export const DeleteCompanyDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"DeleteCompany"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteCompany"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<DeleteCompanyMutation, DeleteCompanyMutationVariables>;
-export const GetContactsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetContacts"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"Contacts"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"sort"},"value":{"kind":"StringValue","value":"contactName","block":false}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"docs"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"contactName"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"phone"}},{"kind":"Field","name":{"kind":"Name","value":"jobTitle"}},{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"notes"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"company"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"companyName"}},{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"industry"}},{"kind":"Field","name":{"kind":"Name","value":"phone"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"website"}},{"kind":"Field","name":{"kind":"Name","value":"organizationNumber"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]}}]}}]}}]} as unknown as DocumentNode<GetContactsQuery, GetContactsQueryVariables>;
-export const GetContactDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetContact"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"Contact"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"contactName"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"phone"}},{"kind":"Field","name":{"kind":"Name","value":"jobTitle"}},{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"notes"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"company"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"companyName"}},{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"industry"}},{"kind":"Field","name":{"kind":"Name","value":"phone"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"website"}},{"kind":"Field","name":{"kind":"Name","value":"organizationNumber"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]}}]}}]} as unknown as DocumentNode<GetContactQuery, GetContactQueryVariables>;
-export const CreateContactDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateContact"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"mutationContactInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createContact"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<CreateContactMutation, CreateContactMutationVariables>;
-export const UpdateContactDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateContact"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"mutationContactUpdateInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateContact"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<UpdateContactMutation, UpdateContactMutationVariables>;
-export const DeleteContactDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"DeleteContact"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteContact"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<DeleteContactMutation, DeleteContactMutationVariables>;
+export const GetAssignmentsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetAssignments' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'Assignments' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'sort' },
+                value: { kind: 'StringValue', value: 'assignmentName', block: false }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'docs' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'assignmentName' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'fee' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'company' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'companyName' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'address' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'industry' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'phone' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'website' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'organizationNumber' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+                          ]
+                        }
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'externalContact' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'contactName' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'phone' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'jobTitle' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'address' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'notes' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+                          ]
+                        }
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'responsibleContacts' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'contactName' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'phone' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'jobTitle' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'address' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<GetAssignmentsQuery, GetAssignmentsQueryVariables>;
+export const GetAssignmentDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetAssignment' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'Assignment' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'assignmentName' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'fee' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'company' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'companyName' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'address' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'industry' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'phone' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'website' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'organizationNumber' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'externalContact' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'contactName' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'phone' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'jobTitle' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'address' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'notes' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'responsibleContacts' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'contactName' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'phone' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'jobTitle' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'address' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<GetAssignmentQuery, GetAssignmentQueryVariables>;
+export const CreateAssignmentDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateAssignment' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'mutationAssignmentInput' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createAssignment' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'data' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'data' } }
+              }
+            ],
+            selectionSet: { kind: 'SelectionSet', selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }] }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<CreateAssignmentMutation, CreateAssignmentMutationVariables>;
+export const UpdateAssignmentDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'UpdateAssignment' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } }
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'mutationAssignmentUpdateInput' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'updateAssignment' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'data' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'data' } }
+              }
+            ],
+            selectionSet: { kind: 'SelectionSet', selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }] }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<UpdateAssignmentMutation, UpdateAssignmentMutationVariables>;
+export const DeleteAssignmentDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'DeleteAssignment' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteAssignment' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
+              }
+            ],
+            selectionSet: { kind: 'SelectionSet', selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }] }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<DeleteAssignmentMutation, DeleteAssignmentMutationVariables>;
+export const AuthLoginDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'AuthLogin' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } }
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'password' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'loginUser' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'email' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'email' } }
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'password' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'password' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'token' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'user' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'email' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<AuthLoginMutation, AuthLoginMutationVariables>;
+export const AuthLogoutDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'AuthLogout' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [{ kind: 'Field', name: { kind: 'Name', value: 'logoutUser' } }]
+      }
+    }
+  ]
+} as unknown as DocumentNode<AuthLogoutMutation, AuthLogoutMutationVariables>;
+export const GetMeDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetMe' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'meUser' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'user' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'email' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<GetMeQuery, GetMeQueryVariables>;
+export const GetCompaniesDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetCompanies' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'Companies' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'sort' },
+                value: { kind: 'StringValue', value: 'companyName', block: false }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'docs' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'companyName' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'address' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'industry' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'phone' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'website' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'organizationNumber' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<GetCompaniesQuery, GetCompaniesQueryVariables>;
+export const GetCompanyDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetCompany' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'Company' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'companyName' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'address' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'industry' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'phone' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'website' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'organizationNumber' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<GetCompanyQuery, GetCompanyQueryVariables>;
+export const CreateCompanyDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateCompany' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'mutationCompanyInput' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createCompany' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'data' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'data' } }
+              }
+            ],
+            selectionSet: { kind: 'SelectionSet', selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }] }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<CreateCompanyMutation, CreateCompanyMutationVariables>;
+export const UpdateCompanyDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'UpdateCompany' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } }
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'mutationCompanyUpdateInput' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'updateCompany' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'data' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'data' } }
+              }
+            ],
+            selectionSet: { kind: 'SelectionSet', selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }] }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<UpdateCompanyMutation, UpdateCompanyMutationVariables>;
+export const DeleteCompanyDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'DeleteCompany' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteCompany' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
+              }
+            ],
+            selectionSet: { kind: 'SelectionSet', selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }] }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<DeleteCompanyMutation, DeleteCompanyMutationVariables>;
+export const GetContactsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetContacts' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'Contacts' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'sort' },
+                value: { kind: 'StringValue', value: 'contactName', block: false }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'docs' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'contactName' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'phone' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'jobTitle' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'address' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'notes' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'company' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'companyName' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'address' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'industry' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'phone' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'website' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'organizationNumber' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<GetContactsQuery, GetContactsQueryVariables>;
+export const GetContactDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetContact' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'Contact' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'contactName' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'phone' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'jobTitle' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'address' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'notes' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'company' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'companyName' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'address' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'industry' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'phone' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'website' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'organizationNumber' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<GetContactQuery, GetContactQueryVariables>;
+export const CreateContactDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateContact' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'mutationContactInput' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createContact' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'data' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'data' } }
+              }
+            ],
+            selectionSet: { kind: 'SelectionSet', selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }] }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<CreateContactMutation, CreateContactMutationVariables>;
+export const UpdateContactDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'UpdateContact' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } }
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'mutationContactUpdateInput' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'updateContact' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'data' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'data' } }
+              }
+            ],
+            selectionSet: { kind: 'SelectionSet', selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }] }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<UpdateContactMutation, UpdateContactMutationVariables>;
+export const DeleteContactDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'DeleteContact' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteContact' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
+              }
+            ],
+            selectionSet: { kind: 'SelectionSet', selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }] }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<DeleteContactMutation, DeleteContactMutationVariables>;

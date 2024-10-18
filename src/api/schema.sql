@@ -1,14 +1,14 @@
 CREATE TABLE IF NOT EXISTS assignments (
     id TEXT PRIMARY KEY,
     assignment_name VARCHAR(255) NOT NULL,
-    external_contact_id TEXT,
+    external_contact TEXT,
     company TEXT,
     fee DECIMAL(10, 2),
     type VARCHAR(50),
     status VARCHAR(50),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (external_contact_id) REFERENCES contacts(id),
+    FOREIGN KEY (external_contact) REFERENCES contacts(id),
     FOREIGN KEY (company) REFERENCES companies(id)
 );
 
