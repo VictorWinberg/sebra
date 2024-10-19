@@ -7,10 +7,10 @@ import dayjs from 'dayjs';
 import { Controller, useForm } from 'react-hook-form';
 
 // project imports
+import { Interaction } from '@/api/gql/graphql';
 import { useContacts } from '@/features/contacts/hooks/useContactsQueries';
 import SebraForm, { FormProps } from '@/ui-component/SebraForm';
 import { formatDate } from '@/utils';
-import { Interaction } from '../api/interactionsApi';
 
 // ==============================|| INTERACTIONS FORM ||============================== //
 

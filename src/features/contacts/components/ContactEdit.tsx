@@ -42,7 +42,7 @@ const ContactEdit = () => {
   );
   const { data: allInteractions = [], isLoading: interactionsIsLoading } = useInteractions();
   const interactions = useMemo(
-    () => allInteractions.filter((interaction) => interaction.contacts.some((c) => c.id === contact?.id)),
+    () => allInteractions.filter((interaction) => interaction.contacts?.some((c) => c.id === contact?.id)),
     [allInteractions, contact]
   );
 

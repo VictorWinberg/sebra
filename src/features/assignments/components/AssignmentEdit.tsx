@@ -33,7 +33,8 @@ const AssignmentEdit = () => {
   const interactions = useMemo(
     () =>
       allInteractions.filter(
-        (interaction) => intersection(interaction.contacts, assignment?.responsibleContacts || [], 'id').length > 0
+        (interaction) =>
+          intersection(interaction.contacts || [], assignment?.responsibleContacts || [], 'id').length > 0
       ),
     [allInteractions, assignment]
   );

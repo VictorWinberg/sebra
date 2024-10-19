@@ -2777,12 +2777,22 @@ export type DocumentReferencesUpdateDocAccess = {
 
 export type Interaction = {
   __typename?: 'Interaction';
+  contacts?: Maybe<Array<Contact>>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   id: Scalars['String']['output'];
   interactionDate: Scalars['DateTime']['output'];
   interactionType: Scalars['String']['output'];
   notes?: Maybe<Scalars['String']['output']>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
+};
+
+export type Interaction_Contacts_Operator = {
+  all?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
+  equals?: InputMaybe<Scalars['JSON']['input']>;
+  exists?: InputMaybe<Scalars['Boolean']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
+  not_equals?: InputMaybe<Scalars['JSON']['input']>;
+  not_in?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
 };
 
 export type Interaction_CreatedAt_Operator = {
@@ -2849,6 +2859,7 @@ export type Interaction_UpdatedAt_Operator = {
 export type Interaction_Where = {
   AND?: InputMaybe<Array<InputMaybe<Interaction_Where_And>>>;
   OR?: InputMaybe<Array<InputMaybe<Interaction_Where_Or>>>;
+  contacts?: InputMaybe<Interaction_Contacts_Operator>;
   createdAt?: InputMaybe<Interaction_CreatedAt_Operator>;
   id?: InputMaybe<Interaction_Id_Operator>;
   interactionDate?: InputMaybe<Interaction_InteractionDate_Operator>;
@@ -2860,6 +2871,7 @@ export type Interaction_Where = {
 export type Interaction_Where_And = {
   AND?: InputMaybe<Array<InputMaybe<Interaction_Where_And>>>;
   OR?: InputMaybe<Array<InputMaybe<Interaction_Where_Or>>>;
+  contacts?: InputMaybe<Interaction_Contacts_Operator>;
   createdAt?: InputMaybe<Interaction_CreatedAt_Operator>;
   id?: InputMaybe<Interaction_Id_Operator>;
   interactionDate?: InputMaybe<Interaction_InteractionDate_Operator>;
@@ -2871,6 +2883,7 @@ export type Interaction_Where_And = {
 export type Interaction_Where_Or = {
   AND?: InputMaybe<Array<InputMaybe<Interaction_Where_And>>>;
   OR?: InputMaybe<Array<InputMaybe<Interaction_Where_Or>>>;
+  contacts?: InputMaybe<Interaction_Contacts_Operator>;
   createdAt?: InputMaybe<Interaction_CreatedAt_Operator>;
   id?: InputMaybe<Interaction_Id_Operator>;
   interactionDate?: InputMaybe<Interaction_InteractionDate_Operator>;
@@ -2920,11 +2933,40 @@ export type InteractionsDeleteDocAccess = {
 
 export type InteractionsDocAccessFields = {
   __typename?: 'InteractionsDocAccessFields';
+  contacts?: Maybe<InteractionsDocAccessFields_Contacts>;
   createdAt?: Maybe<InteractionsDocAccessFields_CreatedAt>;
   interactionDate?: Maybe<InteractionsDocAccessFields_InteractionDate>;
   interactionType?: Maybe<InteractionsDocAccessFields_InteractionType>;
   notes?: Maybe<InteractionsDocAccessFields_Notes>;
   updatedAt?: Maybe<InteractionsDocAccessFields_UpdatedAt>;
+};
+
+export type InteractionsDocAccessFields_Contacts = {
+  __typename?: 'InteractionsDocAccessFields_contacts';
+  create?: Maybe<InteractionsDocAccessFields_Contacts_Create>;
+  delete?: Maybe<InteractionsDocAccessFields_Contacts_Delete>;
+  read?: Maybe<InteractionsDocAccessFields_Contacts_Read>;
+  update?: Maybe<InteractionsDocAccessFields_Contacts_Update>;
+};
+
+export type InteractionsDocAccessFields_Contacts_Create = {
+  __typename?: 'InteractionsDocAccessFields_contacts_Create';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type InteractionsDocAccessFields_Contacts_Delete = {
+  __typename?: 'InteractionsDocAccessFields_contacts_Delete';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type InteractionsDocAccessFields_Contacts_Read = {
+  __typename?: 'InteractionsDocAccessFields_contacts_Read';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type InteractionsDocAccessFields_Contacts_Update = {
+  __typename?: 'InteractionsDocAccessFields_contacts_Update';
+  permission: Scalars['Boolean']['output'];
 };
 
 export type InteractionsDocAccessFields_CreatedAt = {
@@ -3069,11 +3111,40 @@ export type InteractionsDocAccessFields_UpdatedAt_Update = {
 
 export type InteractionsFields = {
   __typename?: 'InteractionsFields';
+  contacts?: Maybe<InteractionsFields_Contacts>;
   createdAt?: Maybe<InteractionsFields_CreatedAt>;
   interactionDate?: Maybe<InteractionsFields_InteractionDate>;
   interactionType?: Maybe<InteractionsFields_InteractionType>;
   notes?: Maybe<InteractionsFields_Notes>;
   updatedAt?: Maybe<InteractionsFields_UpdatedAt>;
+};
+
+export type InteractionsFields_Contacts = {
+  __typename?: 'InteractionsFields_contacts';
+  create?: Maybe<InteractionsFields_Contacts_Create>;
+  delete?: Maybe<InteractionsFields_Contacts_Delete>;
+  read?: Maybe<InteractionsFields_Contacts_Read>;
+  update?: Maybe<InteractionsFields_Contacts_Update>;
+};
+
+export type InteractionsFields_Contacts_Create = {
+  __typename?: 'InteractionsFields_contacts_Create';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type InteractionsFields_Contacts_Delete = {
+  __typename?: 'InteractionsFields_contacts_Delete';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type InteractionsFields_Contacts_Read = {
+  __typename?: 'InteractionsFields_contacts_Read';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type InteractionsFields_Contacts_Update = {
+  __typename?: 'InteractionsFields_contacts_Update';
+  permission: Scalars['Boolean']['output'];
 };
 
 export type InteractionsFields_CreatedAt = {
@@ -3993,10 +4064,19 @@ export type LeadsUpdateDocAccess = {
 
 export type Media = {
   __typename?: 'Media';
-  alt: Scalars['String']['output'];
+  alt?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
+  filename?: Maybe<Scalars['String']['output']>;
+  filesize?: Maybe<Scalars['Float']['output']>;
+  focalX?: Maybe<Scalars['Float']['output']>;
+  focalY?: Maybe<Scalars['Float']['output']>;
+  height?: Maybe<Scalars['Float']['output']>;
   id: Scalars['String']['output'];
+  mimeType?: Maybe<Scalars['String']['output']>;
+  thumbnailURL?: Maybe<Scalars['String']['output']>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  url?: Maybe<Scalars['String']['output']>;
+  width?: Maybe<Scalars['Float']['output']>;
 };
 
 export type MediaCreateAccess = {
@@ -4027,7 +4107,16 @@ export type MediaDocAccessFields = {
   __typename?: 'MediaDocAccessFields';
   alt?: Maybe<MediaDocAccessFields_Alt>;
   createdAt?: Maybe<MediaDocAccessFields_CreatedAt>;
+  filename?: Maybe<MediaDocAccessFields_Filename>;
+  filesize?: Maybe<MediaDocAccessFields_Filesize>;
+  focalX?: Maybe<MediaDocAccessFields_FocalX>;
+  focalY?: Maybe<MediaDocAccessFields_FocalY>;
+  height?: Maybe<MediaDocAccessFields_Height>;
+  mimeType?: Maybe<MediaDocAccessFields_MimeType>;
+  thumbnailURL?: Maybe<MediaDocAccessFields_ThumbnailUrl>;
   updatedAt?: Maybe<MediaDocAccessFields_UpdatedAt>;
+  url?: Maybe<MediaDocAccessFields_Url>;
+  width?: Maybe<MediaDocAccessFields_Width>;
 };
 
 export type MediaDocAccessFields_Alt = {
@@ -4086,6 +4175,202 @@ export type MediaDocAccessFields_CreatedAt_Update = {
   permission: Scalars['Boolean']['output'];
 };
 
+export type MediaDocAccessFields_Filename = {
+  __typename?: 'MediaDocAccessFields_filename';
+  create?: Maybe<MediaDocAccessFields_Filename_Create>;
+  delete?: Maybe<MediaDocAccessFields_Filename_Delete>;
+  read?: Maybe<MediaDocAccessFields_Filename_Read>;
+  update?: Maybe<MediaDocAccessFields_Filename_Update>;
+};
+
+export type MediaDocAccessFields_Filename_Create = {
+  __typename?: 'MediaDocAccessFields_filename_Create';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaDocAccessFields_Filename_Delete = {
+  __typename?: 'MediaDocAccessFields_filename_Delete';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaDocAccessFields_Filename_Read = {
+  __typename?: 'MediaDocAccessFields_filename_Read';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaDocAccessFields_Filename_Update = {
+  __typename?: 'MediaDocAccessFields_filename_Update';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaDocAccessFields_Filesize = {
+  __typename?: 'MediaDocAccessFields_filesize';
+  create?: Maybe<MediaDocAccessFields_Filesize_Create>;
+  delete?: Maybe<MediaDocAccessFields_Filesize_Delete>;
+  read?: Maybe<MediaDocAccessFields_Filesize_Read>;
+  update?: Maybe<MediaDocAccessFields_Filesize_Update>;
+};
+
+export type MediaDocAccessFields_Filesize_Create = {
+  __typename?: 'MediaDocAccessFields_filesize_Create';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaDocAccessFields_Filesize_Delete = {
+  __typename?: 'MediaDocAccessFields_filesize_Delete';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaDocAccessFields_Filesize_Read = {
+  __typename?: 'MediaDocAccessFields_filesize_Read';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaDocAccessFields_Filesize_Update = {
+  __typename?: 'MediaDocAccessFields_filesize_Update';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaDocAccessFields_FocalX = {
+  __typename?: 'MediaDocAccessFields_focalX';
+  create?: Maybe<MediaDocAccessFields_FocalX_Create>;
+  delete?: Maybe<MediaDocAccessFields_FocalX_Delete>;
+  read?: Maybe<MediaDocAccessFields_FocalX_Read>;
+  update?: Maybe<MediaDocAccessFields_FocalX_Update>;
+};
+
+export type MediaDocAccessFields_FocalX_Create = {
+  __typename?: 'MediaDocAccessFields_focalX_Create';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaDocAccessFields_FocalX_Delete = {
+  __typename?: 'MediaDocAccessFields_focalX_Delete';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaDocAccessFields_FocalX_Read = {
+  __typename?: 'MediaDocAccessFields_focalX_Read';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaDocAccessFields_FocalX_Update = {
+  __typename?: 'MediaDocAccessFields_focalX_Update';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaDocAccessFields_FocalY = {
+  __typename?: 'MediaDocAccessFields_focalY';
+  create?: Maybe<MediaDocAccessFields_FocalY_Create>;
+  delete?: Maybe<MediaDocAccessFields_FocalY_Delete>;
+  read?: Maybe<MediaDocAccessFields_FocalY_Read>;
+  update?: Maybe<MediaDocAccessFields_FocalY_Update>;
+};
+
+export type MediaDocAccessFields_FocalY_Create = {
+  __typename?: 'MediaDocAccessFields_focalY_Create';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaDocAccessFields_FocalY_Delete = {
+  __typename?: 'MediaDocAccessFields_focalY_Delete';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaDocAccessFields_FocalY_Read = {
+  __typename?: 'MediaDocAccessFields_focalY_Read';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaDocAccessFields_FocalY_Update = {
+  __typename?: 'MediaDocAccessFields_focalY_Update';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaDocAccessFields_Height = {
+  __typename?: 'MediaDocAccessFields_height';
+  create?: Maybe<MediaDocAccessFields_Height_Create>;
+  delete?: Maybe<MediaDocAccessFields_Height_Delete>;
+  read?: Maybe<MediaDocAccessFields_Height_Read>;
+  update?: Maybe<MediaDocAccessFields_Height_Update>;
+};
+
+export type MediaDocAccessFields_Height_Create = {
+  __typename?: 'MediaDocAccessFields_height_Create';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaDocAccessFields_Height_Delete = {
+  __typename?: 'MediaDocAccessFields_height_Delete';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaDocAccessFields_Height_Read = {
+  __typename?: 'MediaDocAccessFields_height_Read';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaDocAccessFields_Height_Update = {
+  __typename?: 'MediaDocAccessFields_height_Update';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaDocAccessFields_MimeType = {
+  __typename?: 'MediaDocAccessFields_mimeType';
+  create?: Maybe<MediaDocAccessFields_MimeType_Create>;
+  delete?: Maybe<MediaDocAccessFields_MimeType_Delete>;
+  read?: Maybe<MediaDocAccessFields_MimeType_Read>;
+  update?: Maybe<MediaDocAccessFields_MimeType_Update>;
+};
+
+export type MediaDocAccessFields_MimeType_Create = {
+  __typename?: 'MediaDocAccessFields_mimeType_Create';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaDocAccessFields_MimeType_Delete = {
+  __typename?: 'MediaDocAccessFields_mimeType_Delete';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaDocAccessFields_MimeType_Read = {
+  __typename?: 'MediaDocAccessFields_mimeType_Read';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaDocAccessFields_MimeType_Update = {
+  __typename?: 'MediaDocAccessFields_mimeType_Update';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaDocAccessFields_ThumbnailUrl = {
+  __typename?: 'MediaDocAccessFields_thumbnailURL';
+  create?: Maybe<MediaDocAccessFields_ThumbnailUrl_Create>;
+  delete?: Maybe<MediaDocAccessFields_ThumbnailUrl_Delete>;
+  read?: Maybe<MediaDocAccessFields_ThumbnailUrl_Read>;
+  update?: Maybe<MediaDocAccessFields_ThumbnailUrl_Update>;
+};
+
+export type MediaDocAccessFields_ThumbnailUrl_Create = {
+  __typename?: 'MediaDocAccessFields_thumbnailURL_Create';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaDocAccessFields_ThumbnailUrl_Delete = {
+  __typename?: 'MediaDocAccessFields_thumbnailURL_Delete';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaDocAccessFields_ThumbnailUrl_Read = {
+  __typename?: 'MediaDocAccessFields_thumbnailURL_Read';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaDocAccessFields_ThumbnailUrl_Update = {
+  __typename?: 'MediaDocAccessFields_thumbnailURL_Update';
+  permission: Scalars['Boolean']['output'];
+};
+
 export type MediaDocAccessFields_UpdatedAt = {
   __typename?: 'MediaDocAccessFields_updatedAt';
   create?: Maybe<MediaDocAccessFields_UpdatedAt_Create>;
@@ -4114,11 +4399,76 @@ export type MediaDocAccessFields_UpdatedAt_Update = {
   permission: Scalars['Boolean']['output'];
 };
 
+export type MediaDocAccessFields_Url = {
+  __typename?: 'MediaDocAccessFields_url';
+  create?: Maybe<MediaDocAccessFields_Url_Create>;
+  delete?: Maybe<MediaDocAccessFields_Url_Delete>;
+  read?: Maybe<MediaDocAccessFields_Url_Read>;
+  update?: Maybe<MediaDocAccessFields_Url_Update>;
+};
+
+export type MediaDocAccessFields_Url_Create = {
+  __typename?: 'MediaDocAccessFields_url_Create';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaDocAccessFields_Url_Delete = {
+  __typename?: 'MediaDocAccessFields_url_Delete';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaDocAccessFields_Url_Read = {
+  __typename?: 'MediaDocAccessFields_url_Read';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaDocAccessFields_Url_Update = {
+  __typename?: 'MediaDocAccessFields_url_Update';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaDocAccessFields_Width = {
+  __typename?: 'MediaDocAccessFields_width';
+  create?: Maybe<MediaDocAccessFields_Width_Create>;
+  delete?: Maybe<MediaDocAccessFields_Width_Delete>;
+  read?: Maybe<MediaDocAccessFields_Width_Read>;
+  update?: Maybe<MediaDocAccessFields_Width_Update>;
+};
+
+export type MediaDocAccessFields_Width_Create = {
+  __typename?: 'MediaDocAccessFields_width_Create';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaDocAccessFields_Width_Delete = {
+  __typename?: 'MediaDocAccessFields_width_Delete';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaDocAccessFields_Width_Read = {
+  __typename?: 'MediaDocAccessFields_width_Read';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaDocAccessFields_Width_Update = {
+  __typename?: 'MediaDocAccessFields_width_Update';
+  permission: Scalars['Boolean']['output'];
+};
+
 export type MediaFields = {
   __typename?: 'MediaFields';
   alt?: Maybe<MediaFields_Alt>;
   createdAt?: Maybe<MediaFields_CreatedAt>;
+  filename?: Maybe<MediaFields_Filename>;
+  filesize?: Maybe<MediaFields_Filesize>;
+  focalX?: Maybe<MediaFields_FocalX>;
+  focalY?: Maybe<MediaFields_FocalY>;
+  height?: Maybe<MediaFields_Height>;
+  mimeType?: Maybe<MediaFields_MimeType>;
+  thumbnailURL?: Maybe<MediaFields_ThumbnailUrl>;
   updatedAt?: Maybe<MediaFields_UpdatedAt>;
+  url?: Maybe<MediaFields_Url>;
+  width?: Maybe<MediaFields_Width>;
 };
 
 export type MediaFields_Alt = {
@@ -4177,6 +4527,202 @@ export type MediaFields_CreatedAt_Update = {
   permission: Scalars['Boolean']['output'];
 };
 
+export type MediaFields_Filename = {
+  __typename?: 'MediaFields_filename';
+  create?: Maybe<MediaFields_Filename_Create>;
+  delete?: Maybe<MediaFields_Filename_Delete>;
+  read?: Maybe<MediaFields_Filename_Read>;
+  update?: Maybe<MediaFields_Filename_Update>;
+};
+
+export type MediaFields_Filename_Create = {
+  __typename?: 'MediaFields_filename_Create';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaFields_Filename_Delete = {
+  __typename?: 'MediaFields_filename_Delete';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaFields_Filename_Read = {
+  __typename?: 'MediaFields_filename_Read';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaFields_Filename_Update = {
+  __typename?: 'MediaFields_filename_Update';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaFields_Filesize = {
+  __typename?: 'MediaFields_filesize';
+  create?: Maybe<MediaFields_Filesize_Create>;
+  delete?: Maybe<MediaFields_Filesize_Delete>;
+  read?: Maybe<MediaFields_Filesize_Read>;
+  update?: Maybe<MediaFields_Filesize_Update>;
+};
+
+export type MediaFields_Filesize_Create = {
+  __typename?: 'MediaFields_filesize_Create';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaFields_Filesize_Delete = {
+  __typename?: 'MediaFields_filesize_Delete';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaFields_Filesize_Read = {
+  __typename?: 'MediaFields_filesize_Read';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaFields_Filesize_Update = {
+  __typename?: 'MediaFields_filesize_Update';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaFields_FocalX = {
+  __typename?: 'MediaFields_focalX';
+  create?: Maybe<MediaFields_FocalX_Create>;
+  delete?: Maybe<MediaFields_FocalX_Delete>;
+  read?: Maybe<MediaFields_FocalX_Read>;
+  update?: Maybe<MediaFields_FocalX_Update>;
+};
+
+export type MediaFields_FocalX_Create = {
+  __typename?: 'MediaFields_focalX_Create';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaFields_FocalX_Delete = {
+  __typename?: 'MediaFields_focalX_Delete';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaFields_FocalX_Read = {
+  __typename?: 'MediaFields_focalX_Read';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaFields_FocalX_Update = {
+  __typename?: 'MediaFields_focalX_Update';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaFields_FocalY = {
+  __typename?: 'MediaFields_focalY';
+  create?: Maybe<MediaFields_FocalY_Create>;
+  delete?: Maybe<MediaFields_FocalY_Delete>;
+  read?: Maybe<MediaFields_FocalY_Read>;
+  update?: Maybe<MediaFields_FocalY_Update>;
+};
+
+export type MediaFields_FocalY_Create = {
+  __typename?: 'MediaFields_focalY_Create';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaFields_FocalY_Delete = {
+  __typename?: 'MediaFields_focalY_Delete';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaFields_FocalY_Read = {
+  __typename?: 'MediaFields_focalY_Read';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaFields_FocalY_Update = {
+  __typename?: 'MediaFields_focalY_Update';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaFields_Height = {
+  __typename?: 'MediaFields_height';
+  create?: Maybe<MediaFields_Height_Create>;
+  delete?: Maybe<MediaFields_Height_Delete>;
+  read?: Maybe<MediaFields_Height_Read>;
+  update?: Maybe<MediaFields_Height_Update>;
+};
+
+export type MediaFields_Height_Create = {
+  __typename?: 'MediaFields_height_Create';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaFields_Height_Delete = {
+  __typename?: 'MediaFields_height_Delete';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaFields_Height_Read = {
+  __typename?: 'MediaFields_height_Read';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaFields_Height_Update = {
+  __typename?: 'MediaFields_height_Update';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaFields_MimeType = {
+  __typename?: 'MediaFields_mimeType';
+  create?: Maybe<MediaFields_MimeType_Create>;
+  delete?: Maybe<MediaFields_MimeType_Delete>;
+  read?: Maybe<MediaFields_MimeType_Read>;
+  update?: Maybe<MediaFields_MimeType_Update>;
+};
+
+export type MediaFields_MimeType_Create = {
+  __typename?: 'MediaFields_mimeType_Create';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaFields_MimeType_Delete = {
+  __typename?: 'MediaFields_mimeType_Delete';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaFields_MimeType_Read = {
+  __typename?: 'MediaFields_mimeType_Read';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaFields_MimeType_Update = {
+  __typename?: 'MediaFields_mimeType_Update';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaFields_ThumbnailUrl = {
+  __typename?: 'MediaFields_thumbnailURL';
+  create?: Maybe<MediaFields_ThumbnailUrl_Create>;
+  delete?: Maybe<MediaFields_ThumbnailUrl_Delete>;
+  read?: Maybe<MediaFields_ThumbnailUrl_Read>;
+  update?: Maybe<MediaFields_ThumbnailUrl_Update>;
+};
+
+export type MediaFields_ThumbnailUrl_Create = {
+  __typename?: 'MediaFields_thumbnailURL_Create';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaFields_ThumbnailUrl_Delete = {
+  __typename?: 'MediaFields_thumbnailURL_Delete';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaFields_ThumbnailUrl_Read = {
+  __typename?: 'MediaFields_thumbnailURL_Read';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaFields_ThumbnailUrl_Update = {
+  __typename?: 'MediaFields_thumbnailURL_Update';
+  permission: Scalars['Boolean']['output'];
+};
+
 export type MediaFields_UpdatedAt = {
   __typename?: 'MediaFields_updatedAt';
   create?: Maybe<MediaFields_UpdatedAt_Create>;
@@ -4202,6 +4748,62 @@ export type MediaFields_UpdatedAt_Read = {
 
 export type MediaFields_UpdatedAt_Update = {
   __typename?: 'MediaFields_updatedAt_Update';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaFields_Url = {
+  __typename?: 'MediaFields_url';
+  create?: Maybe<MediaFields_Url_Create>;
+  delete?: Maybe<MediaFields_Url_Delete>;
+  read?: Maybe<MediaFields_Url_Read>;
+  update?: Maybe<MediaFields_Url_Update>;
+};
+
+export type MediaFields_Url_Create = {
+  __typename?: 'MediaFields_url_Create';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaFields_Url_Delete = {
+  __typename?: 'MediaFields_url_Delete';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaFields_Url_Read = {
+  __typename?: 'MediaFields_url_Read';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaFields_Url_Update = {
+  __typename?: 'MediaFields_url_Update';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaFields_Width = {
+  __typename?: 'MediaFields_width';
+  create?: Maybe<MediaFields_Width_Create>;
+  delete?: Maybe<MediaFields_Width_Delete>;
+  read?: Maybe<MediaFields_Width_Read>;
+  update?: Maybe<MediaFields_Width_Update>;
+};
+
+export type MediaFields_Width_Create = {
+  __typename?: 'MediaFields_width_Create';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaFields_Width_Delete = {
+  __typename?: 'MediaFields_width_Delete';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaFields_Width_Read = {
+  __typename?: 'MediaFields_width_Read';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaFields_Width_Update = {
+  __typename?: 'MediaFields_width_Update';
   permission: Scalars['Boolean']['output'];
 };
 
@@ -4233,6 +4835,7 @@ export type Media_Alt_Operator = {
   all?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   contains?: InputMaybe<Scalars['String']['input']>;
   equals?: InputMaybe<Scalars['String']['input']>;
+  exists?: InputMaybe<Scalars['Boolean']['input']>;
   in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   like?: InputMaybe<Scalars['String']['input']>;
   not_equals?: InputMaybe<Scalars['String']['input']>;
@@ -4250,7 +4853,80 @@ export type Media_CreatedAt_Operator = {
   not_equals?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
+export type Media_Filename_Operator = {
+  all?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  contains?: InputMaybe<Scalars['String']['input']>;
+  equals?: InputMaybe<Scalars['String']['input']>;
+  exists?: InputMaybe<Scalars['Boolean']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  like?: InputMaybe<Scalars['String']['input']>;
+  not_equals?: InputMaybe<Scalars['String']['input']>;
+  not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+};
+
+export type Media_Filesize_Operator = {
+  equals?: InputMaybe<Scalars['Float']['input']>;
+  exists?: InputMaybe<Scalars['Boolean']['input']>;
+  greater_than?: InputMaybe<Scalars['Float']['input']>;
+  greater_than_equal?: InputMaybe<Scalars['Float']['input']>;
+  less_than?: InputMaybe<Scalars['Float']['input']>;
+  less_than_equal?: InputMaybe<Scalars['Float']['input']>;
+  not_equals?: InputMaybe<Scalars['Float']['input']>;
+};
+
+export type Media_FocalX_Operator = {
+  equals?: InputMaybe<Scalars['Float']['input']>;
+  exists?: InputMaybe<Scalars['Boolean']['input']>;
+  greater_than?: InputMaybe<Scalars['Float']['input']>;
+  greater_than_equal?: InputMaybe<Scalars['Float']['input']>;
+  less_than?: InputMaybe<Scalars['Float']['input']>;
+  less_than_equal?: InputMaybe<Scalars['Float']['input']>;
+  not_equals?: InputMaybe<Scalars['Float']['input']>;
+};
+
+export type Media_FocalY_Operator = {
+  equals?: InputMaybe<Scalars['Float']['input']>;
+  exists?: InputMaybe<Scalars['Boolean']['input']>;
+  greater_than?: InputMaybe<Scalars['Float']['input']>;
+  greater_than_equal?: InputMaybe<Scalars['Float']['input']>;
+  less_than?: InputMaybe<Scalars['Float']['input']>;
+  less_than_equal?: InputMaybe<Scalars['Float']['input']>;
+  not_equals?: InputMaybe<Scalars['Float']['input']>;
+};
+
+export type Media_Height_Operator = {
+  equals?: InputMaybe<Scalars['Float']['input']>;
+  exists?: InputMaybe<Scalars['Boolean']['input']>;
+  greater_than?: InputMaybe<Scalars['Float']['input']>;
+  greater_than_equal?: InputMaybe<Scalars['Float']['input']>;
+  less_than?: InputMaybe<Scalars['Float']['input']>;
+  less_than_equal?: InputMaybe<Scalars['Float']['input']>;
+  not_equals?: InputMaybe<Scalars['Float']['input']>;
+};
+
 export type Media_Id_Operator = {
+  all?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  contains?: InputMaybe<Scalars['String']['input']>;
+  equals?: InputMaybe<Scalars['String']['input']>;
+  exists?: InputMaybe<Scalars['Boolean']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  like?: InputMaybe<Scalars['String']['input']>;
+  not_equals?: InputMaybe<Scalars['String']['input']>;
+  not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+};
+
+export type Media_MimeType_Operator = {
+  all?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  contains?: InputMaybe<Scalars['String']['input']>;
+  equals?: InputMaybe<Scalars['String']['input']>;
+  exists?: InputMaybe<Scalars['Boolean']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  like?: InputMaybe<Scalars['String']['input']>;
+  not_equals?: InputMaybe<Scalars['String']['input']>;
+  not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+};
+
+export type Media_ThumbnailUrl_Operator = {
   all?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   contains?: InputMaybe<Scalars['String']['input']>;
   equals?: InputMaybe<Scalars['String']['input']>;
@@ -4272,13 +4948,33 @@ export type Media_UpdatedAt_Operator = {
   not_equals?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
+export type Media_Url_Operator = {
+  all?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  contains?: InputMaybe<Scalars['String']['input']>;
+  equals?: InputMaybe<Scalars['String']['input']>;
+  exists?: InputMaybe<Scalars['Boolean']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  like?: InputMaybe<Scalars['String']['input']>;
+  not_equals?: InputMaybe<Scalars['String']['input']>;
+  not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+};
+
 export type Media_Where = {
   AND?: InputMaybe<Array<InputMaybe<Media_Where_And>>>;
   OR?: InputMaybe<Array<InputMaybe<Media_Where_Or>>>;
   alt?: InputMaybe<Media_Alt_Operator>;
   createdAt?: InputMaybe<Media_CreatedAt_Operator>;
+  filename?: InputMaybe<Media_Filename_Operator>;
+  filesize?: InputMaybe<Media_Filesize_Operator>;
+  focalX?: InputMaybe<Media_FocalX_Operator>;
+  focalY?: InputMaybe<Media_FocalY_Operator>;
+  height?: InputMaybe<Media_Height_Operator>;
   id?: InputMaybe<Media_Id_Operator>;
+  mimeType?: InputMaybe<Media_MimeType_Operator>;
+  thumbnailURL?: InputMaybe<Media_ThumbnailUrl_Operator>;
   updatedAt?: InputMaybe<Media_UpdatedAt_Operator>;
+  url?: InputMaybe<Media_Url_Operator>;
+  width?: InputMaybe<Media_Width_Operator>;
 };
 
 export type Media_Where_And = {
@@ -4286,8 +4982,17 @@ export type Media_Where_And = {
   OR?: InputMaybe<Array<InputMaybe<Media_Where_Or>>>;
   alt?: InputMaybe<Media_Alt_Operator>;
   createdAt?: InputMaybe<Media_CreatedAt_Operator>;
+  filename?: InputMaybe<Media_Filename_Operator>;
+  filesize?: InputMaybe<Media_Filesize_Operator>;
+  focalX?: InputMaybe<Media_FocalX_Operator>;
+  focalY?: InputMaybe<Media_FocalY_Operator>;
+  height?: InputMaybe<Media_Height_Operator>;
   id?: InputMaybe<Media_Id_Operator>;
+  mimeType?: InputMaybe<Media_MimeType_Operator>;
+  thumbnailURL?: InputMaybe<Media_ThumbnailUrl_Operator>;
   updatedAt?: InputMaybe<Media_UpdatedAt_Operator>;
+  url?: InputMaybe<Media_Url_Operator>;
+  width?: InputMaybe<Media_Width_Operator>;
 };
 
 export type Media_Where_Or = {
@@ -4295,8 +5000,27 @@ export type Media_Where_Or = {
   OR?: InputMaybe<Array<InputMaybe<Media_Where_Or>>>;
   alt?: InputMaybe<Media_Alt_Operator>;
   createdAt?: InputMaybe<Media_CreatedAt_Operator>;
+  filename?: InputMaybe<Media_Filename_Operator>;
+  filesize?: InputMaybe<Media_Filesize_Operator>;
+  focalX?: InputMaybe<Media_FocalX_Operator>;
+  focalY?: InputMaybe<Media_FocalY_Operator>;
+  height?: InputMaybe<Media_Height_Operator>;
   id?: InputMaybe<Media_Id_Operator>;
+  mimeType?: InputMaybe<Media_MimeType_Operator>;
+  thumbnailURL?: InputMaybe<Media_ThumbnailUrl_Operator>;
   updatedAt?: InputMaybe<Media_UpdatedAt_Operator>;
+  url?: InputMaybe<Media_Url_Operator>;
+  width?: InputMaybe<Media_Width_Operator>;
+};
+
+export type Media_Width_Operator = {
+  equals?: InputMaybe<Scalars['Float']['input']>;
+  exists?: InputMaybe<Scalars['Boolean']['input']>;
+  greater_than?: InputMaybe<Scalars['Float']['input']>;
+  greater_than_equal?: InputMaybe<Scalars['Float']['input']>;
+  less_than?: InputMaybe<Scalars['Float']['input']>;
+  less_than_equal?: InputMaybe<Scalars['Float']['input']>;
+  not_equals?: InputMaybe<Scalars['Float']['input']>;
 };
 
 export type Mutation = {
@@ -4327,7 +5051,6 @@ export type Mutation = {
   duplicateDocumentReference?: Maybe<DocumentReference>;
   duplicateInteraction?: Maybe<Interaction>;
   duplicateLead?: Maybe<Lead>;
-  duplicateMedia?: Maybe<Media>;
   duplicatePayloadPreference?: Maybe<PayloadPreference>;
   duplicateWorkspace?: Maybe<Workspace>;
   forgotPasswordUser: Scalars['Boolean']['output'];
@@ -4460,10 +5183,6 @@ export type MutationDuplicateInteractionArgs = {
 };
 
 export type MutationDuplicateLeadArgs = {
-  id: Scalars['String']['input'];
-};
-
-export type MutationDuplicateMediaArgs = {
   id: Scalars['String']['input'];
 };
 
@@ -6511,6 +7230,7 @@ export type MutationDocumentReferenceUpdateInput = {
 };
 
 export type MutationInteractionInput = {
+  contacts?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   createdAt?: InputMaybe<Scalars['String']['input']>;
   interactionDate: Scalars['String']['input'];
   interactionType: Scalars['String']['input'];
@@ -6519,6 +7239,7 @@ export type MutationInteractionInput = {
 };
 
 export type MutationInteractionUpdateInput = {
+  contacts?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   createdAt?: InputMaybe<Scalars['String']['input']>;
   interactionDate?: InputMaybe<Scalars['String']['input']>;
   interactionType?: InputMaybe<Scalars['String']['input']>;
@@ -6551,15 +7272,33 @@ export type MutationLeadUpdateInput = {
 };
 
 export type MutationMediaInput = {
-  alt: Scalars['String']['input'];
+  alt?: InputMaybe<Scalars['String']['input']>;
   createdAt?: InputMaybe<Scalars['String']['input']>;
+  filename?: InputMaybe<Scalars['String']['input']>;
+  filesize?: InputMaybe<Scalars['Float']['input']>;
+  focalX?: InputMaybe<Scalars['Float']['input']>;
+  focalY?: InputMaybe<Scalars['Float']['input']>;
+  height?: InputMaybe<Scalars['Float']['input']>;
+  mimeType?: InputMaybe<Scalars['String']['input']>;
+  thumbnailURL?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['String']['input']>;
+  url?: InputMaybe<Scalars['String']['input']>;
+  width?: InputMaybe<Scalars['Float']['input']>;
 };
 
 export type MutationMediaUpdateInput = {
   alt?: InputMaybe<Scalars['String']['input']>;
   createdAt?: InputMaybe<Scalars['String']['input']>;
+  filename?: InputMaybe<Scalars['String']['input']>;
+  filesize?: InputMaybe<Scalars['Float']['input']>;
+  focalX?: InputMaybe<Scalars['Float']['input']>;
+  focalY?: InputMaybe<Scalars['Float']['input']>;
+  height?: InputMaybe<Scalars['Float']['input']>;
+  mimeType?: InputMaybe<Scalars['String']['input']>;
+  thumbnailURL?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['String']['input']>;
+  url?: InputMaybe<Scalars['String']['input']>;
+  width?: InputMaybe<Scalars['Float']['input']>;
 };
 
 export type MutationPayloadPreferenceInput = {
@@ -7038,6 +7777,91 @@ export type DeleteContactMutationVariables = Exact<{
 export type DeleteContactMutation = {
   __typename?: 'Mutation';
   deleteContact?: { __typename?: 'Contact'; id: string } | null;
+};
+
+export type GetInteractionsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetInteractionsQuery = {
+  __typename?: 'Query';
+  Interactions?: {
+    __typename?: 'Interactions';
+    docs?: Array<{
+      __typename?: 'Interaction';
+      id: string;
+      interactionType: string;
+      interactionDate: any;
+      notes?: string | null;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+      contacts?: Array<{
+        __typename?: 'Contact';
+        id: string;
+        contactName: string;
+        email: any;
+        phone?: string | null;
+        jobTitle?: string | null;
+        address?: string | null;
+        createdAt?: any | null;
+        updatedAt?: any | null;
+      }> | null;
+    } | null> | null;
+  } | null;
+};
+
+export type GetInteractionQueryVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+export type GetInteractionQuery = {
+  __typename?: 'Query';
+  Interaction?: {
+    __typename?: 'Interaction';
+    id: string;
+    interactionType: string;
+    interactionDate: any;
+    notes?: string | null;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+    contacts?: Array<{
+      __typename?: 'Contact';
+      id: string;
+      contactName: string;
+      email: any;
+      phone?: string | null;
+      jobTitle?: string | null;
+      address?: string | null;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+    }> | null;
+  } | null;
+};
+
+export type CreateInteractionMutationVariables = Exact<{
+  data: MutationInteractionInput;
+}>;
+
+export type CreateInteractionMutation = {
+  __typename?: 'Mutation';
+  createInteraction?: { __typename?: 'Interaction'; id: string } | null;
+};
+
+export type UpdateInteractionMutationVariables = Exact<{
+  id: Scalars['String']['input'];
+  data: MutationInteractionUpdateInput;
+}>;
+
+export type UpdateInteractionMutation = {
+  __typename?: 'Mutation';
+  updateInteraction?: { __typename?: 'Interaction'; id: string } | null;
+};
+
+export type DeleteInteractionMutationVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+export type DeleteInteractionMutation = {
+  __typename?: 'Mutation';
+  deleteInteraction?: { __typename?: 'Interaction'; id: string } | null;
 };
 
 export const GetAssignmentsDocument = {
@@ -7935,3 +8759,245 @@ export const DeleteContactDocument = {
     }
   ]
 } as unknown as DocumentNode<DeleteContactMutation, DeleteContactMutationVariables>;
+export const GetInteractionsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetInteractions' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'Interactions' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'sort' },
+                value: { kind: 'StringValue', value: 'interactionDate:desc', block: false }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'docs' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'interactionType' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'interactionDate' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'notes' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'contacts' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'contactName' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'phone' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'jobTitle' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'address' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<GetInteractionsQuery, GetInteractionsQueryVariables>;
+export const GetInteractionDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetInteraction' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'Interaction' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'interactionType' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'interactionDate' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'notes' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'contacts' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'contactName' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'phone' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'jobTitle' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'address' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<GetInteractionQuery, GetInteractionQueryVariables>;
+export const CreateInteractionDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateInteraction' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'mutationInteractionInput' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createInteraction' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'data' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'data' } }
+              }
+            ],
+            selectionSet: { kind: 'SelectionSet', selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }] }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<CreateInteractionMutation, CreateInteractionMutationVariables>;
+export const UpdateInteractionDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'UpdateInteraction' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } }
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'mutationInteractionUpdateInput' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'updateInteraction' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'data' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'data' } }
+              }
+            ],
+            selectionSet: { kind: 'SelectionSet', selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }] }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<UpdateInteractionMutation, UpdateInteractionMutationVariables>;
+export const DeleteInteractionDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'DeleteInteraction' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteInteraction' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
+              }
+            ],
+            selectionSet: { kind: 'SelectionSet', selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }] }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<DeleteInteractionMutation, DeleteInteractionMutationVariables>;

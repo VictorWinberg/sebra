@@ -47,7 +47,17 @@ const documents = {
   '\n      mutation UpdateContact($id: String!, $data: mutationContactUpdateInput!) {\n        updateContact(id: $id, data: $data) {\n          id\n        }\n      }\n    ':
     types.UpdateContactDocument,
   '\n      mutation DeleteContact($id: String!) {\n        deleteContact(id: $id) {\n          id\n        }\n      }\n    ':
-    types.DeleteContactDocument
+    types.DeleteContactDocument,
+  '\n      query GetInteractions {\n        Interactions(sort: "interactionDate:desc") {\n          docs {\n            id\n            interactionType\n            interactionDate\n            notes\n            createdAt\n            updatedAt\n\n            contacts {\n              id\n              contactName\n              email\n              phone\n              jobTitle\n              address\n              createdAt\n              updatedAt\n            }\n          }\n        }\n      }\n    ':
+    types.GetInteractionsDocument,
+  '\n      query GetInteraction($id: String!) {\n        Interaction(id: $id) {\n          id\n          interactionType\n          interactionDate\n          notes\n          createdAt\n          updatedAt\n\n          contacts {\n            id\n            contactName\n            email\n            phone\n            jobTitle\n            address\n            createdAt\n            updatedAt\n          }\n        }\n      }\n    ':
+    types.GetInteractionDocument,
+  '\n      mutation CreateInteraction($data: mutationInteractionInput!) {\n        createInteraction(data: $data) {\n          id\n        }\n      }\n    ':
+    types.CreateInteractionDocument,
+  '\n      mutation UpdateInteraction($id: String!, $data: mutationInteractionUpdateInput!) {\n        updateInteraction(id: $id, data: $data) {\n          id\n        }\n      }\n    ':
+    types.UpdateInteractionDocument,
+  '\n      mutation DeleteInteraction($id: String!) {\n        deleteInteraction(id: $id) {\n          id\n        }\n      }\n    ':
+    types.DeleteInteractionDocument
 };
 
 /**
@@ -172,6 +182,36 @@ export function graphql(
 export function graphql(
   source: '\n      mutation DeleteContact($id: String!) {\n        deleteContact(id: $id) {\n          id\n        }\n      }\n    '
 ): (typeof documents)['\n      mutation DeleteContact($id: String!) {\n        deleteContact(id: $id) {\n          id\n        }\n      }\n    '];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n      query GetInteractions {\n        Interactions(sort: "interactionDate:desc") {\n          docs {\n            id\n            interactionType\n            interactionDate\n            notes\n            createdAt\n            updatedAt\n\n            contacts {\n              id\n              contactName\n              email\n              phone\n              jobTitle\n              address\n              createdAt\n              updatedAt\n            }\n          }\n        }\n      }\n    '
+): (typeof documents)['\n      query GetInteractions {\n        Interactions(sort: "interactionDate:desc") {\n          docs {\n            id\n            interactionType\n            interactionDate\n            notes\n            createdAt\n            updatedAt\n\n            contacts {\n              id\n              contactName\n              email\n              phone\n              jobTitle\n              address\n              createdAt\n              updatedAt\n            }\n          }\n        }\n      }\n    '];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n      query GetInteraction($id: String!) {\n        Interaction(id: $id) {\n          id\n          interactionType\n          interactionDate\n          notes\n          createdAt\n          updatedAt\n\n          contacts {\n            id\n            contactName\n            email\n            phone\n            jobTitle\n            address\n            createdAt\n            updatedAt\n          }\n        }\n      }\n    '
+): (typeof documents)['\n      query GetInteraction($id: String!) {\n        Interaction(id: $id) {\n          id\n          interactionType\n          interactionDate\n          notes\n          createdAt\n          updatedAt\n\n          contacts {\n            id\n            contactName\n            email\n            phone\n            jobTitle\n            address\n            createdAt\n            updatedAt\n          }\n        }\n      }\n    '];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n      mutation CreateInteraction($data: mutationInteractionInput!) {\n        createInteraction(data: $data) {\n          id\n        }\n      }\n    '
+): (typeof documents)['\n      mutation CreateInteraction($data: mutationInteractionInput!) {\n        createInteraction(data: $data) {\n          id\n        }\n      }\n    '];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n      mutation UpdateInteraction($id: String!, $data: mutationInteractionUpdateInput!) {\n        updateInteraction(id: $id, data: $data) {\n          id\n        }\n      }\n    '
+): (typeof documents)['\n      mutation UpdateInteraction($id: String!, $data: mutationInteractionUpdateInput!) {\n        updateInteraction(id: $id, data: $data) {\n          id\n        }\n      }\n    '];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n      mutation DeleteInteraction($id: String!) {\n        deleteInteraction(id: $id) {\n          id\n        }\n      }\n    '
+): (typeof documents)['\n      mutation DeleteInteraction($id: String!) {\n        deleteInteraction(id: $id) {\n          id\n        }\n      }\n    '];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

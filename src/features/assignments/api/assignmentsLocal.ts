@@ -89,19 +89,23 @@ export const createAssignmentLocal = async (data: Assignment): Promise<CreateAss
     'status'
   ]);
 
-  const record = await insertQuery<FlatAssignment>('assignments', params);
-  await createAssignmentResponsibleContacts({ ...data, id: record.id });
-  return { createAssignment: record };
+  const assignment = await insertQuery<FlatAssignment>('assignments', params);
+  await createAssignmentResponsibleContacts({ ...data, id: assignment.id });
+  return { createAssignment: assignment };
 };
 
-export const updateAssignmentLocal = async (assignment: Assignment): Promise<UpdateAssignmentMutation> => {
-  const params = pick(
-    { ...assignment, externalContact: assignment.externalContact?.id, company: assignment.company?.id },
-    ['assignmentName', 'externalContact', 'company', 'fee', 'type', 'status']
-  );
-  const record = await updateQuery<FlatAssignment>('assignments', params, pick(assignment, ['id']));
-  await updateAssignmentResponsibleContacts(assignment);
-  return { updateAssignment: record };
+export const updateAssignmentLocal = async (data: Assignment): Promise<UpdateAssignmentMutation> => {
+  const params = pick({ ...data, externalContact: data.externalContact?.id, company: data.company?.id }, [
+    'assignmentName',
+    'externalContact',
+    'company',
+    'fee',
+    'type',
+    'status'
+  ]);
+  const assignment = await updateQuery<FlatAssignment>('assignments', params, pick(data, ['id']));
+  await updateAssignmentResponsibleContacts(data);
+  return { updateAssignment: assignment };
 };
 
 export const deleteAssignmentLocal = async ({ id }: Pick<Assignment, 'id'>): Promise<DeleteAssignmentMutation> => {
