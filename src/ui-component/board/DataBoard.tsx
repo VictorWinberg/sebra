@@ -1,3 +1,6 @@
+/* eslint-disable react-refresh/only-export-components */
+import { memo } from 'react';
+
 // material-ui
 import { Box, IconButton } from '@mui/material';
 
@@ -5,12 +8,12 @@ import { Box, IconButton } from '@mui/material';
 import { MRT_EditRowModal, MRT_Row, MRT_TableInstance } from 'material-react-table';
 
 // project imports
+import { Maybe } from '@/api/gql/graphql';
 import { DataTableProps, useDataTable } from '@/hooks/useDataTable';
 import Board from './Board';
 
 // assets
 import { Add } from '@mui/icons-material';
-import { Maybe } from '@/api/gql/graphql';
 
 interface DataBoardProps<T extends Record<string, unknown>> extends DataTableProps<T> {
   stages: string[];
@@ -65,4 +68,10 @@ const DataBoard = <T extends { rank?: Maybe<number> } & Record<string, unknown>>
   );
 };
 
-export default DataBoard;
+export default memo(DataBoard, (prevProps, nextProps) => {
+  return (
+    prevProps.data === nextProps.data &&
+    prevProps.stages === nextProps.stages &&
+    prevProps.columnId === nextProps.columnId
+  );
+}) as typeof DataBoard;

@@ -11,7 +11,7 @@ export const pick = <T extends Record<string, unknown>, K extends keyof T>(
 ): { [P in K]: NonNullable<T[P]> } => {
   return keys.reduce(
     (picked, key) => {
-      if (key in obj && obj[key]) {
+      if (key in obj && obj[key] != null) {
         picked[key] = obj[key];
       }
       return picked;
