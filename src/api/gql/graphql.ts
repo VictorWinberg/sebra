@@ -7864,6 +7864,132 @@ export type DeleteInteractionMutation = {
   deleteInteraction?: { __typename?: 'Interaction'; id: string } | null;
 };
 
+export type GetLeadsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetLeadsQuery = {
+  __typename?: 'Query';
+  Leads?: {
+    __typename?: 'Leads';
+    docs?: Array<{
+      __typename?: 'Lead';
+      id: string;
+      leadTitle: string;
+      description?: string | null;
+      stage?: string | null;
+      rank?: number | null;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+      company?: {
+        __typename?: 'Company';
+        id: string;
+        companyName: string;
+        address?: string | null;
+        industry?: string | null;
+        phone?: string | null;
+        email?: string | null;
+        website?: string | null;
+        organizationNumber?: string | null;
+        createdAt?: any | null;
+        updatedAt?: any | null;
+      } | null;
+      contact?: {
+        __typename?: 'Contact';
+        id: string;
+        contactName: string;
+        email: any;
+        phone?: string | null;
+        jobTitle?: string | null;
+        address?: string | null;
+        notes?: string | null;
+        createdAt?: any | null;
+        updatedAt?: any | null;
+      } | null;
+      assignment?: {
+        __typename?: 'Assignment';
+        id: string;
+        assignmentName: string;
+        fee?: number | null;
+        status?: string | null;
+        type?: string | null;
+        createdAt?: any | null;
+        updatedAt?: any | null;
+      } | null;
+    } | null> | null;
+  } | null;
+};
+
+export type GetLeadQueryVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+export type GetLeadQuery = {
+  __typename?: 'Query';
+  Lead?: {
+    __typename?: 'Lead';
+    id: string;
+    leadTitle: string;
+    description?: string | null;
+    stage?: string | null;
+    rank?: number | null;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+    company?: {
+      __typename?: 'Company';
+      id: string;
+      companyName: string;
+      address?: string | null;
+      industry?: string | null;
+      phone?: string | null;
+      email?: string | null;
+      website?: string | null;
+      organizationNumber?: string | null;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+    } | null;
+    contact?: {
+      __typename?: 'Contact';
+      id: string;
+      contactName: string;
+      email: any;
+      phone?: string | null;
+      jobTitle?: string | null;
+      address?: string | null;
+      notes?: string | null;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+    } | null;
+    assignment?: {
+      __typename?: 'Assignment';
+      id: string;
+      assignmentName: string;
+      fee?: number | null;
+      status?: string | null;
+      type?: string | null;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+    } | null;
+  } | null;
+};
+
+export type CreateLeadMutationVariables = Exact<{
+  data: MutationLeadInput;
+}>;
+
+export type CreateLeadMutation = { __typename?: 'Mutation'; createLead?: { __typename?: 'Lead'; id: string } | null };
+
+export type UpdateLeadMutationVariables = Exact<{
+  id: Scalars['String']['input'];
+  data: MutationLeadUpdateInput;
+}>;
+
+export type UpdateLeadMutation = { __typename?: 'Mutation'; updateLead?: { __typename?: 'Lead'; id: string } | null };
+
+export type DeleteLeadMutationVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+export type DeleteLeadMutation = { __typename?: 'Mutation'; deleteLead?: { __typename?: 'Lead'; id: string } | null };
+
 export const GetAssignmentsDocument = {
   kind: 'Document',
   definitions: [
@@ -9001,3 +9127,316 @@ export const DeleteInteractionDocument = {
     }
   ]
 } as unknown as DocumentNode<DeleteInteractionMutation, DeleteInteractionMutationVariables>;
+export const GetLeadsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetLeads' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'Leads' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'sort' },
+                value: { kind: 'StringValue', value: 'rank', block: false }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'docs' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'leadTitle' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'stage' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'rank' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'company' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'companyName' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'address' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'industry' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'phone' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'website' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'organizationNumber' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+                          ]
+                        }
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'contact' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'contactName' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'phone' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'jobTitle' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'address' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'notes' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+                          ]
+                        }
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'assignment' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'assignmentName' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'fee' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<GetLeadsQuery, GetLeadsQueryVariables>;
+export const GetLeadDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetLead' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'Lead' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'leadTitle' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'stage' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'rank' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'company' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'companyName' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'address' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'industry' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'phone' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'website' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'organizationNumber' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'contact' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'contactName' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'phone' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'jobTitle' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'address' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'notes' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'assignment' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'assignmentName' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'fee' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<GetLeadQuery, GetLeadQueryVariables>;
+export const CreateLeadDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateLead' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'mutationLeadInput' } } }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createLead' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'data' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'data' } }
+              }
+            ],
+            selectionSet: { kind: 'SelectionSet', selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }] }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<CreateLeadMutation, CreateLeadMutationVariables>;
+export const UpdateLeadDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'UpdateLead' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } }
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'mutationLeadUpdateInput' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'updateLead' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'data' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'data' } }
+              }
+            ],
+            selectionSet: { kind: 'SelectionSet', selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }] }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<UpdateLeadMutation, UpdateLeadMutationVariables>;
+export const DeleteLeadDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'DeleteLead' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteLead' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
+              }
+            ],
+            selectionSet: { kind: 'SelectionSet', selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }] }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<DeleteLeadMutation, DeleteLeadMutationVariables>;

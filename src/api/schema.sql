@@ -80,12 +80,12 @@ CREATE TABLE IF NOT EXISTS leads (
     description TEXT,
     stage VARCHAR(50) NOT NULL,
     rank INTEGER,
-    contact_id INTEGER,
+    contact INTEGER,
     company INTEGER,
-    assignment_id INTEGER,
+    assignment INTEGER,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (contact_id) REFERENCES contacts(id),
+    FOREIGN KEY (contact) REFERENCES contacts(id),
     FOREIGN KEY (company) REFERENCES companies(id),
-    FOREIGN KEY (assignment_id) REFERENCES assignments(id)
+    FOREIGN KEY (assignment) REFERENCES assignments(id)
 );

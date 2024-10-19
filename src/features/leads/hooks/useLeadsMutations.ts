@@ -1,14 +1,17 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
+import { useAuth } from '@/features/authentication/hooks/useAuthQueries';
 import { useSnackbar } from '@/hooks/useSnackbar';
-import { createLead, deleteLead, updateLead } from '../api/leadsApi';
+import { createLeadGQL, deleteLeadGQL, updateLeadGQL } from '../api/leadsGQL';
+import { createLeadLocal, deleteLeadLocal, updateLeadLocal } from '../api/leadsLocal';
 
 export const useCreateLead = () => {
+  const { data: user } = useAuth();
   const queryClient = useQueryClient();
   const { showSnackbar } = useSnackbar();
 
   return useMutation({
-    mutationFn: createLead,
+    mutationFn: user ? createLeadGQL : createLeadLocal,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['leads'] });
       showSnackbar('Lead skapat!');
@@ -20,11 +23,12 @@ export const useCreateLead = () => {
 };
 
 export const useUpdateLead = () => {
+  const { data: user } = useAuth();
   const queryClient = useQueryClient();
   const { showSnackbar } = useSnackbar();
 
   return useMutation({
-    mutationFn: updateLead,
+    mutationFn: user ? updateLeadGQL : updateLeadLocal,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['leads'] });
       showSnackbar('Lead uppdaterat!');
@@ -36,11 +40,12 @@ export const useUpdateLead = () => {
 };
 
 export const useDeleteLead = () => {
+  const { data: user } = useAuth();
   const queryClient = useQueryClient();
   const { showSnackbar } = useSnackbar();
 
   return useMutation({
-    mutationFn: deleteLead,
+    mutationFn: user ? deleteLeadGQL : deleteLeadLocal,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['leads'] });
       showSnackbar('Lead borttaget!');

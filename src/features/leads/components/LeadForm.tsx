@@ -5,11 +5,12 @@ import { Autocomplete, Grid, TextField } from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
 
 // project imports
+import { Lead } from '@/api/gql/graphql';
 import { useAssignments } from '@/features/assignments/hooks/useAssignmentsQueries';
 import { useCompanies } from '@/features/companies/hooks/useCompaniesQueries';
 import { useContacts } from '@/features/contacts/hooks/useContactsQueries';
 import SebraForm, { FormProps } from '@/ui-component/SebraForm';
-import { Lead, LEAD_STAGES } from '../api/leadsApi';
+import { LEAD_STAGES } from '../api/leadsLocal';
 
 // ==============================|| LEADS FORM ||============================== //
 
@@ -70,14 +71,14 @@ const LeadForm = ({ formProps, ...props }: FormProps<Lead>) => {
         </Grid>
         <Grid item xs={12} sm={4}>
           <Controller
-            name="contactId"
+            name="contact"
             control={control}
             render={({ field }) => (
               <Autocomplete
                 options={contacts}
                 getOptionKey={(option) => option.id}
                 getOptionLabel={(option) => option.contactName}
-                value={contacts.find((contact) => contact.id === field.value) || null}
+                value={contacts.find((contact) => contact.id === field.value?.id) || null}
                 onChange={(_, value) => field.onChange(value ?? undefined)}
                 renderInput={(params) => <TextField {...params} label="Kontakt" variant="outlined" fullWidth />}
               />
@@ -86,14 +87,14 @@ const LeadForm = ({ formProps, ...props }: FormProps<Lead>) => {
         </Grid>
         <Grid item xs={12} sm={4}>
           <Controller
-            name="companyId"
+            name="company"
             control={control}
             render={({ field }) => (
               <Autocomplete
                 options={companies}
                 getOptionKey={(option) => option.id}
                 getOptionLabel={(option) => option.companyName}
-                value={companies.find((contact) => contact.id === field.value) || null}
+                value={companies.find((contact) => contact.id === field.value?.id) || null}
                 onChange={(_, value) => field.onChange(value ?? undefined)}
                 renderInput={(params) => <TextField {...params} label="Bolag" variant="outlined" fullWidth />}
               />
@@ -102,14 +103,14 @@ const LeadForm = ({ formProps, ...props }: FormProps<Lead>) => {
         </Grid>
         <Grid item xs={12} sm={4}>
           <Controller
-            name="assignmentId"
+            name="assignment"
             control={control}
             render={({ field }) => (
               <Autocomplete
                 options={assignments}
                 getOptionKey={(option) => option.id}
                 getOptionLabel={(option) => option.assignmentName}
-                value={assignments.find((contact) => contact.id === field.value) || null}
+                value={assignments.find((contact) => contact.id === field.value?.id) || null}
                 onChange={(_, value) => field.onChange(value ?? undefined)}
                 renderInput={(params) => <TextField {...params} label="Uppdrag" variant="outlined" fullWidth />}
               />

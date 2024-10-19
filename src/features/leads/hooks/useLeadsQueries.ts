@@ -1,7 +1,15 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { fetchLeads } from '../api/leadsApi';
+import { useAuth } from '@/features/authentication/hooks/useAuthQueries';
+import { getLeadsGQL } from '../api/leadsGQL';
+import { getLeadsLocal } from '../api/leadsLocal';
 
 export const useLeads = () => {
-  return useQuery({ queryKey: ['leads'], queryFn: fetchLeads });
+  const { data: user } = useAuth();
+  const fn = user ? getLeadsGQL : getLeadsLocal;
+  return useQuery({
+    queryKey: ['leads'],
+    queryFn: () => fn(),
+    select: (data) => data.Leads?.docs?.filter((i) => !!i) || []
+  });
 };

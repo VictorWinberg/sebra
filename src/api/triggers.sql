@@ -51,9 +51,9 @@ BEGIN
     SET updated_at = CASE
             WHEN NEW.lead_title != OLD.lead_title
                 OR NEW.stage != OLD.stage
-                OR NEW.contact_id != OLD.contact_id
-                OR NEW.company_id != OLD.company_id
-                OR NEW.assignment_id != OLD.assignment_id
+                OR NEW.contact != OLD.contact
+                OR NEW.company != OLD.company
+                OR NEW.assignment != OLD.assignment
             THEN CURRENT_TIMESTAMP
             ELSE OLD.updated_at
         END

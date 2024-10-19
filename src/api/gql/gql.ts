@@ -57,7 +57,17 @@ const documents = {
   '\n      mutation UpdateInteraction($id: String!, $data: mutationInteractionUpdateInput!) {\n        updateInteraction(id: $id, data: $data) {\n          id\n        }\n      }\n    ':
     types.UpdateInteractionDocument,
   '\n      mutation DeleteInteraction($id: String!) {\n        deleteInteraction(id: $id) {\n          id\n        }\n      }\n    ':
-    types.DeleteInteractionDocument
+    types.DeleteInteractionDocument,
+  '\n      query GetLeads {\n        Leads(sort: "rank") {\n          docs {\n            id\n            leadTitle\n            description\n            stage\n            rank\n            createdAt\n            updatedAt\n\n            company {\n              id\n              companyName\n              address\n              industry\n              phone\n              email\n              website\n              organizationNumber\n              createdAt\n              updatedAt\n            }\n\n            contact {\n              id\n              contactName\n              email\n              phone\n              jobTitle\n              address\n              notes\n              createdAt\n              updatedAt\n            }\n\n            assignment {\n              id\n              assignmentName\n              fee\n              status\n              type\n              createdAt\n              updatedAt\n            }\n          }\n        }\n      }\n    ':
+    types.GetLeadsDocument,
+  '\n      query GetLead($id: String!) {\n        Lead(id: $id) {\n          id\n          leadTitle\n          description\n          stage\n          rank\n          createdAt\n          updatedAt\n\n          company {\n            id\n            companyName\n            address\n            industry\n            phone\n            email\n            website\n            organizationNumber\n            createdAt\n            updatedAt\n          }\n\n          contact {\n            id\n            contactName\n            email\n            phone\n            jobTitle\n            address\n            notes\n            createdAt\n            updatedAt\n          }\n\n          assignment {\n            id\n            assignmentName\n            fee\n            status\n            type\n            createdAt\n            updatedAt\n          }\n        }\n      }\n    ':
+    types.GetLeadDocument,
+  '\n      mutation CreateLead($data: mutationLeadInput!) {\n        createLead(data: $data) {\n          id\n        }\n      }\n    ':
+    types.CreateLeadDocument,
+  '\n      mutation UpdateLead($id: String!, $data: mutationLeadUpdateInput!) {\n        updateLead(id: $id, data: $data) {\n          id\n        }\n      }\n    ':
+    types.UpdateLeadDocument,
+  '\n      mutation DeleteLead($id: String!) {\n        deleteLead(id: $id) {\n          id\n        }\n      }\n    ':
+    types.DeleteLeadDocument
 };
 
 /**
@@ -212,6 +222,36 @@ export function graphql(
 export function graphql(
   source: '\n      mutation DeleteInteraction($id: String!) {\n        deleteInteraction(id: $id) {\n          id\n        }\n      }\n    '
 ): (typeof documents)['\n      mutation DeleteInteraction($id: String!) {\n        deleteInteraction(id: $id) {\n          id\n        }\n      }\n    '];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n      query GetLeads {\n        Leads(sort: "rank") {\n          docs {\n            id\n            leadTitle\n            description\n            stage\n            rank\n            createdAt\n            updatedAt\n\n            company {\n              id\n              companyName\n              address\n              industry\n              phone\n              email\n              website\n              organizationNumber\n              createdAt\n              updatedAt\n            }\n\n            contact {\n              id\n              contactName\n              email\n              phone\n              jobTitle\n              address\n              notes\n              createdAt\n              updatedAt\n            }\n\n            assignment {\n              id\n              assignmentName\n              fee\n              status\n              type\n              createdAt\n              updatedAt\n            }\n          }\n        }\n      }\n    '
+): (typeof documents)['\n      query GetLeads {\n        Leads(sort: "rank") {\n          docs {\n            id\n            leadTitle\n            description\n            stage\n            rank\n            createdAt\n            updatedAt\n\n            company {\n              id\n              companyName\n              address\n              industry\n              phone\n              email\n              website\n              organizationNumber\n              createdAt\n              updatedAt\n            }\n\n            contact {\n              id\n              contactName\n              email\n              phone\n              jobTitle\n              address\n              notes\n              createdAt\n              updatedAt\n            }\n\n            assignment {\n              id\n              assignmentName\n              fee\n              status\n              type\n              createdAt\n              updatedAt\n            }\n          }\n        }\n      }\n    '];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n      query GetLead($id: String!) {\n        Lead(id: $id) {\n          id\n          leadTitle\n          description\n          stage\n          rank\n          createdAt\n          updatedAt\n\n          company {\n            id\n            companyName\n            address\n            industry\n            phone\n            email\n            website\n            organizationNumber\n            createdAt\n            updatedAt\n          }\n\n          contact {\n            id\n            contactName\n            email\n            phone\n            jobTitle\n            address\n            notes\n            createdAt\n            updatedAt\n          }\n\n          assignment {\n            id\n            assignmentName\n            fee\n            status\n            type\n            createdAt\n            updatedAt\n          }\n        }\n      }\n    '
+): (typeof documents)['\n      query GetLead($id: String!) {\n        Lead(id: $id) {\n          id\n          leadTitle\n          description\n          stage\n          rank\n          createdAt\n          updatedAt\n\n          company {\n            id\n            companyName\n            address\n            industry\n            phone\n            email\n            website\n            organizationNumber\n            createdAt\n            updatedAt\n          }\n\n          contact {\n            id\n            contactName\n            email\n            phone\n            jobTitle\n            address\n            notes\n            createdAt\n            updatedAt\n          }\n\n          assignment {\n            id\n            assignmentName\n            fee\n            status\n            type\n            createdAt\n            updatedAt\n          }\n        }\n      }\n    '];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n      mutation CreateLead($data: mutationLeadInput!) {\n        createLead(data: $data) {\n          id\n        }\n      }\n    '
+): (typeof documents)['\n      mutation CreateLead($data: mutationLeadInput!) {\n        createLead(data: $data) {\n          id\n        }\n      }\n    '];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n      mutation UpdateLead($id: String!, $data: mutationLeadUpdateInput!) {\n        updateLead(id: $id, data: $data) {\n          id\n        }\n      }\n    '
+): (typeof documents)['\n      mutation UpdateLead($id: String!, $data: mutationLeadUpdateInput!) {\n        updateLead(id: $id, data: $data) {\n          id\n        }\n      }\n    '];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n      mutation DeleteLead($id: String!) {\n        deleteLead(id: $id) {\n          id\n        }\n      }\n    '
+): (typeof documents)['\n      mutation DeleteLead($id: String!) {\n        deleteLead(id: $id) {\n          id\n        }\n      }\n    '];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

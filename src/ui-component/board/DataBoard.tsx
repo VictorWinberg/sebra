@@ -10,6 +10,7 @@ import Board from './Board';
 
 // assets
 import { Add } from '@mui/icons-material';
+import { Maybe } from '@/api/gql/graphql';
 
 interface DataBoardProps<T extends Record<string, unknown>> extends DataTableProps<T> {
   stages: string[];
@@ -17,7 +18,7 @@ interface DataBoardProps<T extends Record<string, unknown>> extends DataTablePro
   renderCard: (props: { row: MRT_Row<T>; table: MRT_TableInstance<T> }) => React.ReactNode;
 }
 
-const DataBoard = <T extends { rank: number } & Record<string, unknown>>({
+const DataBoard = <T extends { rank?: Maybe<number> } & Record<string, unknown>>({
   data,
   stages,
   columnId,

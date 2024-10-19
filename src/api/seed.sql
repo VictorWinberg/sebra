@@ -353,7 +353,7 @@ VALUES
     ('f927238d-eb44-47ac-b29f-f8ec51c37a80', '5834f24e-af27-406e-8171-9c784182f24d');
 
 -- Seed data for leads table
-INSERT INTO leads (id, lead_title, description, stage, rank, contact_id, company, assignment_id, created_at, updated_at)
+INSERT INTO leads (id, lead_title, description, stage, rank, contact, company, assignment, created_at, updated_at)
 VALUES
     ('9671c767-bc53-4bf3-8038-8233b2feb9bc', 'Diskussion om kommande projekt.', 'Under vårt senaste möte diskuterade vi möjligheten att inleda ett nytt projekt. Kunden är intresserad av att utforska potentiella samarbeten inom digital transformation och vill ha ytterligare information innan de går vidare.', 'Pitch', 1, '92162d7a-ceea-486a-8d2f-891ec7feaa3e', '19b61f09-c879-4548-a79d-06d6f8211ff8', 'adbbfcf9-d95a-4be2-840b-e03d595ec2f1', '2024-06-01', '2024-06-01'),
     ('7fba6602-b886-4466-8965-abd480e040ee', 'Erbjudande skickat, inväntar svar.', 'Vi har skickat ett detaljerat erbjudande till kunden, som inkluderar prisuppgifter och leveranstider. Kunden har fått tid att överväga erbjudandet och vi förväntar oss ett svar inom de närmaste dagarna.', 'Affär', 2, 'ef40a58c-99ea-4b64-b9b9-5cce9cf9d9e4', '12ac063b-b562-41bd-9547-bf038620e18b', 'a42d42db-cffc-466c-a5ca-7d0a40eb265e', '2024-06-02', '2024-06-02'),
