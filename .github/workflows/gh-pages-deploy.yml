@@ -42,6 +42,7 @@ jobs:
           pnpm build
         env:
           VITE_BASE_URL: '/sebra/'
+          VITE_API_URL: ${{ secrets.PAYLOAD_API_URL }}
 
       - name: Github Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4.5.0
