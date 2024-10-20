@@ -8,7 +8,9 @@ import {
   UseQueryOptions,
   type UseQueryResult
 } from '@tanstack/react-query';
-import request from 'graphql-request';
+import { GraphQLClient } from 'graphql-request';
+
+const client = new GraphQLClient(`${API_URL}graphql`, {});
 
 export const getQueryKey = <TResult, TVariables>(
   document: TypedDocumentNode<TResult, TVariables>,
@@ -25,7 +27,7 @@ export const useGraphQL = <TResult, TVariables, TTransformed = TResult>(
 ): UseQueryResult<TTransformed, Error> => {
   return useQuery({
     queryKey: getQueryKey<TResult, TVariables>(document, variables),
-    queryFn: () => request(`${API_URL}graphql`, document, variables ?? undefined),
+    queryFn: () => client.request(document, variables ?? undefined),
     ...options
   });
 };
@@ -35,7 +37,7 @@ export const useGraphQLMutation = <TResult, TVariables>(
   options?: UseMutationOptions<TResult, Error, TVariables>
 ): UseMutationResult<TResult, Error, TVariables> => {
   return useMutation({
-    mutationFn: async (variables: TVariables) => request(`${API_URL}graphql`, document, variables ?? undefined),
+    mutationFn: async (variables: TVariables) => client.request(document, variables ?? undefined),
     ...options
   });
 };
@@ -43,7 +45,7 @@ export const useGraphQLMutation = <TResult, TVariables>(
 export const requestGQL =
   <TResult, TVariables>(document: TypedDocumentNode<TResult, TVariables>) =>
   (variables?: TVariables): Promise<TResult> =>
-    request(`${API_URL}graphql`, document, variables ?? undefined);
+    client.request(document, variables ?? undefined);
 
 export interface GraphQLParams {
   enabled: boolean;
