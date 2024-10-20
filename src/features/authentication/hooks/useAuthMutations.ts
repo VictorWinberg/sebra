@@ -18,7 +18,11 @@ export const useAuthLogin = () => {
       }
     `),
     {
-      onSuccess: () => {
+      onSuccess: (data) => {
+        const { token } = data.loginUser || {};
+        if (token) {
+          localStorage.setItem('jwt', token);
+        }
         queryClient.invalidateQueries({ queryKey: [] });
       }
     }
@@ -36,6 +40,7 @@ export const useAuthLogout = () => {
     `),
     {
       onSuccess: () => {
+        localStorage.removeItem('jwt');
         queryClient.invalidateQueries({ queryKey: [] });
       }
     }

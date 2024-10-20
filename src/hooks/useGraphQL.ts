@@ -10,7 +10,14 @@ import {
 } from '@tanstack/react-query';
 import { GraphQLClient } from 'graphql-request';
 
-const client = new GraphQLClient(`${API_URL}graphql`, {});
+const client = new GraphQLClient(`${API_URL}graphql`, {
+  headers: () => {
+    const token = localStorage.getItem('jwt');
+    return {
+      ...(token && { Authorization: `JWT ${token}` })
+    };
+  }
+});
 
 export const getQueryKey = <TResult, TVariables>(
   document: TypedDocumentNode<TResult, TVariables>,
