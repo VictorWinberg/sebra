@@ -1,17 +1,17 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { useSnackbar } from '@/hooks/useSnackbar';
-import { createAssignmentLocal, deleteAssignmentLocal, updateAssignmentLocal } from '../api/assignmentsLocal';
-import { useAuth } from '@/features/authentication/hooks/useAuthQueries';
+import { useAppStore } from '@/store';
 import { createAssignmentGQL, deleteAssignmentGQL, updateAssignmentGQL } from '../api/assignmentsGQL';
+import { createAssignmentLocal, deleteAssignmentLocal, updateAssignmentLocal } from '../api/assignmentsLocal';
 
 export const useCreateAssignment = () => {
-  const { data: user } = useAuth();
+  const [{ isDemo }] = useAppStore();
   const queryClient = useQueryClient();
   const { showSnackbar } = useSnackbar();
 
   return useMutation({
-    mutationFn: user ? createAssignmentGQL : createAssignmentLocal,
+    mutationFn: isDemo ? createAssignmentLocal : createAssignmentGQL,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['assignments'] });
       showSnackbar('Uppdrag skapat!');
@@ -23,12 +23,12 @@ export const useCreateAssignment = () => {
 };
 
 export const useUpdateAssignment = () => {
-  const { data: user } = useAuth();
+  const [{ isDemo }] = useAppStore();
   const queryClient = useQueryClient();
   const { showSnackbar } = useSnackbar();
 
   return useMutation({
-    mutationFn: user ? updateAssignmentGQL : updateAssignmentLocal,
+    mutationFn: isDemo ? updateAssignmentLocal : updateAssignmentGQL,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['assignments'] });
       showSnackbar('Uppdrag uppdaterat!');
@@ -40,12 +40,12 @@ export const useUpdateAssignment = () => {
 };
 
 export const useDeleteAssignment = () => {
-  const { data: user } = useAuth();
+  const [{ isDemo }] = useAppStore();
   const queryClient = useQueryClient();
   const { showSnackbar } = useSnackbar();
 
   return useMutation({
-    mutationFn: user ? deleteAssignmentGQL : deleteAssignmentLocal,
+    mutationFn: isDemo ? deleteAssignmentLocal : deleteAssignmentGQL,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['assignments'] });
       showSnackbar('Uppdrag borttaget!');

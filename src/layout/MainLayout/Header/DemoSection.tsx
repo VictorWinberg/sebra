@@ -5,7 +5,6 @@ import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
-import Grid from '@mui/material/Grid';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -17,31 +16,34 @@ import { useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 
 // third-party
+import { useQueryClient } from '@tanstack/react-query';
 
 // project imports
-import { useAuthLogout } from '@/features/authentication/hooks/useAuthMutations';
-import { useAuth } from '@/features/authentication/hooks/useAuthQueries';
 import MainCard from '@/ui-component/cards/MainCard';
 import Transitions from '@/ui-component/extended/Transitions';
 
 // assets
 import User1 from '@/assets/images/users/user-round.svg';
-import { IconLogout, IconSettings, IconUser } from '@tabler/icons-react';
+import { useAppStore } from '@/store';
+import { SET_DEMO } from '@/store/actions';
+import { IconLogout, IconSettings } from '@tabler/icons-react';
 
 // ==============================|| PROFILE MENU ||============================== //
 
-const ProfileSection = () => {
+const DemoSection = () => {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
-
-  const { data: user } = useAuth();
-  const { mutate: logoutUser } = useAuthLogout();
+  const [state, dispatch] = useAppStore();
+  const queryClient = useQueryClient();
 
   /**
    * anchorRef is used on different componets and specifying one type leads to other components throwing an error
    * */
   const anchorRef = useRef<HTMLDivElement>(null);
-  const handleLogout = () => logoutUser();
+  const exitDemo = () => {
+    dispatch({ type: SET_DEMO, payload: false });
+    queryClient.invalidateQueries({ queryKey: [] });
+  };
 
   const handleClose = (event: MouseEvent | TouchEvent) => {
     if (anchorRef.current?.contains(event.target as Node)) {
@@ -63,7 +65,7 @@ const ProfileSection = () => {
     prevOpen.current = open;
   }, [open]);
 
-  if (!user) return null;
+  if (!state.isDemo) return;
 
   return (
     <>
@@ -136,7 +138,7 @@ const ProfileSection = () => {
                     <Stack>
                       <Stack direction="row" spacing={0.5} alignItems="center">
                         <Typography component="span" variant="h4" sx={{ fontWeight: 400 }}>
-                          {user.email}
+                          Demo konto
                         </Typography>
                       </Stack>
                     </Stack>
@@ -158,31 +160,11 @@ const ProfileSection = () => {
                         }
                       }}
                     >
-                      <ListItemButton sx={{ borderRadius: '6px' }} selected={false} onClick={console.log}>
-                        <ListItemIcon>
-                          <IconSettings stroke={1.5} size="1.3rem" />
-                        </ListItemIcon>
-                        <ListItemText primary={<Typography variant="body2">Account Settings</Typography>} />
-                      </ListItemButton>
-                      <ListItemButton sx={{ borderRadius: '6px' }} selected={false} onClick={console.log}>
-                        <ListItemIcon>
-                          <IconUser stroke={1.5} size="1.3rem" />
-                        </ListItemIcon>
-                        <ListItemText
-                          primary={
-                            <Grid container spacing={1} justifyContent="space-between">
-                              <Grid item>
-                                <Typography variant="body2">Social Profile</Typography>
-                              </Grid>
-                            </Grid>
-                          }
-                        />
-                      </ListItemButton>
-                      <ListItemButton sx={{ borderRadius: '6px' }} selected={false} onClick={handleLogout}>
+                      <ListItemButton sx={{ borderRadius: '6px' }} selected={false} onClick={exitDemo}>
                         <ListItemIcon>
                           <IconLogout stroke={1.5} size="1.3rem" />
                         </ListItemIcon>
-                        <ListItemText primary={<Typography variant="body2">Logout</Typography>} />
+                        <ListItemText primary={<Typography variant="body2">Lämna demo</Typography>} />
                       </ListItemButton>
                     </List>
                   </Box>
@@ -196,4 +178,4 @@ const ProfileSection = () => {
   );
 };
 
-export default ProfileSection;
+export default DemoSection;

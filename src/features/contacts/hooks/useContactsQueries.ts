@@ -1,13 +1,13 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 
 import { getContactLocal, getContactsLocal } from '../api/contactsLocal';
-import { useAuth } from '@/features/authentication/hooks/useAuthQueries';
+import { useAppStore } from '@/store';
 import { getContactGQL, getContactsGQL } from '../api/contactsGQL';
 import { Contact } from '@/api/gql/graphql';
 
 export const useContacts = (): UseQueryResult<Contact[], Error> => {
-  const { data: user } = useAuth();
-  const fn = user ? getContactsGQL : getContactsLocal;
+  const [{ isDemo }] = useAppStore();
+  const fn = isDemo ? getContactsLocal : getContactsGQL;
   return useQuery({
     queryKey: ['contacts'],
     queryFn: () => fn(),
@@ -16,8 +16,8 @@ export const useContacts = (): UseQueryResult<Contact[], Error> => {
 };
 
 export const useContact = (contactId: string | undefined): UseQueryResult<Contact, Error> => {
-  const { data: user } = useAuth();
-  const fn = user ? getContactGQL : getContactLocal;
+  const [{ isDemo }] = useAppStore();
+  const fn = isDemo ? getContactLocal : getContactGQL;
 
   return useQuery({
     queryKey: ['contact', contactId],

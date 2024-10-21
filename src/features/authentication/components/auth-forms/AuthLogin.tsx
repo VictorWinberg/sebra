@@ -63,7 +63,7 @@ const AuthLogin = () => {
   const handleLogin = async (auth: Auth) => {
     loginUser(auth, {
       onSuccess: () => navigate('/'),
-      onError: () => setError('password', { message: 'Invalid email or password' })
+      onError: () => setError('password', { message: 'Ogiltig e-postadress eller lösenord' })
     });
   };
 
@@ -132,16 +132,16 @@ const AuthLogin = () => {
 
       <form noValidate onSubmit={handleSubmit(handleLogin)}>
         <FormControl fullWidth error={Boolean(errors.email)} sx={{ ...theme.typography.customInput }}>
-          <InputLabel htmlFor="outlined-adornment-email-login">Email Address / Username</InputLabel>
+          <InputLabel htmlFor="outlined-adornment-email-login">E-postadress / Användarnamn</InputLabel>
           <OutlinedInput
             id="outlined-adornment-email-login"
             type="email"
-            label="Email Address / Username"
+            label="E-postadress / Användarnamn"
             inputProps={{}}
             {...register('email', {
-              required: 'Email is required',
-              pattern: { value: /^\S+@\S+$/i, message: 'Must be a valid email address' },
-              maxLength: { value: 255, message: 'Email address is too long' }
+              required: 'Email krävs',
+              pattern: { value: /^\S+@\S+$/i, message: 'Måste vara en giltig E-postadress' },
+              maxLength: { value: 255, message: 'E-postadressen är för lång' }
             })}
           />
           {errors.email && (
@@ -152,11 +152,11 @@ const AuthLogin = () => {
         </FormControl>
 
         <FormControl fullWidth error={Boolean(errors.password)} sx={{ ...theme.typography.customInput }}>
-          <InputLabel htmlFor="outlined-adornment-password-login">Password</InputLabel>
+          <InputLabel htmlFor="outlined-adornment-password-login">Lösenord</InputLabel>
           <OutlinedInput
             id="outlined-adornment-password-login"
             type={showPassword ? 'text' : 'password'}
-            {...register('password', { required: 'Password is required' })}
+            {...register('password', { required: 'Lösenord krävs' })}
             endAdornment={
               <InputAdornment position="end">
                 <IconButton
@@ -170,7 +170,7 @@ const AuthLogin = () => {
                 </IconButton>
               </InputAdornment>
             }
-            label="Password"
+            label="Lösenord"
             inputProps={{}}
           />
           {errors.password && (
@@ -179,24 +179,26 @@ const AuthLogin = () => {
             </FormHelperText>
           )}
         </FormControl>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={checked}
-                onChange={(event) => setChecked(event.target.checked)}
-                name="checked"
-                color="primary"
-              />
-            }
-            label="Remember me"
-          />
-          <Typography variant="subtitle1" color="primary" sx={{ textDecoration: 'none', cursor: 'pointer' }}>
-            Forgot Password?
-          </Typography>
-        </Stack>
+        {false && (
+          <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={checked}
+                  onChange={(event) => setChecked(event.target.checked)}
+                  name="checked"
+                  color="primary"
+                />
+              }
+              label="Kom ihåg mig"
+            />
+            <Typography variant="subtitle1" color="primary" sx={{ textDecoration: 'none', cursor: 'pointer' }}>
+              Glömt lösenord?
+            </Typography>
+          </Stack>
+        )}
         {errors.root && (
-          <Box sx={{ mt: 3 }}>
+          <Box sx={{ mt: 1 }}>
             <FormHelperText error>{errors.root.message}</FormHelperText>
           </Box>
         )}
@@ -204,7 +206,7 @@ const AuthLogin = () => {
         <Box sx={{ mt: 2 }}>
           <AnimateButton>
             <Button disableElevation fullWidth size="large" type="submit" variant="contained" color="primary">
-              Sign in
+              Logga in
             </Button>
           </AnimateButton>
         </Box>

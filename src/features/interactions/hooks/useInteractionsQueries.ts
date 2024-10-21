@@ -3,12 +3,12 @@ import { useQuery } from '@tanstack/react-query';
 
 // project imports
 import { getInteractionsLocal } from '../api/interactionsLocal';
-import { useAuth } from '@/features/authentication/hooks/useAuthQueries';
+import { useAppStore } from '@/store';
 import { getInteractionsGQL } from '../api/interactionsGQL';
 
 export const useInteractions = () => {
-  const { data: user } = useAuth();
-  const fn = user ? getInteractionsGQL : getInteractionsLocal;
+  const [{ isDemo }] = useAppStore();
+  const fn = isDemo ? getInteractionsLocal : getInteractionsGQL;
   return useQuery({
     queryKey: ['interactions'],
     queryFn: () => fn(),

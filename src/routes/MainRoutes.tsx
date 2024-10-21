@@ -1,9 +1,10 @@
 import { lazy } from 'react';
+import { Navigate } from 'react-router-dom';
 
 // project imports
 import MainLayout from '@/layout/MainLayout';
 import Loadable from '@/ui-component/Loadable';
-import { Navigate } from 'react-router-dom';
+import PrivateRoute from './PrivateRoute';
 
 // home routing
 const HomeWrapper = Loadable(lazy(() => import('@/features/home/components/HomeWrapper')));
@@ -32,111 +33,117 @@ const SamplePage = Loadable(lazy(() => import('@/features/dev/pages/SamplePage')
 
 const MainRoutes = {
   path: '/',
-  element: <MainLayout />,
+  element: <PrivateRoute />,
   children: [
     {
       path: '',
-      element: <Navigate to="/home" />
-    },
-    {
-      path: 'home',
-      element: <HomeWrapper />,
+      element: <MainLayout />,
       children: [
         {
           path: '',
-          element: <HomePage />
+          element: <Navigate to="/home" />
         },
         {
-          path: 'assignments',
+          path: 'home',
+          element: <HomeWrapper />,
           children: [
             {
               path: '',
-              element: <AssignmentsPage />
+              element: <HomePage />
             },
             {
-              path: ':id',
-              element: <AssignmentEdit />
+              path: 'assignments',
+              children: [
+                {
+                  path: '',
+                  element: <AssignmentsPage />
+                },
+                {
+                  path: ':id',
+                  element: <AssignmentEdit />
+                }
+              ]
+            },
+            {
+              path: 'contacts',
+              children: [
+                {
+                  path: '',
+                  element: <ContactsPage />
+                },
+                {
+                  path: ':id',
+                  element: <ContactEdit />
+                }
+              ]
+            },
+            {
+              path: 'companies',
+              children: [
+                {
+                  path: '',
+                  element: <CompaniesPage />
+                },
+                {
+                  path: ':id',
+                  element: <CompanyEdit />
+                }
+              ]
+            },
+            {
+              path: 'leads',
+              element: <LeadsPage />
             }
           ]
         },
         {
-          path: 'contacts',
+          path: 'documents',
           children: [
             {
               path: '',
-              element: <ContactsPage />
+              element: <DocumentsPage />
             },
             {
               path: ':id',
-              element: <ContactEdit />
+              element: <DocumentEdit />
             }
           ]
         },
         {
-          path: 'companies',
-          children: [
-            {
-              path: '',
-              element: <CompaniesPage />
-            },
-            {
-              path: ':id',
-              element: <CompanyEdit />
-            }
-          ]
+          path: 'modules',
+          element: <ModulesPage />
         },
-        {
-          path: 'leads',
-          element: <LeadsPage />
-        }
-      ]
-    },
-    {
-      path: 'documents',
-      children: [
-        {
-          path: '',
-          element: <DocumentsPage />
-        },
-        {
-          path: ':id',
-          element: <DocumentEdit />
-        }
-      ]
-    },
-    {
-      path: 'modules',
-      element: <ModulesPage />
-    },
-    ...(process.env.NODE_ENV === 'development'
-      ? [
-          {
-            path: 'dev',
-            children: [
+        ...(process.env.NODE_ENV === 'development'
+          ? [
               {
-                path: 'sample',
-                element: <DevPage />
-              },
-              {
-                path: 'util-typography',
-                element: <TypographyPage />
-              },
-              {
-                path: 'util-color',
-                element: <ColorPage />
-              },
-              {
-                path: 'util-shadow',
-                element: <ShadowPage />
-              },
-              {
-                path: 'sample-page',
-                element: <SamplePage />
+                path: 'dev',
+                children: [
+                  {
+                    path: 'sample',
+                    element: <DevPage />
+                  },
+                  {
+                    path: 'util-typography',
+                    element: <TypographyPage />
+                  },
+                  {
+                    path: 'util-color',
+                    element: <ColorPage />
+                  },
+                  {
+                    path: 'util-shadow',
+                    element: <ShadowPage />
+                  },
+                  {
+                    path: 'sample-page',
+                    element: <SamplePage />
+                  }
+                ]
               }
             ]
-          }
-        ]
-      : [])
+          : [])
+      ]
+    }
   ]
 };
 

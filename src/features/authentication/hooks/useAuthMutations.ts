@@ -1,48 +1,56 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
+
 import { graphql } from '@/api/gql';
-import { useGraphQLMutation } from '@/hooks/useGraphQL';
-import { useQueryClient } from '@tanstack/react-query';
+import { AuthLoginMutation, AuthLoginMutationVariables, AuthLogoutMutation } from '@/api/gql/graphql';
+import { requestGQL } from '@/hooks/useGraphQL';
+import { deleteToken, saveToken } from '@/utils/token';
 
 export const useAuthLogin = () => {
   const queryClient = useQueryClient();
 
-  return useGraphQLMutation(
-    graphql(`
-      mutation AuthLogin($email: String!, $password: String!) {
-        loginUser(email: $email, password: $password) {
-          token
-          user {
-            id
-            email
+  return useMutation({
+    mutationFn: (data: AuthLoginMutationVariables): Promise<AuthLoginMutation> =>
+      requestGQL(
+        graphql(`
+          mutation AuthLogin($email: String!, $password: String!) {
+            loginUser(email: $email, password: $password) {
+              token
+              user {
+                id
+                email
+              }
+            }
           }
-        }
+        `)
+      )(data),
+    onSuccess: (data) => {
+      const { token } = data.loginUser || {};
+      if (token) {
+        saveToken(token);
       }
-    `),
-    {
-      onSuccess: (data) => {
-        const { token } = data.loginUser || {};
-        if (token) {
-          localStorage.setItem('jwt', token);
-        }
-        queryClient.invalidateQueries({ queryKey: [] });
-      }
+      queryClient.clear();
     }
-  );
+  });
 };
 
 export const useAuthLogout = () => {
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
-  return useGraphQLMutation(
-    graphql(`
-      mutation AuthLogout {
-        logoutUser
-      }
-    `),
-    {
-      onSuccess: () => {
-        localStorage.removeItem('jwt');
-        queryClient.invalidateQueries({ queryKey: [] });
-      }
+  return useMutation({
+    mutationFn: (): Promise<AuthLogoutMutation> =>
+      requestGQL(
+        graphql(`
+          mutation AuthLogout {
+            logoutUser
+          }
+        `)
+      )(),
+    onSuccess: () => {
+      deleteToken();
+      queryClient.clear();
+      navigate('/login');
     }
-  );
+  });
 };

@@ -1,13 +1,13 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 
 import { Company } from '@/api/gql/graphql';
-import { useAuth } from '@/features/authentication/hooks/useAuthQueries';
+import { useAppStore } from '@/store';
 import { getCompaniesGQL, getCompanyGQL } from '../api/companiesGQL';
 import { getCompaniesLocal, getCompanyLocal } from '../api/companiesLocal';
 
 export const useCompanies = (): UseQueryResult<Company[], Error> => {
-  const { data: user } = useAuth();
-  const fn = user ? getCompaniesGQL : getCompaniesLocal;
+  const [{ isDemo }] = useAppStore();
+  const fn = isDemo ? getCompaniesLocal : getCompaniesGQL;
 
   return useQuery({
     queryKey: ['companies'],
@@ -17,8 +17,8 @@ export const useCompanies = (): UseQueryResult<Company[], Error> => {
 };
 
 export const useCompany = (companyId: string | undefined): UseQueryResult<Company, Error> => {
-  const { data: user } = useAuth();
-  const fn = user ? getCompanyGQL : getCompanyLocal;
+  const [{ isDemo }] = useAppStore();
+  const fn = isDemo ? getCompanyLocal : getCompanyGQL;
 
   return useQuery({
     queryKey: ['company', companyId],

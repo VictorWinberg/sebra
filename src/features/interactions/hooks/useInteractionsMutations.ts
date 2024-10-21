@@ -2,16 +2,16 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { useSnackbar } from '@/hooks/useSnackbar';
 import { createInteractionLocal, deleteInteractionLocal, updateInteractionLocal } from '../api/interactionsLocal';
-import { useAuth } from '@/features/authentication/hooks/useAuthQueries';
+import { useAppStore } from '@/store';
 import { createInteractionGQL, deleteInteractionGQL, updateInteractionGQL } from '../api/interactionsGQL';
 
 export const useCreateInteraction = () => {
-  const { data: user } = useAuth();
+  const [{ isDemo }] = useAppStore();
   const queryClient = useQueryClient();
   const { showSnackbar } = useSnackbar();
 
   return useMutation({
-    mutationFn: user ? createInteractionGQL : createInteractionLocal,
+    mutationFn: isDemo ? createInteractionLocal : createInteractionGQL,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['interactions'] });
       showSnackbar('Interaktion sparat!');
@@ -23,12 +23,12 @@ export const useCreateInteraction = () => {
 };
 
 export const useUpdateInteraction = () => {
-  const { data: user } = useAuth();
+  const [{ isDemo }] = useAppStore();
   const queryClient = useQueryClient();
   const { showSnackbar } = useSnackbar();
 
   return useMutation({
-    mutationFn: user ? updateInteractionGQL : updateInteractionLocal,
+    mutationFn: isDemo ? updateInteractionLocal : updateInteractionGQL,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['interactions'] });
       showSnackbar('Interaktion uppdaterat!');
@@ -40,12 +40,12 @@ export const useUpdateInteraction = () => {
 };
 
 export const useDeleteInteraction = () => {
-  const { data: user } = useAuth();
+  const [{ isDemo }] = useAppStore();
   const queryClient = useQueryClient();
   const { showSnackbar } = useSnackbar();
 
   return useMutation({
-    mutationFn: user ? deleteInteractionGQL : deleteInteractionLocal,
+    mutationFn: isDemo ? deleteInteractionLocal : deleteInteractionGQL,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['interactions'] });
       showSnackbar('Interaktion borttaget!');

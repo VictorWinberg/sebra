@@ -3,8 +3,7 @@
  */
 export interface AppStoreState {
   opened: boolean;
-  isAuthenticated: boolean;
-  currentUser?: unknown | undefined;
+  isDemo: boolean;
 }
 
 /**
@@ -12,5 +11,5 @@ export interface AppStoreState {
  */
 export const INITIAL_APP_STORE_STATE: AppStoreState = {
   opened: false,
-  isAuthenticated: false // Overridden in AppStore by checking auth token
+  isDemo: false
 };

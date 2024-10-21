@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 
-import { SnackbarContext, SnackbarContextType } from '@/ui-component/SnackbarProvider';
+import { SnackbarContext, SnackbarContextType } from '@/routes/SnackbarProvider';
 
 export const useSnackbar = (): SnackbarContextType => {
   const context = useContext(SnackbarContext);

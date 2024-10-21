@@ -1,17 +1,17 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { useAuth } from '@/features/authentication/hooks/useAuthQueries';
 import { useSnackbar } from '@/hooks/useSnackbar';
+import { useAppStore } from '@/store';
 import { createCompanyGQL, deleteCompanyGQL, updateCompanyGQL } from '../api/companiesGQL';
 import { createCompanyLocal, deleteCompanyLocal, updateCompanyLocal } from '../api/companiesLocal';
 
 export const useCreateCompany = () => {
-  const { data: user } = useAuth();
+  const [{ isDemo }] = useAppStore();
   const queryClient = useQueryClient();
   const { showSnackbar } = useSnackbar();
 
   return useMutation({
-    mutationFn: user ? createCompanyGQL : createCompanyLocal,
+    mutationFn: isDemo ? createCompanyLocal : createCompanyGQL,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['companies'] });
       showSnackbar('Bolag skapat!');
@@ -23,12 +23,12 @@ export const useCreateCompany = () => {
 };
 
 export const useUpdateCompany = () => {
-  const { data: user } = useAuth();
+  const [{ isDemo }] = useAppStore();
   const queryClient = useQueryClient();
   const { showSnackbar } = useSnackbar();
 
   return useMutation({
-    mutationFn: user ? updateCompanyGQL : updateCompanyLocal,
+    mutationFn: isDemo ? updateCompanyLocal : updateCompanyGQL,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['companies'] });
       showSnackbar('Bolag uppdaterat!');
@@ -40,12 +40,12 @@ export const useUpdateCompany = () => {
 };
 
 export const useDeleteCompany = () => {
-  const { data: user } = useAuth();
+  const [{ isDemo }] = useAppStore();
   const queryClient = useQueryClient();
   const { showSnackbar } = useSnackbar();
 
   return useMutation({
-    mutationFn: user ? deleteCompanyGQL : deleteCompanyLocal,
+    mutationFn: isDemo ? deleteCompanyLocal : deleteCompanyGQL,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['companies'] });
       showSnackbar('Bolag borttaget!');

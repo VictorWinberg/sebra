@@ -1,12 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { useAuth } from '@/features/authentication/hooks/useAuthQueries';
+import { useAppStore } from '@/store';
 import { getLeadsGQL } from '../api/leadsGQL';
 import { getLeadsLocal } from '../api/leadsLocal';
 
 export const useLeads = () => {
-  const { data: user } = useAuth();
-  const fn = user ? getLeadsGQL : getLeadsLocal;
+  const [{ isDemo }] = useAppStore();
+  const fn = isDemo ? getLeadsLocal : getLeadsGQL;
   return useQuery({
     queryKey: ['leads'],
     queryFn: () => fn(),
