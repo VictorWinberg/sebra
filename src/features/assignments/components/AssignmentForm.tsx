@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+
 // material-ui
 import { Autocomplete, Chip, Grid, TextField } from '@mui/material';
 
@@ -8,13 +10,13 @@ import { Controller, useForm } from 'react-hook-form';
 import { useCompanies } from '@/features/companies/hooks/useCompaniesQueries';
 import { useContacts } from '@/features/contacts/hooks/useContactsQueries';
 import SebraForm, { FormProps } from '@/ui-component/SebraForm';
-import { Assignment } from '../api/assignmentsApi';
-import { useAssignmentStatuses } from '../hooks/useAssignmentsQueries';
+import { Assignment } from '@/api/gql/graphql';
+import { useAssignments } from '../hooks/useAssignmentsQueries';
 
 // ==============================|| ASSIGNMENT FORM ||============================== //
 
 const AssignmentForm = ({ formProps, ...props }: FormProps<Assignment>) => {
-  const { data: assignmentStatuses = [] } = useAssignmentStatuses();
+  const { data: assignments = [] } = useAssignments();
   const { data: contacts = [] } = useContacts();
   const { data: companies = [] } = useCompanies();
   const {
@@ -23,6 +25,11 @@ const AssignmentForm = ({ formProps, ...props }: FormProps<Assignment>) => {
     formState: { errors },
     handleSubmit
   } = useForm<Assignment>(formProps);
+
+  const assignmentStatuses = useMemo(
+    () => [...new Set(assignments.map((assignment) => assignment.status))],
+    [assignments]
+  );
 
   return (
     <SebraForm {...props} handleSubmit={handleSubmit}>
@@ -61,7 +68,7 @@ const AssignmentForm = ({ formProps, ...props }: FormProps<Assignment>) => {
             label="Arvode"
             margin="none"
             type="number"
-            {...register('fee')}
+            {...register('fee', { valueAsNumber: true })}
             InputProps={{ endAdornment: 'SEK' }}
           />
         </Grid>
@@ -101,15 +108,15 @@ const AssignmentForm = ({ formProps, ...props }: FormProps<Assignment>) => {
         </Grid>
         <Grid item xs={12} sm={4}>
           <Controller
-            name="externalContactId"
+            name="externalContact"
             control={control}
             render={({ field }) => (
               <Autocomplete
                 options={contacts}
                 getOptionKey={(option) => option.id}
                 getOptionLabel={(option) => option.contactName}
-                value={contacts.find((contact) => contact.id === field.value) || null}
-                onChange={(_, value) => field.onChange(value ? value.id : undefined)}
+                value={contacts.find((contact) => contact.id === field.value?.id) || null}
+                onChange={(_, value) => field.onChange(value ?? undefined)}
                 renderInput={(params) => <TextField {...params} label="Extern kontakt" variant="outlined" fullWidth />}
               />
             )}
@@ -117,15 +124,15 @@ const AssignmentForm = ({ formProps, ...props }: FormProps<Assignment>) => {
         </Grid>
         <Grid item xs={12} sm={4}>
           <Controller
-            name="companyId"
+            name="company"
             control={control}
             render={({ field }) => (
               <Autocomplete
                 options={companies}
                 getOptionKey={(option) => option.id}
                 getOptionLabel={(option) => option.companyName}
-                value={companies.find((company) => company.id === field.value) || null}
-                onChange={(_, value) => field.onChange(value ? value.id : undefined)}
+                value={companies.find((company) => company.id === field.value?.id) || null}
+                onChange={(_, value) => field.onChange(value ?? undefined)}
                 renderInput={(params) => <TextField {...params} label="Bolag" variant="outlined" fullWidth />}
               />
             )}

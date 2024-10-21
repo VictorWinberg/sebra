@@ -3,10 +3,10 @@ import { createBrowserRouter } from 'react-router-dom';
 // routes
 import { BASE_URL } from '@/config';
 import MainRoutes from './MainRoutes';
-import LoginRoutes from './AuthenticationRoutes';
+import AuthenticationRoutes from './AuthenticationRoutes';
 
 // ==============================|| ROUTING RENDER ||============================== //
-const router = createBrowserRouter([MainRoutes, LoginRoutes], {
+const router = createBrowserRouter([MainRoutes, AuthenticationRoutes], {
   basename: BASE_URL
 });
 

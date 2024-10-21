@@ -11,7 +11,7 @@ import { AnyData, ModuleBaseConfigItem } from '../config/ModuleConfig';
 export interface ModuleFormConfigItem<M extends AnyData> extends ModuleBaseConfigItem {
   type: 'form';
   FormComponent: React.FC<FormProps<M>>;
-  createMutation: () => UseMutationResult<unknown, Error, Partial<M>, unknown>;
+  createMutation: () => UseMutationResult<unknown, Error, M, unknown>;
   props: FormProps<M>;
   configProps?: FormProps<M>;
 }

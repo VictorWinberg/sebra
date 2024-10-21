@@ -1,7 +1,7 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 // material-ui
-import { Divider, Grid, Stack, Theme, Typography, useMediaQuery } from '@mui/material';
+import { Button, Divider, Grid, Stack, Theme, Typography, useMediaQuery } from '@mui/material';
 
 // project imports
 import Logo from '@/ui-component/Logo';
@@ -9,10 +9,15 @@ import AuthFooter from '../components/AuthFooter';
 import AuthWrapper from '../components/wrapper/AuthWrapper';
 import AuthCardWrapper from '../components/wrapper/AuthCardWrapper';
 import AuthLogin from '../components/auth-forms/AuthLogin';
+import AnimateButton from '@/ui-component/extended/AnimateButton';
+import { useAppStore } from '@/store';
+import { SET_DEMO } from '@/store/actions';
 
 // ================================|| AUTH3 - LOGIN ||================================ //
 
 const Login = () => {
+  const [, dispatch] = useAppStore();
+  const navigate = useNavigate();
   const downMD = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'));
 
   return (
@@ -38,10 +43,10 @@ const Login = () => {
                       <Grid item>
                         <Stack alignItems="center" justifyContent="center" spacing={1}>
                           <Typography color="primary.main" gutterBottom variant={downMD ? 'h3' : 'h2'}>
-                            Hi, Welcome Back
+                            Hej, välkommen tillbaka
                           </Typography>
                           <Typography variant="caption" fontSize="16px" textAlign={{ xs: 'center', md: 'inherit' }}>
-                            Enter your credentials to continue
+                            Logga in för att fortsätta
                           </Typography>
                         </Stack>
                       </Grid>
@@ -54,16 +59,21 @@ const Login = () => {
                     <Divider />
                   </Grid>
                   <Grid item xs={12}>
-                    <Grid item container direction="column" alignItems="center" xs={12}>
-                      <Typography
-                        component={Link}
-                        to="/pages/register"
-                        variant="subtitle1"
-                        sx={{ textDecoration: 'none' }}
+                    <AnimateButton>
+                      <Button
+                        disableElevation
+                        fullWidth
+                        size="large"
+                        variant="outlined"
+                        sx={{ textTransform: 'none' }}
+                        onClick={() => {
+                          dispatch({ type: SET_DEMO, payload: true });
+                          navigate('/');
+                        }}
                       >
-                        Don&apos;t have an account?
-                      </Typography>
-                    </Grid>
+                        Prova vår demo
+                      </Button>
+                    </AnimateButton>
                   </Grid>
                 </Grid>
               </AuthCardWrapper>

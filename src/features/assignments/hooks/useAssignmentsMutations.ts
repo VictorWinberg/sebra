@@ -1,14 +1,17 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { useSnackbar } from '@/hooks/useSnackbar';
-import { createAssignment, deleteAssignment, updateAssignment } from '../api/assignmentsApi';
+import { useAppStore } from '@/store';
+import { createAssignmentGQL, deleteAssignmentGQL, updateAssignmentGQL } from '../api/assignmentsGQL';
+import { createAssignmentLocal, deleteAssignmentLocal, updateAssignmentLocal } from '../api/assignmentsLocal';
 
 export const useCreateAssignment = () => {
+  const [{ isDemo }] = useAppStore();
   const queryClient = useQueryClient();
   const { showSnackbar } = useSnackbar();
 
   return useMutation({
-    mutationFn: createAssignment,
+    mutationFn: isDemo ? createAssignmentLocal : createAssignmentGQL,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['assignments'] });
       showSnackbar('Uppdrag skapat!');
@@ -20,11 +23,12 @@ export const useCreateAssignment = () => {
 };
 
 export const useUpdateAssignment = () => {
+  const [{ isDemo }] = useAppStore();
   const queryClient = useQueryClient();
   const { showSnackbar } = useSnackbar();
 
   return useMutation({
-    mutationFn: updateAssignment,
+    mutationFn: isDemo ? updateAssignmentLocal : updateAssignmentGQL,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['assignments'] });
       showSnackbar('Uppdrag uppdaterat!');
@@ -36,11 +40,12 @@ export const useUpdateAssignment = () => {
 };
 
 export const useDeleteAssignment = () => {
+  const [{ isDemo }] = useAppStore();
   const queryClient = useQueryClient();
   const { showSnackbar } = useSnackbar();
 
   return useMutation({
-    mutationFn: deleteAssignment,
+    mutationFn: isDemo ? deleteAssignmentLocal : deleteAssignmentGQL,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['assignments'] });
       showSnackbar('Uppdrag borttaget!');

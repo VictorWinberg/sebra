@@ -4,13 +4,13 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Avatar, Chip, Link, List, ListItem } from '@mui/material';
 
 // project imports
-import { Contact } from '@/features/contacts/api/contactsApi';
 import DataTable from '@/ui-component/DataTable';
 import SebraDialog from '@/ui-component/SebraDialog';
 import { stringAvatar } from '@/utils';
-import { Assignment } from '../api/assignmentsApi';
+import { Assignment } from '@/api/gql/graphql';
 import { useCreateAssignment, useDeleteAssignment, useUpdateAssignment } from '../hooks/useAssignmentsMutations';
 import AssignmentForm from './AssignmentForm';
+import { Contact } from '@/api/gql/graphql';
 
 interface AssignmentTableProps {
   assignments: Assignment[];
@@ -65,7 +65,7 @@ const AssignmentTable = ({ assignments, isLoading, defaultValues }: AssignmentTa
           header: 'Extern',
           enableEditing: false,
           Cell: ({ cell, row }) => (
-            <Link component={RouterLink} to={`/home/contacts/${row.original.externalContactId}`}>
+            <Link component={RouterLink} to={`/home/contacts/${row.original.externalContact?.id}`}>
               {cell.getValue<string>()}
             </Link>
           )
@@ -75,7 +75,7 @@ const AssignmentTable = ({ assignments, isLoading, defaultValues }: AssignmentTa
           header: 'Bolag',
           enableEditing: false,
           Cell: ({ cell, row }) => (
-            <Link component={RouterLink} to={`/home/companies/${row.original.companyId}`}>
+            <Link component={RouterLink} to={`/home/companies/${row.original.company?.id}`}>
               {cell.getValue<string>()}
             </Link>
           )
@@ -85,7 +85,7 @@ const AssignmentTable = ({ assignments, isLoading, defaultValues }: AssignmentTa
           accessorKey: 'fee',
           header: 'Arvode',
           Cell: ({ cell }) =>
-            cell.getValue<number>().toLocaleString('sv-SE', {
+            cell.getValue<number>()?.toLocaleString('sv-SE', {
               style: 'currency',
               currency: 'SEK',
               minimumFractionDigits: 0,

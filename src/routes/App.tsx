@@ -3,8 +3,8 @@ import { RouterProvider } from 'react-router-dom';
 // project imports
 import ErrorBoundary from '@/layout/ErrorBoundary';
 import router from '@/routes';
-import Providers from './Providers';
-import SnackbarProvider from './ui-component/SnackbarProvider';
+import Providers from '../Providers';
+import SnackbarProvider from './SnackbarProvider';
 
 // ==============================|| APP ||============================== //
 

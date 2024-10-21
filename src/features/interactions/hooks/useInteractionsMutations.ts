@@ -1,14 +1,17 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { useSnackbar } from '@/hooks/useSnackbar';
-import { createInteraction, deleteInteraction, updateInteraction } from '../api/interactionsApi';
+import { createInteractionLocal, deleteInteractionLocal, updateInteractionLocal } from '../api/interactionsLocal';
+import { useAppStore } from '@/store';
+import { createInteractionGQL, deleteInteractionGQL, updateInteractionGQL } from '../api/interactionsGQL';
 
 export const useCreateInteraction = () => {
+  const [{ isDemo }] = useAppStore();
   const queryClient = useQueryClient();
   const { showSnackbar } = useSnackbar();
 
   return useMutation({
-    mutationFn: createInteraction,
+    mutationFn: isDemo ? createInteractionLocal : createInteractionGQL,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['interactions'] });
       showSnackbar('Interaktion sparat!');
@@ -20,11 +23,12 @@ export const useCreateInteraction = () => {
 };
 
 export const useUpdateInteraction = () => {
+  const [{ isDemo }] = useAppStore();
   const queryClient = useQueryClient();
   const { showSnackbar } = useSnackbar();
 
   return useMutation({
-    mutationFn: updateInteraction,
+    mutationFn: isDemo ? updateInteractionLocal : updateInteractionGQL,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['interactions'] });
       showSnackbar('Interaktion uppdaterat!');
@@ -36,11 +40,12 @@ export const useUpdateInteraction = () => {
 };
 
 export const useDeleteInteraction = () => {
+  const [{ isDemo }] = useAppStore();
   const queryClient = useQueryClient();
   const { showSnackbar } = useSnackbar();
 
   return useMutation({
-    mutationFn: deleteInteraction,
+    mutationFn: isDemo ? deleteInteractionLocal : deleteInteractionGQL,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['interactions'] });
       showSnackbar('Interaktion borttaget!');

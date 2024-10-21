@@ -1,14 +1,17 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
+import { useAppStore } from '@/store';
 import { useSnackbar } from '@/hooks/useSnackbar';
-import { createLead, deleteLead, updateLead } from '../api/leadsApi';
+import { createLeadGQL, deleteLeadGQL, updateLeadGQL } from '../api/leadsGQL';
+import { createLeadLocal, deleteLeadLocal, updateLeadLocal } from '../api/leadsLocal';
 
 export const useCreateLead = () => {
+  const [{ isDemo }] = useAppStore();
   const queryClient = useQueryClient();
   const { showSnackbar } = useSnackbar();
 
   return useMutation({
-    mutationFn: createLead,
+    mutationFn: isDemo ? createLeadLocal : createLeadGQL,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['leads'] });
       showSnackbar('Lead skapat!');
@@ -20,11 +23,12 @@ export const useCreateLead = () => {
 };
 
 export const useUpdateLead = () => {
+  const [{ isDemo }] = useAppStore();
   const queryClient = useQueryClient();
   const { showSnackbar } = useSnackbar();
 
   return useMutation({
-    mutationFn: updateLead,
+    mutationFn: isDemo ? updateLeadLocal : updateLeadGQL,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['leads'] });
       showSnackbar('Lead uppdaterat!');
@@ -36,11 +40,12 @@ export const useUpdateLead = () => {
 };
 
 export const useDeleteLead = () => {
+  const [{ isDemo }] = useAppStore();
   const queryClient = useQueryClient();
   const { showSnackbar } = useSnackbar();
 
   return useMutation({
-    mutationFn: deleteLead,
+    mutationFn: isDemo ? deleteLeadLocal : deleteLeadGQL,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['leads'] });
       showSnackbar('Lead borttaget!');

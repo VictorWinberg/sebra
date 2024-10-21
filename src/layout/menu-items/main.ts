@@ -49,7 +49,7 @@ const main: MenuItem = {
       id: 'login',
       title: 'Login',
       type: 'item',
-      url: '/pages/login',
+      url: '/login',
       icon: icons.IconLogin2
     }
   ]

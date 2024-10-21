@@ -11,6 +11,7 @@ import SearchSection from './SearchSection';
 
 // assets
 import { IconLayoutSidebarLeftCollapse, IconLayoutSidebarLeftExpand, IconMenu2 } from '@tabler/icons-react';
+import DemoSection from './DemoSection';
 
 // ==============================|| MAIN NAVBAR / HEADER ||============================== //
 
@@ -65,9 +66,9 @@ const Header = () => {
       {/* header search */}
       <SearchSection />
       <Box sx={{ flexGrow: 1 }} />
-      <Box sx={{ flexGrow: 1 }} />
 
       {/* notification & profile */}
+      <DemoSection />
       <ProfileSection />
       <NotificationSection />
     </>

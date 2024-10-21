@@ -2,7 +2,7 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 
 // project imports
-import App from './App';
+import App from './routes/App';
 import './plugins/sentry';
 import './plugins/dayjs';
 import './api/DummyDB';

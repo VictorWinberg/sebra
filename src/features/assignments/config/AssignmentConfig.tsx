@@ -8,9 +8,9 @@ import { MRT_ColumnDef } from 'material-react-table';
 import dayjs, { Dayjs } from 'dayjs';
 
 // project imports
-import { Contact } from '@/features/contacts/api/contactsApi';
 import { formatDate, toLocalTime } from '@/utils';
-import { Assignment } from '../api/assignmentsApi';
+import { Assignment } from '@/api/gql/graphql';
+import { Contact } from '@/api/gql/graphql';
 
 // ==============================|| ASSIGNMENT CONFIG ||============================== //
 
@@ -49,7 +49,7 @@ export const assignmentColumns: MRT_ColumnDef<Assignment>[] = [
       <Link
         component={RouterLink}
         to={{
-          pathname: `/home/contacts/${row.original.externalContactId}`,
+          pathname: `/home/contacts/${row.original.externalContact?.id}`,
           search: `${createSearchParams({ tab: 'assignments' })}`
         }}
       >
@@ -66,7 +66,7 @@ export const assignmentColumns: MRT_ColumnDef<Assignment>[] = [
       <Link
         component={RouterLink}
         to={{
-          pathname: `/home/companies/${row.original.companyId}`,
+          pathname: `/home/companies/${row.original.company?.id}`,
           search: `${createSearchParams({ tab: 'assignments' })}`
         }}
       >
@@ -81,7 +81,7 @@ export const assignmentColumns: MRT_ColumnDef<Assignment>[] = [
     header: 'Arvode',
     filterVariant: 'range-slider',
     Cell: ({ cell }) =>
-      cell.getValue<number>().toLocaleString('sv-SE', {
+      cell.getValue<number>()?.toLocaleString('sv-SE', {
         style: 'currency',
         currency: 'SEK',
         minimumFractionDigits: 0,

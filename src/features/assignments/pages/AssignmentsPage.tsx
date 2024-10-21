@@ -7,7 +7,7 @@ import { Button } from '@mui/material';
 import DataTable from '@/ui-component/DataTable';
 import FlexGrow from '@/ui-component/extended/FlexGrow';
 import SebraDialog from '../../../ui-component/SebraDialog';
-import { Assignment } from '../api/assignmentsApi';
+import { Assignment } from '@/api/gql/graphql';
 import AssignmentForm from '../components/AssignmentForm';
 import { assignmentColumns } from '../config/AssignmentConfig';
 import { useCreateAssignment, useDeleteAssignment, useUpdateAssignment } from '../hooks/useAssignmentsMutations';
@@ -33,7 +33,11 @@ const AssignmentsPage = () => {
         columns={assignmentColumns}
         getRowId={(row) => `${row.id}`}
         state={{ isLoading }}
-        onCreate={(row) => createAssignment(row, { onSuccess: (res) => navigate(`/home/assignments/${res.id}`) })}
+        onCreate={(row) =>
+          createAssignment(row, {
+            onSuccess: ({ createAssignment }) => navigate(`/home/assignments/${createAssignment?.id || ''}`)
+          })
+        }
         onUpdate={(row) => updateAssignment(row)}
         onDelete={(row) => deleteAssignment(row)}
         renderTopToolbarCustomActions={({ table }) => (
