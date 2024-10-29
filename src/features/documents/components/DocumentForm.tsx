@@ -93,7 +93,7 @@ const DocumentForm = ({ formProps, ...rest }: FormProps<Media & { upload?: File 
           />
         </Grid>
         <Grid item xs={12}>
-          <Preview url={fields.thumbnailURL} mimeType={fields.mimeType} />
+          <Preview url={fields.thumbnailURL || fields.url} mimeType={fields.mimeType} />
         </Grid>
         <Grid item xs={12}>
           <Stack spacing={2} direction="row">

@@ -3,7 +3,7 @@ import { loadToken } from '@/utils/token';
 import { type TypedDocumentNode } from '@graphql-typed-document-node/core';
 import { GraphQLClient } from 'graphql-request';
 
-const client = new GraphQLClient(`${API_URL}graphql`, {
+const client = new GraphQLClient(`${API_URL}/graphql`, {
   headers: () => {
     const token = loadToken();
     return {
