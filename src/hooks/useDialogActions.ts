@@ -24,8 +24,6 @@ function useDialogActions<T extends MRT_RowData>(table: MRT_TableInstance<T>, ro
   };
 
   const handleSubmit = (values: T) => {
-    console.log('values', values);
-
     if (isCreating) {
       onCreatingRowSave?.({
         exitCreatingMode: () => setCreatingRow(null),

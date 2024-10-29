@@ -44,8 +44,9 @@ export const getAllFilesFromIndexedDB = async (where?: Media_Where): Promise<Get
   return { allMedia: { docs } };
 };
 
-export const saveFileToIndexedDB = async ({ id, alt, upload }: Media & { upload?: File }): Promise<{ doc: Media }> => {
-  (await dbPromise).put('documents', { id: id || uuidv4(), alt, file: upload || undefined });
+export const saveFileToIndexedDB = async (params: Media & { upload?: File }): Promise<{ doc: Media }> => {
+  const { id = uuidv4(), alt, upload } = params;
+  await (await dbPromise).put('documents', { id, alt, file: upload || undefined });
   return { doc: localMediaToMedia({ id, alt, file: upload }) };
 };
 
