@@ -8,24 +8,25 @@ import { MRT_ColumnDef } from 'material-react-table';
 import dayjs, { Dayjs } from 'dayjs';
 
 // project imports
-import { DocumentContent, formatDate, toLocalTime } from '@/utils';
+import { formatDate, toLocalTime } from '@/utils';
+import { Media } from '@/api/gql/graphql';
 
 // ==============================|| DOCUMENT CONFIG ||============================== //
 
-export const documentColumns: MRT_ColumnDef<DocumentContent>[] = [
+export const documentColumns: MRT_ColumnDef<Media>[] = [
   {
-    accessorKey: 'documentName',
+    accessorKey: 'alt',
     header: 'Dokumentnamn',
     Cell: ({ cell, row }) => (
-      <Link component={RouterLink} to={`/documents/${row.original.documentId}`}>
+      <Link component={RouterLink} to={`/documents/${row.original.id}`}>
         {cell.getValue<string>()}
       </Link>
     )
   },
-  { accessorKey: 'content.type', accessorFn: (row) => row.content?.type, header: 'Filtyp' },
+  { accessorKey: 'mimeType', header: 'Filtyp' },
   {
-    accessorKey: 'content.lastModified',
-    accessorFn: (row) => dayjs(row.content?.lastModified),
+    accessorKey: 'updatedAt',
+    accessorFn: (row) => dayjs(row.updatedAt),
     header: 'Senast uppdaterad',
     filterVariant: 'date-range',
     enableEditing: false,

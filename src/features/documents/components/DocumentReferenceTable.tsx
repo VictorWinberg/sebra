@@ -8,55 +8,54 @@ import { Link } from '@mui/material';
 import dayjs, { Dayjs } from 'dayjs';
 
 // project imports
+import { DocumentReference, DocumentReference_Where, Media } from '@/api/gql/graphql';
 import DataTable from '@/ui-component/DataTable';
 import SebraDialog from '@/ui-component/SebraDialog';
-import { DocumentContent, formatDate, toLocalTime, toMap } from '@/utils';
-import { DocumentReference } from '../api/documentsApi';
+import { formatDate, toLocalTime } from '@/utils';
 import {
   useCreateDocumentReference,
   useDeleteDocumentReference,
-  useSaveDocument
+  useSaveDocument,
+  useUpdateDocument
 } from '../hooks/useDocumentsMutations';
-import { useDocumentReferences, useDocuments } from '../hooks/useDocumentsQueries';
+import { useDocumentReferences } from '../hooks/useDocumentsQueries';
 import DocumentForm from './DocumentForm';
 
 interface DocumentReferenceTableProps {
-  defaultValues: Omit<DocumentReference, 'documentId'>;
+  defaultValues: Omit<DocumentReference, 'id' | 'document'>;
+  where: DocumentReference_Where;
 }
 
-const DocumentReferenceTable = ({ defaultValues }: DocumentReferenceTableProps) => {
-  const { data: documentReferences = [], isLoading } = useDocumentReferences(defaultValues);
-  const { data: files = [], isLoading: filesIsLoading } = useDocuments();
-
-  // TODO: Refactor to use a selector or similar
-  const documents: DocumentContent[] = useMemo(() => {
-    const fileMap = toMap(files, 'documentId');
-    return documentReferences.map((ref) => fileMap.get(ref.documentId)).filter((doc) => !!doc);
-  }, [files, documentReferences]);
+const DocumentReferenceTable = ({ defaultValues, where }: DocumentReferenceTableProps) => {
+  const { data: references = [], isLoading } = useDocumentReferences(where);
+  const documents = useMemo(() => references.map((ref) => ref.document), [references]);
 
   const { mutate: saveDocument } = useSaveDocument();
+  const { mutate: updateDocument } = useUpdateDocument();
   const { mutate: createDocumentReference } = useCreateDocumentReference();
   const { mutate: deleteDocumentReference } = useDeleteDocumentReference();
 
+  if (isLoading) return;
+
   return (
-    <DataTable<DocumentContent>
+    <DataTable<Media & { upload?: File }>
       data={documents}
-      getRowId={(row) => row.documentId}
-      state={{ isLoading: filesIsLoading || isLoading }}
+      getRowId={(row) => row.id}
+      state={{ isLoading: isLoading }}
       columns={[
         {
-          accessorKey: 'documentName',
+          accessorKey: 'alt',
           header: 'Dokumentnamn',
           Cell: ({ cell, row }) => (
-            <Link component={RouterLink} to={`/documents/${row.original.documentId}`}>
+            <Link component={RouterLink} to={`/documents/${row.original.id}`}>
               {cell.getValue<string>()}
             </Link>
           )
         },
-        { accessorKey: 'content.type', accessorFn: (row) => row.content?.type, header: 'Filtyp', enableEditing: false },
+        { accessorKey: 'mimeType', header: 'Filtyp', enableEditing: false },
         {
-          accessorKey: 'content.lastModified',
-          accessorFn: (row) => dayjs(row.content?.lastModified),
+          accessorKey: 'updatedAt',
+          accessorFn: (row) => dayjs(row.updatedAt),
           header: 'Senast uppdaterad',
           filterVariant: 'date-range',
           enableEditing: false,
@@ -71,13 +70,17 @@ const DocumentReferenceTable = ({ defaultValues }: DocumentReferenceTableProps) 
           FormComponent={DocumentForm}
         />
       )}
-      onCreate={(row) =>
-        saveDocument(row, {
-          onSuccess: (documentId) => createDocumentReference({ ...defaultValues, documentId })
-        })
-      }
-      onUpdate={(row) => saveDocument(row)}
-      onDelete={(row) => deleteDocumentReference(row)}
+      onCreate={(row) => {
+        if (row.upload) {
+          saveDocument(row, {
+            onSuccess: (res) => createDocumentReference({ ...defaultValues, document: res.doc })
+          });
+        } else {
+          createDocumentReference({ ...defaultValues, document: row });
+        }
+      }}
+      onUpdate={(row) => updateDocument(row)}
+      onDelete={(row) => deleteDocumentReference(references.find((ref) => ref.document.id === row.id)!)}
     />
   );
 };

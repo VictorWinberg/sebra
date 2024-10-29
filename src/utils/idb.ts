@@ -1,45 +1,83 @@
 import { DBSchema, openDB } from 'idb';
 import { v4 as uuidv4 } from 'uuid';
 
-export type DocumentContent = {
-  documentId: string;
-  documentName: string;
-  content?: File;
+import { GetDocumentQuery, GetDocumentsQuery, Maybe, Media, Media_Where } from '@/api/gql/graphql';
+import { omit } from './object';
+
+type LocalMedia = {
+  id: string;
+  file?: File;
+  alt?: Maybe<string>;
 };
 
 interface DocumentsDB extends DBSchema {
   documents: {
     key: string;
-    value: DocumentContent;
-    indexes: { documentName: string };
+    value: LocalMedia;
+    indexes: { alt: string };
   };
 }
 
-const dbPromise = openDB<DocumentsDB>('DocumentsDB', 2, {
+const DB_VERSION = 3;
+
+const dbPromise = openDB<DocumentsDB>('DocumentsDB', DB_VERSION, {
   upgrade(db, oldVersion) {
-    if (oldVersion < 2) {
+    if (oldVersion < DB_VERSION) {
       if (db.objectStoreNames.contains('documents')) {
         db.deleteObjectStore('documents');
       }
 
-      const store = db.createObjectStore('documents', { keyPath: 'documentId' });
-      store.createIndex('documentName', 'documentName', { unique: false });
+      const store = db.createObjectStore('documents', { keyPath: 'id' });
+      store.createIndex('alt', 'alt', { unique: false });
     }
   }
 });
 
-export const getFileFromIndexedDB = async (documentId: string): Promise<DocumentContent | undefined> => {
-  return (await dbPromise).get('documents', documentId);
+export const getFileFromIndexedDB = async ({ id }: Pick<Media, 'id'>): Promise<GetDocumentQuery> => {
+  const local = await (await dbPromise).get('documents', id);
+  return { Media: local && localMediaToMedia(local) };
 };
 
-export const getAllFilesFromIndexedDB = async (): Promise<DocumentContent[]> => {
-  return (await dbPromise).getAll('documents', undefined); // TODO: Do some filtering here
+export const getAllFilesFromIndexedDB = async (where?: Media_Where): Promise<GetDocumentsQuery> => {
+  const allDocs = await (await dbPromise).getAll('documents', undefined);
+  const docs = allDocs.map(localMediaToMedia).filter(filterMedia(where));
+  return { allMedia: { docs } };
 };
 
-export const saveFileToIndexedDB = async ({ documentId, ...document }: DocumentContent): Promise<string> => {
-  return (await dbPromise).put('documents', { ...document, documentId: documentId || uuidv4() });
+export const saveFileToIndexedDB = async (params: Media & { upload?: File }): Promise<{ doc: Media }> => {
+  const { id = uuidv4(), alt, upload } = params;
+  await (await dbPromise).put('documents', { id, alt, file: upload || undefined });
+  return { doc: localMediaToMedia({ id, alt, file: upload }) };
 };
 
-export const deleteFileFromIndexedDB = async ({ documentId }: Pick<DocumentContent, 'documentId'>): Promise<void> => {
-  return (await dbPromise).delete('documents', documentId);
+export const deleteFileFromIndexedDB = async ({ id }: Pick<LocalMedia, 'id'>): Promise<void> => {
+  return (await dbPromise).delete('documents', id);
+};
+
+const localMediaToMedia = ({ id, alt, file }: LocalMedia): Media => ({
+  id,
+  alt,
+  filename: file?.name,
+  mimeType: file?.type,
+  url: file && URL.createObjectURL(file),
+  thumbnailURL: file && URL.createObjectURL(file),
+  updatedAt: file?.lastModified,
+  createdAt: file?.lastModified
+});
+
+const filterMedia = (where?: Media_Where) => (data: Media) => {
+  if (!where) return true;
+  const values = omit(where, ['AND', 'OR']);
+  for (const [key, query] of Object.entries(values)) {
+    const value = data[key as keyof Media];
+    if (typeof query === 'object' && query !== null) {
+      if ('in' in query && !query.in?.includes(value)) return false;
+      if ('not_in' in query && query.not_in?.includes(value)) return false;
+      if ('equals' in query && query.equals !== value) return false;
+      if ('not_equals' in query && query.not_equals === value) return false;
+      if ('exists' in query && query.exists !== (value !== undefined)) return false;
+      if ('contains' in query && !value?.includes(query.contains)) return false;
+    }
+  }
+  return true;
 };

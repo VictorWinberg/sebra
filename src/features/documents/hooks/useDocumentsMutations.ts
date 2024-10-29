@@ -1,17 +1,31 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { useSnackbar } from '@/hooks/useSnackbar';
-import { createDocumentReference, deleteDocumentReference, updateDocumentReference } from '../api/documentsApi';
+import { useAppStore } from '@/store';
 import { deleteFileFromIndexedDB, saveFileToIndexedDB } from '@/utils';
+import {
+  createDocumentReferenceGQL,
+  deleteDocumentGQL,
+  deleteDocumentReferenceGQL,
+  updateDocumentReferenceGQL
+} from '../api/documentsGQL';
+import {
+  createDocumentReferenceLocal,
+  deleteDocumentReferenceLocal,
+  updateDocumentReferenceLocal
+} from '../api/documentsLocal';
+import { createDocumentRest, updateDocumentRest } from '../api/documentsREST';
 
 export const useSaveDocument = () => {
+  const [{ isDemo }] = useAppStore();
   const queryClient = useQueryClient();
   const { showSnackbar } = useSnackbar();
 
   return useMutation({
-    mutationFn: saveFileToIndexedDB,
+    mutationFn: isDemo ? saveFileToIndexedDB : createDocumentRest,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['documents'] });
+      queryClient.invalidateQueries({ queryKey: ['document_references'] });
       showSnackbar('Dokumentet sparat!');
     },
     onError: () => {
@@ -20,13 +34,35 @@ export const useSaveDocument = () => {
   });
 };
 
-export const useDeleteDocument = () => {
+export const useUpdateDocument = () => {
+  const [{ isDemo }] = useAppStore();
   const queryClient = useQueryClient();
   const { showSnackbar } = useSnackbar();
 
   return useMutation({
-    mutationFn: (params: { documentId: string }) =>
-      Promise.all([deleteFileFromIndexedDB(params), deleteDocumentReference(params)]),
+    mutationFn: isDemo ? saveFileToIndexedDB : updateDocumentRest,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['documents'] });
+      queryClient.invalidateQueries({ queryKey: ['document_references'] });
+      showSnackbar('Dokumentet uppdaterat!');
+    },
+    onError: () => {
+      showSnackbar('Ett fel uppstod när dokumentet skulle uppdateras.', 'error');
+    }
+  });
+};
+
+export const useDeleteDocument = () => {
+  const [{ isDemo }] = useAppStore();
+  const queryClient = useQueryClient();
+  const { showSnackbar } = useSnackbar();
+
+  return useMutation({
+    mutationFn: ({ id }: { id: string }) =>
+      Promise.all([
+        isDemo ? deleteFileFromIndexedDB({ id }) : deleteDocumentGQL({ id })
+        // deleteDocumentReferenceLocal({ document: id })
+      ]),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['documents'] });
       queryClient.invalidateQueries({ queryKey: ['document_references'] });
@@ -39,11 +75,12 @@ export const useDeleteDocument = () => {
 };
 
 export const useCreateDocumentReference = () => {
+  const [{ isDemo }] = useAppStore();
   const queryClient = useQueryClient();
   const { showSnackbar } = useSnackbar();
 
   return useMutation({
-    mutationFn: createDocumentReference,
+    mutationFn: isDemo ? createDocumentReferenceLocal : createDocumentReferenceGQL,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['document_references'] });
       showSnackbar('Dokument skapat!');
@@ -55,11 +92,12 @@ export const useCreateDocumentReference = () => {
 };
 
 export const useUpdateDocumentReference = () => {
+  const [{ isDemo }] = useAppStore();
   const queryClient = useQueryClient();
   const { showSnackbar } = useSnackbar();
 
   return useMutation({
-    mutationFn: updateDocumentReference,
+    mutationFn: isDemo ? updateDocumentReferenceLocal : updateDocumentReferenceGQL,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['document_references'] });
       showSnackbar('Dokument uppdaterat!');
@@ -71,11 +109,12 @@ export const useUpdateDocumentReference = () => {
 };
 
 export const useDeleteDocumentReference = () => {
+  const [{ isDemo }] = useAppStore();
   const queryClient = useQueryClient();
   const { showSnackbar } = useSnackbar();
 
   return useMutation({
-    mutationFn: deleteDocumentReference,
+    mutationFn: isDemo ? deleteDocumentReferenceLocal : deleteDocumentReferenceGQL,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['document_references'] });
       showSnackbar('Dokument borttaget!');

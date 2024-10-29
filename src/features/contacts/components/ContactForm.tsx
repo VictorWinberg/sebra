@@ -5,9 +5,9 @@ import { Autocomplete, Grid, TextField } from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
 
 // project imports
+import { Contact } from '@/api/gql/graphql';
 import { useCompanies } from '@/features/companies/hooks/useCompaniesQueries';
 import SebraForm, { FormProps } from '@/ui-component/SebraForm';
-import { Contact } from '../api/contactsApi';
 
 // ==============================|| CONTACT FORM ||============================== //
 
@@ -34,22 +34,29 @@ const ContactForm = ({ formProps, ...props }: FormProps<Contact>) => {
           />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <TextField fullWidth label="Email" type="text" margin="none" {...register('email')} />
+          <TextField
+            fullWidth
+            label="Email"
+            type="email"
+            margin="none"
+            {...register('email', { required: true })}
+            error={!!errors.email}
+          />
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField fullWidth label="Telefonnummer" type="text" margin="none" {...register('phone')} />
         </Grid>
         <Grid item xs={12} sm={6}>
           <Controller
-            name="companyId"
+            name="company"
             control={control}
             render={({ field }) => (
               <Autocomplete
                 options={companies}
                 getOptionKey={(option) => option.id}
                 getOptionLabel={(option) => option.companyName}
-                value={companies.find((company) => company.id === field.value) || null}
-                onChange={(_, value) => field.onChange(value ? value.id : undefined)}
+                value={companies.find((company) => company.id === field.value?.id) || null}
+                onChange={(_, value) => field.onChange(value ?? undefined)}
                 renderInput={(params) => <TextField {...params} label="Bolag" variant="outlined" fullWidth />}
               />
             )}

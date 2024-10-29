@@ -21,12 +21,13 @@ import { bindTrigger } from 'material-ui-popup-state';
 import dayjs from 'dayjs';
 
 // project imports
+import { Lead } from '@/api/gql/graphql';
 import DataBoard from '@/ui-component/board/DataBoard';
 import DeleteConfirm from '@/ui-component/DeleteConfirm';
 import FlexGrow from '@/ui-component/extended/FlexGrow';
 import SebraDialog from '@/ui-component/SebraDialog';
 import { stringAvatar, timeAgo } from '@/utils';
-import { Lead, LEAD_STAGES } from '../api/leadsApi';
+import { LEAD_STAGES } from '../api/leadsLocal';
 import LeadForm from '../components/LeadForm';
 import { useCreateLead, useDeleteLead, useUpdateLead } from '../hooks/useLeadsMutations';
 import { useLeads } from '../hooks/useLeadsQueries';
@@ -79,7 +80,7 @@ const LeadsPage = () => {
             </Link>
             <Divider sx={{ my: 1 }} />
             {row.original.assignment && (
-              <Link component={RouterLink} to={`/home/assignments/${row.original.assignmentId}`}>
+              <Link component={RouterLink} to={`/home/assignments/${row.original.assignment.id}`}>
                 Uppdrag: {row.original.assignment.assignmentName}
               </Link>
             )}
@@ -91,7 +92,7 @@ const LeadsPage = () => {
                     variant="outlined"
                     avatar={<Avatar {...stringAvatar(row.original.contact.contactName)} />}
                     label={row.original.contact.contactName}
-                    to={`/home/contacts/${row.original.contactId}`}
+                    to={`/home/contacts/${row.original.contact.id}`}
                     clickable
                     size="small"
                   />
@@ -104,7 +105,7 @@ const LeadsPage = () => {
                     variant="outlined"
                     avatar={<Avatar {...stringAvatar(row.original.company.companyName)} />}
                     label={row.original.company.companyName}
-                    to={`/home/companies/${row.original.companyId}`}
+                    to={`/home/companies/${row.original.company.id}`}
                     clickable
                     size="small"
                   />

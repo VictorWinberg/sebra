@@ -8,10 +8,10 @@ import { Autocomplete, Button, Grid, Stack, TextField } from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
 
 // project imports
+import { Media } from '@/api/gql/graphql';
 import FileSelector from '@/ui-component/FileSelecter';
 import Preview from '@/ui-component/Preview';
 import SebraForm, { FormProps } from '@/ui-component/SebraForm';
-import { DocumentContent } from '@/utils';
 import { useDocuments } from '../hooks/useDocumentsQueries';
 
 // assets
@@ -19,7 +19,7 @@ import { CloudDownload } from '@mui/icons-material';
 
 // ==============================|| DOCUMENT FORM ||============================== //
 
-const DocumentForm = ({ formProps, ...rest }: FormProps<DocumentContent>) => {
+const DocumentForm = ({ formProps, ...rest }: FormProps<Media & { upload?: File }>) => {
   const location = useLocation();
   const enableExistingDocuments = !location.pathname.startsWith('/documents');
 
@@ -31,27 +31,27 @@ const DocumentForm = ({ formProps, ...rest }: FormProps<DocumentContent>) => {
     watch,
     setValue,
     formState: { errors }
-  } = useForm<DocumentContent>(formProps);
+  } = useForm<Media & { upload?: File }>(formProps);
 
   const fields = watch();
 
   const handleFileChange = (data: File) => {
-    setValue('documentName', data.name);
-    setValue('content', data);
+    setValue('upload', data);
+    setValue('alt', data.name);
   };
 
   useEffect(() => {
-    if (fields.documentId) {
-      const document = documents.find((doc) => doc.documentId === fields.documentId);
+    if (fields.id) {
+      const document = documents.find((doc) => doc.id === fields.id);
       if (document) {
-        setValue('documentName', document.documentName);
-        setValue('content', document.content);
+        setValue('upload', undefined);
+        setValue('alt', document.alt);
       }
     } else {
-      setValue('documentName', '');
-      setValue('content', undefined!);
+      setValue('upload', undefined);
+      setValue('alt', '');
     }
-  }, [fields.documentId, setValue, documents]);
+  }, [fields.id, setValue, documents]);
 
   return (
     <SebraForm {...rest} handleSubmit={handleSubmit}>
@@ -59,7 +59,7 @@ const DocumentForm = ({ formProps, ...rest }: FormProps<DocumentContent>) => {
         <Grid item xs={12} sm={6}>
           <Controller
             control={control}
-            name="documentName"
+            name="alt"
             rules={{ required: true }}
             defaultValue=""
             render={({ field, fieldState }) => (
@@ -77,8 +77,7 @@ const DocumentForm = ({ formProps, ...rest }: FormProps<DocumentContent>) => {
         <Grid item xs={12} sm={6}>
           <Controller
             control={control}
-            name="content"
-            rules={{ required: true }}
+            name="upload"
             render={({ field }) => (
               <TextField
                 fullWidth
@@ -87,26 +86,24 @@ const DocumentForm = ({ formProps, ...rest }: FormProps<DocumentContent>) => {
                 margin="none"
                 value={field.value?.name || ''}
                 disabled
-                error={!!errors.content}
-                InputProps={{ endAdornment: fields.content?.type }}
+                error={!!errors.upload}
+                InputProps={{ endAdornment: fields.upload?.type }}
               />
             )}
           />
         </Grid>
         <Grid item xs={12}>
-          <Preview file={fields.content} />
+          <Preview url={fields.thumbnailURL || fields.url} mimeType={fields.mimeType} />
         </Grid>
         <Grid item xs={12}>
           <Stack spacing={2} direction="row">
-            <FileSelector onChange={handleFileChange}>
-              {fields.content ? 'Ersätt dokument' : 'Välj dokument'}
-            </FileSelector>
+            <FileSelector onChange={handleFileChange}>{fields.id ? 'Ersätt dokument' : 'Välj dokument'}</FileSelector>
             <Button
               startIcon={<CloudDownload />}
               variant="contained"
-              href={fields.content ? URL.createObjectURL(fields.content) : '#'}
-              download={fields.documentName}
-              disabled={!fields.content}
+              href={fields.url || '#'}
+              download={fields.alt}
+              disabled={!fields.url}
             >
               Ladda ner
             </Button>
@@ -115,15 +112,15 @@ const DocumentForm = ({ formProps, ...rest }: FormProps<DocumentContent>) => {
         <Grid item xs={12}>
           {enableExistingDocuments && (
             <Controller
-              name="documentId"
+              name="id"
               control={control}
               render={({ field }) => (
                 <Autocomplete
                   options={documents}
-                  getOptionKey={(option) => option.documentId}
-                  getOptionLabel={(option) => option.documentName}
-                  value={documents.find((document) => document.documentId === field.value) || null}
-                  onChange={(_, value) => field.onChange(value ? value.documentId : undefined)}
+                  getOptionKey={(option) => option.id}
+                  getOptionLabel={(option) => option.alt || ''}
+                  value={documents.find((document) => document.id === field.value) || null}
+                  onChange={(_, value) => field.onChange(value ? value.id : undefined)}
                   renderInput={(params) => (
                     <TextField {...params} label="Välj existerande dokument" variant="outlined" fullWidth />
                   )}

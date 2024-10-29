@@ -1,14 +1,12 @@
-import { Assignment } from '@/features/assignments/api/assignmentsApi';
+import { Assignment, Company, Contact } from '@/api/gql/graphql';
 import AssignmentForm from '@/features/assignments/components/AssignmentForm';
 import { assignmentColumns } from '@/features/assignments/config/AssignmentConfig';
 import { useCreateAssignment } from '@/features/assignments/hooks/useAssignmentsMutations';
 import { useAssignments } from '@/features/assignments/hooks/useAssignmentsQueries';
-import { Company } from '@/features/companies/api/companiesApi';
 import CompanyForm from '@/features/companies/components/CompanyForm';
 import { companyColumns } from '@/features/companies/config/CompanyConfig';
 import { useCreateCompany } from '@/features/companies/hooks/useCompaniesMutations';
 import { useCompanies } from '@/features/companies/hooks/useCompaniesQueries';
-import { Contact, ContactRecord } from '@/features/contacts/api/contactsApi';
 import ContactForm from '@/features/contacts/components/ContactForm';
 import { contactColumns } from '@/features/contacts/config/ContactConfig';
 import { useCreateContact } from '@/features/contacts/hooks/useContactsMutations';
@@ -55,7 +53,7 @@ export const modules: ModuleConfigItem<AnyData>[] = [
     FormComponent: ContactForm,
     createMutation: useCreateContact,
     props: {}
-  } satisfies ModuleFormConfigItem<ContactRecord>,
+  } satisfies ModuleFormConfigItem<Omit<Contact, 'company'>>,
   {
     key: 'companiesTable',
     label: 'Tabell - Bolag',

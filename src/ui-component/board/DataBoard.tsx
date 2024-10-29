@@ -1,3 +1,6 @@
+/* eslint-disable react-refresh/only-export-components */
+import { memo } from 'react';
+
 // material-ui
 import { Box, IconButton } from '@mui/material';
 
@@ -5,6 +8,7 @@ import { Box, IconButton } from '@mui/material';
 import { MRT_EditRowModal, MRT_Row, MRT_TableInstance } from 'material-react-table';
 
 // project imports
+import { Maybe } from '@/api/gql/graphql';
 import { DataTableProps, useDataTable } from '@/hooks/useDataTable';
 import Board from './Board';
 
@@ -17,7 +21,7 @@ interface DataBoardProps<T extends Record<string, unknown>> extends DataTablePro
   renderCard: (props: { row: MRT_Row<T>; table: MRT_TableInstance<T> }) => React.ReactNode;
 }
 
-const DataBoard = <T extends { rank: number } & Record<string, unknown>>({
+const DataBoard = <T extends { rank?: Maybe<number> } & Record<string, unknown>>({
   data,
   stages,
   columnId,
@@ -54,7 +58,7 @@ const DataBoard = <T extends { rank: number } & Record<string, unknown>>({
             const row = table.getRow(String(id))?.original;
             if (!row) return;
 
-            props.onUpdate?.({ ...row, [columnId]: task.columnId, rank: index }, row);
+            props.onUpdate?.({ ...row, [columnId]: task.columnId, rank: index });
           });
         }}
       />
@@ -64,4 +68,10 @@ const DataBoard = <T extends { rank: number } & Record<string, unknown>>({
   );
 };
 
-export default DataBoard;
+export default memo(DataBoard, (prevProps, nextProps) => {
+  return (
+    prevProps.data === nextProps.data &&
+    prevProps.stages === nextProps.stages &&
+    prevProps.columnId === nextProps.columnId
+  );
+}) as typeof DataBoard;

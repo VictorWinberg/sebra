@@ -15,27 +15,17 @@ export type AppStoreAction = {
 const AppStoreReducer: React.Reducer<AppStoreState, AppStoreAction> = (state, action) => {
   console.log('AppReducer() - action:', action);
   switch (action.type) {
-    case actions.CURRENT_USER:
-      return {
-        ...state,
-        currentUser: action.payload
-      };
-    case actions.SIGN_UP:
-    case actions.LOG_IN:
-      return {
-        ...state,
-        isAuthenticated: true
-      };
-    case actions.LOG_OUT:
-      return {
-        ...state,
-        isAuthenticated: false,
-        currentUser: undefined // Also reset previous user data
-      };
     case actions.SET_MENU: {
       return {
         ...state,
         opened: action.payload as boolean
+      };
+    }
+    case actions.SET_DEMO: {
+      localStorage.setItem('isDemo', action.payload as string);
+      return {
+        ...state,
+        isDemo: action.payload as boolean
       };
     }
     default:

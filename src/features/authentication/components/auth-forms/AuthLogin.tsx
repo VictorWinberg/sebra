@@ -1,8 +1,7 @@
 import { MouseEvent, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // material-ui
-import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
@@ -15,20 +14,22 @@ import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import InputLabel from '@mui/material/InputLabel';
 import OutlinedInput from '@mui/material/OutlinedInput';
-import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
+import { useTheme } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 // third party
 import { useForm } from 'react-hook-form';
 
 // project imports
 import AnimateButton from '@/ui-component/extended/AnimateButton';
+import { useAuthLogin } from '../../hooks/useAuthMutations';
 
 // assets
+import Google from '@/assets/images/icons/social-google.svg';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-
-import Google from '@/assets/images/icons/social-google.svg';
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
@@ -40,16 +41,15 @@ type Auth = {
 const AuthLogin = () => {
   const theme = useTheme();
   const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
+  const navigate = useNavigate();
   const [checked, setChecked] = useState(true);
   const {
     register,
     formState: { errors },
-    handleSubmit
+    handleSubmit,
+    setError
   } = useForm<Auth>();
-
-  const googleHandler = async () => {
-    console.error('Google Login');
-  };
+  const { mutate: loginUser } = useAuthLogin();
 
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => {
@@ -60,79 +60,88 @@ const AuthLogin = () => {
     event.preventDefault();
   };
 
+  const handleLogin = async (auth: Auth) => {
+    loginUser(auth, {
+      onSuccess: () => navigate('/'),
+      onError: () => setError('password', { message: 'Ogiltig e-postadress eller lösenord' })
+    });
+  };
+
   return (
     <>
-      <Grid container direction="column" justifyContent="center" spacing={2}>
-        <Grid item xs={12}>
-          <AnimateButton>
-            <Button
-              disableElevation
-              fullWidth
-              onClick={googleHandler}
-              size="large"
-              variant="outlined"
+      {false && (
+        <Grid container direction="column" justifyContent="center" spacing={2}>
+          <Grid item xs={12}>
+            <AnimateButton>
+              <Button
+                disableElevation
+                fullWidth
+                onClick={console.log}
+                size="large"
+                variant="outlined"
+                sx={{
+                  color: 'grey.700',
+                  backgroundColor: theme.palette.grey[50],
+                  borderColor: theme.palette.grey[100]
+                }}
+              >
+                <Box sx={{ mr: { xs: 1, sm: 2, width: 20 } }}>
+                  <img src={Google} alt="google" width={16} height={16} style={{ marginRight: matchDownSM ? 8 : 16 }} />
+                </Box>
+                Sign in with Google
+              </Button>
+            </AnimateButton>
+          </Grid>
+          <Grid item xs={12}>
+            <Box
               sx={{
-                color: 'grey.700',
-                backgroundColor: theme.palette.grey[50],
-                borderColor: theme.palette.grey[100]
+                alignItems: 'center',
+                display: 'flex'
               }}
             >
-              <Box sx={{ mr: { xs: 1, sm: 2, width: 20 } }}>
-                <img src={Google} alt="google" width={16} height={16} style={{ marginRight: matchDownSM ? 8 : 16 }} />
-              </Box>
-              Sign in with Google
-            </Button>
-          </AnimateButton>
-        </Grid>
-        <Grid item xs={12}>
-          <Box
-            sx={{
-              alignItems: 'center',
-              display: 'flex'
-            }}
-          >
-            <Divider sx={{ flexGrow: 1 }} orientation="horizontal" />
+              <Divider sx={{ flexGrow: 1 }} orientation="horizontal" />
 
-            <Button
-              variant="outlined"
-              sx={{
-                cursor: 'unset',
-                m: 2,
-                py: 0.5,
-                px: 7,
-                borderColor: `${theme.palette.grey[100]} !important`,
-                color: `${theme.palette.grey[900]}!important`,
-                fontWeight: 500,
-                borderRadius: '6px'
-              }}
-              disableRipple
-              disabled
-            >
-              OR
-            </Button>
+              <Button
+                variant="outlined"
+                sx={{
+                  cursor: 'unset',
+                  m: 2,
+                  py: 0.5,
+                  px: 7,
+                  borderColor: `${theme.palette.grey[100]} !important`,
+                  color: `${theme.palette.grey[900]}!important`,
+                  fontWeight: 500,
+                  borderRadius: '6px'
+                }}
+                disableRipple
+                disabled
+              >
+                OR
+              </Button>
 
-            <Divider sx={{ flexGrow: 1 }} orientation="horizontal" />
-          </Box>
+              <Divider sx={{ flexGrow: 1 }} orientation="horizontal" />
+            </Box>
+          </Grid>
+          <Grid item xs={12} container alignItems="center" justifyContent="center">
+            <Box sx={{ mb: 2 }}>
+              <Typography variant="subtitle1">Sign in with Email address</Typography>
+            </Box>
+          </Grid>
         </Grid>
-        <Grid item xs={12} container alignItems="center" justifyContent="center">
-          <Box sx={{ mb: 2 }}>
-            <Typography variant="subtitle1">Sign in with Email address</Typography>
-          </Box>
-        </Grid>
-      </Grid>
+      )}
 
-      <form noValidate onSubmit={handleSubmit(console.log)}>
+      <form noValidate onSubmit={handleSubmit(handleLogin)}>
         <FormControl fullWidth error={Boolean(errors.email)} sx={{ ...theme.typography.customInput }}>
-          <InputLabel htmlFor="outlined-adornment-email-login">Email Address / Username</InputLabel>
+          <InputLabel htmlFor="outlined-adornment-email-login">E-postadress / Användarnamn</InputLabel>
           <OutlinedInput
             id="outlined-adornment-email-login"
             type="email"
-            label="Email Address / Username"
+            label="E-postadress / Användarnamn"
             inputProps={{}}
             {...register('email', {
-              required: 'Email is required',
-              pattern: { value: /^\S+@\S+$/i, message: 'Must be a valid email address' },
-              maxLength: { value: 255, message: 'Email address is too long' }
+              required: 'Email krävs',
+              pattern: { value: /^\S+@\S+$/i, message: 'Måste vara en giltig E-postadress' },
+              maxLength: { value: 255, message: 'E-postadressen är för lång' }
             })}
           />
           {errors.email && (
@@ -143,11 +152,11 @@ const AuthLogin = () => {
         </FormControl>
 
         <FormControl fullWidth error={Boolean(errors.password)} sx={{ ...theme.typography.customInput }}>
-          <InputLabel htmlFor="outlined-adornment-password-login">Password</InputLabel>
+          <InputLabel htmlFor="outlined-adornment-password-login">Lösenord</InputLabel>
           <OutlinedInput
             id="outlined-adornment-password-login"
             type={showPassword ? 'text' : 'password'}
-            {...register('password', { required: 'Password is required' })}
+            {...register('password', { required: 'Lösenord krävs' })}
             endAdornment={
               <InputAdornment position="end">
                 <IconButton
@@ -161,7 +170,7 @@ const AuthLogin = () => {
                 </IconButton>
               </InputAdornment>
             }
-            label="Password"
+            label="Lösenord"
             inputProps={{}}
           />
           {errors.password && (
@@ -170,24 +179,26 @@ const AuthLogin = () => {
             </FormHelperText>
           )}
         </FormControl>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={checked}
-                onChange={(event) => setChecked(event.target.checked)}
-                name="checked"
-                color="primary"
-              />
-            }
-            label="Remember me"
-          />
-          <Typography variant="subtitle1" color="primary" sx={{ textDecoration: 'none', cursor: 'pointer' }}>
-            Forgot Password?
-          </Typography>
-        </Stack>
+        {false && (
+          <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={checked}
+                  onChange={(event) => setChecked(event.target.checked)}
+                  name="checked"
+                  color="primary"
+                />
+              }
+              label="Kom ihåg mig"
+            />
+            <Typography variant="subtitle1" color="primary" sx={{ textDecoration: 'none', cursor: 'pointer' }}>
+              Glömt lösenord?
+            </Typography>
+          </Stack>
+        )}
         {errors.root && (
-          <Box sx={{ mt: 3 }}>
+          <Box sx={{ mt: 1 }}>
             <FormHelperText error>{errors.root.message}</FormHelperText>
           </Box>
         )}
@@ -195,7 +206,7 @@ const AuthLogin = () => {
         <Box sx={{ mt: 2 }}>
           <AnimateButton>
             <Button disableElevation fullWidth size="large" type="submit" variant="contained" color="primary">
-              Sign in
+              Logga in
             </Button>
           </AnimateButton>
         </Box>

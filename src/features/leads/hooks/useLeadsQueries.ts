@@ -1,7 +1,15 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { fetchLeads } from '../api/leadsApi';
+import { useAppStore } from '@/store';
+import { getLeadsGQL } from '../api/leadsGQL';
+import { getLeadsLocal } from '../api/leadsLocal';
 
 export const useLeads = () => {
-  return useQuery({ queryKey: ['leads'], queryFn: fetchLeads });
+  const [{ isDemo }] = useAppStore();
+  const fn = isDemo ? getLeadsLocal : getLeadsGQL;
+  return useQuery({
+    queryKey: ['leads'],
+    queryFn: () => fn(),
+    select: (data) => data.Leads?.docs?.filter((i) => !!i) || []
+  });
 };

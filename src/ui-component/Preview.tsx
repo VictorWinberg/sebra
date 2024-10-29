@@ -5,28 +5,28 @@ import { Box } from '@mui/material';
 
 // project imports
 import useWindowDimension from '@/hooks/useWindowDimension';
+import { Maybe } from '@/api/gql/graphql';
 
 const SUPPORTED_FILE_TYPES = ['application/pdf', 'application/json', 'image/*', 'text/*', 'video/*', 'audio/*'];
 
 interface PreviewProps {
-  file?: File;
+  url?: Maybe<string>;
+  mimeType?: Maybe<string>;
 }
 
-const Preview = ({ file }: PreviewProps) => {
+const Preview = ({ url, mimeType }: PreviewProps) => {
   const dimension = useWindowDimension();
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string>();
 
   useEffect(() => {
-    if (file && SUPPORTED_FILE_TYPES.some((type) => file.type.match(type))) {
-      setPreviewUrl(URL.createObjectURL(file));
-    } else {
-      setPreviewUrl(undefined);
+    if (url && mimeType && SUPPORTED_FILE_TYPES.some((type) => mimeType.match(type))) {
+      setPreviewUrl(url);
     }
-  }, [file]);
+  }, [url, mimeType]);
 
-  if (!file || !previewUrl) {
-    return null;
+  if (!url || !mimeType || !previewUrl) {
+    return;
   }
 
   const handleIframeLoad = () => {
@@ -53,7 +53,7 @@ const Preview = ({ file }: PreviewProps) => {
   };
 
   const renderPreview = () => {
-    if (file.type.startsWith('image/')) {
+    if (mimeType.startsWith('image/')) {
       return (
         <img
           src={previewUrl}

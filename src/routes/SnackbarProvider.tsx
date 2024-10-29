@@ -17,8 +17,14 @@ const SnackbarProvider: FunctionComponent<PropsWithChildren> = ({ children }) =>
   const snackbar = snackbars[0] || { message: '', severity: 'success' };
 
   const showSnackbar = (message: string, severity: AlertColor = 'success') => {
-    setSnackbars([...snackbars, { message, severity }]);
-    setOpen(!open);
+    if (snackbars.some((s) => s.message === message)) {
+      // Do not show duplicate messages
+      return;
+    }
+    setTimeout(() => {
+      setSnackbars([...snackbars, { message, severity }]);
+      setOpen(true);
+    }, 250);
   };
 
   const handleClose = (_event?: React.SyntheticEvent | Event, reason?: string) => {

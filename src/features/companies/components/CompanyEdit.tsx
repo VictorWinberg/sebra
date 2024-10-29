@@ -1,9 +1,11 @@
+import { useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 // material-ui
 import { Box, Typography } from '@mui/material';
 
 // project imports
+import { Company } from '@/api/gql/graphql';
 import AssignmentTable from '@/features/assignments/components/AssignmentTable';
 import { useAssignments } from '@/features/assignments/hooks/useAssignmentsQueries';
 import ContactTable from '@/features/contacts/components/ContactTable';
@@ -12,8 +14,6 @@ import { headerHeight } from '@/store/constant';
 import ContentTabs from '@/ui-component/ContentTabs';
 import FlexGrow from '@/ui-component/extended/FlexGrow';
 import { FormActionButtons } from '@/ui-component/SebraForm';
-import { useMemo } from 'react';
-import { Company } from '../api/companiesApi';
 import { useCreateCompany, useDeleteCompany, useUpdateCompany } from '../hooks/useCompaniesMutations';
 import { useCompany } from '../hooks/useCompaniesQueries';
 import CompanyForm from './CompanyForm';
@@ -32,17 +32,15 @@ const CompanyEdit = () => {
   const { data: contacts = [], isLoading: contactsIsLoading } = useContacts();
   const { data: allAssignments = [], isLoading: assignmentsIsLoading } = useAssignments();
   const assignments = useMemo(
-    () => allAssignments.filter((assignment) => assignment.companyId === company?.id),
+    () => allAssignments.filter((assignment) => assignment.company?.id === company?.id),
     [allAssignments, company]
   );
 
-  const handleSubmit = (data: Partial<Company>) => {
+  const handleSubmit = (data: Company) => {
     if (company) {
-      updateCompany(data);
+      updateCompany({ ...data, id: company.id });
     } else {
-      createCompany(data, {
-        onSuccess: (res) => navigate(`/home/companies/${res.id}`)
-      });
+      createCompany(data, { onSuccess: ({ createCompany }) => navigate(`/home/companies/${createCompany?.id || ''}`) });
     }
   };
 
@@ -76,9 +74,9 @@ const CompanyEdit = () => {
                     label: 'Kontakter',
                     content: (
                       <ContactTable
-                        contacts={contacts.filter((contact) => contact.companyId === company.id)}
+                        contacts={contacts.filter((contact) => contact.company?.id === company.id)}
                         isLoading={contactsIsLoading}
-                        defaultValues={{ companyId: company.id }}
+                        defaultValues={{ company }}
                       />
                     )
                   },
@@ -89,7 +87,7 @@ const CompanyEdit = () => {
                       <AssignmentTable
                         assignments={assignments}
                         isLoading={assignmentsIsLoading}
-                        defaultValues={{ companyId: company.id }}
+                        defaultValues={{ company }}
                       />
                     )
                   }

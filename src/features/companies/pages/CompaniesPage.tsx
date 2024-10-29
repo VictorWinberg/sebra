@@ -4,10 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@mui/material';
 
 // project imports
+import { Company } from '@/api/gql/graphql';
 import DataTable from '@/ui-component/DataTable';
 import FlexGrow from '@/ui-component/extended/FlexGrow';
 import SebraDialog from '@/ui-component/SebraDialog';
-import { Company } from '../api/companiesApi';
 import CompanyForm from '../components/CompanyForm';
 import { companyColumns } from '../config/CompanyConfig';
 import { useCreateCompany, useDeleteCompany, useUpdateCompany } from '../hooks/useCompaniesMutations';
@@ -33,7 +33,11 @@ const CompaniesPage = () => {
         columns={companyColumns}
         getRowId={(row) => `${row.id}`}
         state={{ isLoading }}
-        onCreate={(row) => createCompany(row, { onSuccess: (res) => navigate(`/home/companies/${res.id}`) })}
+        onCreate={(data) =>
+          createCompany(data, {
+            onSuccess: ({ createCompany }) => navigate(`/home/companies/${createCompany?.id || ''}`)
+          })
+        }
         onUpdate={(row) => updateCompany(row)}
         onDelete={(row) => deleteCompany(row)}
         renderTopToolbarCustomActions={({ table }) => (

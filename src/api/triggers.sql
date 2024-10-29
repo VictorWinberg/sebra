@@ -31,7 +31,7 @@ FOR EACH ROW
 BEGIN
     UPDATE document_references
     SET updated_at = CURRENT_TIMESTAMP
-    WHERE document_id = OLD.document_id AND entity_type = OLD.entity_type AND entity_id = OLD.entity_id;
+    WHERE document = OLD.document AND entity_type = OLD.entity_type AND entity_id = OLD.entity_id;
 END;
 
 CREATE TRIGGER update_interactions_updated_at
@@ -51,9 +51,9 @@ BEGIN
     SET updated_at = CASE
             WHEN NEW.lead_title != OLD.lead_title
                 OR NEW.stage != OLD.stage
-                OR NEW.contact_id != OLD.contact_id
-                OR NEW.company_id != OLD.company_id
-                OR NEW.assignment_id != OLD.assignment_id
+                OR NEW.contact != OLD.contact
+                OR NEW.company != OLD.company
+                OR NEW.assignment != OLD.assignment
             THEN CURRENT_TIMESTAMP
             ELSE OLD.updated_at
         END
