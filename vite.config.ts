@@ -24,7 +24,7 @@ export default defineConfig({
     })
   ],
   optimizeDeps: {
-    include: ['@emotion/styled']
+    include: ['@emotion/react', '@emotion/styled', '@mui/material/Tooltip']
   },
   build: {
     outDir: 'dist',

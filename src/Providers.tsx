@@ -33,7 +33,10 @@ const Providers = ({ children }: ProvidersProps) => {
     };
     return new QueryClient({
       queryCache: new QueryCache({ onError: handleError }),
-      mutationCache: new MutationCache({ onError: handleError })
+      mutationCache: new MutationCache({ onError: handleError }),
+      defaultOptions: {
+        queries: { staleTime: 1000 * 60 * 5, refetchOnWindowFocus: false, retry: 1 }
+      }
     });
   });
 
