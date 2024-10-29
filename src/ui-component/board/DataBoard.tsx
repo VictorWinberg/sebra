@@ -58,7 +58,7 @@ const DataBoard = <T extends { rank?: Maybe<number> } & Record<string, unknown>>
             const row = table.getRow(String(id))?.original;
             if (!row) return;
 
-            props.onUpdate?.({ ...row, [columnId]: task.columnId, rank: index }, row);
+            props.onUpdate?.({ ...row, [columnId]: task.columnId, rank: index });
           });
         }}
       />

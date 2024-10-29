@@ -79,7 +79,7 @@ export const intersection = <T, K extends keyof T>(a: T[], b: T[], key: K) => {
 };
 
 type RequiredFields<T> = {
-  [K in keyof T]: T[K] extends string | number ? K : never;
+  [K in keyof T]: T[K] extends unknown ? K : never;
 }[keyof T];
 
 /**

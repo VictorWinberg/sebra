@@ -31,7 +31,7 @@ FOR EACH ROW
 BEGIN
     UPDATE document_references
     SET updated_at = CURRENT_TIMESTAMP
-    WHERE document_id = OLD.document_id AND entity_type = OLD.entity_type AND entity_id = OLD.entity_id;
+    WHERE document = OLD.document AND entity_type = OLD.entity_type AND entity_id = OLD.entity_id;
 END;
 
 CREATE TRIGGER update_interactions_updated_at

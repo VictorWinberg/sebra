@@ -24,7 +24,7 @@ const SnackbarProvider: FunctionComponent<PropsWithChildren> = ({ children }) =>
     setTimeout(() => {
       setSnackbars([...snackbars, { message, severity }]);
       setOpen(true);
-    }, 100);
+    }, 250);
   };
 
   const handleClose = (_event?: React.SyntheticEvent | Event, reason?: string) => {

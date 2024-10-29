@@ -93,7 +93,10 @@ const AssignmentEdit = () => {
                   id: 'documents',
                   label: 'Dokument',
                   content: (
-                    <DocumentReferenceTable defaultValues={{ entityId: assignment.id, entityType: 'assignment' }} />
+                    <DocumentReferenceTable
+                      defaultValues={{ entityId: assignment.id, entityType: 'assignment' }}
+                      where={{ entityId: { equals: assignment.id }, entityType: { equals: 'assignment' } }}
+                    />
                   )
                 }
               ]}

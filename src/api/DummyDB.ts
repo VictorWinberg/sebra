@@ -73,14 +73,14 @@ const executeQuery = <T extends Params>(queryText: string, params: Params): T[] 
   return results;
 };
 
-export const selectAllQuery = <T extends Params>(table: string, where: Partial<T>): T[] => {
-  const whereClause = generateWhereClause(where);
+export const selectAllQuery = <T extends Params>(table: string, where: Partial<T> | string): T[] => {
+  const whereClause = typeof where === 'string' ? where : generateWhereClause(where);
 
   const queryText = `
     SELECT * FROM ${table}
-    WHERE ${whereClause};
+    WHERE ${whereClause || '1'};
   `;
-  const params = mapParams(where);
+  const params = mapParams(typeof where === 'string' ? {} : where);
   return executeQuery<T>(queryText, params);
 };
 

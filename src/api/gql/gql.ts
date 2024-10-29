@@ -31,6 +31,13 @@ const documents = {
     "\n      mutation CreateContact($data: mutationContactInput!) {\n        createContact(data: $data) {\n          id\n        }\n      }\n    ": types.CreateContactDocument,
     "\n      mutation UpdateContact($id: String!, $data: mutationContactUpdateInput!) {\n        updateContact(id: $id, data: $data) {\n          id\n        }\n      }\n    ": types.UpdateContactDocument,
     "\n      mutation DeleteContact($id: String!) {\n        deleteContact(id: $id) {\n          id\n        }\n      }\n    ": types.DeleteContactDocument,
+    "\n      query GetDocuments($where: Media_where) {\n        allMedia(sort: \"id\", where: $where) {\n          docs {\n            id\n            filename\n            mimeType\n            thumbnailURL\n            alt\n            url\n            createdAt\n            updatedAt\n          }\n        }\n      }\n    ": types.GetDocumentsDocument,
+    "\n      query GetDocument($id: String!) {\n        Media(id: $id) {\n          id\n          filename\n          mimeType\n          thumbnailURL\n          alt\n          url\n          createdAt\n          updatedAt\n        }\n      }\n    ": types.GetDocumentDocument,
+    "\n      mutation DeleteDocument($id: String!) {\n        deleteMedia(id: $id) {\n          id\n        }\n      }\n    ": types.DeleteDocumentDocument,
+    "\n      query GetDocumentReferences($where: DocumentReference_where) {\n        DocumentReferences(sort: \"id\", where: $where) {\n          docs {\n            id\n            entityId\n            entityType\n            createdAt\n            updatedAt\n\n            document {\n              id\n              alt\n              filename\n              mimeType\n              thumbnailURL\n              url\n            }\n          }\n        }\n      }\n    ": types.GetDocumentReferencesDocument,
+    "\n      mutation CreateDocumentReference($data: mutationDocumentReferenceInput!) {\n        createDocumentReference(data: $data) {\n          id\n        }\n      }\n    ": types.CreateDocumentReferenceDocument,
+    "\n      mutation UpdateDocumentReference($id: String!, $data: mutationDocumentReferenceUpdateInput!) {\n        updateDocumentReference(id: $id, data: $data) {\n          id\n        }\n      }\n    ": types.UpdateDocumentReferenceDocument,
+    "\n      mutation DeleteDocumentReference($id: String!) {\n        deleteDocumentReference(id: $id) {\n          id\n        }\n      }\n    ": types.DeleteDocumentReferenceDocument,
     "\n      query GetInteractions {\n        Interactions(sort: \"interactionDate:desc\") {\n          docs {\n            id\n            interactionType\n            interactionDate\n            notes\n            createdAt\n            updatedAt\n\n            contacts {\n              id\n              contactName\n              email\n              phone\n              jobTitle\n              address\n              createdAt\n              updatedAt\n            }\n          }\n        }\n      }\n    ": types.GetInteractionsDocument,
     "\n      query GetInteraction($id: String!) {\n        Interaction(id: $id) {\n          id\n          interactionType\n          interactionDate\n          notes\n          createdAt\n          updatedAt\n\n          contacts {\n            id\n            contactName\n            email\n            phone\n            jobTitle\n            address\n            createdAt\n            updatedAt\n          }\n        }\n      }\n    ": types.GetInteractionDocument,
     "\n      mutation CreateInteraction($data: mutationInteractionInput!) {\n        createInteraction(data: $data) {\n          id\n        }\n      }\n    ": types.CreateInteractionDocument,
@@ -129,6 +136,34 @@ export function graphql(source: "\n      mutation UpdateContact($id: String!, $d
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n      mutation DeleteContact($id: String!) {\n        deleteContact(id: $id) {\n          id\n        }\n      }\n    "): (typeof documents)["\n      mutation DeleteContact($id: String!) {\n        deleteContact(id: $id) {\n          id\n        }\n      }\n    "];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n      query GetDocuments($where: Media_where) {\n        allMedia(sort: \"id\", where: $where) {\n          docs {\n            id\n            filename\n            mimeType\n            thumbnailURL\n            alt\n            url\n            createdAt\n            updatedAt\n          }\n        }\n      }\n    "): (typeof documents)["\n      query GetDocuments($where: Media_where) {\n        allMedia(sort: \"id\", where: $where) {\n          docs {\n            id\n            filename\n            mimeType\n            thumbnailURL\n            alt\n            url\n            createdAt\n            updatedAt\n          }\n        }\n      }\n    "];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n      query GetDocument($id: String!) {\n        Media(id: $id) {\n          id\n          filename\n          mimeType\n          thumbnailURL\n          alt\n          url\n          createdAt\n          updatedAt\n        }\n      }\n    "): (typeof documents)["\n      query GetDocument($id: String!) {\n        Media(id: $id) {\n          id\n          filename\n          mimeType\n          thumbnailURL\n          alt\n          url\n          createdAt\n          updatedAt\n        }\n      }\n    "];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n      mutation DeleteDocument($id: String!) {\n        deleteMedia(id: $id) {\n          id\n        }\n      }\n    "): (typeof documents)["\n      mutation DeleteDocument($id: String!) {\n        deleteMedia(id: $id) {\n          id\n        }\n      }\n    "];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n      query GetDocumentReferences($where: DocumentReference_where) {\n        DocumentReferences(sort: \"id\", where: $where) {\n          docs {\n            id\n            entityId\n            entityType\n            createdAt\n            updatedAt\n\n            document {\n              id\n              alt\n              filename\n              mimeType\n              thumbnailURL\n              url\n            }\n          }\n        }\n      }\n    "): (typeof documents)["\n      query GetDocumentReferences($where: DocumentReference_where) {\n        DocumentReferences(sort: \"id\", where: $where) {\n          docs {\n            id\n            entityId\n            entityType\n            createdAt\n            updatedAt\n\n            document {\n              id\n              alt\n              filename\n              mimeType\n              thumbnailURL\n              url\n            }\n          }\n        }\n      }\n    "];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n      mutation CreateDocumentReference($data: mutationDocumentReferenceInput!) {\n        createDocumentReference(data: $data) {\n          id\n        }\n      }\n    "): (typeof documents)["\n      mutation CreateDocumentReference($data: mutationDocumentReferenceInput!) {\n        createDocumentReference(data: $data) {\n          id\n        }\n      }\n    "];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n      mutation UpdateDocumentReference($id: String!, $data: mutationDocumentReferenceUpdateInput!) {\n        updateDocumentReference(id: $id, data: $data) {\n          id\n        }\n      }\n    "): (typeof documents)["\n      mutation UpdateDocumentReference($id: String!, $data: mutationDocumentReferenceUpdateInput!) {\n        updateDocumentReference(id: $id, data: $data) {\n          id\n        }\n      }\n    "];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n      mutation DeleteDocumentReference($id: String!) {\n        deleteDocumentReference(id: $id) {\n          id\n        }\n      }\n    "): (typeof documents)["\n      mutation DeleteDocumentReference($id: String!) {\n        deleteDocumentReference(id: $id) {\n          id\n        }\n      }\n    "];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

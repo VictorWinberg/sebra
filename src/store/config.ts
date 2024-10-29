@@ -11,5 +11,5 @@ export interface AppStoreState {
  */
 export const INITIAL_APP_STORE_STATE: AppStoreState = {
   opened: false,
-  isDemo: false
+  isDemo: localStorage.getItem('isDemo') === 'true'
 };

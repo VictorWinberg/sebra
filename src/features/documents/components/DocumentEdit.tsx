@@ -5,6 +5,7 @@ import { Link as RouterLink, createSearchParams, useNavigate, useParams } from '
 import { Box, Link, Typography } from '@mui/material';
 
 // project imports
+import { Media } from '@/api/gql/graphql';
 import { useAssignments } from '@/features/assignments/hooks/useAssignmentsQueries';
 import { useCompanies } from '@/features/companies/hooks/useCompaniesQueries';
 import { useContacts } from '@/features/contacts/hooks/useContactsQueries';
@@ -13,7 +14,7 @@ import DataTable from '@/ui-component/DataTable';
 import FlexGrow from '@/ui-component/extended/FlexGrow';
 import SebraDialog from '@/ui-component/SebraDialog';
 import { FormActionButtons } from '@/ui-component/SebraForm';
-import { DocumentContent, toMap } from '@/utils';
+import { toMap } from '@/utils';
 import {
   useCreateDocumentReference,
   useDeleteDocument,
@@ -31,7 +32,7 @@ const DocumentEdit = () => {
   const params = useParams();
   const navigate = useNavigate();
 
-  const { data: document, isLoading } = useDocument(params.id === 'new' ? undefined : params.id);
+  const { data: document, isLoading } = useDocument(params.id === 'new' ? undefined! : params.id!);
   const { mutate: saveDocument } = useSaveDocument();
   const { mutate: deleteDocument } = useDeleteDocument();
 
@@ -39,7 +40,7 @@ const DocumentEdit = () => {
   const { data: contacts = [] } = useContacts();
   const { data: assignments = [] } = useAssignments();
   const { data: references = [], isLoading: referencesIsLoading } = useDocumentReferences(
-    params.id !== 'new' ? { documentId: params.id } : undefined
+    params.id !== 'new' ? { document: { equals: params.id } } : undefined
   );
   const { mutate: createDocumentReference } = useCreateDocumentReference();
   const { mutate: updateDocumentReference } = useUpdateDocumentReference();
@@ -48,7 +49,7 @@ const DocumentEdit = () => {
   const contactMap = useMemo(() => toMap(contacts, 'id'), [contacts]);
   const assignmentMap = useMemo(() => toMap(assignments, 'id'), [assignments]);
 
-  const handleSubmit = (data: DocumentContent) => {
+  const handleSubmit = (data: Media) => {
     saveDocument(data, {
       onSuccess: (res) => navigate(`/documents/${res}`)
     });
@@ -102,7 +103,7 @@ const DocumentEdit = () => {
 
   return (
     <DocumentForm
-      formProps={{ defaultValues: document }}
+      formProps={{ defaultValues: { ...document } }}
       onSubmit={handleSubmit}
       renderTopContent={() => (
         <Box sx={{ position: 'relative', mt: 1, mb: 3 }}>
@@ -128,7 +129,7 @@ const DocumentEdit = () => {
                   content: (
                     <DataTable
                       data={references}
-                      getRowId={(row) => `${row.documentId}-${row.entityType}-${row.entityId}`}
+                      getRowId={(row) => `${row.document}-${row.entityType}-${row.entityId}`}
                       state={{ isLoading: referencesIsLoading }}
                       columns={[
                         {
@@ -150,11 +151,11 @@ const DocumentEdit = () => {
                           row={row}
                           titles={{ creating: 'Ny referens', editing: 'Redigera referens' }}
                           FormComponent={DocumentReferenceForm}
-                          defaultValues={{ documentId: document.documentId }}
+                          defaultValues={{ document }}
                         />
                       )}
                       onCreate={(row) => createDocumentReference(row)}
-                      onUpdate={(row, prev) => updateDocumentReference({ row, where: prev })}
+                      onUpdate={(row) => updateDocumentReference(row)}
                       onDelete={(row) => deleteDocumentReference(row)}
                     />
                   )

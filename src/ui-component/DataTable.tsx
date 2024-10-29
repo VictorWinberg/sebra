@@ -11,7 +11,7 @@ import {
 } from 'material-react-table';
 import { bindTrigger } from 'material-ui-popup-state';
 
-// third-party
+// project imports
 import { DataTableProps, useDataTable } from '@/hooks/useDataTable';
 import { FilterParam, StringParam, useQueryParam } from '@/hooks/useQueryParam';
 import DeleteConfirm from './DeleteConfirm';
@@ -49,7 +49,7 @@ const DataTable = <T extends Record<string, unknown>>({
       setEditDisplayMode(_editDisplayMode);
     },
     onEditingRowSave: async ({ row, values, table }) => {
-      await props.onUpdate?.({ ...row.original, ...values } as T, row.original);
+      await props.onUpdate?.({ ...row.original, ...values } as T);
       table.setEditingRow(null);
       setEditDisplayMode(_editDisplayMode);
     },

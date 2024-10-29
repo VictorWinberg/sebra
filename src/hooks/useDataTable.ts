@@ -7,7 +7,7 @@ import { AnyData } from '@/features/modules/config/ModuleConfig';
 
 export interface DataTableProps<T extends AnyData> extends MRT_TableOptions<T> {
   onCreate?: (row: T) => void;
-  onUpdate?: (row: T, prev: T) => void;
+  onUpdate?: (row: T) => void;
   onDelete?: (row: T) => void;
 }
 
@@ -40,7 +40,7 @@ export const useDataTable = <T extends AnyData>(props: DataTableProps<T>) => {
       table.setCreatingRow(null);
     },
     onEditingRowSave: ({ row, values, table }) => {
-      props.onUpdate?.({ ...row.original, ...values } as T, row.original);
+      props.onUpdate?.({ ...row.original, ...values } as T);
       table.setEditingRow(null);
     },
     muiFilterTextFieldProps: { sx: { minWidth: 0 } },

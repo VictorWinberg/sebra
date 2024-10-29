@@ -48,13 +48,13 @@ CREATE TABLE IF NOT EXISTS companies (
 );
 
 CREATE TABLE IF NOT EXISTS document_references (
-    document_id TEXT NOT NULL,
+    id TEXT PRIMARY KEY,
+    document TEXT NOT NULL,
     entity_type VARCHAR(50) NOT NULL,
     entity_id TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE(document_id, entity_type, entity_id),
-    FOREIGN KEY (document_id) REFERENCES documents(document_id)
+    UNIQUE(document, entity_type, entity_id)
 );
 
 CREATE TABLE IF NOT EXISTS interactions (

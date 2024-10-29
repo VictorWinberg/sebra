@@ -7,11 +7,11 @@ import { Autocomplete, FormControl, Grid, InputLabel, MenuItem, Select, TextFiel
 import { Controller, useForm } from 'react-hook-form';
 
 // project imports
+import { DocumentReference } from '@/api/gql/graphql';
 import { useAssignments } from '@/features/assignments/hooks/useAssignmentsQueries';
 import { useCompanies } from '@/features/companies/hooks/useCompaniesQueries';
 import { useContacts } from '@/features/contacts/hooks/useContactsQueries';
 import SebraForm, { FormProps } from '@/ui-component/SebraForm';
-import { DocumentReference } from '../api/documentsApi';
 
 const ENTITY_TYPES = [
   { label: 'Bolag', value: 'company' },
