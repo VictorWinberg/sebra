@@ -20,6 +20,7 @@ import {
   useDeleteDocument,
   useDeleteDocumentReference,
   useSaveDocument,
+  useUpdateDocument,
   useUpdateDocumentReference
 } from '../hooks/useDocumentsMutations';
 import { useDocument, useDocumentReferences } from '../hooks/useDocumentsQueries';
@@ -32,8 +33,9 @@ const DocumentEdit = () => {
   const params = useParams();
   const navigate = useNavigate();
 
-  const { data: document, isLoading } = useDocument(params.id === 'new' ? undefined! : params.id!);
+  const { data: document, isLoading } = useDocument(params.id === 'new' ? undefined : params.id);
   const { mutate: saveDocument } = useSaveDocument();
+  const { mutate: updateDocument } = useUpdateDocument();
   const { mutate: deleteDocument } = useDeleteDocument();
 
   const { data: companies = [] } = useCompanies();
@@ -50,9 +52,13 @@ const DocumentEdit = () => {
   const assignmentMap = useMemo(() => toMap(assignments, 'id'), [assignments]);
 
   const handleSubmit = (data: Media) => {
-    saveDocument(data, {
-      onSuccess: (res) => navigate(`/documents/${res}`)
-    });
+    if (document) {
+      updateDocument({ ...data, id: document.id });
+    } else {
+      saveDocument(data, {
+        onSuccess: (res) => navigate(`/documents/${res.doc.id}`)
+      });
+    }
   };
 
   if (isLoading) return;

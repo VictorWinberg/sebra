@@ -25,6 +25,7 @@ export const useSaveDocument = () => {
     mutationFn: isDemo ? saveFileToIndexedDB : createDocumentRest,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['documents'] });
+      queryClient.invalidateQueries({ queryKey: ['document_references'] });
       showSnackbar('Dokumentet sparat!');
     },
     onError: () => {
@@ -42,6 +43,7 @@ export const useUpdateDocument = () => {
     mutationFn: isDemo ? saveFileToIndexedDB : updateDocumentRest,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['documents'] });
+      queryClient.invalidateQueries({ queryKey: ['document_references'] });
       showSnackbar('Dokumentet uppdaterat!');
     },
     onError: () => {

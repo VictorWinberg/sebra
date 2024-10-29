@@ -8,7 +8,7 @@ import { Autocomplete, Button, Grid, Stack, TextField } from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
 
 // project imports
-import { Maybe, Media } from '@/api/gql/graphql';
+import { Media } from '@/api/gql/graphql';
 import FileSelector from '@/ui-component/FileSelecter';
 import Preview from '@/ui-component/Preview';
 import SebraForm, { FormProps } from '@/ui-component/SebraForm';
@@ -19,7 +19,7 @@ import { CloudDownload } from '@mui/icons-material';
 
 // ==============================|| DOCUMENT FORM ||============================== //
 
-const DocumentForm = ({ formProps, ...rest }: FormProps<Media & { file?: Maybe<File> }>) => {
+const DocumentForm = ({ formProps, ...rest }: FormProps<Media & { upload?: File }>) => {
   const location = useLocation();
   const enableExistingDocuments = !location.pathname.startsWith('/documents');
 
@@ -31,12 +31,12 @@ const DocumentForm = ({ formProps, ...rest }: FormProps<Media & { file?: Maybe<F
     watch,
     setValue,
     formState: { errors }
-  } = useForm<Media & { file?: Maybe<File> }>(formProps);
+  } = useForm<Media & { upload?: File }>(formProps);
 
   const fields = watch();
 
   const handleFileChange = (data: File) => {
-    setValue('file', data);
+    setValue('upload', data);
     setValue('alt', data.name);
   };
 
@@ -44,11 +44,11 @@ const DocumentForm = ({ formProps, ...rest }: FormProps<Media & { file?: Maybe<F
     if (fields.id) {
       const document = documents.find((doc) => doc.id === fields.id);
       if (document) {
-        // setValue('file', undefined); // TODO: How do I get the file from the url?
+        setValue('upload', undefined);
         setValue('alt', document.alt);
       }
     } else {
-      setValue('file', undefined!);
+      setValue('upload', undefined);
       setValue('alt', '');
     }
   }, [fields.id, setValue, documents]);
@@ -77,8 +77,7 @@ const DocumentForm = ({ formProps, ...rest }: FormProps<Media & { file?: Maybe<F
         <Grid item xs={12} sm={6}>
           <Controller
             control={control}
-            name="file"
-            rules={{ required: true }}
+            name="upload"
             render={({ field }) => (
               <TextField
                 fullWidth
@@ -87,8 +86,8 @@ const DocumentForm = ({ formProps, ...rest }: FormProps<Media & { file?: Maybe<F
                 margin="none"
                 value={field.value?.name || ''}
                 disabled
-                error={!!errors.file}
-                InputProps={{ endAdornment: fields.file?.type }}
+                error={!!errors.upload}
+                InputProps={{ endAdornment: fields.upload?.type }}
               />
             )}
           />

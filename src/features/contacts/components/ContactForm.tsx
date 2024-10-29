@@ -34,7 +34,14 @@ const ContactForm = ({ formProps, ...props }: FormProps<Contact>) => {
           />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <TextField fullWidth label="Email" type="text" margin="none" {...register('email')} />
+          <TextField
+            fullWidth
+            label="Email"
+            type="email"
+            margin="none"
+            {...register('email', { required: true })}
+            error={!!errors.email}
+          />
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField fullWidth label="Telefonnummer" type="text" margin="none" {...register('phone')} />

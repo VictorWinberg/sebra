@@ -35,7 +35,14 @@ const SebraForm = <T extends Record<string, unknown>>({
 }: SebraFormProps<T>) => {
   return (
     <FlexGrow {...props}>
-      <form onSubmit={handleSubmit(onSubmit)} style={{ ...sxFlex }}>
+      <form
+        onSubmit={(event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          handleSubmit(onSubmit)(event);
+        }}
+        style={{ ...sxFlex }}
+      >
         {renderTopContent?.()}
         {children}
         {renderBottomContent?.()}

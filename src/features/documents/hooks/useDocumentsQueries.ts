@@ -20,13 +20,14 @@ export const useDocuments = (where?: Media_Where) => {
   });
 };
 
-export const useDocument = (id: string) => {
+export const useDocument = (id: string | undefined) => {
   const [{ isDemo }] = useAppStore();
+  const fn = isDemo ? getFileFromIndexedDB : getDocumentGQL;
 
   return useQuery({
     queryKey: ['documents', id],
-    queryFn: () => (isDemo ? getFileFromIndexedDB(id!) : getDocumentGQL({ id })),
-    select: (data) => data.Media,
+    queryFn: id ? () => fn({ id }) : undefined,
+    select: (data) => data?.Media,
     enabled: !!id
   });
 };

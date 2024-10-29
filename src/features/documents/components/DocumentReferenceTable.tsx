@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 
 // material-ui
@@ -7,17 +8,18 @@ import { Link } from '@mui/material';
 import dayjs, { Dayjs } from 'dayjs';
 
 // project imports
-import { DocumentReference, DocumentReference_Where, Maybe } from '@/api/gql/graphql';
+import { DocumentReference, DocumentReference_Where, Media } from '@/api/gql/graphql';
 import DataTable from '@/ui-component/DataTable';
 import SebraDialog from '@/ui-component/SebraDialog';
 import { formatDate, toLocalTime } from '@/utils';
 import {
   useCreateDocumentReference,
   useDeleteDocumentReference,
-  useSaveDocument
+  useSaveDocument,
+  useUpdateDocument
 } from '../hooks/useDocumentsMutations';
 import { useDocumentReferences } from '../hooks/useDocumentsQueries';
-import DocumentReferenceForm from './DocumentReferenceForm';
+import DocumentForm from './DocumentForm';
 
 interface DocumentReferenceTableProps {
   defaultValues: Omit<DocumentReference, 'id' | 'document'>;
@@ -26,27 +28,31 @@ interface DocumentReferenceTableProps {
 
 const DocumentReferenceTable = ({ defaultValues, where }: DocumentReferenceTableProps) => {
   const { data: references = [], isLoading } = useDocumentReferences(where);
+  const documents = useMemo(() => references.map((ref) => ref.document), [references]);
 
   const { mutate: saveDocument } = useSaveDocument();
+  const { mutate: updateDocument } = useUpdateDocument();
   const { mutate: createDocumentReference } = useCreateDocumentReference();
   const { mutate: deleteDocumentReference } = useDeleteDocumentReference();
 
+  if (isLoading) return;
+
   return (
-    <DataTable<DocumentReference & { file?: Maybe<File> }>
-      data={references}
+    <DataTable<Media & { upload?: File }>
+      data={documents}
       getRowId={(row) => row.id}
       state={{ isLoading: isLoading }}
       columns={[
         {
-          accessorKey: 'document.alt',
+          accessorKey: 'alt',
           header: 'Dokumentnamn',
           Cell: ({ cell, row }) => (
-            <Link component={RouterLink} to={`/documents/${row.original.document.id}`}>
+            <Link component={RouterLink} to={`/documents/${row.original.id}`}>
               {cell.getValue<string>()}
             </Link>
           )
         },
-        { accessorKey: 'document.mimeType', header: 'Filtyp', enableEditing: false },
+        { accessorKey: 'mimeType', header: 'Filtyp', enableEditing: false },
         {
           accessorKey: 'updatedAt',
           accessorFn: (row) => dayjs(row.updatedAt),
@@ -61,19 +67,20 @@ const DocumentReferenceTable = ({ defaultValues, where }: DocumentReferenceTable
           table={table}
           row={row}
           titles={{ creating: 'Nytt dokument', editing: 'Redigera dokument' }}
-          FormComponent={DocumentReferenceForm}
+          FormComponent={DocumentForm}
         />
       )}
-      onCreate={(row) =>
-        saveDocument(
-          { ...row.document, file: row.file },
-          {
-            onSuccess: (document) => createDocumentReference({ ...defaultValues, document })
-          }
-        )
-      }
-      onUpdate={(row) => saveDocument({ ...row.document, file: row.file })}
-      onDelete={(row) => deleteDocumentReference(row)}
+      onCreate={(row) => {
+        if (row.upload) {
+          saveDocument(row, {
+            onSuccess: (res) => createDocumentReference({ ...defaultValues, document: res.doc })
+          });
+        } else {
+          createDocumentReference({ ...defaultValues, document: row });
+        }
+      }}
+      onUpdate={(row) => updateDocument(row)}
+      onDelete={(row) => deleteDocumentReference(references.find((ref) => ref.document.id === row.id)!)}
     />
   );
 };

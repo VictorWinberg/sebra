@@ -2,7 +2,7 @@
 import { Button } from '@mui/material';
 
 // project imports
-import { Maybe, Media } from '@/api/gql/graphql';
+import { Media } from '@/api/gql/graphql';
 import DataTable from '@/ui-component/DataTable';
 import FlexGrow from '@/ui-component/extended/FlexGrow';
 import SebraDialog from '@/ui-component/SebraDialog';
@@ -26,7 +26,7 @@ const DocumentPage = () => {
 
   return (
     <FlexGrow>
-      <DataTable<Media & { file?: Maybe<File> }>
+      <DataTable<Media>
         data={data}
         columns={documentColumns}
         getRowId={(row) => `${row.id}`}

@@ -6,7 +6,7 @@ import { omit } from './object';
 
 type LocalMedia = {
   id: string;
-  file?: Maybe<File>;
+  file?: File;
   alt?: Maybe<string>;
 };
 
@@ -33,7 +33,7 @@ const dbPromise = openDB<DocumentsDB>('DocumentsDB', DB_VERSION, {
   }
 });
 
-export const getFileFromIndexedDB = async (id: string): Promise<GetDocumentQuery> => {
+export const getFileFromIndexedDB = async ({ id }: Pick<Media, 'id'>): Promise<GetDocumentQuery> => {
   const local = await (await dbPromise).get('documents', id);
   return { Media: local && localMediaToMedia(local) };
 };
@@ -44,19 +44,18 @@ export const getAllFilesFromIndexedDB = async (where?: Media_Where): Promise<Get
   return { allMedia: { docs } };
 };
 
-export const saveFileToIndexedDB = async ({ id, alt, file }: Media & { file?: Maybe<File> }): Promise<Media> => {
-  (await dbPromise).put('documents', { id: id || uuidv4(), alt, file: file || undefined });
-  return localMediaToMedia({ id, alt, file });
+export const saveFileToIndexedDB = async ({ id, alt, upload }: Media & { upload?: File }): Promise<{ doc: Media }> => {
+  (await dbPromise).put('documents', { id: id || uuidv4(), alt, file: upload || undefined });
+  return { doc: localMediaToMedia({ id, alt, file: upload }) };
 };
 
 export const deleteFileFromIndexedDB = async ({ id }: Pick<LocalMedia, 'id'>): Promise<void> => {
   return (await dbPromise).delete('documents', id);
 };
 
-const localMediaToMedia = ({ id, alt, file }: LocalMedia): Media & { file?: Maybe<File> } => ({
+const localMediaToMedia = ({ id, alt, file }: LocalMedia): Media => ({
   id,
   alt,
-  file,
   filename: file?.name,
   mimeType: file?.type,
   url: file && URL.createObjectURL(file),

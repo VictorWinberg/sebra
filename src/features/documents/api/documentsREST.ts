@@ -1,14 +1,14 @@
-import { Maybe, Media } from '@/api/gql/graphql';
+import { Media } from '@/api/gql/graphql';
 import { API_URL } from '@/config';
 import { loadToken } from '@/utils/token';
 
-export const createDocumentRest = async (data: Media & { file?: Maybe<File> }): Promise<Media> => {
-  const { file, alt } = data;
-  if (!file) throw new Error('No file provided');
+export const createDocumentRest = async (data: Media & { upload?: File }): Promise<{ doc: Media }> => {
+  const { upload, alt } = data;
+  if (!upload) throw new Error('No file provided');
 
   const token = loadToken();
   const formData = new FormData();
-  formData.append('file', file);
+  formData.append('file', upload);
   formData.append('_payload', JSON.stringify({ alt }));
 
   const response = await fetch(`${API_URL}/media`, {
@@ -26,18 +26,27 @@ export const createDocumentRest = async (data: Media & { file?: Maybe<File> }): 
   return await response.json();
 };
 
-export const updateDocumentRest = async (data: Media & { file?: Maybe<File> }): Promise<Media> => {
-  const { file, alt, ...rest } = data;
+export const updateDocumentRest = async (data: Media & { upload?: File }): Promise<{ doc: Media }> => {
+  const { upload, alt } = data;
   const token = loadToken();
-  const formData = new FormData();
-  file && formData.append('file', file);
-  formData.append('_payload', JSON.stringify({ alt, ...rest }));
+
+  let body;
+  let headers = {};
+  if (upload) {
+    body = new FormData();
+    body.append('file', upload);
+    body.append('_payload', JSON.stringify({ alt }));
+  } else {
+    body = JSON.stringify({ alt });
+    headers = { 'Content-Type': 'application/json' };
+  }
 
   const response = await fetch(`${API_URL}/media/?where[id][equals]=${data.id}`, {
     method: 'PATCH',
-    body: formData,
+    body,
     headers: {
-      ...(token && { Authorization: `JWT ${token}` })
+      ...(token && { Authorization: `JWT ${token}` }),
+      ...headers
     }
   });
 

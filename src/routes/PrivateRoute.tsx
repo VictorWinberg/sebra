@@ -7,9 +7,7 @@ const PrivateRoute = () => {
   const { data: user, isLoading } = useAuth();
   const [state] = useAppStore();
 
-  if (isLoading) {
-    return;
-  }
+  if (isLoading) return;
 
   if (user || state.isDemo) {
     return <Outlet />;
