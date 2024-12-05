@@ -1,4 +1,6 @@
 import { Components } from '@mui/material';
+import type {} from '@mui/x-charts/themeAugmentation';
+
 import { ThemeOptionProps } from '.';
 
 export default function componentStyleOverrides<T>(theme: ThemeOptionProps): Components<T> {
