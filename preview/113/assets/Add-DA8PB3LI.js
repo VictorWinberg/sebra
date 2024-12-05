@@ -1,2 +1,0 @@
-import{g as t,j as n}from"./index-CQXllPov.js";(function(){try{var e=typeof window<"u"?window:typeof global<"u"?global:typeof self<"u"?self:{},d=new e.Error().stack;d&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[d]="042f62a0-6f33-4ea0-9b61-1a5889d1a38c",e._sentryDebugIdIdentifier="sentry-dbid-042f62a0-6f33-4ea0-9b61-1a5889d1a38c")}catch{}})();const r=t(n.jsx("path",{d:"M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"}),"Add");export{r as A};
-//# sourceMappingURL=Add-DA8PB3LI.js.map
