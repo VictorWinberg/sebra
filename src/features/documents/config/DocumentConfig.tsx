@@ -23,7 +23,7 @@ export const documentColumns: MRT_ColumnDef<Media>[] = [
       </Link>
     )
   },
-  { accessorKey: 'mimeType', header: 'Filtyp' },
+  { accessorKey: 'mimeType', header: 'Filtyp', enableEditing: false },
   {
     accessorKey: 'updatedAt',
     accessorFn: (row) => dayjs(row.updatedAt),

@@ -52,6 +52,7 @@ export type Assignment = {
   status?: Maybe<Scalars['String']['output']>;
   type?: Maybe<Scalars['String']['output']>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  workspace?: Maybe<Workspace>;
 };
 
 export type Assignment_AssignmentName_Operator = {
@@ -169,6 +170,7 @@ export type Assignment_Where = {
   status?: InputMaybe<Assignment_Status_Operator>;
   type?: InputMaybe<Assignment_Type_Operator>;
   updatedAt?: InputMaybe<Assignment_UpdatedAt_Operator>;
+  workspace?: InputMaybe<Assignment_Workspace_Operator>;
 };
 
 export type Assignment_Where_And = {
@@ -184,6 +186,7 @@ export type Assignment_Where_And = {
   status?: InputMaybe<Assignment_Status_Operator>;
   type?: InputMaybe<Assignment_Type_Operator>;
   updatedAt?: InputMaybe<Assignment_UpdatedAt_Operator>;
+  workspace?: InputMaybe<Assignment_Workspace_Operator>;
 };
 
 export type Assignment_Where_Or = {
@@ -199,6 +202,15 @@ export type Assignment_Where_Or = {
   status?: InputMaybe<Assignment_Status_Operator>;
   type?: InputMaybe<Assignment_Type_Operator>;
   updatedAt?: InputMaybe<Assignment_UpdatedAt_Operator>;
+  workspace?: InputMaybe<Assignment_Workspace_Operator>;
+};
+
+export type Assignment_Workspace_Operator = {
+  all?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
+  equals?: InputMaybe<Scalars['JSON']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
+  not_equals?: InputMaybe<Scalars['JSON']['input']>;
+  not_in?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
 };
 
 export type Assignments = {
@@ -251,6 +263,7 @@ export type AssignmentsDocAccessFields = {
   status?: Maybe<AssignmentsDocAccessFields_Status>;
   type?: Maybe<AssignmentsDocAccessFields_Type>;
   updatedAt?: Maybe<AssignmentsDocAccessFields_UpdatedAt>;
+  workspace?: Maybe<AssignmentsDocAccessFields_Workspace>;
 };
 
 export type AssignmentsDocAccessFields_AssignmentName = {
@@ -505,6 +518,34 @@ export type AssignmentsDocAccessFields_UpdatedAt_Update = {
   permission: Scalars['Boolean']['output'];
 };
 
+export type AssignmentsDocAccessFields_Workspace = {
+  __typename?: 'AssignmentsDocAccessFields_workspace';
+  create?: Maybe<AssignmentsDocAccessFields_Workspace_Create>;
+  delete?: Maybe<AssignmentsDocAccessFields_Workspace_Delete>;
+  read?: Maybe<AssignmentsDocAccessFields_Workspace_Read>;
+  update?: Maybe<AssignmentsDocAccessFields_Workspace_Update>;
+};
+
+export type AssignmentsDocAccessFields_Workspace_Create = {
+  __typename?: 'AssignmentsDocAccessFields_workspace_Create';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type AssignmentsDocAccessFields_Workspace_Delete = {
+  __typename?: 'AssignmentsDocAccessFields_workspace_Delete';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type AssignmentsDocAccessFields_Workspace_Read = {
+  __typename?: 'AssignmentsDocAccessFields_workspace_Read';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type AssignmentsDocAccessFields_Workspace_Update = {
+  __typename?: 'AssignmentsDocAccessFields_workspace_Update';
+  permission: Scalars['Boolean']['output'];
+};
+
 export type AssignmentsFields = {
   __typename?: 'AssignmentsFields';
   assignmentName?: Maybe<AssignmentsFields_AssignmentName>;
@@ -516,6 +557,7 @@ export type AssignmentsFields = {
   status?: Maybe<AssignmentsFields_Status>;
   type?: Maybe<AssignmentsFields_Type>;
   updatedAt?: Maybe<AssignmentsFields_UpdatedAt>;
+  workspace?: Maybe<AssignmentsFields_Workspace>;
 };
 
 export type AssignmentsFields_AssignmentName = {
@@ -770,6 +812,34 @@ export type AssignmentsFields_UpdatedAt_Update = {
   permission: Scalars['Boolean']['output'];
 };
 
+export type AssignmentsFields_Workspace = {
+  __typename?: 'AssignmentsFields_workspace';
+  create?: Maybe<AssignmentsFields_Workspace_Create>;
+  delete?: Maybe<AssignmentsFields_Workspace_Delete>;
+  read?: Maybe<AssignmentsFields_Workspace_Read>;
+  update?: Maybe<AssignmentsFields_Workspace_Update>;
+};
+
+export type AssignmentsFields_Workspace_Create = {
+  __typename?: 'AssignmentsFields_workspace_Create';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type AssignmentsFields_Workspace_Delete = {
+  __typename?: 'AssignmentsFields_workspace_Delete';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type AssignmentsFields_Workspace_Read = {
+  __typename?: 'AssignmentsFields_workspace_Read';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type AssignmentsFields_Workspace_Update = {
+  __typename?: 'AssignmentsFields_workspace_Update';
+  permission: Scalars['Boolean']['output'];
+};
+
 export type AssignmentsReadAccess = {
   __typename?: 'AssignmentsReadAccess';
   permission: Scalars['Boolean']['output'];
@@ -844,6 +914,7 @@ export type CompaniesDocAccessFields = {
   phone?: Maybe<CompaniesDocAccessFields_Phone>;
   updatedAt?: Maybe<CompaniesDocAccessFields_UpdatedAt>;
   website?: Maybe<CompaniesDocAccessFields_Website>;
+  workspace?: Maybe<CompaniesDocAccessFields_Workspace>;
 };
 
 export type CompaniesDocAccessFields_Address = {
@@ -1098,6 +1169,34 @@ export type CompaniesDocAccessFields_Website_Update = {
   permission: Scalars['Boolean']['output'];
 };
 
+export type CompaniesDocAccessFields_Workspace = {
+  __typename?: 'CompaniesDocAccessFields_workspace';
+  create?: Maybe<CompaniesDocAccessFields_Workspace_Create>;
+  delete?: Maybe<CompaniesDocAccessFields_Workspace_Delete>;
+  read?: Maybe<CompaniesDocAccessFields_Workspace_Read>;
+  update?: Maybe<CompaniesDocAccessFields_Workspace_Update>;
+};
+
+export type CompaniesDocAccessFields_Workspace_Create = {
+  __typename?: 'CompaniesDocAccessFields_workspace_Create';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type CompaniesDocAccessFields_Workspace_Delete = {
+  __typename?: 'CompaniesDocAccessFields_workspace_Delete';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type CompaniesDocAccessFields_Workspace_Read = {
+  __typename?: 'CompaniesDocAccessFields_workspace_Read';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type CompaniesDocAccessFields_Workspace_Update = {
+  __typename?: 'CompaniesDocAccessFields_workspace_Update';
+  permission: Scalars['Boolean']['output'];
+};
+
 export type CompaniesFields = {
   __typename?: 'CompaniesFields';
   address?: Maybe<CompaniesFields_Address>;
@@ -1109,6 +1208,7 @@ export type CompaniesFields = {
   phone?: Maybe<CompaniesFields_Phone>;
   updatedAt?: Maybe<CompaniesFields_UpdatedAt>;
   website?: Maybe<CompaniesFields_Website>;
+  workspace?: Maybe<CompaniesFields_Workspace>;
 };
 
 export type CompaniesFields_Address = {
@@ -1363,6 +1463,34 @@ export type CompaniesFields_Website_Update = {
   permission: Scalars['Boolean']['output'];
 };
 
+export type CompaniesFields_Workspace = {
+  __typename?: 'CompaniesFields_workspace';
+  create?: Maybe<CompaniesFields_Workspace_Create>;
+  delete?: Maybe<CompaniesFields_Workspace_Delete>;
+  read?: Maybe<CompaniesFields_Workspace_Read>;
+  update?: Maybe<CompaniesFields_Workspace_Update>;
+};
+
+export type CompaniesFields_Workspace_Create = {
+  __typename?: 'CompaniesFields_workspace_Create';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type CompaniesFields_Workspace_Delete = {
+  __typename?: 'CompaniesFields_workspace_Delete';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type CompaniesFields_Workspace_Read = {
+  __typename?: 'CompaniesFields_workspace_Read';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type CompaniesFields_Workspace_Update = {
+  __typename?: 'CompaniesFields_workspace_Update';
+  permission: Scalars['Boolean']['output'];
+};
+
 export type CompaniesReadAccess = {
   __typename?: 'CompaniesReadAccess';
   permission: Scalars['Boolean']['output'];
@@ -1399,6 +1527,7 @@ export type Company = {
   phone?: Maybe<Scalars['String']['output']>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
   website?: Maybe<Scalars['String']['output']>;
+  workspace?: Maybe<Workspace>;
 };
 
 export type Company_Address_Operator = {
@@ -1523,6 +1652,7 @@ export type Company_Where = {
   phone?: InputMaybe<Company_Phone_Operator>;
   updatedAt?: InputMaybe<Company_UpdatedAt_Operator>;
   website?: InputMaybe<Company_Website_Operator>;
+  workspace?: InputMaybe<Company_Workspace_Operator>;
 };
 
 export type Company_Where_And = {
@@ -1538,6 +1668,7 @@ export type Company_Where_And = {
   phone?: InputMaybe<Company_Phone_Operator>;
   updatedAt?: InputMaybe<Company_UpdatedAt_Operator>;
   website?: InputMaybe<Company_Website_Operator>;
+  workspace?: InputMaybe<Company_Workspace_Operator>;
 };
 
 export type Company_Where_Or = {
@@ -1553,6 +1684,15 @@ export type Company_Where_Or = {
   phone?: InputMaybe<Company_Phone_Operator>;
   updatedAt?: InputMaybe<Company_UpdatedAt_Operator>;
   website?: InputMaybe<Company_Website_Operator>;
+  workspace?: InputMaybe<Company_Workspace_Operator>;
+};
+
+export type Company_Workspace_Operator = {
+  all?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
+  equals?: InputMaybe<Scalars['JSON']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
+  not_equals?: InputMaybe<Scalars['JSON']['input']>;
+  not_in?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
 };
 
 export type Contact = {
@@ -1567,6 +1707,7 @@ export type Contact = {
   notes?: Maybe<Scalars['String']['output']>;
   phone?: Maybe<Scalars['String']['output']>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  workspace?: Maybe<Workspace>;
 };
 
 export type Contact_Address_Operator = {
@@ -1685,6 +1826,7 @@ export type Contact_Where = {
   notes?: InputMaybe<Contact_Notes_Operator>;
   phone?: InputMaybe<Contact_Phone_Operator>;
   updatedAt?: InputMaybe<Contact_UpdatedAt_Operator>;
+  workspace?: InputMaybe<Contact_Workspace_Operator>;
 };
 
 export type Contact_Where_And = {
@@ -1700,6 +1842,7 @@ export type Contact_Where_And = {
   notes?: InputMaybe<Contact_Notes_Operator>;
   phone?: InputMaybe<Contact_Phone_Operator>;
   updatedAt?: InputMaybe<Contact_UpdatedAt_Operator>;
+  workspace?: InputMaybe<Contact_Workspace_Operator>;
 };
 
 export type Contact_Where_Or = {
@@ -1715,6 +1858,15 @@ export type Contact_Where_Or = {
   notes?: InputMaybe<Contact_Notes_Operator>;
   phone?: InputMaybe<Contact_Phone_Operator>;
   updatedAt?: InputMaybe<Contact_UpdatedAt_Operator>;
+  workspace?: InputMaybe<Contact_Workspace_Operator>;
+};
+
+export type Contact_Workspace_Operator = {
+  all?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
+  equals?: InputMaybe<Scalars['JSON']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
+  not_equals?: InputMaybe<Scalars['JSON']['input']>;
+  not_in?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
 };
 
 export type Contacts = {
@@ -1767,6 +1919,7 @@ export type ContactsDocAccessFields = {
   notes?: Maybe<ContactsDocAccessFields_Notes>;
   phone?: Maybe<ContactsDocAccessFields_Phone>;
   updatedAt?: Maybe<ContactsDocAccessFields_UpdatedAt>;
+  workspace?: Maybe<ContactsDocAccessFields_Workspace>;
 };
 
 export type ContactsDocAccessFields_Address = {
@@ -2021,6 +2174,34 @@ export type ContactsDocAccessFields_UpdatedAt_Update = {
   permission: Scalars['Boolean']['output'];
 };
 
+export type ContactsDocAccessFields_Workspace = {
+  __typename?: 'ContactsDocAccessFields_workspace';
+  create?: Maybe<ContactsDocAccessFields_Workspace_Create>;
+  delete?: Maybe<ContactsDocAccessFields_Workspace_Delete>;
+  read?: Maybe<ContactsDocAccessFields_Workspace_Read>;
+  update?: Maybe<ContactsDocAccessFields_Workspace_Update>;
+};
+
+export type ContactsDocAccessFields_Workspace_Create = {
+  __typename?: 'ContactsDocAccessFields_workspace_Create';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type ContactsDocAccessFields_Workspace_Delete = {
+  __typename?: 'ContactsDocAccessFields_workspace_Delete';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type ContactsDocAccessFields_Workspace_Read = {
+  __typename?: 'ContactsDocAccessFields_workspace_Read';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type ContactsDocAccessFields_Workspace_Update = {
+  __typename?: 'ContactsDocAccessFields_workspace_Update';
+  permission: Scalars['Boolean']['output'];
+};
+
 export type ContactsFields = {
   __typename?: 'ContactsFields';
   address?: Maybe<ContactsFields_Address>;
@@ -2032,6 +2213,7 @@ export type ContactsFields = {
   notes?: Maybe<ContactsFields_Notes>;
   phone?: Maybe<ContactsFields_Phone>;
   updatedAt?: Maybe<ContactsFields_UpdatedAt>;
+  workspace?: Maybe<ContactsFields_Workspace>;
 };
 
 export type ContactsFields_Address = {
@@ -2286,6 +2468,34 @@ export type ContactsFields_UpdatedAt_Update = {
   permission: Scalars['Boolean']['output'];
 };
 
+export type ContactsFields_Workspace = {
+  __typename?: 'ContactsFields_workspace';
+  create?: Maybe<ContactsFields_Workspace_Create>;
+  delete?: Maybe<ContactsFields_Workspace_Delete>;
+  read?: Maybe<ContactsFields_Workspace_Read>;
+  update?: Maybe<ContactsFields_Workspace_Update>;
+};
+
+export type ContactsFields_Workspace_Create = {
+  __typename?: 'ContactsFields_workspace_Create';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type ContactsFields_Workspace_Delete = {
+  __typename?: 'ContactsFields_workspace_Delete';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type ContactsFields_Workspace_Read = {
+  __typename?: 'ContactsFields_workspace_Read';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type ContactsFields_Workspace_Update = {
+  __typename?: 'ContactsFields_workspace_Update';
+  permission: Scalars['Boolean']['output'];
+};
+
 export type ContactsReadAccess = {
   __typename?: 'ContactsReadAccess';
   permission: Scalars['Boolean']['output'];
@@ -2318,6 +2528,7 @@ export type DocumentReference = {
   entityType: Scalars['String']['output'];
   id: Scalars['String']['output'];
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  workspace?: Maybe<Workspace>;
 };
 
 export type DocumentReference_CreatedAt_Operator = {
@@ -2390,6 +2601,7 @@ export type DocumentReference_Where = {
   entityType?: InputMaybe<DocumentReference_EntityType_Operator>;
   id?: InputMaybe<DocumentReference_Id_Operator>;
   updatedAt?: InputMaybe<DocumentReference_UpdatedAt_Operator>;
+  workspace?: InputMaybe<DocumentReference_Workspace_Operator>;
 };
 
 export type DocumentReference_Where_And = {
@@ -2401,6 +2613,7 @@ export type DocumentReference_Where_And = {
   entityType?: InputMaybe<DocumentReference_EntityType_Operator>;
   id?: InputMaybe<DocumentReference_Id_Operator>;
   updatedAt?: InputMaybe<DocumentReference_UpdatedAt_Operator>;
+  workspace?: InputMaybe<DocumentReference_Workspace_Operator>;
 };
 
 export type DocumentReference_Where_Or = {
@@ -2412,6 +2625,15 @@ export type DocumentReference_Where_Or = {
   entityType?: InputMaybe<DocumentReference_EntityType_Operator>;
   id?: InputMaybe<DocumentReference_Id_Operator>;
   updatedAt?: InputMaybe<DocumentReference_UpdatedAt_Operator>;
+  workspace?: InputMaybe<DocumentReference_Workspace_Operator>;
+};
+
+export type DocumentReference_Workspace_Operator = {
+  all?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
+  equals?: InputMaybe<Scalars['JSON']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
+  not_equals?: InputMaybe<Scalars['JSON']['input']>;
+  not_in?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
 };
 
 export type DocumentReferences = {
@@ -2460,6 +2682,7 @@ export type DocumentReferencesDocAccessFields = {
   entityId?: Maybe<DocumentReferencesDocAccessFields_EntityId>;
   entityType?: Maybe<DocumentReferencesDocAccessFields_EntityType>;
   updatedAt?: Maybe<DocumentReferencesDocAccessFields_UpdatedAt>;
+  workspace?: Maybe<DocumentReferencesDocAccessFields_Workspace>;
 };
 
 export type DocumentReferencesDocAccessFields_CreatedAt = {
@@ -2602,6 +2825,34 @@ export type DocumentReferencesDocAccessFields_UpdatedAt_Update = {
   permission: Scalars['Boolean']['output'];
 };
 
+export type DocumentReferencesDocAccessFields_Workspace = {
+  __typename?: 'DocumentReferencesDocAccessFields_workspace';
+  create?: Maybe<DocumentReferencesDocAccessFields_Workspace_Create>;
+  delete?: Maybe<DocumentReferencesDocAccessFields_Workspace_Delete>;
+  read?: Maybe<DocumentReferencesDocAccessFields_Workspace_Read>;
+  update?: Maybe<DocumentReferencesDocAccessFields_Workspace_Update>;
+};
+
+export type DocumentReferencesDocAccessFields_Workspace_Create = {
+  __typename?: 'DocumentReferencesDocAccessFields_workspace_Create';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type DocumentReferencesDocAccessFields_Workspace_Delete = {
+  __typename?: 'DocumentReferencesDocAccessFields_workspace_Delete';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type DocumentReferencesDocAccessFields_Workspace_Read = {
+  __typename?: 'DocumentReferencesDocAccessFields_workspace_Read';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type DocumentReferencesDocAccessFields_Workspace_Update = {
+  __typename?: 'DocumentReferencesDocAccessFields_workspace_Update';
+  permission: Scalars['Boolean']['output'];
+};
+
 export type DocumentReferencesFields = {
   __typename?: 'DocumentReferencesFields';
   createdAt?: Maybe<DocumentReferencesFields_CreatedAt>;
@@ -2609,6 +2860,7 @@ export type DocumentReferencesFields = {
   entityId?: Maybe<DocumentReferencesFields_EntityId>;
   entityType?: Maybe<DocumentReferencesFields_EntityType>;
   updatedAt?: Maybe<DocumentReferencesFields_UpdatedAt>;
+  workspace?: Maybe<DocumentReferencesFields_Workspace>;
 };
 
 export type DocumentReferencesFields_CreatedAt = {
@@ -2751,6 +3003,34 @@ export type DocumentReferencesFields_UpdatedAt_Update = {
   permission: Scalars['Boolean']['output'];
 };
 
+export type DocumentReferencesFields_Workspace = {
+  __typename?: 'DocumentReferencesFields_workspace';
+  create?: Maybe<DocumentReferencesFields_Workspace_Create>;
+  delete?: Maybe<DocumentReferencesFields_Workspace_Delete>;
+  read?: Maybe<DocumentReferencesFields_Workspace_Read>;
+  update?: Maybe<DocumentReferencesFields_Workspace_Update>;
+};
+
+export type DocumentReferencesFields_Workspace_Create = {
+  __typename?: 'DocumentReferencesFields_workspace_Create';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type DocumentReferencesFields_Workspace_Delete = {
+  __typename?: 'DocumentReferencesFields_workspace_Delete';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type DocumentReferencesFields_Workspace_Read = {
+  __typename?: 'DocumentReferencesFields_workspace_Read';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type DocumentReferencesFields_Workspace_Update = {
+  __typename?: 'DocumentReferencesFields_workspace_Update';
+  permission: Scalars['Boolean']['output'];
+};
+
 export type DocumentReferencesReadAccess = {
   __typename?: 'DocumentReferencesReadAccess';
   permission: Scalars['Boolean']['output'];
@@ -2784,6 +3064,7 @@ export type Interaction = {
   interactionType: Scalars['String']['output'];
   notes?: Maybe<Scalars['String']['output']>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  workspace?: Maybe<Workspace>;
 };
 
 export type Interaction_Contacts_Operator = {
@@ -2866,6 +3147,7 @@ export type Interaction_Where = {
   interactionType?: InputMaybe<Interaction_InteractionType_Operator>;
   notes?: InputMaybe<Interaction_Notes_Operator>;
   updatedAt?: InputMaybe<Interaction_UpdatedAt_Operator>;
+  workspace?: InputMaybe<Interaction_Workspace_Operator>;
 };
 
 export type Interaction_Where_And = {
@@ -2878,6 +3160,7 @@ export type Interaction_Where_And = {
   interactionType?: InputMaybe<Interaction_InteractionType_Operator>;
   notes?: InputMaybe<Interaction_Notes_Operator>;
   updatedAt?: InputMaybe<Interaction_UpdatedAt_Operator>;
+  workspace?: InputMaybe<Interaction_Workspace_Operator>;
 };
 
 export type Interaction_Where_Or = {
@@ -2890,6 +3173,15 @@ export type Interaction_Where_Or = {
   interactionType?: InputMaybe<Interaction_InteractionType_Operator>;
   notes?: InputMaybe<Interaction_Notes_Operator>;
   updatedAt?: InputMaybe<Interaction_UpdatedAt_Operator>;
+  workspace?: InputMaybe<Interaction_Workspace_Operator>;
+};
+
+export type Interaction_Workspace_Operator = {
+  all?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
+  equals?: InputMaybe<Scalars['JSON']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
+  not_equals?: InputMaybe<Scalars['JSON']['input']>;
+  not_in?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
 };
 
 export type Interactions = {
@@ -2939,6 +3231,7 @@ export type InteractionsDocAccessFields = {
   interactionType?: Maybe<InteractionsDocAccessFields_InteractionType>;
   notes?: Maybe<InteractionsDocAccessFields_Notes>;
   updatedAt?: Maybe<InteractionsDocAccessFields_UpdatedAt>;
+  workspace?: Maybe<InteractionsDocAccessFields_Workspace>;
 };
 
 export type InteractionsDocAccessFields_Contacts = {
@@ -3109,6 +3402,34 @@ export type InteractionsDocAccessFields_UpdatedAt_Update = {
   permission: Scalars['Boolean']['output'];
 };
 
+export type InteractionsDocAccessFields_Workspace = {
+  __typename?: 'InteractionsDocAccessFields_workspace';
+  create?: Maybe<InteractionsDocAccessFields_Workspace_Create>;
+  delete?: Maybe<InteractionsDocAccessFields_Workspace_Delete>;
+  read?: Maybe<InteractionsDocAccessFields_Workspace_Read>;
+  update?: Maybe<InteractionsDocAccessFields_Workspace_Update>;
+};
+
+export type InteractionsDocAccessFields_Workspace_Create = {
+  __typename?: 'InteractionsDocAccessFields_workspace_Create';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type InteractionsDocAccessFields_Workspace_Delete = {
+  __typename?: 'InteractionsDocAccessFields_workspace_Delete';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type InteractionsDocAccessFields_Workspace_Read = {
+  __typename?: 'InteractionsDocAccessFields_workspace_Read';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type InteractionsDocAccessFields_Workspace_Update = {
+  __typename?: 'InteractionsDocAccessFields_workspace_Update';
+  permission: Scalars['Boolean']['output'];
+};
+
 export type InteractionsFields = {
   __typename?: 'InteractionsFields';
   contacts?: Maybe<InteractionsFields_Contacts>;
@@ -3117,6 +3438,7 @@ export type InteractionsFields = {
   interactionType?: Maybe<InteractionsFields_InteractionType>;
   notes?: Maybe<InteractionsFields_Notes>;
   updatedAt?: Maybe<InteractionsFields_UpdatedAt>;
+  workspace?: Maybe<InteractionsFields_Workspace>;
 };
 
 export type InteractionsFields_Contacts = {
@@ -3287,6 +3609,34 @@ export type InteractionsFields_UpdatedAt_Update = {
   permission: Scalars['Boolean']['output'];
 };
 
+export type InteractionsFields_Workspace = {
+  __typename?: 'InteractionsFields_workspace';
+  create?: Maybe<InteractionsFields_Workspace_Create>;
+  delete?: Maybe<InteractionsFields_Workspace_Delete>;
+  read?: Maybe<InteractionsFields_Workspace_Read>;
+  update?: Maybe<InteractionsFields_Workspace_Update>;
+};
+
+export type InteractionsFields_Workspace_Create = {
+  __typename?: 'InteractionsFields_workspace_Create';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type InteractionsFields_Workspace_Delete = {
+  __typename?: 'InteractionsFields_workspace_Delete';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type InteractionsFields_Workspace_Read = {
+  __typename?: 'InteractionsFields_workspace_Read';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type InteractionsFields_Workspace_Update = {
+  __typename?: 'InteractionsFields_workspace_Update';
+  permission: Scalars['Boolean']['output'];
+};
+
 export type InteractionsReadAccess = {
   __typename?: 'InteractionsReadAccess';
   permission: Scalars['Boolean']['output'];
@@ -3323,6 +3673,7 @@ export type Lead = {
   rank?: Maybe<Scalars['Float']['output']>;
   stage?: Maybe<Scalars['String']['output']>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  workspace?: Maybe<Workspace>;
 };
 
 export type Lead_Assignment_Operator = {
@@ -3437,6 +3788,7 @@ export type Lead_Where = {
   rank?: InputMaybe<Lead_Rank_Operator>;
   stage?: InputMaybe<Lead_Stage_Operator>;
   updatedAt?: InputMaybe<Lead_UpdatedAt_Operator>;
+  workspace?: InputMaybe<Lead_Workspace_Operator>;
 };
 
 export type Lead_Where_And = {
@@ -3452,6 +3804,7 @@ export type Lead_Where_And = {
   rank?: InputMaybe<Lead_Rank_Operator>;
   stage?: InputMaybe<Lead_Stage_Operator>;
   updatedAt?: InputMaybe<Lead_UpdatedAt_Operator>;
+  workspace?: InputMaybe<Lead_Workspace_Operator>;
 };
 
 export type Lead_Where_Or = {
@@ -3467,6 +3820,15 @@ export type Lead_Where_Or = {
   rank?: InputMaybe<Lead_Rank_Operator>;
   stage?: InputMaybe<Lead_Stage_Operator>;
   updatedAt?: InputMaybe<Lead_UpdatedAt_Operator>;
+  workspace?: InputMaybe<Lead_Workspace_Operator>;
+};
+
+export type Lead_Workspace_Operator = {
+  all?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
+  equals?: InputMaybe<Scalars['JSON']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
+  not_equals?: InputMaybe<Scalars['JSON']['input']>;
+  not_in?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
 };
 
 export type Leads = {
@@ -3519,6 +3881,7 @@ export type LeadsDocAccessFields = {
   rank?: Maybe<LeadsDocAccessFields_Rank>;
   stage?: Maybe<LeadsDocAccessFields_Stage>;
   updatedAt?: Maybe<LeadsDocAccessFields_UpdatedAt>;
+  workspace?: Maybe<LeadsDocAccessFields_Workspace>;
 };
 
 export type LeadsDocAccessFields_Assignment = {
@@ -3773,6 +4136,34 @@ export type LeadsDocAccessFields_UpdatedAt_Update = {
   permission: Scalars['Boolean']['output'];
 };
 
+export type LeadsDocAccessFields_Workspace = {
+  __typename?: 'LeadsDocAccessFields_workspace';
+  create?: Maybe<LeadsDocAccessFields_Workspace_Create>;
+  delete?: Maybe<LeadsDocAccessFields_Workspace_Delete>;
+  read?: Maybe<LeadsDocAccessFields_Workspace_Read>;
+  update?: Maybe<LeadsDocAccessFields_Workspace_Update>;
+};
+
+export type LeadsDocAccessFields_Workspace_Create = {
+  __typename?: 'LeadsDocAccessFields_workspace_Create';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type LeadsDocAccessFields_Workspace_Delete = {
+  __typename?: 'LeadsDocAccessFields_workspace_Delete';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type LeadsDocAccessFields_Workspace_Read = {
+  __typename?: 'LeadsDocAccessFields_workspace_Read';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type LeadsDocAccessFields_Workspace_Update = {
+  __typename?: 'LeadsDocAccessFields_workspace_Update';
+  permission: Scalars['Boolean']['output'];
+};
+
 export type LeadsFields = {
   __typename?: 'LeadsFields';
   assignment?: Maybe<LeadsFields_Assignment>;
@@ -3784,6 +4175,7 @@ export type LeadsFields = {
   rank?: Maybe<LeadsFields_Rank>;
   stage?: Maybe<LeadsFields_Stage>;
   updatedAt?: Maybe<LeadsFields_UpdatedAt>;
+  workspace?: Maybe<LeadsFields_Workspace>;
 };
 
 export type LeadsFields_Assignment = {
@@ -4038,6 +4430,34 @@ export type LeadsFields_UpdatedAt_Update = {
   permission: Scalars['Boolean']['output'];
 };
 
+export type LeadsFields_Workspace = {
+  __typename?: 'LeadsFields_workspace';
+  create?: Maybe<LeadsFields_Workspace_Create>;
+  delete?: Maybe<LeadsFields_Workspace_Delete>;
+  read?: Maybe<LeadsFields_Workspace_Read>;
+  update?: Maybe<LeadsFields_Workspace_Update>;
+};
+
+export type LeadsFields_Workspace_Create = {
+  __typename?: 'LeadsFields_workspace_Create';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type LeadsFields_Workspace_Delete = {
+  __typename?: 'LeadsFields_workspace_Delete';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type LeadsFields_Workspace_Read = {
+  __typename?: 'LeadsFields_workspace_Read';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type LeadsFields_Workspace_Update = {
+  __typename?: 'LeadsFields_workspace_Update';
+  permission: Scalars['Boolean']['output'];
+};
+
 export type LeadsReadAccess = {
   __typename?: 'LeadsReadAccess';
   permission: Scalars['Boolean']['output'];
@@ -4078,6 +4498,7 @@ export type Media = {
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
   url?: Maybe<Scalars['String']['output']>;
   width?: Maybe<Scalars['Float']['output']>;
+  workspace?: Maybe<Workspace>;
 };
 
 export type MediaCreateAccess = {
@@ -4119,6 +4540,7 @@ export type MediaDocAccessFields = {
   updatedAt?: Maybe<MediaDocAccessFields_UpdatedAt>;
   url?: Maybe<MediaDocAccessFields_Url>;
   width?: Maybe<MediaDocAccessFields_Width>;
+  workspace?: Maybe<MediaDocAccessFields_Workspace>;
 };
 
 export type MediaDocAccessFields_Alt = {
@@ -5322,6 +5744,34 @@ export type MediaDocAccessFields_Width_Update = {
   permission: Scalars['Boolean']['output'];
 };
 
+export type MediaDocAccessFields_Workspace = {
+  __typename?: 'MediaDocAccessFields_workspace';
+  create?: Maybe<MediaDocAccessFields_Workspace_Create>;
+  delete?: Maybe<MediaDocAccessFields_Workspace_Delete>;
+  read?: Maybe<MediaDocAccessFields_Workspace_Read>;
+  update?: Maybe<MediaDocAccessFields_Workspace_Update>;
+};
+
+export type MediaDocAccessFields_Workspace_Create = {
+  __typename?: 'MediaDocAccessFields_workspace_Create';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaDocAccessFields_Workspace_Delete = {
+  __typename?: 'MediaDocAccessFields_workspace_Delete';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaDocAccessFields_Workspace_Read = {
+  __typename?: 'MediaDocAccessFields_workspace_Read';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaDocAccessFields_Workspace_Update = {
+  __typename?: 'MediaDocAccessFields_workspace_Update';
+  permission: Scalars['Boolean']['output'];
+};
+
 export type MediaFields = {
   __typename?: 'MediaFields';
   alt?: Maybe<MediaFields_Alt>;
@@ -5337,6 +5787,7 @@ export type MediaFields = {
   updatedAt?: Maybe<MediaFields_UpdatedAt>;
   url?: Maybe<MediaFields_Url>;
   width?: Maybe<MediaFields_Width>;
+  workspace?: Maybe<MediaFields_Workspace>;
 };
 
 export type MediaFields_Alt = {
@@ -6540,6 +6991,34 @@ export type MediaFields_Width_Update = {
   permission: Scalars['Boolean']['output'];
 };
 
+export type MediaFields_Workspace = {
+  __typename?: 'MediaFields_workspace';
+  create?: Maybe<MediaFields_Workspace_Create>;
+  delete?: Maybe<MediaFields_Workspace_Delete>;
+  read?: Maybe<MediaFields_Workspace_Read>;
+  update?: Maybe<MediaFields_Workspace_Update>;
+};
+
+export type MediaFields_Workspace_Create = {
+  __typename?: 'MediaFields_workspace_Create';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaFields_Workspace_Delete = {
+  __typename?: 'MediaFields_workspace_Delete';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaFields_Workspace_Read = {
+  __typename?: 'MediaFields_workspace_Read';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type MediaFields_Workspace_Update = {
+  __typename?: 'MediaFields_workspace_Update';
+  permission: Scalars['Boolean']['output'];
+};
+
 export type MediaReadAccess = {
   __typename?: 'MediaReadAccess';
   permission: Scalars['Boolean']['output'];
@@ -7032,6 +7511,7 @@ export type Media_Where = {
   updatedAt?: InputMaybe<Media_UpdatedAt_Operator>;
   url?: InputMaybe<Media_Url_Operator>;
   width?: InputMaybe<Media_Width_Operator>;
+  workspace?: InputMaybe<Media_Workspace_Operator>;
 };
 
 export type Media_Where_And = {
@@ -7074,6 +7554,7 @@ export type Media_Where_And = {
   updatedAt?: InputMaybe<Media_UpdatedAt_Operator>;
   url?: InputMaybe<Media_Url_Operator>;
   width?: InputMaybe<Media_Width_Operator>;
+  workspace?: InputMaybe<Media_Workspace_Operator>;
 };
 
 export type Media_Where_Or = {
@@ -7116,6 +7597,7 @@ export type Media_Where_Or = {
   updatedAt?: InputMaybe<Media_UpdatedAt_Operator>;
   url?: InputMaybe<Media_Url_Operator>;
   width?: InputMaybe<Media_Width_Operator>;
+  workspace?: InputMaybe<Media_Workspace_Operator>;
 };
 
 export type Media_Width_Operator = {
@@ -7126,6 +7608,14 @@ export type Media_Width_Operator = {
   less_than?: InputMaybe<Scalars['Float']['input']>;
   less_than_equal?: InputMaybe<Scalars['Float']['input']>;
   not_equals?: InputMaybe<Scalars['Float']['input']>;
+};
+
+export type Media_Workspace_Operator = {
+  all?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
+  equals?: InputMaybe<Scalars['JSON']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
+  not_equals?: InputMaybe<Scalars['JSON']['input']>;
+  not_in?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
 };
 
 export type Mutation = {
@@ -8870,13 +9360,12 @@ export type User = {
   id: Scalars['String']['output'];
   lockUntil?: Maybe<Scalars['DateTime']['output']>;
   loginAttempts?: Maybe<Scalars['Float']['output']>;
-  password: Scalars['String']['output'];
   resetPasswordExpiration?: Maybe<Scalars['DateTime']['output']>;
   resetPasswordToken?: Maybe<Scalars['String']['output']>;
   roles: Array<User_Roles>;
   salt?: Maybe<Scalars['String']['output']>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
-  workspace?: Maybe<Workspace>;
+  workspaces: Array<Workspace>;
 };
 
 export enum UserUpdate_Roles_MutationInput {
@@ -8910,16 +9399,6 @@ export type User_Id_Operator = {
   contains?: InputMaybe<Scalars['String']['input']>;
   equals?: InputMaybe<Scalars['String']['input']>;
   exists?: InputMaybe<Scalars['Boolean']['input']>;
-  in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  like?: InputMaybe<Scalars['String']['input']>;
-  not_equals?: InputMaybe<Scalars['String']['input']>;
-  not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-};
-
-export type User_Password_Operator = {
-  all?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  contains?: InputMaybe<Scalars['String']['input']>;
-  equals?: InputMaybe<Scalars['String']['input']>;
   in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   like?: InputMaybe<Scalars['String']['input']>;
   not_equals?: InputMaybe<Scalars['String']['input']>;
@@ -8966,10 +9445,9 @@ export type User_Where = {
   createdAt?: InputMaybe<User_CreatedAt_Operator>;
   email?: InputMaybe<User_Email_Operator>;
   id?: InputMaybe<User_Id_Operator>;
-  password?: InputMaybe<User_Password_Operator>;
   roles?: InputMaybe<User_Roles_Operator>;
   updatedAt?: InputMaybe<User_UpdatedAt_Operator>;
-  workspace?: InputMaybe<User_Workspace_Operator>;
+  workspaces?: InputMaybe<User_Workspaces_Operator>;
 };
 
 export type User_Where_And = {
@@ -8978,10 +9456,9 @@ export type User_Where_And = {
   createdAt?: InputMaybe<User_CreatedAt_Operator>;
   email?: InputMaybe<User_Email_Operator>;
   id?: InputMaybe<User_Id_Operator>;
-  password?: InputMaybe<User_Password_Operator>;
   roles?: InputMaybe<User_Roles_Operator>;
   updatedAt?: InputMaybe<User_UpdatedAt_Operator>;
-  workspace?: InputMaybe<User_Workspace_Operator>;
+  workspaces?: InputMaybe<User_Workspaces_Operator>;
 };
 
 export type User_Where_Or = {
@@ -8990,16 +9467,14 @@ export type User_Where_Or = {
   createdAt?: InputMaybe<User_CreatedAt_Operator>;
   email?: InputMaybe<User_Email_Operator>;
   id?: InputMaybe<User_Id_Operator>;
-  password?: InputMaybe<User_Password_Operator>;
   roles?: InputMaybe<User_Roles_Operator>;
   updatedAt?: InputMaybe<User_UpdatedAt_Operator>;
-  workspace?: InputMaybe<User_Workspace_Operator>;
+  workspaces?: InputMaybe<User_Workspaces_Operator>;
 };
 
-export type User_Workspace_Operator = {
+export type User_Workspaces_Operator = {
   all?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
   equals?: InputMaybe<Scalars['JSON']['input']>;
-  exists?: InputMaybe<Scalars['Boolean']['input']>;
   in?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
   not_equals?: InputMaybe<Scalars['JSON']['input']>;
   not_in?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
@@ -9048,10 +9523,9 @@ export type UsersDocAccessFields = {
   __typename?: 'UsersDocAccessFields';
   createdAt?: Maybe<UsersDocAccessFields_CreatedAt>;
   email?: Maybe<UsersDocAccessFields_Email>;
-  password?: Maybe<UsersDocAccessFields_Password>;
   roles?: Maybe<UsersDocAccessFields_Roles>;
   updatedAt?: Maybe<UsersDocAccessFields_UpdatedAt>;
-  workspace?: Maybe<UsersDocAccessFields_Workspace>;
+  workspaces?: Maybe<UsersDocAccessFields_Workspaces>;
 };
 
 export type UsersDocAccessFields_CreatedAt = {
@@ -9107,34 +9581,6 @@ export type UsersDocAccessFields_Email_Read = {
 
 export type UsersDocAccessFields_Email_Update = {
   __typename?: 'UsersDocAccessFields_email_Update';
-  permission: Scalars['Boolean']['output'];
-};
-
-export type UsersDocAccessFields_Password = {
-  __typename?: 'UsersDocAccessFields_password';
-  create?: Maybe<UsersDocAccessFields_Password_Create>;
-  delete?: Maybe<UsersDocAccessFields_Password_Delete>;
-  read?: Maybe<UsersDocAccessFields_Password_Read>;
-  update?: Maybe<UsersDocAccessFields_Password_Update>;
-};
-
-export type UsersDocAccessFields_Password_Create = {
-  __typename?: 'UsersDocAccessFields_password_Create';
-  permission: Scalars['Boolean']['output'];
-};
-
-export type UsersDocAccessFields_Password_Delete = {
-  __typename?: 'UsersDocAccessFields_password_Delete';
-  permission: Scalars['Boolean']['output'];
-};
-
-export type UsersDocAccessFields_Password_Read = {
-  __typename?: 'UsersDocAccessFields_password_Read';
-  permission: Scalars['Boolean']['output'];
-};
-
-export type UsersDocAccessFields_Password_Update = {
-  __typename?: 'UsersDocAccessFields_password_Update';
   permission: Scalars['Boolean']['output'];
 };
 
@@ -9194,31 +9640,31 @@ export type UsersDocAccessFields_UpdatedAt_Update = {
   permission: Scalars['Boolean']['output'];
 };
 
-export type UsersDocAccessFields_Workspace = {
-  __typename?: 'UsersDocAccessFields_workspace';
-  create?: Maybe<UsersDocAccessFields_Workspace_Create>;
-  delete?: Maybe<UsersDocAccessFields_Workspace_Delete>;
-  read?: Maybe<UsersDocAccessFields_Workspace_Read>;
-  update?: Maybe<UsersDocAccessFields_Workspace_Update>;
+export type UsersDocAccessFields_Workspaces = {
+  __typename?: 'UsersDocAccessFields_workspaces';
+  create?: Maybe<UsersDocAccessFields_Workspaces_Create>;
+  delete?: Maybe<UsersDocAccessFields_Workspaces_Delete>;
+  read?: Maybe<UsersDocAccessFields_Workspaces_Read>;
+  update?: Maybe<UsersDocAccessFields_Workspaces_Update>;
 };
 
-export type UsersDocAccessFields_Workspace_Create = {
-  __typename?: 'UsersDocAccessFields_workspace_Create';
+export type UsersDocAccessFields_Workspaces_Create = {
+  __typename?: 'UsersDocAccessFields_workspaces_Create';
   permission: Scalars['Boolean']['output'];
 };
 
-export type UsersDocAccessFields_Workspace_Delete = {
-  __typename?: 'UsersDocAccessFields_workspace_Delete';
+export type UsersDocAccessFields_Workspaces_Delete = {
+  __typename?: 'UsersDocAccessFields_workspaces_Delete';
   permission: Scalars['Boolean']['output'];
 };
 
-export type UsersDocAccessFields_Workspace_Read = {
-  __typename?: 'UsersDocAccessFields_workspace_Read';
+export type UsersDocAccessFields_Workspaces_Read = {
+  __typename?: 'UsersDocAccessFields_workspaces_Read';
   permission: Scalars['Boolean']['output'];
 };
 
-export type UsersDocAccessFields_Workspace_Update = {
-  __typename?: 'UsersDocAccessFields_workspace_Update';
+export type UsersDocAccessFields_Workspaces_Update = {
+  __typename?: 'UsersDocAccessFields_workspaces_Update';
   permission: Scalars['Boolean']['output'];
 };
 
@@ -9226,10 +9672,9 @@ export type UsersFields = {
   __typename?: 'UsersFields';
   createdAt?: Maybe<UsersFields_CreatedAt>;
   email?: Maybe<UsersFields_Email>;
-  password?: Maybe<UsersFields_Password>;
   roles?: Maybe<UsersFields_Roles>;
   updatedAt?: Maybe<UsersFields_UpdatedAt>;
-  workspace?: Maybe<UsersFields_Workspace>;
+  workspaces?: Maybe<UsersFields_Workspaces>;
 };
 
 export type UsersFields_CreatedAt = {
@@ -9285,34 +9730,6 @@ export type UsersFields_Email_Read = {
 
 export type UsersFields_Email_Update = {
   __typename?: 'UsersFields_email_Update';
-  permission: Scalars['Boolean']['output'];
-};
-
-export type UsersFields_Password = {
-  __typename?: 'UsersFields_password';
-  create?: Maybe<UsersFields_Password_Create>;
-  delete?: Maybe<UsersFields_Password_Delete>;
-  read?: Maybe<UsersFields_Password_Read>;
-  update?: Maybe<UsersFields_Password_Update>;
-};
-
-export type UsersFields_Password_Create = {
-  __typename?: 'UsersFields_password_Create';
-  permission: Scalars['Boolean']['output'];
-};
-
-export type UsersFields_Password_Delete = {
-  __typename?: 'UsersFields_password_Delete';
-  permission: Scalars['Boolean']['output'];
-};
-
-export type UsersFields_Password_Read = {
-  __typename?: 'UsersFields_password_Read';
-  permission: Scalars['Boolean']['output'];
-};
-
-export type UsersFields_Password_Update = {
-  __typename?: 'UsersFields_password_Update';
   permission: Scalars['Boolean']['output'];
 };
 
@@ -9372,31 +9789,31 @@ export type UsersFields_UpdatedAt_Update = {
   permission: Scalars['Boolean']['output'];
 };
 
-export type UsersFields_Workspace = {
-  __typename?: 'UsersFields_workspace';
-  create?: Maybe<UsersFields_Workspace_Create>;
-  delete?: Maybe<UsersFields_Workspace_Delete>;
-  read?: Maybe<UsersFields_Workspace_Read>;
-  update?: Maybe<UsersFields_Workspace_Update>;
+export type UsersFields_Workspaces = {
+  __typename?: 'UsersFields_workspaces';
+  create?: Maybe<UsersFields_Workspaces_Create>;
+  delete?: Maybe<UsersFields_Workspaces_Delete>;
+  read?: Maybe<UsersFields_Workspaces_Read>;
+  update?: Maybe<UsersFields_Workspaces_Update>;
 };
 
-export type UsersFields_Workspace_Create = {
-  __typename?: 'UsersFields_workspace_Create';
+export type UsersFields_Workspaces_Create = {
+  __typename?: 'UsersFields_workspaces_Create';
   permission: Scalars['Boolean']['output'];
 };
 
-export type UsersFields_Workspace_Delete = {
-  __typename?: 'UsersFields_workspace_Delete';
+export type UsersFields_Workspaces_Delete = {
+  __typename?: 'UsersFields_workspaces_Delete';
   permission: Scalars['Boolean']['output'];
 };
 
-export type UsersFields_Workspace_Read = {
-  __typename?: 'UsersFields_workspace_Read';
+export type UsersFields_Workspaces_Read = {
+  __typename?: 'UsersFields_workspaces_Read';
   permission: Scalars['Boolean']['output'];
 };
 
-export type UsersFields_Workspace_Update = {
-  __typename?: 'UsersFields_workspace_Update';
+export type UsersFields_Workspaces_Update = {
+  __typename?: 'UsersFields_workspaces_Update';
   permission: Scalars['Boolean']['output'];
 };
 
@@ -9441,6 +9858,7 @@ export type Workspace = {
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   id: Scalars['String']['output'];
   name: Scalars['String']['output'];
+  slug: Scalars['String']['output'];
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
 };
 
@@ -9476,6 +9894,16 @@ export type Workspace_Name_Operator = {
   not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
+export type Workspace_Slug_Operator = {
+  all?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  contains?: InputMaybe<Scalars['String']['input']>;
+  equals?: InputMaybe<Scalars['String']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  like?: InputMaybe<Scalars['String']['input']>;
+  not_equals?: InputMaybe<Scalars['String']['input']>;
+  not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+};
+
 export type Workspace_UpdatedAt_Operator = {
   equals?: InputMaybe<Scalars['DateTime']['input']>;
   exists?: InputMaybe<Scalars['Boolean']['input']>;
@@ -9493,6 +9921,7 @@ export type Workspace_Where = {
   createdAt?: InputMaybe<Workspace_CreatedAt_Operator>;
   id?: InputMaybe<Workspace_Id_Operator>;
   name?: InputMaybe<Workspace_Name_Operator>;
+  slug?: InputMaybe<Workspace_Slug_Operator>;
   updatedAt?: InputMaybe<Workspace_UpdatedAt_Operator>;
 };
 
@@ -9502,6 +9931,7 @@ export type Workspace_Where_And = {
   createdAt?: InputMaybe<Workspace_CreatedAt_Operator>;
   id?: InputMaybe<Workspace_Id_Operator>;
   name?: InputMaybe<Workspace_Name_Operator>;
+  slug?: InputMaybe<Workspace_Slug_Operator>;
   updatedAt?: InputMaybe<Workspace_UpdatedAt_Operator>;
 };
 
@@ -9511,6 +9941,7 @@ export type Workspace_Where_Or = {
   createdAt?: InputMaybe<Workspace_CreatedAt_Operator>;
   id?: InputMaybe<Workspace_Id_Operator>;
   name?: InputMaybe<Workspace_Name_Operator>;
+  slug?: InputMaybe<Workspace_Slug_Operator>;
   updatedAt?: InputMaybe<Workspace_UpdatedAt_Operator>;
 };
 
@@ -9557,6 +9988,7 @@ export type WorkspacesDocAccessFields = {
   __typename?: 'WorkspacesDocAccessFields';
   createdAt?: Maybe<WorkspacesDocAccessFields_CreatedAt>;
   name?: Maybe<WorkspacesDocAccessFields_Name>;
+  slug?: Maybe<WorkspacesDocAccessFields_Slug>;
   updatedAt?: Maybe<WorkspacesDocAccessFields_UpdatedAt>;
 };
 
@@ -9616,6 +10048,34 @@ export type WorkspacesDocAccessFields_Name_Update = {
   permission: Scalars['Boolean']['output'];
 };
 
+export type WorkspacesDocAccessFields_Slug = {
+  __typename?: 'WorkspacesDocAccessFields_slug';
+  create?: Maybe<WorkspacesDocAccessFields_Slug_Create>;
+  delete?: Maybe<WorkspacesDocAccessFields_Slug_Delete>;
+  read?: Maybe<WorkspacesDocAccessFields_Slug_Read>;
+  update?: Maybe<WorkspacesDocAccessFields_Slug_Update>;
+};
+
+export type WorkspacesDocAccessFields_Slug_Create = {
+  __typename?: 'WorkspacesDocAccessFields_slug_Create';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type WorkspacesDocAccessFields_Slug_Delete = {
+  __typename?: 'WorkspacesDocAccessFields_slug_Delete';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type WorkspacesDocAccessFields_Slug_Read = {
+  __typename?: 'WorkspacesDocAccessFields_slug_Read';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type WorkspacesDocAccessFields_Slug_Update = {
+  __typename?: 'WorkspacesDocAccessFields_slug_Update';
+  permission: Scalars['Boolean']['output'];
+};
+
 export type WorkspacesDocAccessFields_UpdatedAt = {
   __typename?: 'WorkspacesDocAccessFields_updatedAt';
   create?: Maybe<WorkspacesDocAccessFields_UpdatedAt_Create>;
@@ -9648,6 +10108,7 @@ export type WorkspacesFields = {
   __typename?: 'WorkspacesFields';
   createdAt?: Maybe<WorkspacesFields_CreatedAt>;
   name?: Maybe<WorkspacesFields_Name>;
+  slug?: Maybe<WorkspacesFields_Slug>;
   updatedAt?: Maybe<WorkspacesFields_UpdatedAt>;
 };
 
@@ -9704,6 +10165,34 @@ export type WorkspacesFields_Name_Read = {
 
 export type WorkspacesFields_Name_Update = {
   __typename?: 'WorkspacesFields_name_Update';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type WorkspacesFields_Slug = {
+  __typename?: 'WorkspacesFields_slug';
+  create?: Maybe<WorkspacesFields_Slug_Create>;
+  delete?: Maybe<WorkspacesFields_Slug_Delete>;
+  read?: Maybe<WorkspacesFields_Slug_Read>;
+  update?: Maybe<WorkspacesFields_Slug_Update>;
+};
+
+export type WorkspacesFields_Slug_Create = {
+  __typename?: 'WorkspacesFields_slug_Create';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type WorkspacesFields_Slug_Delete = {
+  __typename?: 'WorkspacesFields_slug_Delete';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type WorkspacesFields_Slug_Read = {
+  __typename?: 'WorkspacesFields_slug_Read';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type WorkspacesFields_Slug_Update = {
+  __typename?: 'WorkspacesFields_slug_Update';
   permission: Scalars['Boolean']['output'];
 };
 
@@ -9965,6 +10454,7 @@ export type MutationAssignmentInput = {
   status?: InputMaybe<Scalars['String']['input']>;
   type?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['String']['input']>;
+  workspace?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type MutationAssignmentUpdateInput = {
@@ -9977,6 +10467,7 @@ export type MutationAssignmentUpdateInput = {
   status?: InputMaybe<Scalars['String']['input']>;
   type?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['String']['input']>;
+  workspace?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type MutationCompanyInput = {
@@ -9989,6 +10480,7 @@ export type MutationCompanyInput = {
   phone?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['String']['input']>;
   website?: InputMaybe<Scalars['String']['input']>;
+  workspace?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type MutationCompanyUpdateInput = {
@@ -10001,6 +10493,7 @@ export type MutationCompanyUpdateInput = {
   phone?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['String']['input']>;
   website?: InputMaybe<Scalars['String']['input']>;
+  workspace?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type MutationContactInput = {
@@ -10013,6 +10506,7 @@ export type MutationContactInput = {
   notes?: InputMaybe<Scalars['String']['input']>;
   phone?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['String']['input']>;
+  workspace?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type MutationContactUpdateInput = {
@@ -10025,6 +10519,7 @@ export type MutationContactUpdateInput = {
   notes?: InputMaybe<Scalars['String']['input']>;
   phone?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['String']['input']>;
+  workspace?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type MutationDocumentReferenceInput = {
@@ -10033,6 +10528,7 @@ export type MutationDocumentReferenceInput = {
   entityId: Scalars['String']['input'];
   entityType: Scalars['String']['input'];
   updatedAt?: InputMaybe<Scalars['String']['input']>;
+  workspace?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type MutationDocumentReferenceUpdateInput = {
@@ -10041,6 +10537,7 @@ export type MutationDocumentReferenceUpdateInput = {
   entityId?: InputMaybe<Scalars['String']['input']>;
   entityType?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['String']['input']>;
+  workspace?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type MutationInteractionInput = {
@@ -10050,6 +10547,7 @@ export type MutationInteractionInput = {
   interactionType: Scalars['String']['input'];
   notes?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['String']['input']>;
+  workspace?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type MutationInteractionUpdateInput = {
@@ -10059,6 +10557,7 @@ export type MutationInteractionUpdateInput = {
   interactionType?: InputMaybe<Scalars['String']['input']>;
   notes?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['String']['input']>;
+  workspace?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type MutationLeadInput = {
@@ -10071,6 +10570,7 @@ export type MutationLeadInput = {
   rank?: InputMaybe<Scalars['Float']['input']>;
   stage?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['String']['input']>;
+  workspace?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type MutationLeadUpdateInput = {
@@ -10083,6 +10583,7 @@ export type MutationLeadUpdateInput = {
   rank?: InputMaybe<Scalars['Float']['input']>;
   stage?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['String']['input']>;
+  workspace?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type MutationMediaInput = {
@@ -10099,6 +10600,7 @@ export type MutationMediaInput = {
   updatedAt?: InputMaybe<Scalars['String']['input']>;
   url?: InputMaybe<Scalars['String']['input']>;
   width?: InputMaybe<Scalars['Float']['input']>;
+  workspace?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type MutationMediaUpdateInput = {
@@ -10115,6 +10617,7 @@ export type MutationMediaUpdateInput = {
   updatedAt?: InputMaybe<Scalars['String']['input']>;
   url?: InputMaybe<Scalars['String']['input']>;
   width?: InputMaybe<Scalars['Float']['input']>;
+  workspace?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type MutationMediaUpdate_SizesInput = {
@@ -10247,7 +10750,7 @@ export type MutationUserInput = {
   roles: Array<InputMaybe<User_Roles_MutationInput>>;
   salt?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['String']['input']>;
-  workspace?: InputMaybe<Scalars['String']['input']>;
+  workspaces?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 export type MutationUserUpdateInput = {
@@ -10262,18 +10765,20 @@ export type MutationUserUpdateInput = {
   roles?: InputMaybe<Array<InputMaybe<UserUpdate_Roles_MutationInput>>>;
   salt?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['String']['input']>;
-  workspace?: InputMaybe<Scalars['String']['input']>;
+  workspaces?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 export type MutationWorkspaceInput = {
   createdAt?: InputMaybe<Scalars['String']['input']>;
   name: Scalars['String']['input'];
+  slug: Scalars['String']['input'];
   updatedAt?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type MutationWorkspaceUpdateInput = {
   createdAt?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
+  slug?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -10338,7 +10843,7 @@ export type UsersJwt = {
   collection: Scalars['String']['output'];
   email: Scalars['EmailAddress']['output'];
   roles: Array<UsersJwt_Roles>;
-  workspace?: Maybe<Workspace>;
+  workspaces: Array<Workspace>;
 };
 
 export enum UsersJwt_Roles {
@@ -10434,7 +10939,7 @@ export type AuthLoginMutationVariables = Exact<{
 }>;
 
 
-export type AuthLoginMutation = { __typename?: 'Mutation', loginUser?: { __typename?: 'usersLoginResult', token?: string | null, user?: { __typename?: 'User', id: string, email: any } | null } | null };
+export type AuthLoginMutation = { __typename?: 'Mutation', loginUser?: { __typename?: 'usersLoginResult', token?: string | null, user?: { __typename?: 'User', id: string, email: any, workspaces: Array<{ __typename?: 'Workspace', id: string, name: string }> } | null } | null };
 
 export type AuthLogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -10632,13 +11137,18 @@ export type DeleteLeadMutationVariables = Exact<{
 
 export type DeleteLeadMutation = { __typename?: 'Mutation', deleteLead?: { __typename?: 'Lead', id: string } | null };
 
+export type GetWorkspacesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetWorkspacesQuery = { __typename?: 'Query', Workspaces?: { __typename?: 'Workspaces', docs?: Array<{ __typename?: 'Workspace', id: string, name: string, slug: string, createdAt?: any | null, updatedAt?: any | null } | null> | null } | null };
+
 
 export const GetAssignmentsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetAssignments"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"Assignments"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"sort"},"value":{"kind":"StringValue","value":"assignmentName","block":false}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"docs"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"assignmentName"}},{"kind":"Field","name":{"kind":"Name","value":"fee"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"company"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"companyName"}},{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"industry"}},{"kind":"Field","name":{"kind":"Name","value":"phone"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"website"}},{"kind":"Field","name":{"kind":"Name","value":"organizationNumber"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}},{"kind":"Field","name":{"kind":"Name","value":"externalContact"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"contactName"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"phone"}},{"kind":"Field","name":{"kind":"Name","value":"jobTitle"}},{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"notes"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}},{"kind":"Field","name":{"kind":"Name","value":"responsibleContacts"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"contactName"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"phone"}},{"kind":"Field","name":{"kind":"Name","value":"jobTitle"}},{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]}}]}}]}}]} as unknown as DocumentNode<GetAssignmentsQuery, GetAssignmentsQueryVariables>;
 export const GetAssignmentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetAssignment"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"Assignment"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"assignmentName"}},{"kind":"Field","name":{"kind":"Name","value":"fee"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"company"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"companyName"}},{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"industry"}},{"kind":"Field","name":{"kind":"Name","value":"phone"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"website"}},{"kind":"Field","name":{"kind":"Name","value":"organizationNumber"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}},{"kind":"Field","name":{"kind":"Name","value":"externalContact"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"contactName"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"phone"}},{"kind":"Field","name":{"kind":"Name","value":"jobTitle"}},{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"notes"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}},{"kind":"Field","name":{"kind":"Name","value":"responsibleContacts"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"contactName"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"phone"}},{"kind":"Field","name":{"kind":"Name","value":"jobTitle"}},{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]}}]}}]} as unknown as DocumentNode<GetAssignmentQuery, GetAssignmentQueryVariables>;
 export const CreateAssignmentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateAssignment"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"mutationAssignmentInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createAssignment"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<CreateAssignmentMutation, CreateAssignmentMutationVariables>;
 export const UpdateAssignmentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateAssignment"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"mutationAssignmentUpdateInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateAssignment"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<UpdateAssignmentMutation, UpdateAssignmentMutationVariables>;
 export const DeleteAssignmentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"DeleteAssignment"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteAssignment"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<DeleteAssignmentMutation, DeleteAssignmentMutationVariables>;
-export const AuthLoginDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"AuthLogin"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"email"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"password"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"loginUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"email"},"value":{"kind":"Variable","name":{"kind":"Name","value":"email"}}},{"kind":"Argument","name":{"kind":"Name","value":"password"},"value":{"kind":"Variable","name":{"kind":"Name","value":"password"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"token"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}}]}}]}}]}}]} as unknown as DocumentNode<AuthLoginMutation, AuthLoginMutationVariables>;
+export const AuthLoginDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"AuthLogin"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"email"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"password"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"loginUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"email"},"value":{"kind":"Variable","name":{"kind":"Name","value":"email"}}},{"kind":"Argument","name":{"kind":"Name","value":"password"},"value":{"kind":"Variable","name":{"kind":"Name","value":"password"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"token"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"workspaces"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]}}]} as unknown as DocumentNode<AuthLoginMutation, AuthLoginMutationVariables>;
 export const AuthLogoutDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"AuthLogout"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"logoutUser"}}]}}]} as unknown as DocumentNode<AuthLogoutMutation, AuthLogoutMutationVariables>;
 export const GetMeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetMe"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"meUser"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}}]}}]}}]}}]} as unknown as DocumentNode<GetMeQuery, GetMeQueryVariables>;
 export const GetCompaniesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetCompanies"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"Companies"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"sort"},"value":{"kind":"StringValue","value":"companyName","block":false}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"docs"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"companyName"}},{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"industry"}},{"kind":"Field","name":{"kind":"Name","value":"phone"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"website"}},{"kind":"Field","name":{"kind":"Name","value":"organizationNumber"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]}}]}}]} as unknown as DocumentNode<GetCompaniesQuery, GetCompaniesQueryVariables>;
@@ -10668,3 +11178,4 @@ export const GetLeadDocument = {"kind":"Document","definitions":[{"kind":"Operat
 export const CreateLeadDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateLead"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"mutationLeadInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createLead"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<CreateLeadMutation, CreateLeadMutationVariables>;
 export const UpdateLeadDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateLead"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"mutationLeadUpdateInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateLead"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<UpdateLeadMutation, UpdateLeadMutationVariables>;
 export const DeleteLeadDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"DeleteLead"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteLead"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<DeleteLeadMutation, DeleteLeadMutationVariables>;
+export const GetWorkspacesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetWorkspaces"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"Workspaces"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"docs"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]}}]}}]} as unknown as DocumentNode<GetWorkspacesQuery, GetWorkspacesQueryVariables>;

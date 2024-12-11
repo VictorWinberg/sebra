@@ -18,7 +18,7 @@ const documents = {
     "\n      mutation CreateAssignment($data: mutationAssignmentInput!) {\n        createAssignment(data: $data) {\n          id\n        }\n      }\n    ": types.CreateAssignmentDocument,
     "\n      mutation UpdateAssignment($id: String!, $data: mutationAssignmentUpdateInput!) {\n        updateAssignment(id: $id, data: $data) {\n          id\n        }\n      }\n    ": types.UpdateAssignmentDocument,
     "\n      mutation DeleteAssignment($id: String!) {\n        deleteAssignment(id: $id) {\n          id\n        }\n      }\n    ": types.DeleteAssignmentDocument,
-    "\n          mutation AuthLogin($email: String!, $password: String!) {\n            loginUser(email: $email, password: $password) {\n              token\n              user {\n                id\n                email\n              }\n            }\n          }\n        ": types.AuthLoginDocument,
+    "\n          mutation AuthLogin($email: String!, $password: String!) {\n            loginUser(email: $email, password: $password) {\n              token\n              user {\n                id\n                email\n                workspaces {\n                  id\n                  name\n                }\n              }\n            }\n          }\n        ": types.AuthLoginDocument,
     "\n          mutation AuthLogout {\n            logoutUser\n          }\n        ": types.AuthLogoutDocument,
     "\n          query GetMe {\n            meUser {\n              user {\n                id\n                email\n              }\n            }\n          }\n        ": types.GetMeDocument,
     "\n      query GetCompanies {\n        Companies(sort: \"companyName\") {\n          docs {\n            id\n            companyName\n            address\n            industry\n            phone\n            email\n            website\n            organizationNumber\n            createdAt\n            updatedAt\n          }\n        }\n      }\n    ": types.GetCompaniesDocument,
@@ -48,6 +48,7 @@ const documents = {
     "\n      mutation CreateLead($data: mutationLeadInput!) {\n        createLead(data: $data) {\n          id\n        }\n      }\n    ": types.CreateLeadDocument,
     "\n      mutation UpdateLead($id: String!, $data: mutationLeadUpdateInput!) {\n        updateLead(id: $id, data: $data) {\n          id\n        }\n      }\n    ": types.UpdateLeadDocument,
     "\n      mutation DeleteLead($id: String!) {\n        deleteLead(id: $id) {\n          id\n        }\n      }\n    ": types.DeleteLeadDocument,
+    "\n      query GetWorkspaces {\n        Workspaces {\n          docs {\n            id\n            name\n            slug\n            createdAt\n            updatedAt\n          }\n        }\n      }\n    ": types.GetWorkspacesDocument,
 };
 
 /**
@@ -87,7 +88,7 @@ export function graphql(source: "\n      mutation DeleteAssignment($id: String!)
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n          mutation AuthLogin($email: String!, $password: String!) {\n            loginUser(email: $email, password: $password) {\n              token\n              user {\n                id\n                email\n              }\n            }\n          }\n        "): (typeof documents)["\n          mutation AuthLogin($email: String!, $password: String!) {\n            loginUser(email: $email, password: $password) {\n              token\n              user {\n                id\n                email\n              }\n            }\n          }\n        "];
+export function graphql(source: "\n          mutation AuthLogin($email: String!, $password: String!) {\n            loginUser(email: $email, password: $password) {\n              token\n              user {\n                id\n                email\n                workspaces {\n                  id\n                  name\n                }\n              }\n            }\n          }\n        "): (typeof documents)["\n          mutation AuthLogin($email: String!, $password: String!) {\n            loginUser(email: $email, password: $password) {\n              token\n              user {\n                id\n                email\n                workspaces {\n                  id\n                  name\n                }\n              }\n            }\n          }\n        "];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -204,6 +205,10 @@ export function graphql(source: "\n      mutation UpdateLead($id: String!, $data
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n      mutation DeleteLead($id: String!) {\n        deleteLead(id: $id) {\n          id\n        }\n      }\n    "): (typeof documents)["\n      mutation DeleteLead($id: String!) {\n        deleteLead(id: $id) {\n          id\n        }\n      }\n    "];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n      query GetWorkspaces {\n        Workspaces {\n          docs {\n            id\n            name\n            slug\n            createdAt\n            updatedAt\n          }\n        }\n      }\n    "): (typeof documents)["\n      query GetWorkspaces {\n        Workspaces {\n          docs {\n            id\n            name\n            slug\n            createdAt\n            updatedAt\n          }\n        }\n      }\n    "];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

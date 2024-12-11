@@ -9,7 +9,6 @@ import {
   selectOneQuery,
   updateQuery
 } from '@/api/DummyDB';
-import { AssertKeys, groupBy, pick, toMap } from '@/utils';
 import {
   Assignment,
   Company,
@@ -19,8 +18,12 @@ import {
   GetAssignmentQuery,
   GetAssignmentQueryVariables,
   GetAssignmentsQuery,
-  UpdateAssignmentMutation
+  UpdateAssignmentMutation,
+  Workspace
 } from '@/api/gql/graphql';
+import { FlatCompany } from '@/features/companies/api/companiesLocal';
+import { FlatContact } from '@/features/contacts/api/contactsLocal';
+import { AssertKeys, groupBy, pick, toMap } from '@/utils';
 
 type LocalAssignment = {
   id: string;
@@ -31,6 +34,7 @@ type LocalAssignment = {
   fee: number;
   type: string;
   status: string;
+  workspace?: Workspace;
   createdAt: string;
   updatedAt: string;
 };
@@ -42,7 +46,7 @@ type ResponsibleContact = {
 
 export const verify: AssertKeys<LocalAssignment, Omit<Assignment, '__typename'>> = true;
 
-type FlatAssignment = Omit<Assignment, 'externalContact' | 'company' | 'responsibleContacts'> & {
+export type FlatAssignment = Omit<Assignment, 'externalContact' | 'company' | 'responsibleContacts' | 'workspace'> & {
   externalContact: string;
   company?: string;
 };
@@ -51,8 +55,8 @@ export const getAssignmentsLocal = async (): Promise<GetAssignmentsQuery> => {
   const [assignments, responsibleContacts, contacts, companies] = await Promise.all([
     query<FlatAssignment>(`SELECT * FROM assignments ORDER BY assignment_name`),
     query<ResponsibleContact>(`SELECT * FROM assignment_responsible_contacts`),
-    query<Contact>(`SELECT * FROM contacts`),
-    query<Company>(`SELECT * FROM companies`)
+    query<FlatContact>(`SELECT * FROM contacts`),
+    query<FlatCompany>(`SELECT * FROM companies`)
   ]);
 
   const responsibleContactsMap = groupBy(responsibleContacts, 'assignmentId');
@@ -67,8 +71,8 @@ export const getAssignmentLocal = async ({ id }: GetAssignmentQueryVariables): P
   const [assignment, responsibleContacts, contacts, companies] = await Promise.all([
     selectOneQuery<FlatAssignment>('assignments', { id }),
     selectAllQuery<ResponsibleContact>('assignment_responsible_contacts', { assignmentId: id }),
-    query<Contact>(`SELECT * FROM contacts`),
-    query<Company>(`SELECT * FROM companies`)
+    query<FlatContact>(`SELECT * FROM contacts`),
+    query<FlatCompany>(`SELECT * FROM companies`)
   ]);
 
   const responsibleContactsMap = groupBy(responsibleContacts, 'assignmentId');
@@ -116,14 +120,20 @@ export const deleteAssignmentLocal = async ({ id }: Pick<Assignment, 'id'>): Pro
 
 function transformFlatAssignment(
   responsibleContactsMap: Map<string, ResponsibleContact[]>,
-  contactsMap: Map<string, Contact>,
-  companiesMap: Map<string, Company>
+  contactsMap: Map<string, FlatContact>,
+  companiesMap: Map<string, FlatCompany>
 ): (value: FlatAssignment) => Assignment {
   return (assignment: FlatAssignment) => {
-    const responsibleContactsList = responsibleContactsMap.get(assignment.id) || [];
-    const responsibleContactIds = responsibleContactsList.map((c) => c.contactId);
-    const responsibleContacts = responsibleContactIds.map((contactId) => contactsMap.get(contactId)).filter((c) => !!c);
-    const externalContact = contactsMap.get(assignment.externalContact);
+    const responsibleContacts = (responsibleContactsMap.get(assignment.id) || [])
+      .map((contact) => contact.contactId)
+      .map((contactId) => contactsMap.get(contactId))
+      .filter((contact) => !!contact)
+      .map((contact) => ({ ...contact, company: companiesMap.get(contact.company || '') }));
+
+    const [externalContact] = [contactsMap.get(assignment.externalContact)].map((contact) =>
+      contact ? { ...contact, company: companiesMap.get(contact.company || '') } : undefined
+    );
+
     const company = companiesMap.get(assignment.company || '');
 
     return { ...assignment, responsibleContacts, externalContact, company };

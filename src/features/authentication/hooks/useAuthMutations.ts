@@ -7,6 +7,7 @@ import { requestGQL } from '@/hooks/useGraphQL';
 import { deleteToken, saveToken } from '@/utils/token';
 import { useAppStore } from '@/store';
 import { SET_DEMO } from '@/store/actions';
+import { getCookieWorkspace, setCookieWorkspace } from '@/utils/cookie';
 
 export const useAuthLogin = () => {
   const [, dispatch] = useAppStore();
@@ -22,6 +23,10 @@ export const useAuthLogin = () => {
               user {
                 id
                 email
+                workspaces {
+                  id
+                  name
+                }
               }
             }
           }
@@ -32,6 +37,13 @@ export const useAuthLogin = () => {
       if (token) {
         saveToken(token);
       }
+
+      const workspaces = data.loginUser?.user?.workspaces || [];
+      const cookieWorkshop = getCookieWorkspace();
+      if (!workspaces.find((workspace) => workspace.id === cookieWorkshop)) {
+        setCookieWorkspace(workspaces[0]?.id || '');
+      }
+
       dispatch({ type: SET_DEMO, payload: false });
       queryClient.clear();
     }

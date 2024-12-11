@@ -12,6 +12,7 @@ import SearchSection from './SearchSection';
 // assets
 import { IconLayoutSidebarLeftCollapse, IconLayoutSidebarLeftExpand, IconMenu2 } from '@tabler/icons-react';
 import DemoSection from './DemoSection';
+import { WorkspaceSelector } from '@/features/workspaces/components/WorkspaceSelect';
 
 // ==============================|| MAIN NAVBAR / HEADER ||============================== //
 
@@ -66,6 +67,7 @@ const Header = () => {
       {/* header search */}
       <SearchSection />
       <Box sx={{ flexGrow: 1 }} />
+      <WorkspaceSelector />
 
       {/* notification & profile */}
       <DemoSection />

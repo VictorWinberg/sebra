@@ -8,17 +8,21 @@ import {
   DeleteInteractionMutation,
   GetInteractionsQuery,
   Interaction,
-  UpdateInteractionMutation
+  UpdateInteractionMutation,
+  Workspace
 } from '@/api/gql/graphql';
+import { FlatContact } from '@/features/contacts/api/contactsLocal';
+import { FlatCompany } from '@/features/companies/api/companiesLocal';
 
 type LocalInteraction = {
   id: string;
   interactionDate: string;
   interactionType: string;
   notes: string;
+  contacts: Contact[];
+  workspace?: Workspace;
   createdAt: string;
   updatedAt: string;
-  contacts: Contact[];
 };
 
 type InteractionContact = {
@@ -28,24 +32,29 @@ type InteractionContact = {
 
 export const verify: AssertKeys<LocalInteraction, Omit<Interaction, '__typename'>> = true;
 
-type FlatInteraction = Omit<Interaction, 'contacts'>;
+type FlatInteraction = Omit<Interaction, 'contacts' | 'workspace'>;
 
 export const getInteractionsLocal = async (): Promise<GetInteractionsQuery> => {
-  const interactionRecords = await query<FlatInteraction>(`SELECT * FROM interactions`);
+  const [interactionRecords, contacts, companies] = await Promise.all([
+    query<FlatInteraction>(`SELECT * FROM interactions`),
+    query<FlatContact>(`SELECT * FROM contacts`),
+    query<FlatCompany>(`SELECT * FROM companies`)
+  ]);
   const interactions: Interaction[] = interactionRecords.map((interaction) => ({ ...interaction, contacts: [] }));
-  const interactionMap = toMap(interactions, 'id');
 
-  const contacts = await query<Contact>(`SELECT * FROM contacts`);
+  const interactionMap = toMap(interactions, 'id');
   const contactMap = toMap(contacts, 'id');
+  const companyMap = toMap(companies, 'id');
 
   const interactionContacts = await query<InteractionContact>('SELECT * FROM interaction_contacts');
   interactionContacts.forEach((interactionContact) => {
     const interaction = interactionMap.get(interactionContact.interactionId);
     const contact = contactMap.get(interactionContact.contactId);
+    const company = companyMap.get(contact?.company || '');
     if (!interaction || !contact) {
       return;
     }
-    (interaction.contacts = interaction.contacts || []).push(contact);
+    (interaction.contacts = interaction.contacts || []).push({ ...contact, company });
   });
 
   const docs = Array.from(interactionMap.values());

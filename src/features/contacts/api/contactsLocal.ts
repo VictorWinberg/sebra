@@ -9,8 +9,10 @@ import {
   GetContactQuery,
   GetContactQueryVariables,
   GetContactsQuery,
-  UpdateContactMutation
+  UpdateContactMutation,
+  Workspace
 } from '@/api/gql/graphql';
+import { FlatCompany } from '@/features/companies/api/companiesLocal';
 import { AssertKeys, pick, toMap } from '@/utils';
 
 type LocalContact = {
@@ -22,24 +24,25 @@ type LocalContact = {
   company?: Company;
   address: string;
   notes: string;
+  workspace?: Workspace;
   createdAt: string;
   updatedAt: string;
 };
 
 export const verify: AssertKeys<LocalContact, Omit<Contact, '__typename'>> = true;
 
-type FlatContact = Omit<Contact, 'company'> & { company?: string };
+export type FlatContact = Omit<Contact, 'company' | 'workspace'> & { company?: string };
 
 export const getContactsLocal = async (): Promise<GetContactsQuery> => {
   const contacts = await query<FlatContact>(`SELECT * FROM contacts ORDER BY contact_name`);
-  const companies = toMap(await query<Company>(`SELECT * FROM companies`), 'id');
+  const companies = toMap(await query<FlatCompany>(`SELECT * FROM companies`), 'id');
   const docs = contacts.map((contact) => ({ ...contact, company: companies.get(contact.company || '') }));
   return { Contacts: { docs } };
 };
 
 export const getContactLocal = async ({ id }: GetContactQueryVariables): Promise<GetContactQuery> => {
   const contact = await selectOneQuery<FlatContact>('contacts', { id });
-  const company = await selectOneQuery<Company>('companies', { id: contact.company });
+  const company = await selectOneQuery<FlatCompany>('companies', { id: contact.company });
   return { Contact: { ...contact, company } };
 };
 

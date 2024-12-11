@@ -1,71 +1,48 @@
-import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
-// material-ui
-import Grid from '@mui/material/Grid';
+import { Box, Card, CardContent, Grid, Typography } from '@mui/material';
 
-// project imports
-import EarningCard from '../components/EarningCard';
-import PopularCard from '../components/PopularCard';
-import TotalOrderLineChartCard from '../components/TotalOrderLineChartCard';
-import TotalIncomeDarkCard from '../components/TotalIncomeDarkCard';
-import TotalIncomeLightCard from '../components/TotalIncomeLightCard';
-import TotalGrowthBarChart from '../components/TotalGrowthBarChart';
+const links = [
+  { path: 'dev/graph-page', label: 'Graph Page' },
+  { path: 'dev/util-typography', label: 'Typography Page' },
+  { path: 'dev/util-color', label: 'Color Page' },
+  { path: 'dev/util-shadow', label: 'Shadow Page' },
+  { path: 'dev/sample-page', label: 'Sample Page' }
+];
 
-import { gridSpacing } from '@/store/constant';
-
-// assets
-import StorefrontTwoToneIcon from '@mui/icons-material/StorefrontTwoTone';
-
-// ==============================|| DEV PAGE ||============================== //
-
-const DevPage = () => {
-  const [isLoading, setLoading] = useState(true);
-
-  useEffect(() => {
-    setLoading(false);
-  }, []);
-
+const HomePage = () => {
   return (
-    <Grid container spacing={gridSpacing}>
-      <Grid item xs={12}>
-        <Grid container spacing={gridSpacing}>
-          <Grid item lg={4} md={6} sm={6} xs={12}>
-            <EarningCard isLoading={isLoading} />
+    <Box>
+      <Grid container spacing={4}>
+        {links.map((link) => (
+          <Grid item xs={12} sm={6} md={4} key={link.path}>
+            <Link to={`/${link.path}`} style={{ textDecoration: 'none', display: 'block' }}>
+              <Card
+                sx={{
+                  height: '100%',
+                  bgcolor: 'primary.light',
+                  transition: 'transform 0.3s, box-shadow 0.3s',
+                  '&:hover': {
+                    transform: 'translateY(-8px)',
+                    boxShadow: '0 8px 20px rgba(0, 0, 0, 0.2)'
+                  }
+                }}
+              >
+                <CardContent>
+                  <Typography variant="h6" gutterBottom color="primary.main">
+                    {link.label}
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary">
+                    Explore the {link.label}.
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Link>
           </Grid>
-          <Grid item lg={4} md={6} sm={6} xs={12}>
-            <TotalOrderLineChartCard isLoading={isLoading} />
-          </Grid>
-          <Grid item lg={4} md={12} sm={12} xs={12}>
-            <Grid container spacing={gridSpacing}>
-              <Grid item sm={6} xs={12} md={6} lg={12}>
-                <TotalIncomeDarkCard isLoading={isLoading} />
-              </Grid>
-              <Grid item sm={6} xs={12} md={6} lg={12}>
-                <TotalIncomeLightCard
-                  {...{
-                    isLoading: isLoading,
-                    total: 203,
-                    label: 'Total Income',
-                    icon: <StorefrontTwoToneIcon fontSize="inherit" />
-                  }}
-                />
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
+        ))}
       </Grid>
-      <Grid item xs={12}>
-        <Grid container spacing={gridSpacing}>
-          <Grid item xs={12} md={8}>
-            <TotalGrowthBarChart isLoading={isLoading} />
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <PopularCard isLoading={isLoading} />
-          </Grid>
-        </Grid>
-      </Grid>
-    </Grid>
+    </Box>
   );
 };
 
-export default DevPage;
+export default HomePage;

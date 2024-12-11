@@ -8,7 +8,8 @@ import {
   GetCompaniesQuery,
   GetCompanyQuery,
   GetCompanyQueryVariables,
-  UpdateCompanyMutation
+  UpdateCompanyMutation,
+  Workspace
 } from '@/api/gql/graphql';
 import { AssertKeys, pick } from '@/utils';
 
@@ -21,19 +22,22 @@ type LocalCompany = {
   phone?: string;
   website?: string;
   organizationNumber?: string;
+  workspace?: Workspace;
   createdAt: string;
   updatedAt: string;
 };
 
 export const verify: AssertKeys<LocalCompany, Omit<Company, '__typename'>> = true;
 
+export type FlatCompany = Omit<Company, 'workspace'>;
+
 export const getCompaniesLocal = async (): Promise<GetCompaniesQuery> => {
-  const docs = await query<Company>(`SELECT * FROM companies ORDER BY company_name`);
+  const docs = await query<FlatCompany>(`SELECT * FROM companies ORDER BY company_name`);
   return { Companies: { docs } };
 };
 
 export const getCompanyLocal = async ({ id }: GetCompanyQueryVariables): Promise<GetCompanyQuery> => {
-  return { Company: await selectOneQuery<Company>('companies', { id }) };
+  return { Company: await selectOneQuery<FlatCompany>('companies', { id }) };
 };
 
 export const createCompanyLocal = async (data: Company): Promise<CreateCompanyMutation> => {
@@ -52,9 +56,9 @@ export const createCompanyLocal = async (data: Company): Promise<CreateCompanyMu
 
 export const updateCompanyLocal = async ({ id, ...data }: Company): Promise<UpdateCompanyMutation> => {
   const params = pick(data, ['companyName', 'address', 'industry', 'phone', 'email', 'website', 'organizationNumber']);
-  return { updateCompany: await updateQuery<Company>('companies', params, { id }) };
+  return { updateCompany: await updateQuery<FlatCompany>('companies', params, { id }) };
 };
 
 export const deleteCompanyLocal = async ({ id }: Company): Promise<DeleteCompanyMutation> => {
-  return { deleteCompany: await deleteQuery<Company>('companies', { id }) };
+  return { deleteCompany: await deleteQuery<FlatCompany>('companies', { id }) };
 };

@@ -58,14 +58,12 @@ export const useDeleteDocument = () => {
   const { showSnackbar } = useSnackbar();
 
   return useMutation({
-    mutationFn: ({ id }: { id: string }) =>
-      Promise.all([
-        isDemo ? deleteFileFromIndexedDB({ id }) : deleteDocumentGQL({ id })
-        // deleteDocumentReferenceLocal({ document: id })
-      ]),
+    mutationFn: isDemo ? deleteFileFromIndexedDB : deleteDocumentGQL,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['documents'] });
-      queryClient.invalidateQueries({ queryKey: ['document_references'] });
+      setTimeout(() => {
+        queryClient.invalidateQueries({ queryKey: ['documents'] });
+        queryClient.invalidateQueries({ queryKey: ['document_references'] });
+      }, 100);
       showSnackbar('Dokumentet borttaget!');
     },
     onError: () => {

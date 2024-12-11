@@ -24,6 +24,7 @@ const ModulesPage = Loadable(lazy(() => import('@/features/modules/pages/Modules
 
 // dev routing
 const DevPage = Loadable(lazy(() => import('@/features/dev/pages/DevPage')));
+const GraphPage = Loadable(lazy(() => import('@/features/dev/pages/GraphPage')));
 const TypographyPage = Loadable(lazy(() => import('@/features/dev/pages/TypographyPage')));
 const ColorPage = Loadable(lazy(() => import('@/features/dev/pages/ColorPage')));
 const ShadowPage = Loadable(lazy(() => import('@/features/dev/pages/ShadowPage')));
@@ -119,8 +120,12 @@ const MainRoutes = {
                 path: 'dev',
                 children: [
                   {
-                    path: 'sample',
+                    path: '',
                     element: <DevPage />
+                  },
+                  {
+                    path: 'graph-page',
+                    element: <GraphPage />
                   },
                   {
                     path: 'util-typography',
