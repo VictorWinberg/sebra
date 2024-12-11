@@ -19,6 +19,10 @@ export const useAuthLogin = () => {
               user {
                 id
                 email
+                workspaces {
+                  id
+                  name
+                }
               }
             }
           }
