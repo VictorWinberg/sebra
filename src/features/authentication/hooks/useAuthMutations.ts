@@ -22,6 +22,7 @@ export const useAuthLogin = () => {
                 workspaces {
                   id
                   name
+                  slug
                 }
               }
             }
