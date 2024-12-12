@@ -1,11 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { useAppStore } from '@/store';
+import { useIsDemo } from '@/hooks/useIsDemo';
 import { getAssignmentGQL, getAssignmentsGQL } from '../api/assignmentsGQL';
 import { getAssignmentLocal, getAssignmentsLocal } from '../api/assignmentsLocal';
 
 export const useAssignments = () => {
-  const [{ isDemo }] = useAppStore();
+  const isDemo = useIsDemo();
   const fn = isDemo ? getAssignmentsLocal : getAssignmentsGQL;
   return useQuery({
     queryKey: ['assignments'],
@@ -15,7 +15,7 @@ export const useAssignments = () => {
 };
 
 export const useAssignment = (assignmentId: string | undefined) => {
-  const [{ isDemo }] = useAppStore();
+  const isDemo = useIsDemo();
   const fn = isDemo ? getAssignmentLocal : getAssignmentGQL;
 
   return useQuery({

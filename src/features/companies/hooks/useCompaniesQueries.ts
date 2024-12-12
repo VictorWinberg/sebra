@@ -1,12 +1,12 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 
 import { Company } from '@/api/gql/graphql';
-import { useAppStore } from '@/store';
+import { useIsDemo } from '@/hooks/useIsDemo';
 import { getCompaniesGQL, getCompanyGQL } from '../api/companiesGQL';
 import { getCompaniesLocal, getCompanyLocal } from '../api/companiesLocal';
 
 export const useCompanies = (): UseQueryResult<Company[], Error> => {
-  const [{ isDemo }] = useAppStore();
+  const isDemo = useIsDemo();
   const fn = isDemo ? getCompaniesLocal : getCompaniesGQL;
 
   return useQuery({
@@ -17,7 +17,7 @@ export const useCompanies = (): UseQueryResult<Company[], Error> => {
 };
 
 export const useCompany = (companyId: string | undefined): UseQueryResult<Company, Error> => {
-  const [{ isDemo }] = useAppStore();
+  const isDemo = useIsDemo();
   const fn = isDemo ? getCompanyLocal : getCompanyGQL;
 
   return useQuery({

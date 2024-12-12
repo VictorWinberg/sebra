@@ -27,13 +27,14 @@ import Transitions from '@/ui-component/extended/Transitions';
 // assets
 import User1 from '@/assets/images/users/user-round.svg';
 import { IconLogout, IconSettings, IconUser } from '@tabler/icons-react';
+import { useParams } from 'react-router-dom';
 
 // ==============================|| PROFILE MENU ||============================== //
 
 const ProfileSection = () => {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
-
+  const { workspace } = useParams();
   const { data: user } = useAuth();
   const { mutate: logoutUser } = useAuthLogout();
 
@@ -63,7 +64,7 @@ const ProfileSection = () => {
     prevOpen.current = open;
   }, [open]);
 
-  if (!user) return null;
+  if (!user || workspace === 'demo') return null;
 
   return (
     <>

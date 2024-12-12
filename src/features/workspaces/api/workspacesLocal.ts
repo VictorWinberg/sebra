@@ -13,7 +13,7 @@ export const verify: AssertKeys<LocalWorkspace, Omit<Workspace, '__typename'>> =
 
 export const getWorkspacesLocal = async (): Promise<GetWorkspacesQuery> => {
   const docs: LocalWorkspace[] = [
-    { id: '1', name: 'Workspace', slug: 'workspace', createdAt: '2024-02-30', updatedAt: '2024-02-30' }
+    { id: 'demo', name: 'Demo', slug: 'demo', createdAt: '2024-02-30', updatedAt: '2024-02-30' }
   ];
   return { Workspaces: { docs } };
 };

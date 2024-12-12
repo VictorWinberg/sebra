@@ -1,12 +1,12 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { useSnackbar } from '@/hooks/useSnackbar';
-import { useAppStore } from '@/store';
+import { useIsDemo } from '@/hooks/useIsDemo';
 import { createCompanyGQL, deleteCompanyGQL, updateCompanyGQL } from '../api/companiesGQL';
 import { createCompanyLocal, deleteCompanyLocal, updateCompanyLocal } from '../api/companiesLocal';
 
 export const useCreateCompany = () => {
-  const [{ isDemo }] = useAppStore();
+  const isDemo = useIsDemo();
   const queryClient = useQueryClient();
   const { showSnackbar } = useSnackbar();
 
@@ -23,7 +23,7 @@ export const useCreateCompany = () => {
 };
 
 export const useUpdateCompany = () => {
-  const [{ isDemo }] = useAppStore();
+  const isDemo = useIsDemo();
   const queryClient = useQueryClient();
   const { showSnackbar } = useSnackbar();
 
@@ -40,7 +40,7 @@ export const useUpdateCompany = () => {
 };
 
 export const useDeleteCompany = () => {
-  const [{ isDemo }] = useAppStore();
+  const isDemo = useIsDemo();
   const queryClient = useQueryClient();
   const { showSnackbar } = useSnackbar();
 

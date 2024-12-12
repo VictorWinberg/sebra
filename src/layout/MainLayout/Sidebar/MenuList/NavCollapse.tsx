@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 // material-ui
 import {
@@ -34,6 +34,7 @@ interface NavCollapseProps {
 const NavCollapse = ({ menu, level }: NavCollapseProps) => {
   const theme = useTheme();
   const navigate = useNavigate();
+  const { workspace } = useParams();
   const [state] = useAppStore();
   const matchDownMd = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -45,14 +46,14 @@ const NavCollapse = ({ menu, level }: NavCollapseProps) => {
     setSelected(!selected ? menu.id : null);
     const defaultChild = menu.children?.find((item) => item.id === 'default');
     if (defaultChild?.url) {
-      navigate(defaultChild.url);
+      navigate(`/${workspace}${defaultChild.url}`);
     }
   };
 
   const { pathname } = useLocation();
   const checkOpenForParent = (child: MenuItem[], id: string) => {
     child.forEach((item) => {
-      if (item.url === pathname) {
+      if (`/${workspace}${item.url}` === pathname) {
         setOpen(true);
         setSelected(id);
       }
@@ -68,7 +69,7 @@ const NavCollapse = ({ menu, level }: NavCollapseProps) => {
         if (item.children?.length) {
           checkOpenForParent(item.children, menu.id);
         }
-        if (item.url === pathname) {
+        if (`/${workspace}${item.url}` === pathname) {
           setSelected(menu.id);
           setOpen(true);
         }

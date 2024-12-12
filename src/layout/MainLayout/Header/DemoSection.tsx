@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
 // material-ui
 import Avatar from '@mui/material/Avatar';
@@ -23,17 +24,16 @@ import MainCard from '@/ui-component/cards/MainCard';
 import Transitions from '@/ui-component/extended/Transitions';
 
 // assets
-import User1 from '@/assets/images/users/user-round.svg';
-import { useAppStore } from '@/store';
-import { SET_DEMO } from '@/store/actions';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import { IconLogout, IconSettings } from '@tabler/icons-react';
 
-// ==============================|| PROFILE MENU ||============================== //
+// ==============================|| DEMO SECTION ||============================== //
 
 const DemoSection = () => {
   const theme = useTheme();
+  const { workspace } = useParams();
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
-  const [state, dispatch] = useAppStore();
   const queryClient = useQueryClient();
 
   /**
@@ -41,7 +41,7 @@ const DemoSection = () => {
    * */
   const anchorRef = useRef<HTMLDivElement>(null);
   const exitDemo = () => {
-    dispatch({ type: SET_DEMO, payload: false });
+    navigate('/');
     queryClient.invalidateQueries({ queryKey: [] });
   };
 
@@ -65,7 +65,7 @@ const DemoSection = () => {
     prevOpen.current = open;
   }, [open]);
 
-  if (!state.isDemo) return;
+  if (workspace !== 'demo') return;
 
   return (
     <>
@@ -91,17 +91,18 @@ const DemoSection = () => {
         }}
         icon={
           <Avatar
-            src={User1}
             sx={{
               ...theme.typography.mediumAvatar,
               margin: '8px 0 8px 8px !important',
-              cursor: 'pointer'
+              color: 'primary.main'
             }}
             ref={anchorRef}
             aria-controls={open ? 'menu-list-grow' : undefined}
             aria-haspopup="true"
             color="inherit"
-          />
+          >
+            <PlayArrowIcon />
+          </Avatar>
         }
         label={<IconSettings stroke={1.5} size="1.5rem" color={theme.palette.primary.main} />}
         variant="outlined"

@@ -1,10 +1,13 @@
-import { Link, Outlet, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
 
 // material-ui
 import { Chip, Fade, Tab, Tabs } from '@mui/material';
+import { useQueryClient } from '@tanstack/react-query';
 
 // project imports
 import FlexGrow from '@/ui-component/extended/FlexGrow';
+import { setCookieWorkspace } from '@/utils/cookie';
 
 type TabItem = {
   id: string;
@@ -21,8 +24,16 @@ const tabItems: TabItem[] = [
 ];
 
 const HomeWrapper = () => {
+  const queryClient = useQueryClient();
   const { pathname } = useLocation();
-  const selected = tabItems.findLastIndex((item) => pathname.startsWith(item.url));
+  const { workspace } = useParams();
+  const selected = tabItems.findLastIndex((item) => pathname.startsWith(`/${workspace}${item.url}`));
+
+  useEffect(() => {
+    setCookieWorkspace(workspace);
+    queryClient.invalidateQueries();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [workspace]);
 
   return (
     <FlexGrow>
@@ -39,7 +50,7 @@ const HomeWrapper = () => {
                   <Chip
                     component={Link}
                     label={item.title}
-                    to={item.url}
+                    to={`/${workspace}${item.url}`}
                     color="primary"
                     variant="filled"
                     sx={{ px: 1, '&:hover': { backgroundColor: 'primary.main' } }}
@@ -50,7 +61,7 @@ const HomeWrapper = () => {
                   <Chip
                     component={Link}
                     label={item.title}
-                    to={item.url}
+                    to={`/${workspace}${item.url}`}
                     color="primary"
                     variant="outlined"
                     sx={{ px: 1, position: 'absolute', top: 0, left: 0 }}

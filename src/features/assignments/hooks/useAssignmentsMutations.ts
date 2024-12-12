@@ -1,12 +1,12 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { useSnackbar } from '@/hooks/useSnackbar';
-import { useAppStore } from '@/store';
+import { useIsDemo } from '@/hooks/useIsDemo';
 import { createAssignmentGQL, deleteAssignmentGQL, updateAssignmentGQL } from '../api/assignmentsGQL';
 import { createAssignmentLocal, deleteAssignmentLocal, updateAssignmentLocal } from '../api/assignmentsLocal';
 
 export const useCreateAssignment = () => {
-  const [{ isDemo }] = useAppStore();
+  const isDemo = useIsDemo();
   const queryClient = useQueryClient();
   const { showSnackbar } = useSnackbar();
 
@@ -23,7 +23,7 @@ export const useCreateAssignment = () => {
 };
 
 export const useUpdateAssignment = () => {
-  const [{ isDemo }] = useAppStore();
+  const isDemo = useIsDemo();
   const queryClient = useQueryClient();
   const { showSnackbar } = useSnackbar();
 
@@ -40,7 +40,7 @@ export const useUpdateAssignment = () => {
 };
 
 export const useDeleteAssignment = () => {
-  const [{ isDemo }] = useAppStore();
+  const isDemo = useIsDemo();
   const queryClient = useQueryClient();
   const { showSnackbar } = useSnackbar();
 

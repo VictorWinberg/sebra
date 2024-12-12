@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { useSnackbar } from '@/hooks/useSnackbar';
-import { useAppStore } from '@/store';
+import { useIsDemo } from '@/hooks/useIsDemo';
 import { deleteFileFromIndexedDB, saveFileToIndexedDB } from '@/utils';
 import {
   createDocumentReferenceGQL,
@@ -17,7 +17,7 @@ import {
 import { createDocumentRest, updateDocumentRest } from '../api/documentsREST';
 
 export const useSaveDocument = () => {
-  const [{ isDemo }] = useAppStore();
+  const isDemo = useIsDemo();
   const queryClient = useQueryClient();
   const { showSnackbar } = useSnackbar();
 
@@ -35,7 +35,7 @@ export const useSaveDocument = () => {
 };
 
 export const useUpdateDocument = () => {
-  const [{ isDemo }] = useAppStore();
+  const isDemo = useIsDemo();
   const queryClient = useQueryClient();
   const { showSnackbar } = useSnackbar();
 
@@ -53,7 +53,7 @@ export const useUpdateDocument = () => {
 };
 
 export const useDeleteDocument = () => {
-  const [{ isDemo }] = useAppStore();
+  const isDemo = useIsDemo();
   const queryClient = useQueryClient();
   const { showSnackbar } = useSnackbar();
 
@@ -73,7 +73,7 @@ export const useDeleteDocument = () => {
 };
 
 export const useCreateDocumentReference = () => {
-  const [{ isDemo }] = useAppStore();
+  const isDemo = useIsDemo();
   const queryClient = useQueryClient();
   const { showSnackbar } = useSnackbar();
 
@@ -90,7 +90,7 @@ export const useCreateDocumentReference = () => {
 };
 
 export const useUpdateDocumentReference = () => {
-  const [{ isDemo }] = useAppStore();
+  const isDemo = useIsDemo();
   const queryClient = useQueryClient();
   const { showSnackbar } = useSnackbar();
 
@@ -107,7 +107,7 @@ export const useUpdateDocumentReference = () => {
 };
 
 export const useDeleteDocumentReference = () => {
-  const [{ isDemo }] = useAppStore();
+  const isDemo = useIsDemo();
   const queryClient = useQueryClient();
   const { showSnackbar } = useSnackbar();
 

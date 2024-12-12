@@ -1,11 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { useAppStore } from '@/store';
+import { useIsDemo } from '@/hooks/useIsDemo';
 import { getLeadsGQL } from '../api/leadsGQL';
 import { getLeadsLocal } from '../api/leadsLocal';
 
 export const useLeads = () => {
-  const [{ isDemo }] = useAppStore();
+  const isDemo = useIsDemo();
   const fn = isDemo ? getLeadsLocal : getLeadsGQL;
   return useQuery({
     queryKey: ['leads'],

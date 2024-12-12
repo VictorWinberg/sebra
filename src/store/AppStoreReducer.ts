@@ -21,13 +21,6 @@ const AppStoreReducer: React.Reducer<AppStoreState, AppStoreAction> = (state, ac
         opened: action.payload as boolean
       };
     }
-    case actions.SET_DEMO: {
-      localStorage.setItem('isDemo', action.payload as string);
-      return {
-        ...state,
-        isDemo: action.payload as boolean
-      };
-    }
     default:
       return state;
   }

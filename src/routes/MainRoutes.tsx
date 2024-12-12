@@ -7,6 +7,7 @@ import Loadable from '@/ui-component/Loadable';
 import PrivateRoute from './PrivateRoute';
 
 // home routing
+const HomeRedirect = Loadable(lazy(() => import('@/features/home/components/HomeRedirect')));
 const HomeWrapper = Loadable(lazy(() => import('@/features/home/components/HomeWrapper')));
 const HomePage = Loadable(lazy(() => import('@/features/home/pages/HomePage')));
 const AssignmentsPage = Loadable(lazy(() => import('@/features/assignments/pages/AssignmentsPage')));
@@ -38,11 +39,15 @@ const MainRoutes = {
   children: [
     {
       path: '',
+      element: <HomeRedirect />
+    },
+    {
+      path: ':workspace',
       element: <MainLayout />,
       children: [
         {
           path: '',
-          element: <Navigate to="/home" />
+          element: <Navigate to="home" />
         },
         {
           path: 'home',

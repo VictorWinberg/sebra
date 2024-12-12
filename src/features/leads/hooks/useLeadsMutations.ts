@@ -1,12 +1,12 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { useAppStore } from '@/store';
+import { useIsDemo } from '@/hooks/useIsDemo';
 import { useSnackbar } from '@/hooks/useSnackbar';
 import { createLeadGQL, deleteLeadGQL, updateLeadGQL } from '../api/leadsGQL';
 import { createLeadLocal, deleteLeadLocal, updateLeadLocal } from '../api/leadsLocal';
 
 export const useCreateLead = () => {
-  const [{ isDemo }] = useAppStore();
+  const isDemo = useIsDemo();
   const queryClient = useQueryClient();
   const { showSnackbar } = useSnackbar();
 
@@ -23,7 +23,7 @@ export const useCreateLead = () => {
 };
 
 export const useUpdateLead = () => {
-  const [{ isDemo }] = useAppStore();
+  const isDemo = useIsDemo();
   const queryClient = useQueryClient();
   const { showSnackbar } = useSnackbar();
 
@@ -40,7 +40,7 @@ export const useUpdateLead = () => {
 };
 
 export const useDeleteLead = () => {
-  const [{ isDemo }] = useAppStore();
+  const isDemo = useIsDemo();
   const queryClient = useQueryClient();
   const { showSnackbar } = useSnackbar();
 
