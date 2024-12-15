@@ -1,5 +1,3 @@
-import { Link as RouterLink } from 'react-router-dom';
-
 // material-ui
 import { Link } from '@mui/material';
 import { MRT_ColumnDef } from 'material-react-table';
@@ -8,8 +6,9 @@ import { MRT_ColumnDef } from 'material-react-table';
 import dayjs, { Dayjs } from 'dayjs';
 
 // project imports
-import { formatDate, toLocalTime } from '@/utils';
 import { Media } from '@/api/gql/graphql';
+import { RouterLink } from '@/ui-component/RouterLink';
+import { formatDate, toLocalTime } from '@/utils';
 
 // ==============================|| DOCUMENT CONFIG ||============================== //
 

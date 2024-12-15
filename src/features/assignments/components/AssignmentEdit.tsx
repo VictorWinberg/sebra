@@ -21,10 +21,10 @@ import AssignmentForm from './AssignmentForm';
 // ==============================|| ASSIGNMENT EDIT PAGE ||============================== //
 
 const AssignmentEdit = () => {
-  const params = useParams();
+  const { id, workspace } = useParams();
   const navigate = useNavigate();
 
-  const { data: assignment, isLoading } = useAssignment(params.id === 'new' ? undefined : params.id);
+  const { data: assignment, isLoading } = useAssignment(id === 'new' ? undefined : id);
   const { mutate: createAssignment } = useCreateAssignment();
   const { mutate: updateAssignment } = useUpdateAssignment();
   const { mutate: deleteAssignment } = useDeleteAssignment();
@@ -44,7 +44,7 @@ const AssignmentEdit = () => {
       updateAssignment({ ...data, id: assignment.id });
     } else {
       createAssignment(data, {
-        onSuccess: ({ createAssignment }) => navigate(`/home/assignments/${createAssignment?.id || ''}`)
+        onSuccess: ({ createAssignment }) => navigate(`/${workspace}/home/assignments/${createAssignment?.id || ''}`)
       });
     }
   };

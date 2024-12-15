@@ -1,5 +1,3 @@
-import { Link as RouterLink } from 'react-router-dom';
-
 // material-ui
 import {
   Avatar,
@@ -25,6 +23,7 @@ import { Lead } from '@/api/gql/graphql';
 import DataBoard from '@/ui-component/board/DataBoard';
 import DeleteConfirm from '@/ui-component/DeleteConfirm';
 import FlexGrow from '@/ui-component/extended/FlexGrow';
+import { RouterLink } from '@/ui-component/RouterLink';
 import SebraDialog from '@/ui-component/SebraDialog';
 import { stringAvatar, timeAgo } from '@/utils';
 import { LEAD_STAGES } from '../api/leadsLocal';

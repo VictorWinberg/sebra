@@ -22,10 +22,10 @@ import ContactForm from './ContactForm';
 // ==============================|| CONTACT EDIT PAGE ||============================== //
 
 const ContactEdit = () => {
-  const params = useParams();
+  const { id, workspace } = useParams();
   const navigate = useNavigate();
 
-  const { data: contact, isLoading } = useContact(params.id === 'new' ? undefined : params.id);
+  const { data: contact, isLoading } = useContact(id === 'new' ? undefined : id);
   const { mutate: createContact } = useCreateContact();
   const { mutate: updateContact } = useUpdateContact();
   const { mutate: deleteContact } = useDeleteContact();
@@ -50,7 +50,9 @@ const ContactEdit = () => {
     if (contact) {
       updateContact({ ...data, id: contact.id });
     } else {
-      createContact(data, { onSuccess: ({ createContact }) => navigate(`/home/contacts/${createContact?.id || ''}`) });
+      createContact(data, {
+        onSuccess: ({ createContact }) => navigate(`/${workspace}/home/contacts/${createContact?.id || ''}`)
+      });
     }
   };
 

@@ -1,5 +1,3 @@
-import { Link as RouterLink } from 'react-router-dom';
-
 // material-ui
 import { Avatar, Chip, List, ListItem } from '@mui/material';
 
@@ -9,6 +7,7 @@ import dayjs, { Dayjs } from 'dayjs';
 // project imports
 import { Contact, Interaction } from '@/api/gql/graphql';
 import DataTable from '@/ui-component/DataTable';
+import { RouterLink } from '@/ui-component/RouterLink';
 import SebraDialog from '@/ui-component/SebraDialog';
 import { formatDate, stringAvatar, toLocalTime } from '@/utils';
 import { useCreateInteraction, useDeleteInteraction, useUpdateInteraction } from '../hooks/useInteractionsMutations';

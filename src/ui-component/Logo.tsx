@@ -25,7 +25,7 @@ const Logo = () => {
           color: isHovered ? theme.palette.primary.main : theme.palette.primary.dark
         }}
       >
-        sebra
+        Sebra
       </Typography>
     </Stack>
   );

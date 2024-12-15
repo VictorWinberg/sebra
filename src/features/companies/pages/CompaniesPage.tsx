@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 // material-ui
 import { Button } from '@mui/material';
@@ -20,6 +20,7 @@ import { Add } from '@mui/icons-material';
 
 const CompaniesPage = () => {
   const navigate = useNavigate();
+  const { workspace } = useParams();
 
   const { data = [], isLoading } = useCompanies();
   const { mutate: createCompany } = useCreateCompany();
@@ -35,7 +36,7 @@ const CompaniesPage = () => {
         state={{ isLoading }}
         onCreate={(data) =>
           createCompany(data, {
-            onSuccess: ({ createCompany }) => navigate(`/home/companies/${createCompany?.id || ''}`)
+            onSuccess: ({ createCompany }) => navigate(`/${workspace}/home/companies/${createCompany?.id || ''}`)
           })
         }
         onUpdate={(row) => updateCompany(row)}

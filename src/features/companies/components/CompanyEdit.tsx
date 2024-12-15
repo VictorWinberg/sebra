@@ -21,10 +21,10 @@ import CompanyForm from './CompanyForm';
 // ==============================|| COMPANY EDIT PAGE ||============================== //
 
 const CompanyEdit = () => {
-  const params = useParams();
+  const { id, workspace } = useParams();
   const navigate = useNavigate();
 
-  const { data: company, isLoading } = useCompany(params.id === 'new' ? undefined : params.id);
+  const { data: company, isLoading } = useCompany(id === 'new' ? undefined : id);
   const { mutate: createCompany } = useCreateCompany();
   const { mutate: updateCompany } = useUpdateCompany();
   const { mutate: deleteCompany } = useDeleteCompany();
@@ -40,7 +40,9 @@ const CompanyEdit = () => {
     if (company) {
       updateCompany({ ...data, id: company.id });
     } else {
-      createCompany(data, { onSuccess: ({ createCompany }) => navigate(`/home/companies/${createCompany?.id || ''}`) });
+      createCompany(data, {
+        onSuccess: ({ createCompany }) => navigate(`/${workspace}/home/companies/${createCompany?.id || ''}`)
+      });
     }
   };
 
