@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 // material-ui
 import { Button } from '@mui/material';
@@ -20,6 +20,7 @@ import AddIcon from '@mui/icons-material/Add';
 
 const AssignmentsPage = () => {
   const navigate = useNavigate();
+  const { workspace } = useParams();
 
   const { data = [], isLoading } = useAssignments();
   const { mutate: createAssignment } = useCreateAssignment();
@@ -35,7 +36,8 @@ const AssignmentsPage = () => {
         state={{ isLoading }}
         onCreate={(row) =>
           createAssignment(row, {
-            onSuccess: ({ createAssignment }) => navigate(`/home/assignments/${createAssignment?.id || ''}`)
+            onSuccess: ({ createAssignment }) =>
+              navigate(`/${workspace}/home/assignments/${createAssignment?.id || ''}`)
           })
         }
         onUpdate={(row) => updateAssignment(row)}

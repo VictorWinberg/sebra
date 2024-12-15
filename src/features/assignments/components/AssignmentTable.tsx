@@ -1,16 +1,14 @@
-import { Link as RouterLink } from 'react-router-dom';
-
 // material-ui
 import { Avatar, Chip, Link, List, ListItem } from '@mui/material';
 
 // project imports
+import { Assignment, Contact } from '@/api/gql/graphql';
 import DataTable from '@/ui-component/DataTable';
+import { RouterLink } from '@/ui-component/RouterLink';
 import SebraDialog from '@/ui-component/SebraDialog';
 import { stringAvatar } from '@/utils';
-import { Assignment } from '@/api/gql/graphql';
 import { useCreateAssignment, useDeleteAssignment, useUpdateAssignment } from '../hooks/useAssignmentsMutations';
 import AssignmentForm from './AssignmentForm';
-import { Contact } from '@/api/gql/graphql';
 
 interface AssignmentTableProps {
   assignments: Assignment[];

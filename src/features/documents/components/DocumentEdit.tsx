@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { Link as RouterLink, createSearchParams, useNavigate, useParams } from 'react-router-dom';
+import { createSearchParams, useNavigate, useParams } from 'react-router-dom';
 
 // material-ui
 import { Box, Link, Typography } from '@mui/material';
@@ -12,6 +12,7 @@ import { useContacts } from '@/features/contacts/hooks/useContactsQueries';
 import ContentTabs from '@/ui-component/ContentTabs';
 import DataTable from '@/ui-component/DataTable';
 import FlexGrow from '@/ui-component/extended/FlexGrow';
+import { RouterLink } from '@/ui-component/RouterLink';
 import SebraDialog from '@/ui-component/SebraDialog';
 import { FormActionButtons } from '@/ui-component/SebraForm';
 import { toMap } from '@/utils';
@@ -30,10 +31,10 @@ import DocumentReferenceForm from './DocumentReferenceForm';
 // ==============================|| DOCUMENT EDIT PAGE ||============================== //
 
 const DocumentEdit = () => {
-  const params = useParams();
+  const { id, workspace } = useParams();
   const navigate = useNavigate();
 
-  const { data: document, isLoading } = useDocument(params.id === 'new' ? undefined : params.id);
+  const { data: document, isLoading } = useDocument(id === 'new' ? undefined : id);
   const { mutate: saveDocument } = useSaveDocument();
   const { mutate: updateDocument } = useUpdateDocument();
   const { mutate: deleteDocument } = useDeleteDocument();
@@ -42,7 +43,7 @@ const DocumentEdit = () => {
   const { data: contacts = [] } = useContacts();
   const { data: assignments = [] } = useAssignments();
   const { data: references = [], isLoading: referencesIsLoading } = useDocumentReferences(
-    params.id !== 'new' ? { document: { equals: params.id } } : undefined
+    id !== 'new' ? { document: { equals: id } } : undefined
   );
   const { mutate: createDocumentReference } = useCreateDocumentReference();
   const { mutate: updateDocumentReference } = useUpdateDocumentReference();
@@ -56,7 +57,7 @@ const DocumentEdit = () => {
       updateDocument({ ...data, id: document.id });
     } else {
       saveDocument(data, {
-        onSuccess: (res) => navigate(`/documents/${res.doc.id}`)
+        onSuccess: (res) => navigate(`/${workspace}/documents/${res.doc.id}`)
       });
     }
   };

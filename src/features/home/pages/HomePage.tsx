@@ -17,7 +17,7 @@ const generateMonthlyTimeline = (months: number) => {
   return timeline;
 };
 
-export default function Dashboard() {
+export default function HomePage() {
   const theme = useTheme();
   const { data: assignments = [], isLoading: isLoadingAssignments } = useAssignments();
   const { data: contacts = [], isLoading: isLoadingContacts } = useContacts();

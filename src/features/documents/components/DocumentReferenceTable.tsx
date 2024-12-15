@@ -1,5 +1,4 @@
 import { useMemo } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
 
 // material-ui
 import { Link } from '@mui/material';
@@ -10,6 +9,7 @@ import dayjs, { Dayjs } from 'dayjs';
 // project imports
 import { DocumentReference, DocumentReference_Where, Media } from '@/api/gql/graphql';
 import DataTable from '@/ui-component/DataTable';
+import { RouterLink } from '@/ui-component/RouterLink';
 import SebraDialog from '@/ui-component/SebraDialog';
 import { formatDate, toLocalTime } from '@/utils';
 import {

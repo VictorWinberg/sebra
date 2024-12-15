@@ -1,4 +1,4 @@
-import { Link as RouterLink, createSearchParams } from 'react-router-dom';
+import { createSearchParams } from 'react-router-dom';
 
 // material-ui
 import { Link, List, ListItem } from '@mui/material';
@@ -8,9 +8,9 @@ import { MRT_ColumnDef } from 'material-react-table';
 import dayjs, { Dayjs } from 'dayjs';
 
 // project imports
+import { Assignment, Contact } from '@/api/gql/graphql';
+import { RouterLink } from '@/ui-component/RouterLink';
 import { formatDate, toLocalTime } from '@/utils';
-import { Assignment } from '@/api/gql/graphql';
-import { Contact } from '@/api/gql/graphql';
 
 // ==============================|| ASSIGNMENT CONFIG ||============================== //
 

@@ -1,13 +1,10 @@
-import { useEffect } from 'react';
 import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
 
 // material-ui
 import { Chip, Fade, Tab, Tabs } from '@mui/material';
-import { useQueryClient } from '@tanstack/react-query';
 
 // project imports
 import FlexGrow from '@/ui-component/extended/FlexGrow';
-import { setCookieWorkspace } from '@/utils/cookie';
 
 type TabItem = {
   id: string;
@@ -24,16 +21,9 @@ const tabItems: TabItem[] = [
 ];
 
 const HomeWrapper = () => {
-  const queryClient = useQueryClient();
   const { pathname } = useLocation();
   const { workspace } = useParams();
   const selected = tabItems.findLastIndex((item) => pathname.startsWith(`/${workspace}${item.url}`));
-
-  useEffect(() => {
-    setCookieWorkspace(workspace);
-    queryClient.invalidateQueries();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [workspace]);
 
   return (
     <FlexGrow>

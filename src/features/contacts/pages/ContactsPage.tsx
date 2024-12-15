@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 // material-ui
 import { Button } from '@mui/material';
@@ -20,6 +20,7 @@ import { Contact } from '@/api/gql/graphql';
 
 const ContactsPage = () => {
   const navigate = useNavigate();
+  const { workspace } = useParams();
 
   const { data = [], isLoading } = useContacts();
   const { mutate: createContact } = useCreateContact();
@@ -35,7 +36,7 @@ const ContactsPage = () => {
         state={{ isLoading }}
         onCreate={(row) =>
           createContact(row, {
-            onSuccess: ({ createContact }) => navigate(`/home/contacts/${createContact?.id || ''}`)
+            onSuccess: ({ createContact }) => navigate(`/${workspace}/home/contacts/${createContact?.id || ''}`)
           })
         }
         onUpdate={(row) => updateContact(row)}
