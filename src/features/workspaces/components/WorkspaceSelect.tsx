@@ -7,7 +7,7 @@ import { FormControl, MenuItem, Select, SelectChangeEvent } from '@mui/material'
 import { useQueryClient } from '@tanstack/react-query';
 
 // project imports
-import { setCookieWorkspace } from '@/utils/cookie';
+import { saveToken } from '@/utils/token';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useWorkspaces } from '../hooks/useWorkspacesQueries';
 
@@ -20,7 +20,7 @@ export const WorkspaceSelector = () => {
   const { data: workspaces = [] } = useWorkspaces();
 
   useEffect(() => {
-    setCookieWorkspace(workspace);
+    saveToken('workspace', workspace || '');
     queryClient.invalidateQueries();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [workspace]);

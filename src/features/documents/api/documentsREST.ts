@@ -6,7 +6,8 @@ export const createDocumentRest = async (data: Media & { upload?: File }): Promi
   const { upload, alt } = data;
   if (!upload) throw new Error('No file provided');
 
-  const token = loadToken();
+  const token = loadToken('jwt');
+  const workspace = loadToken('workspace');
   const formData = new FormData();
   formData.append('file', upload);
   formData.append('_payload', JSON.stringify({ alt }));
@@ -15,7 +16,8 @@ export const createDocumentRest = async (data: Media & { upload?: File }): Promi
     method: 'POST',
     body: formData,
     headers: {
-      ...(token && { Authorization: `JWT ${token}` })
+      ...(token && { Authorization: `JWT ${token}` }),
+      ...(workspace && { 'X-Payload-Workspace': workspace })
     }
   });
 
@@ -28,7 +30,8 @@ export const createDocumentRest = async (data: Media & { upload?: File }): Promi
 
 export const updateDocumentRest = async (data: Media & { upload?: File }): Promise<{ doc: Media }> => {
   const { upload, alt } = data;
-  const token = loadToken();
+  const token = loadToken('jwt');
+  const workspace = loadToken('workspace');
 
   let body;
   let headers = {};
@@ -46,6 +49,7 @@ export const updateDocumentRest = async (data: Media & { upload?: File }): Promi
     body,
     headers: {
       ...(token && { Authorization: `JWT ${token}` }),
+      ...(workspace && { 'X-Payload-Workspace': workspace }),
       ...headers
     }
   });

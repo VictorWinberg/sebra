@@ -5,9 +5,11 @@ import { GraphQLClient } from 'graphql-request';
 
 const client = new GraphQLClient(`${API_URL}/graphql`, {
   headers: () => {
-    const token = loadToken();
+    const token = loadToken('jwt');
+    const workspace = loadToken('workspace');
     return {
-      ...(token && { Authorization: `JWT ${token}` })
+      ...(token && { Authorization: `JWT ${token}` }),
+      ...(workspace && { 'X-Payload-Workspace': workspace })
     };
   }
 });

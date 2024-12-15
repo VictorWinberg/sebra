@@ -1,11 +1,13 @@
-export const loadToken = (): string | null => {
-  return localStorage.getItem('jwt');
+type KeyToken = 'jwt' | 'workspace';
+
+export const loadToken = (key: KeyToken): string | null => {
+  return localStorage.getItem(key);
 };
 
-export const saveToken = (token: string): void => {
-  localStorage.setItem('jwt', token);
+export const saveToken = (key: KeyToken, token: string): void => {
+  localStorage.setItem(key, token);
 };
 
-export const deleteToken = (): void => {
-  localStorage.removeItem('jwt');
+export const deleteToken = (key: KeyToken): void => {
+  localStorage.removeItem(key);
 };

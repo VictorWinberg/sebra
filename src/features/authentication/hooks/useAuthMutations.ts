@@ -27,7 +27,7 @@ export const useAuthLogin = () => {
     onSuccess: (data) => {
       const { token } = data.loginUser || {};
       if (token) {
-        saveToken(token);
+        saveToken('jwt', token);
       }
       queryClient.clear();
     }
@@ -48,7 +48,7 @@ export const useAuthLogout = () => {
         `)
       )(),
     onSuccess: () => {
-      deleteToken();
+      deleteToken('jwt');
       queryClient.clear();
       navigate('/login');
     }
