@@ -29,6 +29,7 @@ type Assignment {
   status: String
   type: String
   updatedAt: DateTime
+  workspace: Workspace
 }
 
 input Assignment_assignmentName_operator {
@@ -146,6 +147,7 @@ input Assignment_where {
   status: Assignment_status_operator
   type: Assignment_type_operator
   updatedAt: Assignment_updatedAt_operator
+  workspace: Assignment_workspace_operator
 }
 
 input Assignment_where_and {
@@ -161,6 +163,7 @@ input Assignment_where_and {
   status: Assignment_status_operator
   type: Assignment_type_operator
   updatedAt: Assignment_updatedAt_operator
+  workspace: Assignment_workspace_operator
 }
 
 input Assignment_where_or {
@@ -176,6 +179,15 @@ input Assignment_where_or {
   status: Assignment_status_operator
   type: Assignment_type_operator
   updatedAt: Assignment_updatedAt_operator
+  workspace: Assignment_workspace_operator
+}
+
+input Assignment_workspace_operator {
+  all: [JSON]
+  equals: JSON
+  in: [JSON]
+  not_equals: JSON
+  not_in: [JSON]
 }
 
 type Assignments {
@@ -222,6 +234,7 @@ type AssignmentsDocAccessFields {
   status: AssignmentsDocAccessFields_status
   type: AssignmentsDocAccessFields_type
   updatedAt: AssignmentsDocAccessFields_updatedAt
+  workspace: AssignmentsDocAccessFields_workspace
 }
 
 type AssignmentsDocAccessFields_assignmentName {
@@ -431,6 +444,29 @@ type AssignmentsDocAccessFields_updatedAt_Update {
   permission: Boolean!
 }
 
+type AssignmentsDocAccessFields_workspace {
+  create: AssignmentsDocAccessFields_workspace_Create
+  delete: AssignmentsDocAccessFields_workspace_Delete
+  read: AssignmentsDocAccessFields_workspace_Read
+  update: AssignmentsDocAccessFields_workspace_Update
+}
+
+type AssignmentsDocAccessFields_workspace_Create {
+  permission: Boolean!
+}
+
+type AssignmentsDocAccessFields_workspace_Delete {
+  permission: Boolean!
+}
+
+type AssignmentsDocAccessFields_workspace_Read {
+  permission: Boolean!
+}
+
+type AssignmentsDocAccessFields_workspace_Update {
+  permission: Boolean!
+}
+
 type AssignmentsFields {
   assignmentName: AssignmentsFields_assignmentName
   company: AssignmentsFields_company
@@ -441,6 +477,7 @@ type AssignmentsFields {
   status: AssignmentsFields_status
   type: AssignmentsFields_type
   updatedAt: AssignmentsFields_updatedAt
+  workspace: AssignmentsFields_workspace
 }
 
 type AssignmentsFields_assignmentName {
@@ -650,6 +687,29 @@ type AssignmentsFields_updatedAt_Update {
   permission: Boolean!
 }
 
+type AssignmentsFields_workspace {
+  create: AssignmentsFields_workspace_Create
+  delete: AssignmentsFields_workspace_Delete
+  read: AssignmentsFields_workspace_Read
+  update: AssignmentsFields_workspace_Update
+}
+
+type AssignmentsFields_workspace_Create {
+  permission: Boolean!
+}
+
+type AssignmentsFields_workspace_Delete {
+  permission: Boolean!
+}
+
+type AssignmentsFields_workspace_Read {
+  permission: Boolean!
+}
+
+type AssignmentsFields_workspace_Update {
+  permission: Boolean!
+}
+
 type AssignmentsReadAccess {
   permission: Boolean!
   where: JSONObject
@@ -714,6 +774,7 @@ type CompaniesDocAccessFields {
   phone: CompaniesDocAccessFields_phone
   updatedAt: CompaniesDocAccessFields_updatedAt
   website: CompaniesDocAccessFields_website
+  workspace: CompaniesDocAccessFields_workspace
 }
 
 type CompaniesDocAccessFields_address {
@@ -923,6 +984,29 @@ type CompaniesDocAccessFields_website_Update {
   permission: Boolean!
 }
 
+type CompaniesDocAccessFields_workspace {
+  create: CompaniesDocAccessFields_workspace_Create
+  delete: CompaniesDocAccessFields_workspace_Delete
+  read: CompaniesDocAccessFields_workspace_Read
+  update: CompaniesDocAccessFields_workspace_Update
+}
+
+type CompaniesDocAccessFields_workspace_Create {
+  permission: Boolean!
+}
+
+type CompaniesDocAccessFields_workspace_Delete {
+  permission: Boolean!
+}
+
+type CompaniesDocAccessFields_workspace_Read {
+  permission: Boolean!
+}
+
+type CompaniesDocAccessFields_workspace_Update {
+  permission: Boolean!
+}
+
 type CompaniesFields {
   address: CompaniesFields_address
   companyName: CompaniesFields_companyName
@@ -933,6 +1017,7 @@ type CompaniesFields {
   phone: CompaniesFields_phone
   updatedAt: CompaniesFields_updatedAt
   website: CompaniesFields_website
+  workspace: CompaniesFields_workspace
 }
 
 type CompaniesFields_address {
@@ -1142,6 +1227,29 @@ type CompaniesFields_website_Update {
   permission: Boolean!
 }
 
+type CompaniesFields_workspace {
+  create: CompaniesFields_workspace_Create
+  delete: CompaniesFields_workspace_Delete
+  read: CompaniesFields_workspace_Read
+  update: CompaniesFields_workspace_Update
+}
+
+type CompaniesFields_workspace_Create {
+  permission: Boolean!
+}
+
+type CompaniesFields_workspace_Delete {
+  permission: Boolean!
+}
+
+type CompaniesFields_workspace_Read {
+  permission: Boolean!
+}
+
+type CompaniesFields_workspace_Update {
+  permission: Boolean!
+}
+
 type CompaniesReadAccess {
   permission: Boolean!
   where: JSONObject
@@ -1173,6 +1281,7 @@ type Company {
   phone: String
   updatedAt: DateTime
   website: String
+  workspace: Workspace
 }
 
 input Company_address_operator {
@@ -1297,6 +1406,7 @@ input Company_where {
   phone: Company_phone_operator
   updatedAt: Company_updatedAt_operator
   website: Company_website_operator
+  workspace: Company_workspace_operator
 }
 
 input Company_where_and {
@@ -1312,6 +1422,7 @@ input Company_where_and {
   phone: Company_phone_operator
   updatedAt: Company_updatedAt_operator
   website: Company_website_operator
+  workspace: Company_workspace_operator
 }
 
 input Company_where_or {
@@ -1327,6 +1438,15 @@ input Company_where_or {
   phone: Company_phone_operator
   updatedAt: Company_updatedAt_operator
   website: Company_website_operator
+  workspace: Company_workspace_operator
+}
+
+input Company_workspace_operator {
+  all: [JSON]
+  equals: JSON
+  in: [JSON]
+  not_equals: JSON
+  not_in: [JSON]
 }
 
 type Contact {
@@ -1340,6 +1460,7 @@ type Contact {
   notes: String
   phone: String
   updatedAt: DateTime
+  workspace: Workspace
 }
 
 input Contact_address_operator {
@@ -1458,6 +1579,7 @@ input Contact_where {
   notes: Contact_notes_operator
   phone: Contact_phone_operator
   updatedAt: Contact_updatedAt_operator
+  workspace: Contact_workspace_operator
 }
 
 input Contact_where_and {
@@ -1473,6 +1595,7 @@ input Contact_where_and {
   notes: Contact_notes_operator
   phone: Contact_phone_operator
   updatedAt: Contact_updatedAt_operator
+  workspace: Contact_workspace_operator
 }
 
 input Contact_where_or {
@@ -1488,6 +1611,15 @@ input Contact_where_or {
   notes: Contact_notes_operator
   phone: Contact_phone_operator
   updatedAt: Contact_updatedAt_operator
+  workspace: Contact_workspace_operator
+}
+
+input Contact_workspace_operator {
+  all: [JSON]
+  equals: JSON
+  in: [JSON]
+  not_equals: JSON
+  not_in: [JSON]
 }
 
 type Contacts {
@@ -1534,6 +1666,7 @@ type ContactsDocAccessFields {
   notes: ContactsDocAccessFields_notes
   phone: ContactsDocAccessFields_phone
   updatedAt: ContactsDocAccessFields_updatedAt
+  workspace: ContactsDocAccessFields_workspace
 }
 
 type ContactsDocAccessFields_address {
@@ -1743,6 +1876,29 @@ type ContactsDocAccessFields_updatedAt_Update {
   permission: Boolean!
 }
 
+type ContactsDocAccessFields_workspace {
+  create: ContactsDocAccessFields_workspace_Create
+  delete: ContactsDocAccessFields_workspace_Delete
+  read: ContactsDocAccessFields_workspace_Read
+  update: ContactsDocAccessFields_workspace_Update
+}
+
+type ContactsDocAccessFields_workspace_Create {
+  permission: Boolean!
+}
+
+type ContactsDocAccessFields_workspace_Delete {
+  permission: Boolean!
+}
+
+type ContactsDocAccessFields_workspace_Read {
+  permission: Boolean!
+}
+
+type ContactsDocAccessFields_workspace_Update {
+  permission: Boolean!
+}
+
 type ContactsFields {
   address: ContactsFields_address
   company: ContactsFields_company
@@ -1753,6 +1909,7 @@ type ContactsFields {
   notes: ContactsFields_notes
   phone: ContactsFields_phone
   updatedAt: ContactsFields_updatedAt
+  workspace: ContactsFields_workspace
 }
 
 type ContactsFields_address {
@@ -1962,6 +2119,29 @@ type ContactsFields_updatedAt_Update {
   permission: Boolean!
 }
 
+type ContactsFields_workspace {
+  create: ContactsFields_workspace_Create
+  delete: ContactsFields_workspace_Delete
+  read: ContactsFields_workspace_Read
+  update: ContactsFields_workspace_Update
+}
+
+type ContactsFields_workspace_Create {
+  permission: Boolean!
+}
+
+type ContactsFields_workspace_Delete {
+  permission: Boolean!
+}
+
+type ContactsFields_workspace_Read {
+  permission: Boolean!
+}
+
+type ContactsFields_workspace_Update {
+  permission: Boolean!
+}
+
 type ContactsReadAccess {
   permission: Boolean!
   where: JSONObject
@@ -1994,6 +2174,7 @@ type DocumentReference {
   entityType: String!
   id: String!
   updatedAt: DateTime
+  workspace: Workspace
 }
 
 input DocumentReference_createdAt_operator {
@@ -2066,6 +2247,7 @@ input DocumentReference_where {
   entityType: DocumentReference_entityType_operator
   id: DocumentReference_id_operator
   updatedAt: DocumentReference_updatedAt_operator
+  workspace: DocumentReference_workspace_operator
 }
 
 input DocumentReference_where_and {
@@ -2077,6 +2259,7 @@ input DocumentReference_where_and {
   entityType: DocumentReference_entityType_operator
   id: DocumentReference_id_operator
   updatedAt: DocumentReference_updatedAt_operator
+  workspace: DocumentReference_workspace_operator
 }
 
 input DocumentReference_where_or {
@@ -2088,6 +2271,15 @@ input DocumentReference_where_or {
   entityType: DocumentReference_entityType_operator
   id: DocumentReference_id_operator
   updatedAt: DocumentReference_updatedAt_operator
+  workspace: DocumentReference_workspace_operator
+}
+
+input DocumentReference_workspace_operator {
+  all: [JSON]
+  equals: JSON
+  in: [JSON]
+  not_equals: JSON
+  not_in: [JSON]
 }
 
 type DocumentReferences {
@@ -2130,6 +2322,7 @@ type DocumentReferencesDocAccessFields {
   entityId: DocumentReferencesDocAccessFields_entityId
   entityType: DocumentReferencesDocAccessFields_entityType
   updatedAt: DocumentReferencesDocAccessFields_updatedAt
+  workspace: DocumentReferencesDocAccessFields_workspace
 }
 
 type DocumentReferencesDocAccessFields_createdAt {
@@ -2247,12 +2440,36 @@ type DocumentReferencesDocAccessFields_updatedAt_Update {
   permission: Boolean!
 }
 
+type DocumentReferencesDocAccessFields_workspace {
+  create: DocumentReferencesDocAccessFields_workspace_Create
+  delete: DocumentReferencesDocAccessFields_workspace_Delete
+  read: DocumentReferencesDocAccessFields_workspace_Read
+  update: DocumentReferencesDocAccessFields_workspace_Update
+}
+
+type DocumentReferencesDocAccessFields_workspace_Create {
+  permission: Boolean!
+}
+
+type DocumentReferencesDocAccessFields_workspace_Delete {
+  permission: Boolean!
+}
+
+type DocumentReferencesDocAccessFields_workspace_Read {
+  permission: Boolean!
+}
+
+type DocumentReferencesDocAccessFields_workspace_Update {
+  permission: Boolean!
+}
+
 type DocumentReferencesFields {
   createdAt: DocumentReferencesFields_createdAt
   document: DocumentReferencesFields_document
   entityId: DocumentReferencesFields_entityId
   entityType: DocumentReferencesFields_entityType
   updatedAt: DocumentReferencesFields_updatedAt
+  workspace: DocumentReferencesFields_workspace
 }
 
 type DocumentReferencesFields_createdAt {
@@ -2370,6 +2587,29 @@ type DocumentReferencesFields_updatedAt_Update {
   permission: Boolean!
 }
 
+type DocumentReferencesFields_workspace {
+  create: DocumentReferencesFields_workspace_Create
+  delete: DocumentReferencesFields_workspace_Delete
+  read: DocumentReferencesFields_workspace_Read
+  update: DocumentReferencesFields_workspace_Update
+}
+
+type DocumentReferencesFields_workspace_Create {
+  permission: Boolean!
+}
+
+type DocumentReferencesFields_workspace_Delete {
+  permission: Boolean!
+}
+
+type DocumentReferencesFields_workspace_Read {
+  permission: Boolean!
+}
+
+type DocumentReferencesFields_workspace_Update {
+  permission: Boolean!
+}
+
 type DocumentReferencesReadAccess {
   permission: Boolean!
   where: JSONObject
@@ -2403,6 +2643,7 @@ type Interaction {
   interactionType: String!
   notes: String
   updatedAt: DateTime
+  workspace: Workspace
 }
 
 input Interaction_contacts_operator {
@@ -2485,6 +2726,7 @@ input Interaction_where {
   interactionType: Interaction_interactionType_operator
   notes: Interaction_notes_operator
   updatedAt: Interaction_updatedAt_operator
+  workspace: Interaction_workspace_operator
 }
 
 input Interaction_where_and {
@@ -2497,6 +2739,7 @@ input Interaction_where_and {
   interactionType: Interaction_interactionType_operator
   notes: Interaction_notes_operator
   updatedAt: Interaction_updatedAt_operator
+  workspace: Interaction_workspace_operator
 }
 
 input Interaction_where_or {
@@ -2509,6 +2752,15 @@ input Interaction_where_or {
   interactionType: Interaction_interactionType_operator
   notes: Interaction_notes_operator
   updatedAt: Interaction_updatedAt_operator
+  workspace: Interaction_workspace_operator
+}
+
+input Interaction_workspace_operator {
+  all: [JSON]
+  equals: JSON
+  in: [JSON]
+  not_equals: JSON
+  not_in: [JSON]
 }
 
 type Interactions {
@@ -2552,6 +2804,7 @@ type InteractionsDocAccessFields {
   interactionType: InteractionsDocAccessFields_interactionType
   notes: InteractionsDocAccessFields_notes
   updatedAt: InteractionsDocAccessFields_updatedAt
+  workspace: InteractionsDocAccessFields_workspace
 }
 
 type InteractionsDocAccessFields_contacts {
@@ -2692,6 +2945,29 @@ type InteractionsDocAccessFields_updatedAt_Update {
   permission: Boolean!
 }
 
+type InteractionsDocAccessFields_workspace {
+  create: InteractionsDocAccessFields_workspace_Create
+  delete: InteractionsDocAccessFields_workspace_Delete
+  read: InteractionsDocAccessFields_workspace_Read
+  update: InteractionsDocAccessFields_workspace_Update
+}
+
+type InteractionsDocAccessFields_workspace_Create {
+  permission: Boolean!
+}
+
+type InteractionsDocAccessFields_workspace_Delete {
+  permission: Boolean!
+}
+
+type InteractionsDocAccessFields_workspace_Read {
+  permission: Boolean!
+}
+
+type InteractionsDocAccessFields_workspace_Update {
+  permission: Boolean!
+}
+
 type InteractionsFields {
   contacts: InteractionsFields_contacts
   createdAt: InteractionsFields_createdAt
@@ -2699,6 +2975,7 @@ type InteractionsFields {
   interactionType: InteractionsFields_interactionType
   notes: InteractionsFields_notes
   updatedAt: InteractionsFields_updatedAt
+  workspace: InteractionsFields_workspace
 }
 
 type InteractionsFields_contacts {
@@ -2839,6 +3116,29 @@ type InteractionsFields_updatedAt_Update {
   permission: Boolean!
 }
 
+type InteractionsFields_workspace {
+  create: InteractionsFields_workspace_Create
+  delete: InteractionsFields_workspace_Delete
+  read: InteractionsFields_workspace_Read
+  update: InteractionsFields_workspace_Update
+}
+
+type InteractionsFields_workspace_Create {
+  permission: Boolean!
+}
+
+type InteractionsFields_workspace_Delete {
+  permission: Boolean!
+}
+
+type InteractionsFields_workspace_Read {
+  permission: Boolean!
+}
+
+type InteractionsFields_workspace_Update {
+  permission: Boolean!
+}
+
 type InteractionsReadAccess {
   permission: Boolean!
   where: JSONObject
@@ -2880,6 +3180,7 @@ type Lead {
   rank: Float
   stage: String
   updatedAt: DateTime
+  workspace: Workspace
 }
 
 input Lead_assignment_operator {
@@ -2994,6 +3295,7 @@ input Lead_where {
   rank: Lead_rank_operator
   stage: Lead_stage_operator
   updatedAt: Lead_updatedAt_operator
+  workspace: Lead_workspace_operator
 }
 
 input Lead_where_and {
@@ -3009,6 +3311,7 @@ input Lead_where_and {
   rank: Lead_rank_operator
   stage: Lead_stage_operator
   updatedAt: Lead_updatedAt_operator
+  workspace: Lead_workspace_operator
 }
 
 input Lead_where_or {
@@ -3024,6 +3327,15 @@ input Lead_where_or {
   rank: Lead_rank_operator
   stage: Lead_stage_operator
   updatedAt: Lead_updatedAt_operator
+  workspace: Lead_workspace_operator
+}
+
+input Lead_workspace_operator {
+  all: [JSON]
+  equals: JSON
+  in: [JSON]
+  not_equals: JSON
+  not_in: [JSON]
 }
 
 type Leads {
@@ -3070,6 +3382,7 @@ type LeadsDocAccessFields {
   rank: LeadsDocAccessFields_rank
   stage: LeadsDocAccessFields_stage
   updatedAt: LeadsDocAccessFields_updatedAt
+  workspace: LeadsDocAccessFields_workspace
 }
 
 type LeadsDocAccessFields_assignment {
@@ -3279,6 +3592,29 @@ type LeadsDocAccessFields_updatedAt_Update {
   permission: Boolean!
 }
 
+type LeadsDocAccessFields_workspace {
+  create: LeadsDocAccessFields_workspace_Create
+  delete: LeadsDocAccessFields_workspace_Delete
+  read: LeadsDocAccessFields_workspace_Read
+  update: LeadsDocAccessFields_workspace_Update
+}
+
+type LeadsDocAccessFields_workspace_Create {
+  permission: Boolean!
+}
+
+type LeadsDocAccessFields_workspace_Delete {
+  permission: Boolean!
+}
+
+type LeadsDocAccessFields_workspace_Read {
+  permission: Boolean!
+}
+
+type LeadsDocAccessFields_workspace_Update {
+  permission: Boolean!
+}
+
 type LeadsFields {
   assignment: LeadsFields_assignment
   company: LeadsFields_company
@@ -3289,6 +3625,7 @@ type LeadsFields {
   rank: LeadsFields_rank
   stage: LeadsFields_stage
   updatedAt: LeadsFields_updatedAt
+  workspace: LeadsFields_workspace
 }
 
 type LeadsFields_assignment {
@@ -3498,6 +3835,29 @@ type LeadsFields_updatedAt_Update {
   permission: Boolean!
 }
 
+type LeadsFields_workspace {
+  create: LeadsFields_workspace_Create
+  delete: LeadsFields_workspace_Delete
+  read: LeadsFields_workspace_Read
+  update: LeadsFields_workspace_Update
+}
+
+type LeadsFields_workspace_Create {
+  permission: Boolean!
+}
+
+type LeadsFields_workspace_Delete {
+  permission: Boolean!
+}
+
+type LeadsFields_workspace_Read {
+  permission: Boolean!
+}
+
+type LeadsFields_workspace_Update {
+  permission: Boolean!
+}
+
 type LeadsReadAccess {
   permission: Boolean!
   where: JSONObject
@@ -3533,6 +3893,7 @@ type Media {
   updatedAt: DateTime
   url: String
   width: Float
+  workspace: Workspace
 }
 
 type MediaCreateAccess {
@@ -3569,6 +3930,7 @@ type MediaDocAccessFields {
   updatedAt: MediaDocAccessFields_updatedAt
   url: MediaDocAccessFields_url
   width: MediaDocAccessFields_width
+  workspace: MediaDocAccessFields_workspace
 }
 
 type MediaDocAccessFields_alt {
@@ -4562,6 +4924,29 @@ type MediaDocAccessFields_width_Update {
   permission: Boolean!
 }
 
+type MediaDocAccessFields_workspace {
+  create: MediaDocAccessFields_workspace_Create
+  delete: MediaDocAccessFields_workspace_Delete
+  read: MediaDocAccessFields_workspace_Read
+  update: MediaDocAccessFields_workspace_Update
+}
+
+type MediaDocAccessFields_workspace_Create {
+  permission: Boolean!
+}
+
+type MediaDocAccessFields_workspace_Delete {
+  permission: Boolean!
+}
+
+type MediaDocAccessFields_workspace_Read {
+  permission: Boolean!
+}
+
+type MediaDocAccessFields_workspace_Update {
+  permission: Boolean!
+}
+
 type MediaFields {
   alt: MediaFields_alt
   createdAt: MediaFields_createdAt
@@ -4576,6 +4961,7 @@ type MediaFields {
   updatedAt: MediaFields_updatedAt
   url: MediaFields_url
   width: MediaFields_width
+  workspace: MediaFields_workspace
 }
 
 type MediaFields_alt {
@@ -5569,6 +5955,29 @@ type MediaFields_width_Update {
   permission: Boolean!
 }
 
+type MediaFields_workspace {
+  create: MediaFields_workspace_Create
+  delete: MediaFields_workspace_Delete
+  read: MediaFields_workspace_Read
+  update: MediaFields_workspace_Update
+}
+
+type MediaFields_workspace_Create {
+  permission: Boolean!
+}
+
+type MediaFields_workspace_Delete {
+  permission: Boolean!
+}
+
+type MediaFields_workspace_Read {
+  permission: Boolean!
+}
+
+type MediaFields_workspace_Update {
+  permission: Boolean!
+}
+
 type MediaReadAccess {
   permission: Boolean!
   where: JSONObject
@@ -6052,6 +6461,7 @@ input Media_where {
   updatedAt: Media_updatedAt_operator
   url: Media_url_operator
   width: Media_width_operator
+  workspace: Media_workspace_operator
 }
 
 input Media_where_and {
@@ -6094,6 +6504,7 @@ input Media_where_and {
   updatedAt: Media_updatedAt_operator
   url: Media_url_operator
   width: Media_width_operator
+  workspace: Media_workspace_operator
 }
 
 input Media_where_or {
@@ -6136,6 +6547,7 @@ input Media_where_or {
   updatedAt: Media_updatedAt_operator
   url: Media_url_operator
   width: Media_width_operator
+  workspace: Media_workspace_operator
 }
 
 input Media_width_operator {
@@ -6146,6 +6558,14 @@ input Media_width_operator {
   less_than: Float
   less_than_equal: Float
   not_equals: Float
+}
+
+input Media_workspace_operator {
+  all: [JSON]
+  equals: JSON
+  in: [JSON]
+  not_equals: JSON
+  not_in: [JSON]
 }
 
 type Mutation {
@@ -7186,13 +7606,12 @@ type User {
   id: String!
   lockUntil: DateTime
   loginAttempts: Float
-  password: String!
   resetPasswordExpiration: DateTime
   resetPasswordToken: String
   roles: [User_roles!]!
   salt: String
   updatedAt: DateTime
-  workspace: Workspace
+  workspaces: [Workspace!]!
 }
 
 enum UserUpdate_roles_MutationInput {
@@ -7226,16 +7645,6 @@ input User_id_operator {
   contains: String
   equals: String
   exists: Boolean
-  in: [String]
-  like: String
-  not_equals: String
-  not_in: [String]
-}
-
-input User_password_operator {
-  all: [String]
-  contains: String
-  equals: String
   in: [String]
   like: String
   not_equals: String
@@ -7282,10 +7691,9 @@ input User_where {
   createdAt: User_createdAt_operator
   email: User_email_operator
   id: User_id_operator
-  password: User_password_operator
   roles: User_roles_operator
   updatedAt: User_updatedAt_operator
-  workspace: User_workspace_operator
+  workspaces: User_workspaces_operator
 }
 
 input User_where_and {
@@ -7294,10 +7702,9 @@ input User_where_and {
   createdAt: User_createdAt_operator
   email: User_email_operator
   id: User_id_operator
-  password: User_password_operator
   roles: User_roles_operator
   updatedAt: User_updatedAt_operator
-  workspace: User_workspace_operator
+  workspaces: User_workspaces_operator
 }
 
 input User_where_or {
@@ -7306,16 +7713,14 @@ input User_where_or {
   createdAt: User_createdAt_operator
   email: User_email_operator
   id: User_id_operator
-  password: User_password_operator
   roles: User_roles_operator
   updatedAt: User_updatedAt_operator
-  workspace: User_workspace_operator
+  workspaces: User_workspaces_operator
 }
 
-input User_workspace_operator {
+input User_workspaces_operator {
   all: [JSON]
   equals: JSON
-  exists: Boolean
   in: [JSON]
   not_equals: JSON
   not_in: [JSON]
@@ -7358,10 +7763,9 @@ type UsersDeleteDocAccess {
 type UsersDocAccessFields {
   createdAt: UsersDocAccessFields_createdAt
   email: UsersDocAccessFields_email
-  password: UsersDocAccessFields_password
   roles: UsersDocAccessFields_roles
   updatedAt: UsersDocAccessFields_updatedAt
-  workspace: UsersDocAccessFields_workspace
+  workspaces: UsersDocAccessFields_workspaces
 }
 
 type UsersDocAccessFields_createdAt {
@@ -7407,29 +7811,6 @@ type UsersDocAccessFields_email_Read {
 }
 
 type UsersDocAccessFields_email_Update {
-  permission: Boolean!
-}
-
-type UsersDocAccessFields_password {
-  create: UsersDocAccessFields_password_Create
-  delete: UsersDocAccessFields_password_Delete
-  read: UsersDocAccessFields_password_Read
-  update: UsersDocAccessFields_password_Update
-}
-
-type UsersDocAccessFields_password_Create {
-  permission: Boolean!
-}
-
-type UsersDocAccessFields_password_Delete {
-  permission: Boolean!
-}
-
-type UsersDocAccessFields_password_Read {
-  permission: Boolean!
-}
-
-type UsersDocAccessFields_password_Update {
   permission: Boolean!
 }
 
@@ -7479,36 +7860,35 @@ type UsersDocAccessFields_updatedAt_Update {
   permission: Boolean!
 }
 
-type UsersDocAccessFields_workspace {
-  create: UsersDocAccessFields_workspace_Create
-  delete: UsersDocAccessFields_workspace_Delete
-  read: UsersDocAccessFields_workspace_Read
-  update: UsersDocAccessFields_workspace_Update
+type UsersDocAccessFields_workspaces {
+  create: UsersDocAccessFields_workspaces_Create
+  delete: UsersDocAccessFields_workspaces_Delete
+  read: UsersDocAccessFields_workspaces_Read
+  update: UsersDocAccessFields_workspaces_Update
 }
 
-type UsersDocAccessFields_workspace_Create {
+type UsersDocAccessFields_workspaces_Create {
   permission: Boolean!
 }
 
-type UsersDocAccessFields_workspace_Delete {
+type UsersDocAccessFields_workspaces_Delete {
   permission: Boolean!
 }
 
-type UsersDocAccessFields_workspace_Read {
+type UsersDocAccessFields_workspaces_Read {
   permission: Boolean!
 }
 
-type UsersDocAccessFields_workspace_Update {
+type UsersDocAccessFields_workspaces_Update {
   permission: Boolean!
 }
 
 type UsersFields {
   createdAt: UsersFields_createdAt
   email: UsersFields_email
-  password: UsersFields_password
   roles: UsersFields_roles
   updatedAt: UsersFields_updatedAt
-  workspace: UsersFields_workspace
+  workspaces: UsersFields_workspaces
 }
 
 type UsersFields_createdAt {
@@ -7554,29 +7934,6 @@ type UsersFields_email_Read {
 }
 
 type UsersFields_email_Update {
-  permission: Boolean!
-}
-
-type UsersFields_password {
-  create: UsersFields_password_Create
-  delete: UsersFields_password_Delete
-  read: UsersFields_password_Read
-  update: UsersFields_password_Update
-}
-
-type UsersFields_password_Create {
-  permission: Boolean!
-}
-
-type UsersFields_password_Delete {
-  permission: Boolean!
-}
-
-type UsersFields_password_Read {
-  permission: Boolean!
-}
-
-type UsersFields_password_Update {
   permission: Boolean!
 }
 
@@ -7626,26 +7983,26 @@ type UsersFields_updatedAt_Update {
   permission: Boolean!
 }
 
-type UsersFields_workspace {
-  create: UsersFields_workspace_Create
-  delete: UsersFields_workspace_Delete
-  read: UsersFields_workspace_Read
-  update: UsersFields_workspace_Update
+type UsersFields_workspaces {
+  create: UsersFields_workspaces_Create
+  delete: UsersFields_workspaces_Delete
+  read: UsersFields_workspaces_Read
+  update: UsersFields_workspaces_Update
 }
 
-type UsersFields_workspace_Create {
+type UsersFields_workspaces_Create {
   permission: Boolean!
 }
 
-type UsersFields_workspace_Delete {
+type UsersFields_workspaces_Delete {
   permission: Boolean!
 }
 
-type UsersFields_workspace_Read {
+type UsersFields_workspaces_Read {
   permission: Boolean!
 }
 
-type UsersFields_workspace_Update {
+type UsersFields_workspaces_Update {
   permission: Boolean!
 }
 
@@ -7683,6 +8040,7 @@ type Workspace {
   createdAt: DateTime
   id: String!
   name: String!
+  slug: String!
   updatedAt: DateTime
 }
 
@@ -7718,6 +8076,16 @@ input Workspace_name_operator {
   not_in: [String]
 }
 
+input Workspace_slug_operator {
+  all: [String]
+  contains: String
+  equals: String
+  in: [String]
+  like: String
+  not_equals: String
+  not_in: [String]
+}
+
 input Workspace_updatedAt_operator {
   equals: DateTime
   exists: Boolean
@@ -7735,6 +8103,7 @@ input Workspace_where {
   createdAt: Workspace_createdAt_operator
   id: Workspace_id_operator
   name: Workspace_name_operator
+  slug: Workspace_slug_operator
   updatedAt: Workspace_updatedAt_operator
 }
 
@@ -7744,6 +8113,7 @@ input Workspace_where_and {
   createdAt: Workspace_createdAt_operator
   id: Workspace_id_operator
   name: Workspace_name_operator
+  slug: Workspace_slug_operator
   updatedAt: Workspace_updatedAt_operator
 }
 
@@ -7753,6 +8123,7 @@ input Workspace_where_or {
   createdAt: Workspace_createdAt_operator
   id: Workspace_id_operator
   name: Workspace_name_operator
+  slug: Workspace_slug_operator
   updatedAt: Workspace_updatedAt_operator
 }
 
@@ -7793,6 +8164,7 @@ type WorkspacesDeleteDocAccess {
 type WorkspacesDocAccessFields {
   createdAt: WorkspacesDocAccessFields_createdAt
   name: WorkspacesDocAccessFields_name
+  slug: WorkspacesDocAccessFields_slug
   updatedAt: WorkspacesDocAccessFields_updatedAt
 }
 
@@ -7842,6 +8214,29 @@ type WorkspacesDocAccessFields_name_Update {
   permission: Boolean!
 }
 
+type WorkspacesDocAccessFields_slug {
+  create: WorkspacesDocAccessFields_slug_Create
+  delete: WorkspacesDocAccessFields_slug_Delete
+  read: WorkspacesDocAccessFields_slug_Read
+  update: WorkspacesDocAccessFields_slug_Update
+}
+
+type WorkspacesDocAccessFields_slug_Create {
+  permission: Boolean!
+}
+
+type WorkspacesDocAccessFields_slug_Delete {
+  permission: Boolean!
+}
+
+type WorkspacesDocAccessFields_slug_Read {
+  permission: Boolean!
+}
+
+type WorkspacesDocAccessFields_slug_Update {
+  permission: Boolean!
+}
+
 type WorkspacesDocAccessFields_updatedAt {
   create: WorkspacesDocAccessFields_updatedAt_Create
   delete: WorkspacesDocAccessFields_updatedAt_Delete
@@ -7868,6 +8263,7 @@ type WorkspacesDocAccessFields_updatedAt_Update {
 type WorkspacesFields {
   createdAt: WorkspacesFields_createdAt
   name: WorkspacesFields_name
+  slug: WorkspacesFields_slug
   updatedAt: WorkspacesFields_updatedAt
 }
 
@@ -7914,6 +8310,29 @@ type WorkspacesFields_name_Read {
 }
 
 type WorkspacesFields_name_Update {
+  permission: Boolean!
+}
+
+type WorkspacesFields_slug {
+  create: WorkspacesFields_slug_Create
+  delete: WorkspacesFields_slug_Delete
+  read: WorkspacesFields_slug_Read
+  update: WorkspacesFields_slug_Update
+}
+
+type WorkspacesFields_slug_Create {
+  permission: Boolean!
+}
+
+type WorkspacesFields_slug_Delete {
+  permission: Boolean!
+}
+
+type WorkspacesFields_slug_Read {
+  permission: Boolean!
+}
+
+type WorkspacesFields_slug_Update {
   permission: Boolean!
 }
 
@@ -8140,6 +8559,7 @@ input mutationAssignmentInput {
   status: String
   type: String
   updatedAt: String
+  workspace: String
 }
 
 input mutationAssignmentUpdateInput {
@@ -8152,6 +8572,7 @@ input mutationAssignmentUpdateInput {
   status: String
   type: String
   updatedAt: String
+  workspace: String
 }
 
 input mutationCompanyInput {
@@ -8164,6 +8585,7 @@ input mutationCompanyInput {
   phone: String
   updatedAt: String
   website: String
+  workspace: String
 }
 
 input mutationCompanyUpdateInput {
@@ -8176,6 +8598,7 @@ input mutationCompanyUpdateInput {
   phone: String
   updatedAt: String
   website: String
+  workspace: String
 }
 
 input mutationContactInput {
@@ -8188,6 +8611,7 @@ input mutationContactInput {
   notes: String
   phone: String
   updatedAt: String
+  workspace: String
 }
 
 input mutationContactUpdateInput {
@@ -8200,6 +8624,7 @@ input mutationContactUpdateInput {
   notes: String
   phone: String
   updatedAt: String
+  workspace: String
 }
 
 input mutationDocumentReferenceInput {
@@ -8208,6 +8633,7 @@ input mutationDocumentReferenceInput {
   entityId: String!
   entityType: String!
   updatedAt: String
+  workspace: String
 }
 
 input mutationDocumentReferenceUpdateInput {
@@ -8216,6 +8642,7 @@ input mutationDocumentReferenceUpdateInput {
   entityId: String
   entityType: String
   updatedAt: String
+  workspace: String
 }
 
 input mutationInteractionInput {
@@ -8225,6 +8652,7 @@ input mutationInteractionInput {
   interactionType: String!
   notes: String
   updatedAt: String
+  workspace: String
 }
 
 input mutationInteractionUpdateInput {
@@ -8234,6 +8662,7 @@ input mutationInteractionUpdateInput {
   interactionType: String
   notes: String
   updatedAt: String
+  workspace: String
 }
 
 input mutationLeadInput {
@@ -8246,6 +8675,7 @@ input mutationLeadInput {
   rank: Float
   stage: String
   updatedAt: String
+  workspace: String
 }
 
 input mutationLeadUpdateInput {
@@ -8258,6 +8688,7 @@ input mutationLeadUpdateInput {
   rank: Float
   stage: String
   updatedAt: String
+  workspace: String
 }
 
 input mutationMediaInput {
@@ -8274,6 +8705,7 @@ input mutationMediaInput {
   updatedAt: String
   url: String
   width: Float
+  workspace: String
 }
 
 input mutationMediaUpdateInput {
@@ -8290,6 +8722,7 @@ input mutationMediaUpdateInput {
   updatedAt: String
   url: String
   width: Float
+  workspace: String
 }
 
 input mutationMediaUpdate_SizesInput {
@@ -8422,7 +8855,7 @@ input mutationUserInput {
   roles: [User_roles_MutationInput]!
   salt: String
   updatedAt: String
-  workspace: String
+  workspaces: [String]
 }
 
 input mutationUserUpdateInput {
@@ -8437,18 +8870,20 @@ input mutationUserUpdateInput {
   roles: [UserUpdate_roles_MutationInput]
   salt: String
   updatedAt: String
-  workspace: String
+  workspaces: [String]
 }
 
 input mutationWorkspaceInput {
   createdAt: String
   name: String!
+  slug: String!
   updatedAt: String
 }
 
 input mutationWorkspaceUpdateInput {
   createdAt: String
   name: String
+  slug: String
   updatedAt: String
 }
 
@@ -8506,7 +8941,7 @@ type usersJWT {
   collection: String!
   email: EmailAddress!
   roles: [usersJWT_roles!]!
-  workspace: Workspace
+  workspaces: [Workspace!]!
 }
 
 enum usersJWT_roles {

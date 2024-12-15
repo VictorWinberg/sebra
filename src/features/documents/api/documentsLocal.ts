@@ -8,7 +8,8 @@ import {
   DocumentReference_Where,
   GetDocumentReferencesQuery,
   Media,
-  UpdateDocumentReferenceMutation
+  UpdateDocumentReferenceMutation,
+  Workspace
 } from '@/api/gql/graphql';
 import { AssertKeys, convertToSQLWhereClause, getAllFilesFromIndexedDB, pick, validateRequiredFields } from '@/utils';
 
@@ -17,13 +18,14 @@ type LocalDocumentReference = {
   document: Media;
   entityType: string;
   entityId: string;
+  workspace?: Workspace;
   createdAt?: string;
   updatedAt?: string;
 };
 
 export const verify: AssertKeys<LocalDocumentReference, Omit<DocumentReference, '__typename'>> = true;
 
-type FlatDocumentReference = Omit<LocalDocumentReference, 'document'> & { document: string };
+type FlatDocumentReference = Omit<LocalDocumentReference, 'document' | 'workspace'> & { document: string };
 
 export const getDocumentReferencesLocal = async (
   where?: DocumentReference_Where

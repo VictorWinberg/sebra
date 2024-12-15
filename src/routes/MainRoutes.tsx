@@ -7,6 +7,7 @@ import Loadable from '@/ui-component/Loadable';
 import PrivateRoute from './PrivateRoute';
 
 // home routing
+const HomeRedirect = Loadable(lazy(() => import('@/features/home/components/HomeRedirect')));
 const HomeWrapper = Loadable(lazy(() => import('@/features/home/components/HomeWrapper')));
 const HomePage = Loadable(lazy(() => import('@/features/home/pages/HomePage')));
 const AssignmentsPage = Loadable(lazy(() => import('@/features/assignments/pages/AssignmentsPage')));
@@ -24,6 +25,7 @@ const ModulesPage = Loadable(lazy(() => import('@/features/modules/pages/Modules
 
 // dev routing
 const DevPage = Loadable(lazy(() => import('@/features/dev/pages/DevPage')));
+const GraphPage = Loadable(lazy(() => import('@/features/dev/pages/GraphPage')));
 const TypographyPage = Loadable(lazy(() => import('@/features/dev/pages/TypographyPage')));
 const ColorPage = Loadable(lazy(() => import('@/features/dev/pages/ColorPage')));
 const ShadowPage = Loadable(lazy(() => import('@/features/dev/pages/ShadowPage')));
@@ -37,11 +39,15 @@ const MainRoutes = {
   children: [
     {
       path: '',
+      element: <HomeRedirect />
+    },
+    {
+      path: ':workspace',
       element: <MainLayout />,
       children: [
         {
           path: '',
-          element: <Navigate to="/home" />
+          element: <Navigate to="home" />
         },
         {
           path: 'home',
@@ -119,8 +125,12 @@ const MainRoutes = {
                 path: 'dev',
                 children: [
                   {
-                    path: 'sample',
+                    path: '',
                     element: <DevPage />
+                  },
+                  {
+                    path: 'graph-page',
+                    element: <GraphPage />
                   },
                   {
                     path: 'util-typography',

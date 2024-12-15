@@ -14,6 +14,12 @@ export const useAuth = () => {
               user {
                 id
                 email
+                workspaces {
+                  id
+                  name
+                  slug
+                }
+                roles
               }
             }
           }

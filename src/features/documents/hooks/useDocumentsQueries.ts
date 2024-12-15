@@ -3,13 +3,13 @@ import { useQuery } from '@tanstack/react-query';
 
 // project imports
 import { DocumentReference_Where, Media_Where } from '@/api/gql/graphql';
-import { useAppStore } from '@/store';
+import { useIsDemo } from '@/hooks/useIsDemo';
 import { getAllFilesFromIndexedDB, getFileFromIndexedDB } from '@/utils/idb';
 import { getDocumentGQL, getDocumentReferencesGQL, getDocumentsGQL } from '../api/documentsGQL';
 import { getDocumentReferencesLocal } from '../api/documentsLocal';
 
 export const useDocuments = (where?: Media_Where) => {
-  const [{ isDemo }] = useAppStore();
+  const isDemo = useIsDemo();
   const fn = isDemo ? getAllFilesFromIndexedDB : getDocumentsGQL;
 
   return useQuery({
@@ -21,7 +21,7 @@ export const useDocuments = (where?: Media_Where) => {
 };
 
 export const useDocument = (id: string | undefined) => {
-  const [{ isDemo }] = useAppStore();
+  const isDemo = useIsDemo();
   const fn = isDemo ? getFileFromIndexedDB : getDocumentGQL;
 
   return useQuery({
@@ -33,7 +33,7 @@ export const useDocument = (id: string | undefined) => {
 };
 
 export const useDocumentReferences = (where?: DocumentReference_Where) => {
-  const [{ isDemo }] = useAppStore();
+  const isDemo = useIsDemo();
   const fn = isDemo ? getDocumentReferencesLocal : getDocumentReferencesGQL;
 
   return useQuery({

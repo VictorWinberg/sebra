@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 // material-ui
 import { Fade, ListItemButton, ListItemIcon, ListItemText, Typography, useMediaQuery, useTheme } from '@mui/material';
@@ -22,6 +22,7 @@ const NavItem = ({ item, level }: NavItemProps) => {
   const theme = useTheme();
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const { workspace } = useParams();
   const [state, dispatch] = useAppStore();
   const matchDownMd = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -31,8 +32,8 @@ const NavItem = ({ item, level }: NavItemProps) => {
   ) : (
     <FiberManualRecordIcon
       sx={{
-        width: item.url === pathname ? 8 : 6,
-        height: item.url === pathname ? 8 : 6
+        width: `/${workspace}${item.url}` === pathname ? 8 : 6,
+        height: `/${workspace}${item.url}` === pathname ? 8 : 6
       }}
       fontSize={level > 0 ? 'inherit' : 'medium'}
     />
@@ -51,7 +52,7 @@ const NavItem = ({ item, level }: NavItemProps) => {
     if (item.external) {
       window.open(item.url, itemTarget);
     } else {
-      navigate(item.url ?? '');
+      navigate(`/${workspace}${item.url}` ?? '');
     }
   };
 
@@ -66,14 +67,17 @@ const NavItem = ({ item, level }: NavItemProps) => {
         py: level > 1 ? 1 : 1.25,
         pl: `${level * 24}px`
       }}
-      selected={pathname.startsWith(item.url || '')}
+      selected={pathname.startsWith(`/${workspace}${item.url}` || '')}
       onClick={onItemClick}
     >
       <ListItemIcon sx={{ my: 'auto', minWidth: !item.icon ? 18 : 36 }}>{itemIcon}</ListItemIcon>
       <Fade in={matchDownMd || state.opened}>
         <ListItemText
           primary={
-            <Typography variant={pathname.startsWith(item.url || '') ? 'h5' : 'body1'} color="inherit">
+            <Typography
+              variant={pathname.startsWith(`/${workspace}${item.url}` || '') ? 'h5' : 'body1'}
+              color="inherit"
+            >
               {item.title}
             </Typography>
           }

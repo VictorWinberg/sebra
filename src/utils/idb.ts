@@ -1,7 +1,14 @@
 import { DBSchema, openDB } from 'idb';
 import { v4 as uuidv4 } from 'uuid';
 
-import { GetDocumentQuery, GetDocumentsQuery, Maybe, Media, Media_Where } from '@/api/gql/graphql';
+import {
+  DeleteDocumentMutation,
+  GetDocumentQuery,
+  GetDocumentsQuery,
+  Maybe,
+  Media,
+  Media_Where
+} from '@/api/gql/graphql';
 import { omit } from './object';
 
 type LocalMedia = {
@@ -50,8 +57,9 @@ export const saveFileToIndexedDB = async (params: Media & { upload?: File }): Pr
   return { doc: localMediaToMedia({ id, alt, file: upload }) };
 };
 
-export const deleteFileFromIndexedDB = async ({ id }: Pick<LocalMedia, 'id'>): Promise<void> => {
-  return (await dbPromise).delete('documents', id);
+export const deleteFileFromIndexedDB = async ({ id }: Pick<LocalMedia, 'id'>): Promise<DeleteDocumentMutation> => {
+  (await dbPromise).delete('documents', id);
+  return { deleteMedia: { id } };
 };
 
 const localMediaToMedia = ({ id, alt, file }: LocalMedia): Media => ({

@@ -52,7 +52,7 @@ init();
 
 type Params = Record<string, SqlValue>;
 
-export function query<T extends Record<string, unknown>>(sql: string, params?: Partial<Params>): T[] {
+export function query<T extends Params>(sql: string, params?: Partial<Params>): T[] {
   const [res] = db.exec(sql, params && mapParams(params));
   const result = res.values.map((value) => res.columns.reduce((acc, col, i) => ({ ...acc, [col]: value[i] }), {} as T));
   return camelcaseKeys(result, { deep: true }) as T[];

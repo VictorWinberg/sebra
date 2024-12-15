@@ -1,15 +1,14 @@
-import { Navigate, Outlet } from 'react-router-dom';
+import { Navigate, Outlet, useParams } from 'react-router-dom';
 
 import { useAuth } from '@/features/authentication/hooks/useAuthQueries';
-import { useAppStore } from '@/store';
 
 const PrivateRoute = () => {
   const { data: user, isLoading } = useAuth();
-  const [state] = useAppStore();
+  const { workspace } = useParams();
 
   if (isLoading) return;
 
-  if (user || state.isDemo) {
+  if (user || workspace === 'demo') {
     return <Outlet />;
   }
 

@@ -28,15 +28,8 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' && pr
       marginLeft: open ? drawerWidthExpanded : drawerWidthCollapsed
     },
     [theme.breakpoints.down('md')]: {
-      marginLeft: '20px',
       width: `calc(100% - ${drawerWidthExpanded}px)`,
       padding: '16px'
-    },
-    [theme.breakpoints.down('sm')]: {
-      marginLeft: '10px',
-      width: `calc(100% - ${drawerWidthExpanded}px)`,
-      padding: '16px',
-      marginRight: '10px'
     }
   })
 );

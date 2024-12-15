@@ -3,11 +3,11 @@ import { useQuery } from '@tanstack/react-query';
 
 // project imports
 import { getInteractionsLocal } from '../api/interactionsLocal';
-import { useAppStore } from '@/store';
+import { useIsDemo } from '@/hooks/useIsDemo';
 import { getInteractionsGQL } from '../api/interactionsGQL';
 
 export const useInteractions = () => {
-  const [{ isDemo }] = useAppStore();
+  const isDemo = useIsDemo();
   const fn = isDemo ? getInteractionsLocal : getInteractionsGQL;
   return useQuery({
     queryKey: ['interactions'],

@@ -9,8 +9,13 @@ import {
   DeleteLeadMutation,
   GetLeadsQuery,
   Lead,
-  UpdateLeadMutation
+  Maybe,
+  UpdateLeadMutation,
+  Workspace
 } from '@/api/gql/graphql';
+import { FlatAssignment } from '@/features/assignments/api/assignmentsLocal';
+import { FlatCompany } from '@/features/companies/api/companiesLocal';
+import { FlatContact } from '@/features/contacts/api/contactsLocal';
 import { AssertKeys, pick, toMap } from '@/utils';
 
 // TODO: Store in DB?
@@ -25,22 +30,23 @@ type LocalLead = {
   contact: string;
   company: string;
   assignment: string;
+  workspace?: Workspace;
   createdAt: string;
   updatedAt: string;
 };
 
 export const verify: AssertKeys<LocalLead, Omit<Lead, '__typename'>> = true;
 
-type FlatLead = Omit<Lead, 'contact' | 'company' | 'assignment'> & {
+type FlatLead = Omit<Lead, 'contact' | 'company' | 'assignment' | 'workspace'> & {
   contact?: string;
   company?: string;
   assignment?: string;
 };
 
 export const getLeadsLocal = async (): Promise<GetLeadsQuery> => {
-  const assignments = toMap(await query<Assignment>(`SELECT * FROM assignments`), 'id');
-  const contacts = toMap(await query<Contact>(`SELECT * FROM contacts`), 'id');
-  const companies = toMap(await query<Company>(`SELECT * FROM companies`), 'id');
+  const assignments = toMap(await query<FlatAssignment>(`SELECT * FROM assignments`), 'id');
+  const contacts = toMap(await query<FlatContact>(`SELECT * FROM contacts`), 'id');
+  const companies = toMap(await query<FlatCompany>(`SELECT * FROM companies`), 'id');
   const leads = await query<FlatLead>(`SELECT * FROM leads ORDER BY rank`);
   const docs = leads.map(transformFlatLead(assignments, contacts, companies));
   return { Leads: { docs } };
@@ -70,16 +76,16 @@ export const deleteLeadLocal = async ({ id }: Pick<Lead, 'id'>): Promise<DeleteL
 };
 
 function transformFlatLead(
-  assignments: Map<string | number, Assignment>,
-  contacts: Map<string | number, Contact>,
-  companies: Map<string | number, Company>
+  assignments: Map<string | number, FlatAssignment>,
+  contacts: Map<string | number, FlatContact>,
+  companies: Map<string | number, FlatCompany>
 ): (value: FlatLead) => Lead {
   return (lead) => {
     return {
       ...lead,
-      assignment: assignments.get(lead.assignment || ''),
-      contact: contacts.get(lead.contact || ''),
-      company: companies.get(lead.company || '')
+      assignment: assignments.get(lead.assignment || '') as unknown as Maybe<Assignment>,
+      contact: contacts.get(lead.contact || '') as unknown as Maybe<Contact>,
+      company: companies.get(lead.company || '') as unknown as Maybe<Company>
     };
   };
 }

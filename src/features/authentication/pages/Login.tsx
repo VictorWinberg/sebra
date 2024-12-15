@@ -4,19 +4,16 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Button, Divider, Grid, Stack, Theme, Typography, useMediaQuery } from '@mui/material';
 
 // project imports
-import Logo from '@/ui-component/Logo';
-import AuthFooter from '../components/AuthFooter';
-import AuthWrapper from '../components/wrapper/AuthWrapper';
-import AuthCardWrapper from '../components/wrapper/AuthCardWrapper';
-import AuthLogin from '../components/auth-forms/AuthLogin';
 import AnimateButton from '@/ui-component/extended/AnimateButton';
-import { useAppStore } from '@/store';
-import { SET_DEMO } from '@/store/actions';
+import Logo from '@/ui-component/Logo';
+import AuthLogin from '../components/auth-forms/AuthLogin';
+import AuthFooter from '../components/AuthFooter';
+import AuthCardWrapper from '../components/wrapper/AuthCardWrapper';
+import AuthWrapper from '../components/wrapper/AuthWrapper';
 
 // ================================|| AUTH3 - LOGIN ||================================ //
 
 const Login = () => {
-  const [, dispatch] = useAppStore();
   const navigate = useNavigate();
   const downMD = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'));
 
@@ -67,8 +64,7 @@ const Login = () => {
                         variant="outlined"
                         sx={{ textTransform: 'none' }}
                         onClick={() => {
-                          dispatch({ type: SET_DEMO, payload: true });
-                          navigate('/');
+                          navigate('/demo');
                         }}
                       >
                         Prova vår demo

@@ -1,12 +1,12 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { useAppStore } from '@/store';
+import { useIsDemo } from '@/hooks/useIsDemo';
 import { useSnackbar } from '@/hooks/useSnackbar';
 import { createContactGQL, deleteContactGQL, updateContactGQL } from '../api/contactsGQL';
 import { createContactLocal, deleteContactLocal, updateContactLocal } from '../api/contactsLocal';
 
 export const useCreateContact = () => {
-  const [{ isDemo }] = useAppStore();
+  const isDemo = useIsDemo();
   const queryClient = useQueryClient();
   const { showSnackbar } = useSnackbar();
 
@@ -23,7 +23,7 @@ export const useCreateContact = () => {
 };
 
 export const useUpdateContact = () => {
-  const [{ isDemo }] = useAppStore();
+  const isDemo = useIsDemo();
   const queryClient = useQueryClient();
   const { showSnackbar } = useSnackbar();
 
@@ -40,7 +40,7 @@ export const useUpdateContact = () => {
 };
 
 export const useDeleteContact = () => {
-  const [{ isDemo }] = useAppStore();
+  const isDemo = useIsDemo();
   const queryClient = useQueryClient();
   const { showSnackbar } = useSnackbar();
 

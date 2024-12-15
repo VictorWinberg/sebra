@@ -2,11 +2,11 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { useSnackbar } from '@/hooks/useSnackbar';
 import { createInteractionLocal, deleteInteractionLocal, updateInteractionLocal } from '../api/interactionsLocal';
-import { useAppStore } from '@/store';
+import { useIsDemo } from '@/hooks/useIsDemo';
 import { createInteractionGQL, deleteInteractionGQL, updateInteractionGQL } from '../api/interactionsGQL';
 
 export const useCreateInteraction = () => {
-  const [{ isDemo }] = useAppStore();
+  const isDemo = useIsDemo();
   const queryClient = useQueryClient();
   const { showSnackbar } = useSnackbar();
 
@@ -23,7 +23,7 @@ export const useCreateInteraction = () => {
 };
 
 export const useUpdateInteraction = () => {
-  const [{ isDemo }] = useAppStore();
+  const isDemo = useIsDemo();
   const queryClient = useQueryClient();
   const { showSnackbar } = useSnackbar();
 
@@ -40,7 +40,7 @@ export const useUpdateInteraction = () => {
 };
 
 export const useDeleteInteraction = () => {
-  const [{ isDemo }] = useAppStore();
+  const isDemo = useIsDemo();
   const queryClient = useQueryClient();
   const { showSnackbar } = useSnackbar();
 
