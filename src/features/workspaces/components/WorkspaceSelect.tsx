@@ -1,10 +1,15 @@
 import { useCallback, useEffect } from 'react';
 
+// material-ui
 import { FormControl, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 
+// third-party
+import { useQueryClient } from '@tanstack/react-query';
+
+// project imports
+import { setCookieWorkspace } from '@/utils/cookie';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useWorkspaces } from '../hooks/useWorkspacesQueries';
-import { useQueryClient } from '@tanstack/react-query';
 
 export const WorkspaceSelector = () => {
   const { workspace } = useParams();
@@ -15,6 +20,7 @@ export const WorkspaceSelector = () => {
   const { data: workspaces = [] } = useWorkspaces();
 
   useEffect(() => {
+    setCookieWorkspace(workspace);
     queryClient.invalidateQueries();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [workspace]);
