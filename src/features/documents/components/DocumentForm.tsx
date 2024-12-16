@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 
 // material-ui
 import { Autocomplete, Button, Grid, Stack, TextField } from '@mui/material';
@@ -9,6 +9,7 @@ import { Controller, useForm } from 'react-hook-form';
 
 // project imports
 import { Media } from '@/api/gql/graphql';
+import { useBlobUrl } from '@/hooks/useBlobUrl';
 import FileSelector from '@/ui-component/FileSelecter';
 import Preview from '@/ui-component/Preview';
 import SebraForm, { FormProps } from '@/ui-component/SebraForm';
@@ -21,19 +22,14 @@ import { CloudDownload } from '@mui/icons-material';
 
 const DocumentForm = ({ formProps, ...rest }: FormProps<Media & { upload?: File }>) => {
   const location = useLocation();
-  const enableExistingDocuments = !location.pathname.startsWith('/documents');
+  const { workspace } = useParams();
+  const enableExistingDocuments = !location.pathname.startsWith(`/${workspace}/documents`);
 
   const { data: documents = [] } = useDocuments();
 
-  const {
-    control,
-    handleSubmit,
-    watch,
-    setValue,
-    formState: { errors }
-  } = useForm<Media & { upload?: File }>(formProps);
-
+  const { control, handleSubmit, watch, setValue } = useForm<Media & { upload?: File }>(formProps);
   const fields = watch();
+  const media = useBlobUrl(fields.url || '');
 
   const handleFileChange = (data: File) => {
     setValue('upload', data);
@@ -56,78 +52,68 @@ const DocumentForm = ({ formProps, ...rest }: FormProps<Media & { upload?: File 
   return (
     <SebraForm {...rest} handleSubmit={handleSubmit}>
       <Grid container spacing={2}>
-        <Grid item xs={12} sm={6}>
-          <Controller
-            control={control}
-            name="alt"
-            rules={{ required: true }}
-            defaultValue=""
-            render={({ field, fieldState }) => (
-              <TextField
-                fullWidth
-                label="Dokumentnamn"
-                type="text"
-                margin="none"
-                {...field}
-                error={!!fieldState.error}
+        <Grid item xs={12} md={6}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Controller
+                control={control}
+                name="alt"
+                rules={{ required: true }}
+                defaultValue=""
+                render={({ field, fieldState }) => (
+                  <TextField
+                    fullWidth
+                    label="Dokumentnamn"
+                    type="text"
+                    margin="none"
+                    {...field}
+                    error={!!fieldState.error}
+                  />
+                )}
               />
-            )}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <Controller
-            control={control}
-            name="upload"
-            render={({ field }) => (
-              <TextField
-                fullWidth
-                label="Dokument"
-                type="text"
-                margin="none"
-                value={field.value?.name || ''}
-                disabled
-                error={!!errors.upload}
-                InputProps={{ endAdornment: fields.upload?.type }}
-              />
-            )}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <Preview url={fields.thumbnailURL || fields.url} mimeType={fields.mimeType} />
-        </Grid>
-        <Grid item xs={12}>
-          <Stack spacing={2} direction="row">
-            <FileSelector onChange={handleFileChange}>{fields.id ? 'Ersätt dokument' : 'Välj dokument'}</FileSelector>
-            <Button
-              startIcon={<CloudDownload />}
-              variant="contained"
-              href={fields.url || '#'}
-              download={fields.alt}
-              disabled={!fields.url}
-            >
-              Ladda ner
-            </Button>
-          </Stack>
-        </Grid>
-        <Grid item xs={12}>
-          {enableExistingDocuments && (
-            <Controller
-              name="id"
-              control={control}
-              render={({ field }) => (
-                <Autocomplete
-                  options={documents}
-                  getOptionKey={(option) => option.id}
-                  getOptionLabel={(option) => option.alt || ''}
-                  value={documents.find((document) => document.id === field.value) || null}
-                  onChange={(_, value) => field.onChange(value ? value.id : undefined)}
-                  renderInput={(params) => (
-                    <TextField {...params} label="Välj existerande dokument" variant="outlined" fullWidth />
+            </Grid>
+            <Grid item xs={12}>
+              <Stack spacing={2} direction="row">
+                {!fields.createdAt && (
+                  <FileSelector onChange={handleFileChange} disabled={!!fields.id}>
+                    Välj dokument
+                  </FileSelector>
+                )}
+                <Button
+                  startIcon={<CloudDownload />}
+                  variant="contained"
+                  href={media.url || '#'}
+                  download={fields.alt}
+                  disabled={!fields.url}
+                >
+                  Ladda ner
+                </Button>
+              </Stack>
+            </Grid>
+            <Grid item xs={12}>
+              {!media.blob && enableExistingDocuments && (
+                <Controller
+                  name="id"
+                  control={control}
+                  render={({ field }) => (
+                    <Autocomplete
+                      options={documents}
+                      getOptionKey={(option) => option.id}
+                      getOptionLabel={(option) => option.alt || ''}
+                      value={documents.find((document) => document.id === field.value) || null}
+                      onChange={(_, value) => field.onChange(value ? value.id : undefined)}
+                      renderInput={(params) => (
+                        <TextField {...params} label="Välj existerande dokument" variant="outlined" fullWidth />
+                      )}
+                    />
                   )}
                 />
               )}
-            />
-          )}
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <Preview url={media.url} blob={media.blob} />
         </Grid>
       </Grid>
     </SebraForm>
