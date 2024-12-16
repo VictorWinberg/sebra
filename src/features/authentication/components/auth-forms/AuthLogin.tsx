@@ -1,5 +1,5 @@
-import { MouseEvent, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { MouseEvent, useEffect, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 // material-ui
 import Box from '@mui/material/Box';
@@ -31,7 +31,7 @@ import Google from '@/assets/images/icons/social-google.svg';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
-// ============================|| FIREBASE - LOGIN ||============================ //
+// ============================|| AUTH LOGIN ||============================ //
 
 type Auth = {
   email: string;
@@ -50,6 +50,15 @@ const AuthLogin = () => {
     setError
   } = useForm<Auth>();
   const { mutate: loginUser } = useAuthLogin();
+  const [search, setSearch] = useSearchParams();
+
+  useEffect(() => {
+    if (search.get('code') === '403') {
+      search.delete('code');
+      setError('root', { message: 'Åtkomst nekad' });
+      setSearch(search);
+    }
+  }, [search, setSearch, setError]);
 
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => {
@@ -62,7 +71,7 @@ const AuthLogin = () => {
 
   const handleLogin = async (auth: Auth) => {
     loginUser(auth, {
-      onSuccess: () => navigate('/'),
+      onSuccess: () => navigate(search.get('redirect') || '/'),
       onError: () => setError('password', { message: 'Ogiltig e-postadress eller lösenord' })
     });
   };
