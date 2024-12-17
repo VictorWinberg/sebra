@@ -40,7 +40,10 @@ const DataTableMobile = <T extends Record<string, unknown>>({
           <CardContent sx={{ py: 1 }}>
             {row.getVisibleCells().map((cell) => {
               return (
-                <Box sx={{ my: 1, display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 1 }} key={cell.id}>
+                <Box
+                  sx={{ my: 1, display: 'flex', flexDirection: 'row', alignItems: 'baseline', gap: 1 }}
+                  key={cell.id}
+                >
                   <Typography variant="body2" fontWeight={600}>
                     {cell.column.columnDef.header}:
                   </Typography>
