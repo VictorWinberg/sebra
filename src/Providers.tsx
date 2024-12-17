@@ -32,9 +32,6 @@ const Providers = ({ children }: ProvidersProps) => {
       if (_err instanceof ClientError) {
         const err = _err.response.errors?.[0];
         message = err?.message || message;
-        if (err?.extensions.statusCode === 403) {
-          window.location.href = `/login?redirect=${window.location.pathname}&code=403`;
-        }
       }
       Sentry.captureException(_err);
       showSnackbar(message, 'error');
