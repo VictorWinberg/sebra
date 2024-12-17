@@ -77,7 +77,7 @@ export const createInteractionGQL = (data: Interaction): Promise<CreateInteracti
       }
     `)
   )({
-    data: pick({ ...data, contacts: data.contacts?.map((c) => c.id) }, [
+    data: pick({ ...data, contacts: (data.contacts || []).map((c) => c.id) }, [
       'interactionType',
       'interactionDate',
       'notes',
@@ -96,7 +96,7 @@ export const updateInteractionGQL = (data: Interaction): Promise<UpdateInteracti
     `)
   )({
     id: data.id,
-    data: pick({ ...data, contacts: data.contacts?.map((c) => c.id) }, [
+    data: pick({ ...data, contacts: (data.contacts || []).map((c) => c.id) }, [
       'interactionType',
       'interactionDate',
       'notes',

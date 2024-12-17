@@ -45,6 +45,7 @@ const DataTableMobile = <T extends Record<string, unknown>>({
                     {cell.column.columnDef.header}:
                   </Typography>
                   <MRT_TableBodyCell
+                    component={Box}
                     table={table}
                     cell={cell}
                     rowRef={null!}
