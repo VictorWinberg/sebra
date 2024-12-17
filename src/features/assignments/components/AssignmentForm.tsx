@@ -27,7 +27,7 @@ const AssignmentForm = ({ formProps, ...props }: FormProps<Assignment>) => {
   } = useForm<Assignment>(formProps);
 
   const assignmentStatuses = useMemo(
-    () => [...new Set(assignments.map((assignment) => assignment.status))],
+    () => [...new Set(assignments.map((assignment) => assignment.status).filter(Boolean))],
     [assignments]
   );
 
