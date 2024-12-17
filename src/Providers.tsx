@@ -10,6 +10,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import * as Sentry from '@sentry/react';
 import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { ClientError } from 'graphql-request';
 
 // project imports
 import { useSnackbar } from '@/hooks/useSnackbar';
@@ -26,10 +27,17 @@ interface ProvidersProps {
 const Providers = ({ children }: ProvidersProps) => {
   const { showSnackbar } = useSnackbar();
   const [queryClient] = useState(() => {
-    const handleError = (error: Error) => {
-      console.error(error);
-      Sentry.captureException(error);
-      showSnackbar(error.message, 'error');
+    const handleError = (_err: Error | ClientError) => {
+      let message = 'Ett fel uppstod';
+      if (_err instanceof ClientError) {
+        const err = _err.response.errors?.[0];
+        message = err?.message || message;
+        if (err?.extensions.statusCode === 403) {
+          window.location.href = `/login?redirect=${window.location.pathname}&code=403`;
+        }
+      }
+      Sentry.captureException(_err);
+      showSnackbar(message, 'error');
     };
     return new QueryClient({
       queryCache: new QueryCache({ onError: handleError }),
