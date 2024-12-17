@@ -63,6 +63,7 @@ const InteractionTable = ({ interactions, isLoading, defaultValues }: Interactio
           header: 'Noteringar'
         },
         {
+          accessorKey: 'interactionDate',
           accessorFn: (row) => dayjs(row.interactionDate),
           header: 'Interaktionsdatum',
           filterVariant: 'date-range',

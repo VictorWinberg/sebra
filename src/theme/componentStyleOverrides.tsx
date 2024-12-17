@@ -31,6 +31,15 @@ export default function componentStyleOverrides<T>(theme: ThemeOptionProps): Com
         }
       }
     },
+    MuiCardContent: {
+      styleOverrides: {
+        root: {
+          '&:last-child': {
+            paddingBottom: '16px'
+          }
+        }
+      }
+    },
     MuiCardHeader: {
       styleOverrides: {
         root: {
