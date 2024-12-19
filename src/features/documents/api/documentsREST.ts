@@ -10,7 +10,7 @@ export const createDocumentRest = async (data: Media & { upload?: File }): Promi
   const workspace = loadToken('workspace');
   const formData = new FormData();
   formData.append('file', upload);
-  formData.append('_payload', JSON.stringify({ alt }));
+  formData.append('_payload', JSON.stringify({ alt, workspace }));
 
   const response = await fetch(`${API_URL}/media`, {
     method: 'POST',
@@ -38,7 +38,7 @@ export const updateDocumentRest = async (data: Media & { upload?: File }): Promi
   if (upload) {
     body = new FormData();
     body.append('file', upload);
-    body.append('_payload', JSON.stringify({ alt }));
+    body.append('_payload', JSON.stringify({ alt, workspace }));
   } else {
     body = JSON.stringify({ alt });
     headers = { 'Content-Type': 'application/json' };
