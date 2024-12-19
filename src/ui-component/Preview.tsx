@@ -5,24 +5,25 @@ import { Box } from '@mui/material';
 
 // project imports
 import useWindowDimension from '@/hooks/useWindowDimension';
+import { Maybe } from '@/api/gql/graphql';
 
 const SUPPORTED_FILE_TYPES = ['application/pdf', 'application/json', 'image/*', 'text/*', 'video/*', 'audio/*'];
 
 interface PreviewProps {
-  url?: string;
-  blob?: Blob;
+  url?: Maybe<string>;
+  mimeType?: Maybe<string>;
 }
 
-const Preview = ({ url, blob }: PreviewProps) => {
+const Preview = ({ url, mimeType }: PreviewProps) => {
   const dimension = useWindowDimension();
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
 
-  if (!url || !blob || !SUPPORTED_FILE_TYPES.some((type) => blob.type.match(type))) {
+  if (!url || !mimeType || !SUPPORTED_FILE_TYPES.some((type) => mimeType.match(type))) {
     return;
   }
 
   const renderPreview = () => {
-    if (blob.type.startsWith('image/')) {
+    if (mimeType.startsWith('image/')) {
       return <img src={url} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />;
     }
 

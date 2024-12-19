@@ -9,7 +9,6 @@ import { Controller, useForm } from 'react-hook-form';
 
 // project imports
 import { Media } from '@/api/gql/graphql';
-import { useBlobUrl } from '@/hooks/useBlobUrl';
 import FileSelector from '@/ui-component/FileSelecter';
 import Preview from '@/ui-component/Preview';
 import SebraForm, { FormProps } from '@/ui-component/SebraForm';
@@ -29,7 +28,6 @@ const DocumentForm = ({ formProps, ...rest }: FormProps<Media & { upload?: File 
 
   const { control, handleSubmit, watch, setValue } = useForm<Media & { upload?: File }>(formProps);
   const fields = watch();
-  const media = useBlobUrl(fields.url || '');
 
   const handleFileChange = (data: File) => {
     setValue('upload', data);
@@ -82,7 +80,7 @@ const DocumentForm = ({ formProps, ...rest }: FormProps<Media & { upload?: File 
                 <Button
                   startIcon={<CloudDownload />}
                   variant="contained"
-                  href={media.url || '#'}
+                  href={fields.url || '#'}
                   download={fields.alt}
                   disabled={!fields.url}
                 >
@@ -91,7 +89,7 @@ const DocumentForm = ({ formProps, ...rest }: FormProps<Media & { upload?: File 
               </Stack>
             </Grid>
             <Grid item xs={12}>
-              {!media.blob && enableExistingDocuments && (
+              {!fields.url && enableExistingDocuments && (
                 <Controller
                   name="id"
                   control={control}
@@ -113,7 +111,7 @@ const DocumentForm = ({ formProps, ...rest }: FormProps<Media & { upload?: File 
           </Grid>
         </Grid>
         <Grid item xs={12} md={6}>
-          <Preview url={media.url} blob={media.blob} />
+          <Preview url={fields.url} mimeType={fields.mimeType} />
         </Grid>
       </Grid>
     </SebraForm>
