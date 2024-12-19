@@ -113,7 +113,8 @@ const DocumentForm = ({ formProps, ...rest }: FormProps<Media & { upload?: File 
           </Grid>
         </Grid>
         <Grid item xs={12} md={6}>
-          <Preview url={media.url} blob={media.blob} />
+          <Preview url={media.url} mimeType={media.blob?.type} />
+          <Preview url={fields.url!} mimeType={fields.mimeType} />
         </Grid>
       </Grid>
     </SebraForm>
