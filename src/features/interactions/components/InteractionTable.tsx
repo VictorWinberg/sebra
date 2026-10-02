@@ -9,7 +9,7 @@ import { Contact, Interaction } from '@/api/gql/graphql';
 import DataTable from '@/ui-component/DataTable';
 import { RouterLink } from '@/ui-component/RouterLink';
 import SebraDialog from '@/ui-component/SebraDialog';
-import { formatDate, stringAvatar, toLocalTime } from '@/utils';
+import { formatDate, stringAvatar, toLocalTime, uniqueBy } from '@/utils';
 import { useCreateInteraction, useDeleteInteraction, useUpdateInteraction } from '../hooks/useInteractionsMutations';
 import InteractionForm from './InteractionForm';
 
@@ -42,21 +42,19 @@ const InteractionTable = ({ interactions, isLoading, defaultValues }: Interactio
           enableEditing: false,
           Cell: ({ cell }) => (
             <List disablePadding>
-              {[...new Map(cell.getValue<Contact[]>().map((contact) => [contact.id, contact])).values()].map(
-                (contact) => (
-                  <ListItem key={contact.id} sx={{ py: 0.25 }} disableGutters>
-                    <Chip
-                      component={RouterLink}
-                      variant="outlined"
-                      avatar={<Avatar {...stringAvatar(contact.contactName)} />}
-                      label={contact.contactName}
-                      to={`/home/contacts/${contact.id}`}
-                      clickable
-                      size="small"
-                    />
-                  </ListItem>
-                )
-              )}
+              {uniqueBy(cell.getValue<Contact[]>(), 'id').map((contact) => (
+                <ListItem key={contact.id} sx={{ py: 0.25 }} disableGutters>
+                  <Chip
+                    component={RouterLink}
+                    variant="outlined"
+                    avatar={<Avatar {...stringAvatar(contact.contactName)} />}
+                    label={contact.contactName}
+                    to={`/home/contacts/${contact.id}`}
+                    clickable
+                    size="small"
+                  />
+                </ListItem>
+              ))}
             </List>
           )
         },

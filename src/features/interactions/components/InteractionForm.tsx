@@ -10,7 +10,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { Interaction } from '@/api/gql/graphql';
 import { useContacts } from '@/features/contacts/hooks/useContactsQueries';
 import SebraForm, { FormProps } from '@/ui-component/SebraForm';
-import { formatDate } from '@/utils';
+import { formatDate, uniqueBy } from '@/utils';
 
 // ==============================|| INTERACTIONS FORM ||============================== //
 
@@ -85,24 +85,16 @@ const InteractionForm = ({ formProps, ...props }: FormProps<Interaction>) => {
                     getOptionKey={(option) => option.id}
                     getOptionLabel={(option) => option.contactName}
                     isOptionEqualToValue={(option, value) => option.id === value.id}
-                    value={field.value || []}
-                    onChange={(_, value) => field.onChange(value)}
+                    value={uniqueBy(field.value || [], 'id')}
+                    onChange={(_, value) => field.onChange(uniqueBy(value, 'id'))}
                     renderInput={(params) => (
                       <TextField {...params} label="Kontakter" variant="outlined" fullWidth error={!!errors.contacts} />
                     )}
-                    renderTags={(tags, getTagProps) => {
-                      const seen = new Set<string>();
-
-                      return tags
-                        .filter((option) => {
-                          if (seen.has(option.id)) return false;
-                          seen.add(option.id);
-                          return true;
-                        })
-                        .map((option, index) => (
-                          <Chip {...getTagProps({ index })} key={option.id} label={option.contactName} />
-                        ));
-                    }}
+                    renderTags={(tags, getTagProps) =>
+                      tags.map((option, index) => (
+                        <Chip {...getTagProps({ index })} key={option.id} label={option.contactName} />
+                      ))
+                    }
                   />
                 )}
               />

@@ -13,7 +13,7 @@ import { headerHeight } from '@/store/constant';
 import ContentTabs from '@/ui-component/ContentTabs';
 import FlexGrow from '@/ui-component/extended/FlexGrow';
 import { FormActionButtons } from '@/ui-component/SebraForm';
-import { formatDate, intersection } from '@/utils';
+import { formatDate, intersection, uniqueBy } from '@/utils';
 import { useCreateAssignment, useDeleteAssignment, useUpdateAssignment } from '../hooks/useAssignmentsMutations';
 import { useAssignment } from '../hooks/useAssignmentsQueries';
 import AssignmentForm from './AssignmentForm';
@@ -81,13 +81,13 @@ const AssignmentEdit = () => {
                       interactions={interactions}
                       isLoading={interactionsIsLoading}
                       defaultValues={{
-                        contacts: [
-                          ...new Map(
-                            [...(assignment.responsibleContacts || []), assignment.externalContact]
-                              .filter((contact) => !!contact)
-                              .map((contact) => [contact.id, contact])
-                          ).values()
-                        ],
+                        contacts: uniqueBy(
+                          [
+                            ...(assignment.responsibleContacts ?? []),
+                            ...(assignment.externalContact ? [assignment.externalContact] : [])
+                          ],
+                          'id'
+                        ),
                         interactionDate: formatDate()
                       }}
                     />
