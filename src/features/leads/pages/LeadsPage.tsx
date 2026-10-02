@@ -37,8 +37,8 @@ import { Add, Delete } from '@mui/icons-material';
 // ==============================|| LEADS PAGE ||============================== //
 
 const columns: MRT_ColumnDef<Lead>[] = [
-  { accessorKey: 'leadDescription', header: 'Beskrivning' },
-  { accessorKey: 'leadStage', header: 'Status' }
+  { accessorKey: 'description', header: 'Beskrivning' },
+  { accessorKey: 'stage', header: 'Status' }
 ];
 
 const LeadsPage = () => {
