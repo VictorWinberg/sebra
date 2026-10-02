@@ -34,7 +34,6 @@ jobs:
           npm run build
         env:
           VITE_BASE_URL: /sebra/preview/${{ github.event.number }}/
-          VITE_API_URL: ${{ secrets.PAYLOAD_API_URL }}
 
       - name: Github Preview Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4.5.0
