@@ -13,9 +13,13 @@ This project utilizes [Vite](https://vitejs.dev/guide/) with React + [MUI](https
 
 ## Prerequisites
 
-1. Node v20 and pnpm (installed via `corepack enable pnpm`)
+1. Node v20 and npm
 2. Copy the `.env.example` file into `.env`.
-3. Install deps (`pnpm install`)
+3. Install deps (`npm install`)
+
+By default the app runs in **local mode** using [sql.js](https://sql.js.org/) — all CRM data is stored in the browser (SQLite in localStorage, documents in IndexedDB). No backend is required.
+
+To use the Payload CMS backend instead, set `VITE_API_URL` in `.env` and optionally `VITE_LOCAL_MODE=false`.
 
 ## Folder Structure
 
@@ -44,10 +48,10 @@ This project utilizes [Vite](https://vitejs.dev/guide/) with React + [MUI](https
 
 In the project directory, you can run:
 
-- `pnpm dev`: Runs the app in development mode. Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-- `pnpm lint`: Checks the code for errors and missing things.
-- `pnpm format`: Formats the code according to the `.prettierrc.js` config.
-- `pnpm test`: Launches the test runner in interactive watch mode.
-- `pnpm build`: Builds the app for production or local development to the `dist` folder.
+- `npm run dev`: Runs the app in development mode. Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- `npm run lint`: Checks the code for errors and missing things.
+- `npm run format`: Formats the code according to the `.prettierrc.js` config.
+- `npm test`: Launches the test runner in interactive watch mode.
+- `npm run build`: Builds the app for production or local development to the `dist` folder.
 
 Feel free to reach out if you have any questions or need further assistance!

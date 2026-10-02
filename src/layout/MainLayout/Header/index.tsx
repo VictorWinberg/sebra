@@ -11,6 +11,7 @@ import SearchSection from './SearchSection';
 
 // assets
 import { IconLayoutSidebarLeftCollapse, IconLayoutSidebarLeftExpand, IconMenu2 } from '@tabler/icons-react';
+import { LOCAL_MODE } from '@/config';
 import DemoSection from './DemoSection';
 import { WorkspaceSelector } from '@/features/workspaces/components/WorkspaceSelect';
 
@@ -67,10 +68,10 @@ const Header = () => {
       {/* header search */}
       <SearchSection />
       <Box sx={{ flexGrow: 1 }} />
-      <WorkspaceSelector />
+      {!LOCAL_MODE && <WorkspaceSelector />}
 
       {/* notification & profile */}
-      <DemoSection />
+      {!LOCAL_MODE && <DemoSection />}
       <ProfileSection />
       <NotificationSection />
     </>

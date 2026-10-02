@@ -7,6 +7,7 @@ import { Fade, ListItemButton, ListItemIcon, ListItemText, Typography, useMediaQ
 import { MenuItem } from '@/layout/menu-items';
 import { useAppStore } from '@/store';
 import { SET_MENU } from '@/store/actions';
+import { matchesPath, prefixPath } from '@/utils/path';
 
 // assets
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
@@ -27,13 +28,15 @@ const NavItem = ({ item, level }: NavItemProps) => {
   const matchDownMd = useMediaQuery(theme.breakpoints.down('md'));
 
   const Icon = item.icon;
+  const itemPath = prefixPath(item.url || '', workspace);
+
   const itemIcon = Icon ? (
     <Icon stroke={1.5} size="1.3rem" />
   ) : (
     <FiberManualRecordIcon
       sx={{
-        width: `/${workspace}${item.url}` === pathname ? 8 : 6,
-        height: `/${workspace}${item.url}` === pathname ? 8 : 6
+        width: itemPath === pathname ? 8 : 6,
+        height: itemPath === pathname ? 8 : 6
       }}
       fontSize={level > 0 ? 'inherit' : 'medium'}
     />
@@ -52,7 +55,7 @@ const NavItem = ({ item, level }: NavItemProps) => {
     if (item.external) {
       window.open(item.url, itemTarget);
     } else {
-      navigate(`/${workspace}${item.url}` ?? '');
+      navigate(itemPath);
     }
   };
 
@@ -67,17 +70,14 @@ const NavItem = ({ item, level }: NavItemProps) => {
         py: level > 1 ? 1 : 1.25,
         pl: `${level * 24}px`
       }}
-      selected={pathname.startsWith(`/${workspace}${item.url}` || '')}
+      selected={matchesPath(pathname, item.url || '', workspace)}
       onClick={onItemClick}
     >
       <ListItemIcon sx={{ my: 'auto', minWidth: !item.icon ? 18 : 36 }}>{itemIcon}</ListItemIcon>
       <Fade in={matchDownMd || state.opened}>
         <ListItemText
           primary={
-            <Typography
-              variant={pathname.startsWith(`/${workspace}${item.url}` || '') ? 'h5' : 'body1'}
-              color="inherit"
-            >
+            <Typography variant={matchesPath(pathname, item.url || '', workspace) ? 'h5' : 'body1'} color="inherit">
               {item.title}
             </Typography>
           }

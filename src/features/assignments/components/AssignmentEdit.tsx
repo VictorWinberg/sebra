@@ -1,6 +1,8 @@
 import { useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
+import { useAppPath } from '@/hooks/useAppPath';
+
 // material-ui
 import { Box, Typography } from '@mui/material';
 
@@ -21,8 +23,9 @@ import AssignmentForm from './AssignmentForm';
 // ==============================|| ASSIGNMENT EDIT PAGE ||============================== //
 
 const AssignmentEdit = () => {
-  const { id, workspace } = useParams();
+  const { id } = useParams();
   const navigate = useNavigate();
+  const appPath = useAppPath();
 
   const { data: assignment, isLoading } = useAssignment(id === 'new' ? undefined : id);
   const { mutate: createAssignment } = useCreateAssignment();
@@ -44,7 +47,7 @@ const AssignmentEdit = () => {
       updateAssignment({ ...data, id: assignment.id });
     } else {
       createAssignment(data, {
-        onSuccess: ({ createAssignment }) => navigate(`/${workspace}/home/assignments/${createAssignment?.id || ''}`)
+        onSuccess: ({ createAssignment }) => navigate(appPath(`/home/assignments/${createAssignment?.id || ''}`))
       });
     }
   };

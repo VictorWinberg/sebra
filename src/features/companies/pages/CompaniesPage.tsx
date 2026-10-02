@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 // material-ui
 import { Button } from '@mui/material';
@@ -11,6 +11,7 @@ import SebraDialog from '@/ui-component/SebraDialog';
 import CompanyForm from '../components/CompanyForm';
 import { companyColumns } from '../config/CompanyConfig';
 import { useCreateCompany, useDeleteCompany, useUpdateCompany } from '../hooks/useCompaniesMutations';
+import { useAppPath } from '@/hooks/useAppPath';
 import { useCompanies } from '../hooks/useCompaniesQueries';
 
 // assets
@@ -20,7 +21,7 @@ import { Add } from '@mui/icons-material';
 
 const CompaniesPage = () => {
   const navigate = useNavigate();
-  const { workspace } = useParams();
+  const appPath = useAppPath();
 
   const { data = [], isLoading } = useCompanies();
   const { mutate: createCompany } = useCreateCompany();
@@ -36,7 +37,7 @@ const CompaniesPage = () => {
         state={{ isLoading }}
         onCreate={(data) =>
           createCompany(data, {
-            onSuccess: ({ createCompany }) => navigate(`/${workspace}/home/companies/${createCompany?.id || ''}`)
+            onSuccess: ({ createCompany }) => navigate(appPath(`/home/companies/${createCompany?.id || ''}`))
           })
         }
         onUpdate={(row) => updateCompany(row)}

@@ -15,6 +15,7 @@ import FlexGrow from '@/ui-component/extended/FlexGrow';
 import { RouterLink } from '@/ui-component/RouterLink';
 import SebraDialog from '@/ui-component/SebraDialog';
 import { FormActionButtons } from '@/ui-component/SebraForm';
+import { useAppPath } from '@/hooks/useAppPath';
 import { toMap } from '@/utils';
 import {
   useCreateDocumentReference,
@@ -31,8 +32,9 @@ import DocumentReferenceForm from './DocumentReferenceForm';
 // ==============================|| DOCUMENT EDIT PAGE ||============================== //
 
 const DocumentEdit = () => {
-  const { id, workspace } = useParams();
+  const { id } = useParams();
   const navigate = useNavigate();
+  const appPath = useAppPath();
 
   const { data: document, isLoading } = useDocument(id === 'new' ? undefined : id);
   const { mutate: saveDocument } = useSaveDocument();
@@ -57,7 +59,7 @@ const DocumentEdit = () => {
       updateDocument({ ...data, id: document.id });
     } else {
       saveDocument(data, {
-        onSuccess: (res) => navigate(`/${workspace}/documents/${res.doc.id}`)
+        onSuccess: (res) => navigate(appPath(`/documents/${res.doc.id}`))
       });
     }
   };

@@ -1,6 +1,8 @@
 import { useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
+import { useAppPath } from '@/hooks/useAppPath';
+
 // material-ui
 import { Box, Typography } from '@mui/material';
 
@@ -22,8 +24,9 @@ import ContactForm from './ContactForm';
 // ==============================|| CONTACT EDIT PAGE ||============================== //
 
 const ContactEdit = () => {
-  const { id, workspace } = useParams();
+  const { id } = useParams();
   const navigate = useNavigate();
+  const appPath = useAppPath();
 
   const { data: contact, isLoading } = useContact(id === 'new' ? undefined : id);
   const { mutate: createContact } = useCreateContact();
@@ -51,7 +54,7 @@ const ContactEdit = () => {
       updateContact({ ...data, id: contact.id });
     } else {
       createContact(data, {
-        onSuccess: ({ createContact }) => navigate(`/${workspace}/home/contacts/${createContact?.id || ''}`)
+        onSuccess: ({ createContact }) => navigate(appPath(`/home/contacts/${createContact?.id || ''}`))
       });
     }
   };

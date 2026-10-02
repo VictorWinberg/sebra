@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 // material-ui
 import { Autocomplete, Button, Grid, Stack, TextField } from '@mui/material';
@@ -11,6 +11,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { Media } from '@/api/gql/graphql';
 import FileSelector from '@/ui-component/FileSelecter';
 import Preview from '@/ui-component/Preview';
+import { useAppPath } from '@/hooks/useAppPath';
 import SebraForm, { FormProps } from '@/ui-component/SebraForm';
 import { useDocuments } from '../hooks/useDocumentsQueries';
 
@@ -21,8 +22,8 @@ import { CloudDownload } from '@mui/icons-material';
 
 const DocumentForm = ({ formProps, ...rest }: FormProps<Media & { upload?: File }>) => {
   const location = useLocation();
-  const { workspace } = useParams();
-  const enableExistingDocuments = !location.pathname.startsWith(`/${workspace}/documents`);
+  const appPath = useAppPath();
+  const enableExistingDocuments = !location.pathname.startsWith(appPath('/documents'));
 
   const { data: documents = [] } = useDocuments();
 
