@@ -49,6 +49,10 @@ export const toMap = <T, K extends keyof T>(array: T[], key: K) => {
   return new Map(array.map((item) => [item[key], item]));
 };
 
+export const uniqueBy = <T, K extends keyof T>(array: T[], key: K): T[] => {
+  return [...toMap(array, key).values()];
+};
+
 /**
  * Group an array of items by the specified key.
  * @param array - The array to group.
