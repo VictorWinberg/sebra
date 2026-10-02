@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 // material-ui
 import { Button } from '@mui/material';
@@ -10,6 +10,7 @@ import SebraDialog from '@/ui-component/SebraDialog';
 import ContactForm from '../components/ContactForm';
 import { contactColumns } from '../config/ContactConfig';
 import { useCreateContact, useDeleteContact, useUpdateContact } from '../hooks/useContactsMutations';
+import { useAppPath } from '@/hooks/useAppPath';
 import { useContacts } from '../hooks/useContactsQueries';
 
 // assets
@@ -20,7 +21,7 @@ import { Contact } from '@/api/gql/graphql';
 
 const ContactsPage = () => {
   const navigate = useNavigate();
-  const { workspace } = useParams();
+  const appPath = useAppPath();
 
   const { data = [], isLoading } = useContacts();
   const { mutate: createContact } = useCreateContact();
@@ -36,7 +37,7 @@ const ContactsPage = () => {
         state={{ isLoading }}
         onCreate={(row) =>
           createContact(row, {
-            onSuccess: ({ createContact }) => navigate(`/${workspace}/home/contacts/${createContact?.id || ''}`)
+            onSuccess: ({ createContact }) => navigate(appPath(`/home/contacts/${createContact?.id || ''}`))
           })
         }
         onUpdate={(row) => updateContact(row)}

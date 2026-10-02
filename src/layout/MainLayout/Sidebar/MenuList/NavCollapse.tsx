@@ -18,6 +18,7 @@ import {
 // project imports
 import { MenuItem } from '@/layout/menu-items';
 import { useAppStore } from '@/store';
+import { matchesPath, prefixPath } from '@/utils/path';
 import NavItem from './NavItem';
 
 // assets
@@ -46,14 +47,14 @@ const NavCollapse = ({ menu, level }: NavCollapseProps) => {
     setSelected(!selected ? menu.id : null);
     const defaultChild = menu.children?.find((item) => item.id === 'default');
     if (defaultChild?.url) {
-      navigate(`/${workspace}${defaultChild.url}`);
+      navigate(prefixPath(defaultChild.url, workspace));
     }
   };
 
   const { pathname } = useLocation();
   const checkOpenForParent = (child: MenuItem[], id: string) => {
     child.forEach((item) => {
-      if (`/${workspace}${item.url}` === pathname) {
+      if (matchesPath(pathname, item.url || '', workspace)) {
         setOpen(true);
         setSelected(id);
       }
@@ -69,7 +70,7 @@ const NavCollapse = ({ menu, level }: NavCollapseProps) => {
         if (item.children?.length) {
           checkOpenForParent(item.children, menu.id);
         }
-        if (`/${workspace}${item.url}` === pathname) {
+        if (matchesPath(pathname, item.url || '', workspace)) {
           setSelected(menu.id);
           setOpen(true);
         }

@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // project imports
+import { LOCAL_MODE } from '@/config';
 import { useAuth } from '@/features/authentication/hooks/useAuthQueries';
 
 const HomeRedirect = () => {
@@ -9,6 +10,11 @@ const HomeRedirect = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (LOCAL_MODE) {
+      navigate('/home');
+      return;
+    }
+
     if (isLoading) return;
 
     if (user?.workspaces.length) {

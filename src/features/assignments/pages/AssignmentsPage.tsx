@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 // material-ui
 import { Button } from '@mui/material';
@@ -11,6 +11,7 @@ import { Assignment } from '@/api/gql/graphql';
 import AssignmentForm from '../components/AssignmentForm';
 import { assignmentColumns } from '../config/AssignmentConfig';
 import { useCreateAssignment, useDeleteAssignment, useUpdateAssignment } from '../hooks/useAssignmentsMutations';
+import { useAppPath } from '@/hooks/useAppPath';
 import { useAssignments } from '../hooks/useAssignmentsQueries';
 
 // assets
@@ -20,7 +21,7 @@ import AddIcon from '@mui/icons-material/Add';
 
 const AssignmentsPage = () => {
   const navigate = useNavigate();
-  const { workspace } = useParams();
+  const appPath = useAppPath();
 
   const { data = [], isLoading } = useAssignments();
   const { mutate: createAssignment } = useCreateAssignment();
@@ -36,8 +37,7 @@ const AssignmentsPage = () => {
         state={{ isLoading }}
         onCreate={(row) =>
           createAssignment(row, {
-            onSuccess: ({ createAssignment }) =>
-              navigate(`/${workspace}/home/assignments/${createAssignment?.id || ''}`)
+            onSuccess: ({ createAssignment }) => navigate(appPath(`/home/assignments/${createAssignment?.id || ''}`))
           })
         }
         onUpdate={(row) => updateAssignment(row)}

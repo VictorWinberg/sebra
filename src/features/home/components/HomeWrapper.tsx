@@ -5,6 +5,7 @@ import { Chip, Fade, Tab, Tabs } from '@mui/material';
 
 // project imports
 import FlexGrow from '@/ui-component/extended/FlexGrow';
+import { matchesPath, prefixPath } from '@/utils/path';
 
 type TabItem = {
   id: string;
@@ -23,7 +24,7 @@ const tabItems: TabItem[] = [
 const HomeWrapper = () => {
   const { pathname } = useLocation();
   const { workspace } = useParams();
-  const selected = tabItems.findLastIndex((item) => pathname.startsWith(`/${workspace}${item.url}`));
+  const selected = tabItems.findLastIndex((item) => matchesPath(pathname, item.url, workspace));
 
   return (
     <FlexGrow>
@@ -40,7 +41,7 @@ const HomeWrapper = () => {
                   <Chip
                     component={Link}
                     label={item.title}
-                    to={`/${workspace}${item.url}`}
+                    to={prefixPath(item.url, workspace)}
                     color="primary"
                     variant="filled"
                     sx={{ px: 1, '&:hover': { backgroundColor: 'primary.main' } }}
@@ -51,7 +52,7 @@ const HomeWrapper = () => {
                   <Chip
                     component={Link}
                     label={item.title}
-                    to={`/${workspace}${item.url}`}
+                    to={prefixPath(item.url, workspace)}
                     color="primary"
                     variant="outlined"
                     sx={{ px: 1, position: 'absolute', top: 0, left: 0 }}

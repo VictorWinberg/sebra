@@ -2,6 +2,7 @@ import { lazy } from 'react';
 import { Navigate } from 'react-router-dom';
 
 // project imports
+import { LOCAL_MODE } from '@/config';
 import MainLayout from '@/layout/MainLayout';
 import Loadable from '@/ui-component/Loadable';
 import PrivateRoute from './PrivateRoute';
@@ -31,130 +32,148 @@ const ColorPage = Loadable(lazy(() => import('@/features/dev/pages/ColorPage')))
 const ShadowPage = Loadable(lazy(() => import('@/features/dev/pages/ShadowPage')));
 const SamplePage = Loadable(lazy(() => import('@/features/dev/pages/SamplePage')));
 
+const devRoutes =
+  process.env.NODE_ENV === 'development'
+    ? [
+        {
+          path: 'dev',
+          children: [
+            {
+              path: '',
+              element: <DevPage />
+            },
+            {
+              path: 'graph-page',
+              element: <GraphPage />
+            },
+            {
+              path: 'util-typography',
+              element: <TypographyPage />
+            },
+            {
+              path: 'util-color',
+              element: <ColorPage />
+            },
+            {
+              path: 'util-shadow',
+              element: <ShadowPage />
+            },
+            {
+              path: 'sample-page',
+              element: <SamplePage />
+            }
+          ]
+        }
+      ]
+    : [];
+
+const appChildren = [
+  {
+    path: 'home',
+    element: <HomeWrapper />,
+    children: [
+      {
+        path: '',
+        element: <HomePage />
+      },
+      {
+        path: 'assignments',
+        children: [
+          {
+            path: '',
+            element: <AssignmentsPage />
+          },
+          {
+            path: ':id',
+            element: <AssignmentEdit />
+          }
+        ]
+      },
+      {
+        path: 'contacts',
+        children: [
+          {
+            path: '',
+            element: <ContactsPage />
+          },
+          {
+            path: ':id',
+            element: <ContactEdit />
+          }
+        ]
+      },
+      {
+        path: 'companies',
+        children: [
+          {
+            path: '',
+            element: <CompaniesPage />
+          },
+          {
+            path: ':id',
+            element: <CompanyEdit />
+          }
+        ]
+      },
+      {
+        path: 'leads',
+        element: <LeadsPage />
+      }
+    ]
+  },
+  {
+    path: 'documents',
+    children: [
+      {
+        path: '',
+        element: <DocumentsPage />
+      },
+      {
+        path: ':id',
+        element: <DocumentEdit />
+      }
+    ]
+  },
+  {
+    path: 'modules',
+    element: <ModulesPage />
+  },
+  ...devRoutes
+];
+
 // ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {
   path: '/',
   element: <PrivateRoute />,
-  children: [
-    {
-      path: '',
-      element: <HomeRedirect />
-    },
-    {
-      path: ':workspace',
-      element: <MainLayout />,
-      children: [
+  children: LOCAL_MODE
+    ? [
         {
           path: '',
-          element: <Navigate to="home" />
+          element: <HomeRedirect />
         },
         {
-          path: 'home',
-          element: <HomeWrapper />,
-          children: [
-            {
-              path: '',
-              element: <HomePage />
-            },
-            {
-              path: 'assignments',
-              children: [
-                {
-                  path: '',
-                  element: <AssignmentsPage />
-                },
-                {
-                  path: ':id',
-                  element: <AssignmentEdit />
-                }
-              ]
-            },
-            {
-              path: 'contacts',
-              children: [
-                {
-                  path: '',
-                  element: <ContactsPage />
-                },
-                {
-                  path: ':id',
-                  element: <ContactEdit />
-                }
-              ]
-            },
-            {
-              path: 'companies',
-              children: [
-                {
-                  path: '',
-                  element: <CompaniesPage />
-                },
-                {
-                  path: ':id',
-                  element: <CompanyEdit />
-                }
-              ]
-            },
-            {
-              path: 'leads',
-              element: <LeadsPage />
-            }
-          ]
-        },
-        {
-          path: 'documents',
-          children: [
-            {
-              path: '',
-              element: <DocumentsPage />
-            },
-            {
-              path: ':id',
-              element: <DocumentEdit />
-            }
-          ]
-        },
-        {
-          path: 'modules',
-          element: <ModulesPage />
-        },
-        ...(process.env.NODE_ENV === 'development'
-          ? [
-              {
-                path: 'dev',
-                children: [
-                  {
-                    path: '',
-                    element: <DevPage />
-                  },
-                  {
-                    path: 'graph-page',
-                    element: <GraphPage />
-                  },
-                  {
-                    path: 'util-typography',
-                    element: <TypographyPage />
-                  },
-                  {
-                    path: 'util-color',
-                    element: <ColorPage />
-                  },
-                  {
-                    path: 'util-shadow',
-                    element: <ShadowPage />
-                  },
-                  {
-                    path: 'sample-page',
-                    element: <SamplePage />
-                  }
-                ]
-              }
-            ]
-          : [])
+          element: <MainLayout />,
+          children: appChildren
+        }
       ]
-    }
-  ]
+    : [
+        {
+          path: '',
+          element: <HomeRedirect />
+        },
+        {
+          path: ':workspace',
+          element: <MainLayout />,
+          children: [
+            {
+              path: '',
+              element: <Navigate to="home" />
+            },
+            ...appChildren
+          ]
+        }
+      ]
 };
 
 export default MainRoutes;

@@ -1,6 +1,8 @@
 import { useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
+import { useAppPath } from '@/hooks/useAppPath';
+
 // material-ui
 import { Box, Typography } from '@mui/material';
 
@@ -21,8 +23,9 @@ import CompanyForm from './CompanyForm';
 // ==============================|| COMPANY EDIT PAGE ||============================== //
 
 const CompanyEdit = () => {
-  const { id, workspace } = useParams();
+  const { id } = useParams();
   const navigate = useNavigate();
+  const appPath = useAppPath();
 
   const { data: company, isLoading } = useCompany(id === 'new' ? undefined : id);
   const { mutate: createCompany } = useCreateCompany();
@@ -41,7 +44,7 @@ const CompanyEdit = () => {
       updateCompany({ ...data, id: company.id });
     } else {
       createCompany(data, {
-        onSuccess: ({ createCompany }) => navigate(`/${workspace}/home/companies/${createCompany?.id || ''}`)
+        onSuccess: ({ createCompany }) => navigate(appPath(`/home/companies/${createCompany?.id || ''}`))
       });
     }
   };
