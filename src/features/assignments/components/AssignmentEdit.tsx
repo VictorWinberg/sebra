@@ -81,9 +81,13 @@ const AssignmentEdit = () => {
                       interactions={interactions}
                       isLoading={interactionsIsLoading}
                       defaultValues={{
-                        contacts: [...(assignment.responsibleContacts || []), assignment.externalContact].filter(
-                          (c) => !!c
-                        ),
+                        contacts: [
+                          ...new Map(
+                            [...(assignment.responsibleContacts || []), assignment.externalContact]
+                              .filter((contact) => !!contact)
+                              .map((contact) => [contact.id, contact])
+                          ).values()
+                        ],
                         interactionDate: formatDate()
                       }}
                     />

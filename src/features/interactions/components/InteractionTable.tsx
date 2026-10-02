@@ -42,19 +42,21 @@ const InteractionTable = ({ interactions, isLoading, defaultValues }: Interactio
           enableEditing: false,
           Cell: ({ cell }) => (
             <List disablePadding>
-              {cell.getValue<Contact[]>().map((contact) => (
-                <ListItem key={contact.id} sx={{ py: 0.25 }} disableGutters>
-                  <Chip
-                    component={RouterLink}
-                    variant="outlined"
-                    avatar={<Avatar {...stringAvatar(contact.contactName)} />}
-                    label={contact.contactName}
-                    to={`/home/contacts/${contact.id}`}
-                    clickable
-                    size="small"
-                  />
-                </ListItem>
-              ))}
+              {[...new Map(cell.getValue<Contact[]>().map((contact) => [contact.id, contact])).values()].map(
+                (contact) => (
+                  <ListItem key={contact.id} sx={{ py: 0.25 }} disableGutters>
+                    <Chip
+                      component={RouterLink}
+                      variant="outlined"
+                      avatar={<Avatar {...stringAvatar(contact.contactName)} />}
+                      label={contact.contactName}
+                      to={`/home/contacts/${contact.id}`}
+                      clickable
+                      size="small"
+                    />
+                  </ListItem>
+                )
+              )}
             </List>
           )
         },

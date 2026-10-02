@@ -91,9 +91,17 @@ const InteractionForm = ({ formProps, ...props }: FormProps<Interaction>) => {
                       <TextField {...params} label="Kontakter" variant="outlined" fullWidth error={!!errors.contacts} />
                     )}
                     renderTags={(tags, getTagProps) => {
-                      return tags.map((option, index) => (
-                        <Chip {...getTagProps({ index })} key={option.id} label={option.contactName} />
-                      ));
+                      const seen = new Set<string>();
+
+                      return tags
+                        .filter((option) => {
+                          if (seen.has(option.id)) return false;
+                          seen.add(option.id);
+                          return true;
+                        })
+                        .map((option, index) => (
+                          <Chip {...getTagProps({ index })} key={option.id} label={option.contactName} />
+                        ));
                     }}
                   />
                 )}
