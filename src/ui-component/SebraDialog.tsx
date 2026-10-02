@@ -27,6 +27,9 @@ const SebraDialog = <T extends MRT_RowData>({
   defaultValues
 }: SebraDialogProps<T>) => {
   const { creatingRow, isSaving, handleCancel, handleSubmit } = useDialogActions(table, row);
+  const formValues = (
+    creatingRow ? { ...defaultValues, ...row._valuesCache } : { ...row.original, ...row._valuesCache }
+  ) as T;
 
   return (
     <>
@@ -36,7 +39,7 @@ const SebraDialog = <T extends MRT_RowData>({
       <DialogContent>
         <FormComponent
           sx={{ mt: 1 }}
-          formProps={{ defaultValues, values: row._valuesCache as T }}
+          formProps={{ defaultValues, values: formValues }}
           onSubmit={handleSubmit}
           renderBottomContent={() => (
             <Box sx={{ mt: 3, ml: 'auto' }}>
