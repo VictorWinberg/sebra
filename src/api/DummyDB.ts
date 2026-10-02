@@ -11,8 +11,6 @@ import {
   localStorageSet,
   mapParams
 } from '@/utils';
-import { BASE_URL } from '@/config';
-
 import schema from './schema.sql?raw';
 import triggers from './triggers.sql?raw';
 import seed from './seed.sql?raw';
@@ -23,7 +21,7 @@ let db: Database;
 async function init() {
   SQL = await initSqlJs({
     // Required to load the wasm binary asynchronously. Of course, you can host it wherever you want
-    locateFile: (file) => `${BASE_URL}wasm/${file}`
+    locateFile: (file) => `${import.meta.env.BASE_URL}wasm/${file}`
   });
 
   const schemaHash = hashCode(schema + triggers);
